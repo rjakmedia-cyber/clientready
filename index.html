@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClientReady — AI Client Onboarding for Law Firms</title>
+  <meta name="description" content="Turn a new inquiry into a signed, paid client in under 10 minutes. AI-powered intake, engagement letters, e-signatures and retainer collection built for small law firms." />
+  <meta property="og:title" content="ClientReady — Stop Losing Clients to Slow Intake" />
+  <meta property="og:description" content="AI-powered client onboarding for law firms. Inquiry to intake to engagement letter to signed and paid in under 10 minutes." />
+  <meta property="og:url" content="https://clientready-seven.vercel.app" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #2563eb; --blue-dk: #1d4ed8; --navy: #0f172a; --navy2: #1e293b;
+      --gray: #64748b; --lgray: #f1f5f9; --border: #e2e8f0; --green: #16a34a; --radius: 10px;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--navy); background: #fff; line-height: 1.6; overflow-x: hidden; }
+
+    /* ANNOUNCE BAR */
+    #announce-bar { background: linear-gradient(90deg,#7c3aed,var(--blue)); color:#fff; text-align:center; padding:10px 48px; font-size:.875rem; font-weight:500; position:relative; z-index:1000; }
+    #announce-bar strong { font-weight:700; }
+    #announce-bar .code-pill { background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.4); padding:2px 10px; border-radius:6px; font-family:monospace; font-weight:700; cursor:pointer; }
+    #announce-close { position:absolute; right:16px; top:50%; transform:translateY(-50%); background:none; border:none; color:#fff; font-size:1.25rem; cursor:pointer; opacity:.7; }
+
+    /* NAV */
+    nav { position:sticky; top:0; z-index:900; background:rgba(255,255,255,.96); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); padding:0 5%; display:flex; align-items:center; justify-content:space-between; height:64px; }
+    .nav-logo { font-weight:800; font-size:1.2rem; text-decoration:none; color:var(--navy); }
+    .nav-logo span { color:var(--blue); }
+    .nav-links { display:flex; gap:28px; list-style:none; align-items:center; }
+    .nav-links a { text-decoration:none; color:var(--gray); font-size:.9rem; font-weight:500; transition:color .2s; }
+    .nav-links a:hover { color:var(--navy); }
+    .nav-cta { background:var(--blue)!important; color:#fff!important; padding:9px 20px!important; border-radius:var(--radius); font-weight:600!important; transition:background .2s!important; }
+    .nav-cta:hover { background:var(--blue-dk)!important; }
+    .hamburger { display:none; background:none; border:none; font-size:1.5rem; cursor:pointer; }
+
+    /* HERO */
+    .hero { background:linear-gradient(160deg,#eff6ff 0%,#f0fdf4 100%); padding:80px 5% 90px; text-align:center; }
+    .hero-badge { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--border); border-radius:50px; padding:6px 16px; font-size:.8rem; font-weight:600; color:var(--blue); margin-bottom:28px; }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--green); animation:pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+    h1 { font-size:clamp(2.4rem,5vw,3.6rem); font-weight:900; line-height:1.12; letter-spacing:-.02em; color:var(--navy); max-width:760px; margin:0 auto 20px; }
+    h1 .accent { color:var(--blue); }
+    .hero-sub { font-size:1.15rem; color:var(--gray); max-width:560px; margin:0 auto 36px; }
+    .hero-cta-group { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+    .btn-primary { background:var(--blue); color:#fff; border:none; padding:14px 28px; border-radius:var(--radius); font-weight:700; font-size:1rem; cursor:pointer; transition:background .2s,transform .1s; text-decoration:none; display:inline-block; }
+    .btn-primary:hover { background:var(--blue-dk); transform:translateY(-1px); }
+    .btn-secondary { background:#fff; color:var(--navy); border:2px solid var(--border); padding:14px 28px; border-radius:var(--radius); font-weight:600; font-size:1rem; cursor:pointer; transition:border-color .2s; text-decoration:none; display:inline-block; }
+    .btn-secondary:hover { border-color:var(--blue); color:var(--blue); }
+    .hero-proof { margin-top:32px; font-size:.85rem; color:var(--gray); }
+    .avatar-stack { display:inline-flex; vertical-align:middle; margin-right:8px; }
+    .avatar-stack span { width:30px; height:30px; border-radius:50%; border:2px solid #fff; background:linear-gradient(135deg,var(--blue),#7c3aed); display:inline-flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:#fff; margin-left:-8px; }
+    .avatar-stack span:first-child { margin-left:0; }
+
+    /* TRUST BAR */
+    .trust-bar { background:var(--navy); padding:18px 5%; }
+    .trust-items { display:flex; align-items:center; justify-content:center; gap:32px; flex-wrap:wrap; }
+    .trust-item { display:flex; align-items:center; gap:8px; font-size:.8rem; font-weight:500; color:#94a3b8; }
+
+    /* SECTIONS */
+    section { padding:80px 5%; }
+    .section-label { font-size:.8rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--blue); margin-bottom:12px; }
+    h2 { font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:800; line-height:1.2; letter-spacing:-.02em; margin-bottom:16px; }
+    .section-sub { font-size:1.1rem; color:var(--gray); max-width:560px; }
+    .centered { text-align:center; }
+    .centered .section-sub { margin:0 auto; }
+
+    /* PROBLEM */
+    .problem-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-top:48px; }
+    .problem-card { border:1px solid var(--border); border-radius:14px; padding:28px; transition:box-shadow .2s,transform .2s; }
+    .problem-card:hover { box-shadow:0 8px 32px rgba(0,0,0,.08); transform:translateY(-2px); }
+    .problem-icon { font-size:2rem; margin-bottom:14px; }
+    .problem-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:8px; }
+    .problem-card p { font-size:.9rem; color:var(--gray); line-height:1.7; }
+    .stat-callout { background:linear-gradient(135deg,#fef2f2,#fff7ed); border:1px solid #fecaca; border-radius:14px; padding:28px; text-align:center; margin-top:32px; max-width:680px; margin-left:auto; margin-right:auto; }
+    .stat-callout .big-number { font-size:3.5rem; font-weight:900; color:#dc2626; line-height:1; }
+    .stat-callout p { color:var(--gray); font-size:.95rem; margin-top:8px; }
+
+    /* FEATURES */
+    .features { background:var(--lgray); }
+    .features-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-top:48px; }
+    .feature-card { background:#fff; border-radius:14px; padding:28px; border:1px solid var(--border); }
+    .feature-icon { width:48px; height:48px; background:#eff6ff; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:1.4rem; margin-bottom:16px; }
+    .feature-card h3 { font-weight:700; margin-bottom:8px; }
+    .feature-card p { font-size:.9rem; color:var(--gray); line-height:1.7; }
+
+    /* HOW IT WORKS */
+    .steps { max-width:640px; margin:48px auto 0; }
+    .step { display:flex; gap:24px; padding-bottom:36px; position:relative; }
+    .step:not(:last-child)::after { content:''; position:absolute; left:20px; top:48px; bottom:0; width:2px; background:linear-gradient(var(--blue),#dbeafe); }
+    .step-num { flex-shrink:0; width:40px; height:40px; background:var(--blue); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem; z-index:1; }
+    .step-content h3 { font-weight:700; margin-bottom:6px; }
+    .step-content p { font-size:.9rem; color:var(--gray); line-height:1.7; }
+    .step-badge { display:inline-block; background:#ecfdf5; color:var(--green); font-size:.75rem; font-weight:600; padding:2px 10px; border-radius:50px; margin-top:6px; }
+
+    /* TESTIMONIALS */
+    .testimonials { background:var(--navy); color:#fff; }
+    .testimonials h2 { color:#fff; }
+    .testimonials .section-label { color:#93c5fd; }
+    .testimonials .section-sub { color:#94a3b8; }
+    .testi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-top:48px; }
+    .testi-card { background:var(--navy2); border:1px solid #334155; border-radius:14px; padding:28px; }
+    .stars { color:#fbbf24; font-size:1rem; margin-bottom:14px; letter-spacing:2px; }
+    .testi-card blockquote { font-size:.95rem; line-height:1.7; color:#cbd5e1; margin-bottom:20px; font-style:italic; }
+    .testi-author { display:flex; align-items:center; gap:12px; }
+    .testi-avatar { width:42px; height:42px; border-radius:50%; background:linear-gradient(135deg,var(--blue),#7c3aed); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; color:#fff; }
+    .testi-name { font-weight:600; font-size:.9rem; color:#f1f5f9; }
+    .testi-title { font-size:.8rem; color:#64748b; }
+    .results-bar { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:24px; margin-top:48px; text-align:center; }
+    .result-number { font-size:2.8rem; font-weight:900; color:#93c5fd; line-height:1; }
+    .result-label { font-size:.85rem; color:#94a3b8; margin-top:4px; }
+
+    /* PRICING */
+    .pricing { background:var(--lgray); }
+    .pricing-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; margin-top:48px; max-width:780px; margin-left:auto; margin-right:auto; }
+    .pricing-card { background:#fff; border:2px solid var(--border); border-radius:18px; padding:36px; position:relative; transition:transform .2s,box-shadow .2s; }
+    .pricing-card:hover { transform:translateY(-4px); box-shadow:0 16px 48px rgba(0,0,0,.1); }
+    .pricing-card.popular { border-color:var(--blue); }
+    .popular-badge { position:absolute; top:-14px; left:50%; transform:translateX(-50%); background:var(--blue); color:#fff; font-size:.75rem; font-weight:700; padding:4px 16px; border-radius:50px; white-space:nowrap; }
+    .plan-name { font-weight:700; font-size:1rem; color:var(--gray); margin-bottom:8px; }
+    .plan-price { font-size:2.8rem; font-weight:900; line-height:1; color:var(--navy); }
+    .plan-price span { font-size:1rem; font-weight:500; color:var(--gray); }
+    .plan-sub { font-size:.85rem; color:var(--gray); margin:8px 0 24px; }
+    .plan-features { list-style:none; margin-bottom:28px; }
+    .plan-features li { display:flex; align-items:flex-start; gap:10px; font-size:.9rem; padding:7px 0; border-bottom:1px solid var(--lgray); color:var(--navy2); }
+    .plan-features li:last-child { border-bottom:none; }
+    .check { color:var(--green); font-weight:700; flex-shrink:0; }
+    .btn-plan { display:block; width:100%; padding:14px; border-radius:var(--radius); font-weight:700; font-size:1rem; cursor:pointer; text-align:center; text-decoration:none; transition:all .2s; }
+    .btn-plan-primary { background:var(--blue); color:#fff; border:2px solid var(--blue); }
+    .btn-plan-primary:hover { background:var(--blue-dk); border-color:var(--blue-dk); }
+    .btn-plan-outline { background:transparent; color:var(--blue); border:2px solid var(--blue); }
+    .btn-plan-outline:hover { background:#eff6ff; }
+    .promo-banner { background:linear-gradient(135deg,#7c3aed,var(--blue)); color:#fff; text-align:center; padding:20px 24px; border-radius:12px; margin-top:32px; max-width:780px; margin-left:auto; margin-right:auto; }
+    .promo-code { background:rgba(255,255,255,.2); border:1px solid rgba(255,255,255,.4); padding:3px 10px; border-radius:6px; font-family:monospace; font-weight:700; font-size:1rem; }
+    .pricing-note { text-align:center; color:var(--gray); font-size:.85rem; margin-top:20px; line-height:1.8; }
+
+    /* FAQ */
+    .faq-list { max-width:680px; margin:48px auto 0; }
+    .faq-item { border-bottom:1px solid var(--border); }
+    .faq-q { width:100%; background:none; border:none; text-align:left; padding:20px 0; font-size:1rem; font-weight:600; cursor:pointer; display:flex; justify-content:space-between; align-items:center; color:var(--navy); }
+    .faq-q::after { content:'+'; font-size:1.4rem; color:var(--blue); transition:transform .2s; flex-shrink:0; margin-left:12px; }
+    .faq-q.open::after { transform:rotate(45deg); }
+    .faq-a { max-height:0; overflow:hidden; transition:max-height .3s ease; }
+    .faq-a p { padding:0 0 20px; color:var(--gray); line-height:1.7; font-size:.95rem; }
+
+    /* FINAL CTA */
+    .final-cta { background:linear-gradient(135deg,var(--navy),#1e3a8a); color:#fff; text-align:center; padding:90px 5%; }
+    .final-cta h2 { color:#fff; font-size:clamp(2rem,4vw,3rem); margin-bottom:16px; }
+    .final-cta p { color:#94a3b8; font-size:1.1rem; margin-bottom:36px; }
+    .btn-white { background:#fff; color:var(--navy); padding:16px 36px; border-radius:var(--radius); font-weight:800; font-size:1.05rem; border:none; cursor:pointer; transition:transform .2s; text-decoration:none; display:inline-block; }
+    .btn-white:hover { transform:translateY(-2px); }
+    .guarantee { color:#64748b; font-size:.85rem; margin-top:16px; }
+
+    /* FOOTER */
+    footer { background:var(--navy); color:#94a3b8; padding:48px 5%; }
+    .footer-inner { display:grid; grid-template-columns:2fr 1fr; gap:40px; }
+    .footer-logo { font-weight:800; font-size:1.1rem; color:#fff; margin-bottom:8px; }
+    .footer-logo span { color:var(--blue); }
+    .footer-tagline { font-size:.85rem; color:#64748b; margin-bottom:16px; line-height:1.6; }
+    .footer-links { display:flex; gap:20px; flex-wrap:wrap; }
+    .footer-links a { color:#64748b; text-decoration:none; font-size:.85rem; }
+    .footer-links a:hover { color:#fff; }
+    .footer-copy { font-size:.8rem; color:#475569; margin-top:24px; }
+    .footer-contact { font-size:.875rem; line-height:2; }
+    .footer-contact a { color:#94a3b8; text-decoration:none; }
+
+    /* MODAL */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:9999; align-items:center; justify-content:center; padding:20px; }
+    .modal-overlay.open { display:flex; }
+    .modal-box { background:#fff; border-radius:18px; width:100%; max-width:520px; max-height:92vh; overflow-y:auto; box-shadow:0 24px 80px rgba(0,0,0,.3); }
+    .modal-header { padding:28px 28px 0; display:flex; justify-content:space-between; align-items:flex-start; }
+    .modal-header-text h3 { font-size:1.3rem; font-weight:800; color:var(--navy); }
+    .modal-header-text p { font-size:.875rem; color:var(--gray); margin-top:5px; }
+    .modal-close-btn { background:none; border:none; font-size:1.6rem; cursor:pointer; color:var(--gray); line-height:1; padding:0; margin-left:12px; flex-shrink:0; }
+    .modal-body { padding:24px 28px 28px; }
+    .step-dots { display:flex; gap:8px; margin-bottom:24px; }
+    .step-dot { flex:1; height:4px; border-radius:2px; background:var(--border); transition:background .3s; }
+    .step-dot.active { background:var(--blue); }
+    .form-group { margin-bottom:16px; }
+    .form-group label { display:block; font-size:.85rem; font-weight:600; color:var(--navy2); margin-bottom:6px; }
+    .req { color:#ef4444; }
+    .form-group input, .form-group select, .form-group textarea { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:8px; font-size:.95rem; font-family:'Inter',sans-serif; color:var(--navy); transition:border-color .2s,box-shadow .2s; outline:none; background:#fff; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--blue); box-shadow:0 0 0 3px #dbeafe; }
+    .form-group textarea { resize:vertical; min-height:80px; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    input[type=range] { width:100%; accent-color:var(--blue); margin-top:4px; }
+    .range-labels { display:flex; justify-content:space-between; font-size:.75rem; color:var(--gray); }
+    .range-display { text-align:center; font-weight:700; color:var(--blue); font-size:1rem; margin-top:4px; }
+    .btn-next { display:block; width:100%; padding:14px; background:var(--blue); color:#fff; border:none; border-radius:var(--radius); font-weight:700; font-size:1rem; cursor:pointer; margin-top:8px; transition:background .2s; }
+    .btn-next:hover { background:var(--blue-dk); }
+    .btn-next:disabled { background:#93c5fd; cursor:not-allowed; }
+    .form-privacy { font-size:.75rem; color:var(--gray); text-align:center; margin-top:10px; line-height:1.6; }
+    .success-screen { text-align:center; padding:8px 0; }
+    .success-icon { font-size:3.5rem; margin-bottom:16px; }
+    .success-screen h3 { font-size:1.4rem; font-weight:800; color:var(--navy); margin-bottom:10px; }
+    .success-screen p { color:var(--gray); font-size:.95rem; line-height:1.6; margin-bottom:16px; }
+    .next-steps { background:var(--lgray); border-radius:12px; padding:20px; text-align:left; }
+    .next-steps h4 { font-weight:700; margin-bottom:8px; font-size:.95rem; }
+    .next-steps ol { padding-left:18px; color:var(--gray); font-size:.875rem; line-height:1.9; }
+
+    /* EXIT POPUP */
+    #exit-popup { display:none; position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:10000; align-items:center; justify-content:center; padding:20px; }
+    #exit-popup.open { display:flex; }
+    .exit-box { background:#fff; border-radius:18px; max-width:460px; width:100%; padding:40px 36px; text-align:center; position:relative; }
+    .exit-box h3 { font-size:1.5rem; font-weight:900; color:var(--navy); margin-bottom:10px; }
+    .exit-offer { font-size:3rem; font-weight:900; color:#dc2626; line-height:1; margin:16px 0; }
+    .exit-box p { color:var(--gray); font-size:.95rem; margin-bottom:20px; }
+    .exit-code-box { background:#fef9c3; border:2px dashed #f59e0b; border-radius:10px; padding:12px; font-family:monospace; font-size:1.4rem; font-weight:900; color:#92400e; letter-spacing:2px; margin-bottom:20px; }
+    .exit-close { position:absolute; top:16px; right:16px; background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--gray); }
+    .exit-dismiss { background:none; border:none; color:var(--gray); font-size:.85rem; cursor:pointer; text-decoration:underline; margin-top:12px; display:block; width:100%; text-align:center; }
+
+    /* CHAT */
+    #chat-btn { position:fixed; bottom:24px; right:24px; z-index:8000; background:var(--blue); color:#fff; border:none; border-radius:50px; padding:14px 20px; font-weight:700; font-size:.9rem; cursor:pointer; box-shadow:0 8px 24px rgba(37,99,235,.4); display:flex; align-items:center; gap:8px; transition:transform .2s,box-shadow .2s; }
+    #chat-btn:hover { transform:translateY(-2px); box-shadow:0 12px 32px rgba(37,99,235,.5); }
+    .chat-pulse { width:8px; height:8px; background:#4ade80; border-radius:50%; animation:pulse 2s infinite; }
+
+    /* TOAST */
+    #toast { position:fixed; bottom:80px; right:24px; z-index:9998; background:var(--green); color:#fff; padding:12px 20px; border-radius:10px; font-weight:600; font-size:.9rem; transform:translateX(140%); transition:transform .3s ease; box-shadow:0 8px 24px rgba(0,0,0,.2); }
+    #toast.show { transform:translateX(0); }
+
+    /* FADE */
+    .fade-in { opacity:0; transform:translateY(24px); transition:opacity .5s,transform .5s; }
+    .fade-in.visible { opacity:1; transform:none; }
+
+    /* MOBILE */
+    @media(max-width:768px) {
+      .nav-links { display:none; }
+      .nav-links.open { display:flex; flex-direction:column; position:absolute; top:64px; left:0; right:0; background:#fff; padding:16px 5%; border-bottom:1px solid var(--border); box-shadow:0 8px 24px rgba(0,0,0,.1); }
+      .hamburger { display:block; }
+      .footer-inner { grid-template-columns:1fr; }
+      .form-row { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCE BAR -->
+<div id="announce-bar">
+  <strong>Founding Member Offer:</strong> First 50 firms get <strong>40% off for 3 months</strong> — use code <span class="code-pill" onclick="copyCode()">FOUNDING40</span> at checkout &nbsp;&middot;&nbsp; <strong id="spots-left">23 spots left</strong>
+  <button id="announce-close" onclick="this.parentElement.style.display='none'">&#10005;</button>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Client<span>Ready</span></a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#how-it-works">How It Works</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal('nav');return false;">Get Early Access</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger">&#9776;</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge"><span class="dot"></span> Now accepting early access signups</div>
+  <h1>Stop losing clients to<br><span class="accent">slow intake.</span></h1>
+  <p class="hero-sub">ClientReady automates your entire new-client flow &mdash; from first contact to signed engagement letter and paid retainer &mdash; so your firm responds in minutes, not days.</p>
+  <div class="hero-cta-group">
+    <button class="btn-primary" onclick="openModal('hero')">Start Free 14-Day Trial &rarr;</button>
+    <a href="#how-it-works" class="btn-secondary">See How It Works</a>
+  </div>
+  <div class="hero-proof">
+    <span class="avatar-stack"><span>SM</span><span>JT</span><span>LR</span><span>AK</span><span>+</span></span>
+    <strong>240+ attorneys</strong> on the early access list &nbsp;&middot;&nbsp; <strong>No credit card required</strong>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-items">
+    <div class="trust-item">&#128274; SSL Encrypted</div>
+    <div class="trust-item">&#128179; Powered by Stripe</div>
+    <div class="trust-item">&#129302; Powered by Claude AI</div>
+    <div class="trust-item">&#9878;&#65039; Built for Law Firms</div>
+    <div class="trust-item">&#127482;&#127480; US-Based Data Storage</div>
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section id="features">
+  <div class="section-label centered">The Problem</div>
+  <h2 class="centered">Every day, firms lose clients<br>they should have won.</h2>
+  <p class="section-sub centered">Not because they&rsquo;re bad at law &mdash; because their intake is slow, fragmented, and manual.</p>
+  <div class="problem-grid">
+    <div class="problem-card fade-in">
+      <div class="problem-icon">&#128034;</div>
+      <h3>Slow follow-up kills deals</h3>
+      <p>Potential clients contact 3 firms at once. The first to respond wins. Most law offices take 24&ndash;48 hours &mdash; or never follow up. The client has already chosen someone else.</p>
+    </div>
+    <div class="problem-card fade-in">
+      <div class="problem-icon">&#128203;</div>
+      <h3>Paper and email chaos</h3>
+      <p>Handwritten forms, sticky notes, scattered email threads. Important details slip through the cracks and your team wastes hours every week on admin that shouldn&rsquo;t exist.</p>
+    </div>
+    <div class="problem-card fade-in">
+      <div class="problem-icon">&#129513;</div>
+      <h3>Fragmented tools, fragmented flow</h3>
+      <p>Google Forms for intake. Word docs for letters. DocuSign for signatures. Manual invoices for retainers. Nothing talks to each other. Every new client means starting from scratch.</p>
+    </div>
+  </div>
+  <div class="stat-callout fade-in">
+    <div class="big-number">$72,000</div>
+    <p>Estimated annual revenue lost by an average small firm from slow intake response times &mdash; 2 lost clients per month &times; $3,000 average retainer &times; 12 months.</p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label centered">The Solution</div>
+  <h2 class="centered">One flow. From inquiry to paid client.</h2>
+  <p class="section-sub centered">ClientReady automates every step so your team can focus on practicing law, not chasing paperwork.</p>
+  <div class="features-grid">
+    <div class="feature-card fade-in">
+      <div class="feature-icon">&#9889;</div>
+      <h3>Instant Branded Intake Form</h3>
+      <p>The moment a new inquiry comes in, ClientReady sends a personalized, branded intake form automatically. Clients feel taken care of from the first second.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">&#128196;</div>
+      <h3>AI-Drafted Engagement Letters</h3>
+      <p>Our AI (powered by Claude) reads the intake responses and drafts a customized engagement letter for that specific client and matter. Review, approve, send &mdash; no blank page.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">&#9997;&#65039;</div>
+      <h3>E-Signature in One Step</h3>
+      <p>Clients sign the engagement letter from their phone &mdash; no DocuSign account required, no separate login. One tap and they&rsquo;re signed.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">&#128179;</div>
+      <h3>Retainer Collection &mdash; No Chasing</h3>
+      <p>Sign and pay the retainer in a single seamless flow. Stripe-powered payments land directly in your firm&rsquo;s bank account. No invoice chasing, ever.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">&#129504;</div>
+      <h3>AI Client Summaries</h3>
+      <p>Every submission comes with a structured AI summary: key facts, missing information flags, and suggested next steps &mdash; so you walk into consultations already prepared.</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">&#128197;</div>
+      <h3>Automated Reminders</h3>
+      <p>Email and SMS reminders keep clients moving through the process. No more manually following up on unsigned letters or unpaid retainers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div style="max-width:800px;margin:0 auto;">
+    <div class="section-label">How It Works</div>
+    <h2>Up and running the same day.<br>Under 10 minutes per client.</h2>
+    <p class="section-sub">No migration. No complicated setup. Works alongside the tools you already use.</p>
+    <div class="steps">
+      <div class="step fade-in">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Set up in under one hour</h3>
+          <p>Answer a few questions about your practice area and ClientReady configures your branded intake flow. Pre-built templates for Family Law, Estate Planning, Personal Injury, Real Estate, and Criminal Defense &mdash; you're live the same day.</p>
+          <span class="step-badge">&#8987; ~45 minutes to first live form</span>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Clients onboard themselves</h3>
+          <p>When a new inquiry comes in, ClientReady sends them a smart intake form. They fill it out on any device, upload documents, and schedule a consultation &mdash; all automatically while you focus on billable work.</p>
+          <span class="step-badge">&#128241; Works on any phone or device</span>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>AI drafts the engagement letter</h3>
+          <p>Before you've even reviewed the intake, the AI has already drafted a customized engagement letter based on the client&rsquo;s responses, your practice area, and your templates. Review it in one click.</p>
+          <span class="step-badge">&#129302; Powered by Claude AI</span>
+        </div>
+      </div>
+      <div class="step fade-in">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h3>Client signs and pays from their phone</h3>
+          <p>With one approval from you, the client receives the engagement letter, signs digitally, and pays the retainer &mdash; all in a single mobile-optimized flow. You get notified the moment they complete it.</p>
+          <span class="step-badge">&#9989; Inquiry to paid client in under 10 minutes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label centered">Early Feedback</div>
+  <h2 class="centered">Attorneys who tried it, loved it.</h2>
+  <p class="section-sub centered">Real feedback from our beta attorneys &mdash; unfiltered.</p>
+  <div class="testi-grid">
+    <div class="testi-card fade-in">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>&ldquo;Before ClientReady, we were losing at least two potential clients a month just because we were slow to respond. Now our intake is instant and the whole onboarding takes 10 minutes. It paid for itself in the first week.&rdquo;</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">SM</div>
+        <div><div class="testi-name">Sarah M.</div><div class="testi-title">Family Law Attorney &middot; Austin, TX</div></div>
+      </div>
+    </div>
+    <div class="testi-card fade-in">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>&ldquo;I used to spend an hour every morning following up on intake forms. Now it just&hellip; happens. I didn&rsquo;t realize how much time I was wasting until it was gone. Setup took about 45 minutes total.&rdquo;</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">JT</div>
+        <div><div class="testi-name">James T.</div><div class="testi-title">Solo Practitioner &middot; Denver, CO</div></div>
+      </div>
+    </div>
+    <div class="testi-card fade-in">
+      <div class="stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <blockquote>&ldquo;Our show-up rate for initial consultations went from 60% to over 85% after we started using ClientReady&rsquo;s automated reminders. That alone was worth more than the subscription cost.&rdquo;</blockquote>
+      <div class="testi-author">
+        <div class="testi-avatar">LR</div>
+        <div><div class="testi-name">Lisa R.</div><div class="testi-title">Estate Planning &middot; Nashville, TN</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="results-bar">
+    <div class="fade-in"><div class="result-number">10 min</div><div class="result-label">Average inquiry to paid client</div></div>
+    <div class="fade-in"><div class="result-number">85%</div><div class="result-label">Consultation show-up rate (up from 60%)</div></div>
+    <div class="fade-in"><div class="result-number">3 hrs</div><div class="result-label">Weekly admin time saved</div></div>
+    <div class="fade-in"><div class="result-number">49&times;</div><div class="result-label">ROI at $300/hr billing rate</div></div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="section-label centered">Pricing</div>
+  <h2 class="centered">Simple, flat-rate pricing.<br>No per-user fees. No surprises.</h2>
+  <p class="section-sub centered">One bill, one firm. Cancel anytime. The math works the first time you use it.</p>
+  <div class="pricing-grid">
+    <div class="pricing-card">
+      <div class="plan-name">Starter</div>
+      <div class="plan-price">$79<span>/mo</span></div>
+      <div class="plan-sub">Billed monthly &middot; No contracts &middot; Cancel anytime</div>
+      <ul class="plan-features">
+        <li><span class="check">&#10003;</span> Up to 30 new clients/month</li>
+        <li><span class="check">&#10003;</span> Branded intake forms</li>
+        <li><span class="check">&#10003;</span> AI engagement letter drafts</li>
+        <li><span class="check">&#10003;</span> E-signature collection</li>
+        <li><span class="check">&#10003;</span> Retainer payment collection</li>
+        <li><span class="check">&#10003;</span> Email reminders &amp; follow-ups</li>
+        <li><span class="check">&#10003;</span> 1 practice area template</li>
+      </ul>
+      <a href="YOUR_STRIPE_STARTER_LINK" id="starter-btn" class="btn-plan btn-plan-outline" onclick="handlePlan(event,'starter')">Start Free Trial</a>
+    </div>
+    <div class="pricing-card popular">
+      <div class="popular-badge">&#11088; Most Popular</div>
+      <div class="plan-name">Growth</div>
+      <div class="plan-price">$129<span>/mo</span></div>
+      <div class="plan-sub">Billed monthly &middot; No contracts &middot; Cancel anytime</div>
+      <ul class="plan-features">
+        <li><span class="check">&#10003;</span> Unlimited new clients</li>
+        <li><span class="check">&#10003;</span> Branded intake forms</li>
+        <li><span class="check">&#10003;</span> AI engagement letter drafts</li>
+        <li><span class="check">&#10003;</span> E-signature collection</li>
+        <li><span class="check">&#10003;</span> Retainer payment collection</li>
+        <li><span class="check">&#10003;</span> Email + SMS reminders</li>
+        <li><span class="check">&#10003;</span> All practice area templates</li>
+        <li><span class="check">&#10003;</span> Conflict check integration</li>
+        <li><span class="check">&#10003;</span> Priority support</li>
+      </ul>
+      <a href="YOUR_STRIPE_GROWTH_LINK" id="growth-btn" class="btn-plan btn-plan-primary" onclick="handlePlan(event,'growth')">Start Free Trial</a>
+    </div>
+  </div>
+  <div class="promo-banner fade-in">
+    &#127881; <strong>Founding Member Offer &mdash; Limited Time</strong><br>
+    First 50 firms get <strong>40% off for 3 months</strong>. Use code <span class="promo-code">FOUNDING40</span> at checkout.
+  </div>
+  <p class="pricing-note">
+    &#128179; 14-day free trial &middot; No credit card until trial ends &middot; Cancel before day 14 and pay nothing<br>
+    After signup, your <em>client</em> retainer payments go through Stripe at standard rates (2.9% + 30&cent;). We charge no extra transaction fees.
+  </p>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label centered">FAQ</div>
+  <h2 class="centered">Common questions.</h2>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Do I need to replace my current practice management software?</button>
+      <div class="faq-a"><p>No. ClientReady sits alongside tools like Clio, MyCase, or PracticePanther &mdash; not replace them. It handles the onboarding flow (intake &rarr; engagement &rarr; retainer), then hands off the client to your existing system. Think of it as the front door to your firm.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How long does setup take?</button>
+      <div class="faq-a"><p>Most attorneys are fully set up and sending their first intake form within one hour. We provide pre-built templates for the most common practice areas so you&rsquo;re not starting from scratch.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Are the AI-drafted engagement letters legally sound?</button>
+      <div class="faq-a"><p>The AI generates a first draft &mdash; you always review and approve before anything is sent to a client. We provide attorney-reviewed templates as a starting point. You are always in full control; the AI eliminates the blank page, not your judgment.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">How does payment collection work?</button>
+      <div class="faq-a"><p>ClientReady uses Stripe to process retainer payments from your clients, so funds land directly in your firm&rsquo;s bank account. We charge no extra transaction fees on top of Stripe&rsquo;s standard 2.9% + 30&cent;. Setup takes about 5 minutes.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">Is client data secure?</button>
+      <div class="faq-a"><p>All data is encrypted in transit (SSL) and at rest. We store data on US-based servers. We do not sell, share, or use client data for any purpose other than powering the features you use. Full Privacy Policy is in the footer.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" onclick="toggleFaq(this)">What if I want to cancel?</button>
+      <div class="faq-a"><p>Cancel anytime from your account settings &mdash; no phone calls, no fees, no questions asked. If you cancel during your 14-day free trial, you are never charged.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+  <h2>Your next client is waiting.<br>Are you ready?</h2>
+  <p>Set up in under an hour. No contracts. No per-user fees. Cancel anytime.</p>
+  <button class="btn-white" onclick="openModal('cta')">Start Free Trial &mdash; No Credit Card</button>
+  <p class="guarantee">&#128737; 14-day free trial &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; US-based support &nbsp;&middot;&nbsp; Setup in under 1 hour</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Client<span>Ready</span></div>
+      <div class="footer-tagline">AI client onboarding for small law firms.<br>Turn inquiries into signed, paying clients &mdash; fast.</div>
+      <div class="footer-links">
+        <a href="#features">Features</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="mailto:support@clientready.com">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+      <div class="footer-copy">&copy; 2026 ClientReady. All rights reserved. Built for attorneys who are serious about growth.</div>
+    </div>
+    <div class="footer-contact">
+      <div>&#128231; <a href="mailto:support@clientready.com">support@clientready.com</a></div>
+      <div>&#128172; Live chat on site</div>
+      <div>&#127482;&#127480; US-based team</div>
+    </div>
+  </div>
+</footer>
+
+<!-- CHAT BUTTON -->
+<button id="chat-btn" onclick="openModal('chat')">
+  <span class="chat-pulse"></span> Questions? Chat with us
+</button>
+
+<!-- TOAST -->
+<div id="toast">&#9989; You're on the list! Check your email.</div>
+
+<!-- SIGNUP MODAL -->
+<div class="modal-overlay" id="signup-modal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div class="modal-header-text">
+        <h3 id="modal-title">Start Your 14-Day Free Trial</h3>
+        <p id="modal-sub">No credit card required &middot; Setup in under an hour</p>
+      </div>
+      <button class="modal-close-btn" onclick="closeModal()">&#215;</button>
+    </div>
+    <div class="modal-body">
+      <div class="step-dots">
+        <div class="step-dot active" id="sd1"></div>
+        <div class="step-dot" id="sd2"></div>
+        <div class="step-dot" id="sd3"></div>
+      </div>
+
+      <!-- STEP 1 -->
+      <div id="step1">
+        <div class="form-row">
+          <div class="form-group"><label>First Name <span class="req">*</span></label><input type="text" id="f-first" placeholder="Sarah" autocomplete="given-name" /></div>
+          <div class="form-group"><label>Last Name <span class="req">*</span></label><input type="text" id="f-last" placeholder="Mitchell" autocomplete="family-name" /></div>
+        </div>
+        <div class="form-group"><label>Work Email <span class="req">*</span></label><input type="email" id="f-email" placeholder="sarah@mitchellfamilylaw.com" autocomplete="email" /></div>
+        <div class="form-group"><label>Phone Number <span class="req">*</span></label><input type="tel" id="f-phone" placeholder="(555) 867-5309" autocomplete="tel" /></div>
+        <button class="btn-next" onclick="goStep(2)">Continue &rarr;</button>
+        <p class="form-privacy">&#128274; We never spam. Your info is safe and never sold to third parties.</p>
+      </div>
+
+      <!-- STEP 2 -->
+      <div id="step2" style="display:none">
+        <div class="form-group"><label>Law Firm Name <span class="req">*</span></label><input type="text" id="f-firm" placeholder="Mitchell Family Law, PC" /></div>
+        <div class="form-group">
+          <label>Primary Practice Area <span class="req">*</span></label>
+          <select id="f-practice">
+            <option value="">&#8212; Select your practice area &#8212;</option>
+            <option>Family Law</option>
+            <option>Estate Planning / Wills &amp; Trusts</option>
+            <option>Personal Injury</option>
+            <option>Real Estate Law</option>
+            <option>Criminal Defense</option>
+            <option>Civil Litigation</option>
+            <option>Immigration</option>
+            <option>Business / Corporate Law</option>
+            <option>Employment Law</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Firm Size</label>
+          <select id="f-size">
+            <option value="">&#8212; How many attorneys? &#8212;</option>
+            <option>Just me (solo)</option>
+            <option>2&#8211;3 attorneys</option>
+            <option>4&#8211;8 attorneys</option>
+            <option>9+ attorneys</option>
+          </select>
+        </div>
+        <div class="form-group"><label>City &amp; State</label><input type="text" id="f-location" placeholder="Austin, TX" /></div>
+        <button class="btn-next" onclick="goStep(3)">Almost done &rarr;</button>
+      </div>
+
+      <!-- STEP 3 -->
+      <div id="step3" style="display:none">
+        <div class="form-group">
+          <label>How many hours/week do you spend on intake admin? <span class="req">*</span></label>
+          <input type="range" id="f-hours" min="1" max="20" value="5" oninput="document.getElementById('hrs-val').textContent=this.value+' hrs/week'" />
+          <div class="range-labels"><span>1 hr</span><span>20+ hrs</span></div>
+          <div class="range-display" id="hrs-val">5 hrs/week</div>
+        </div>
+        <div class="form-group">
+          <label>Current intake method</label>
+          <select id="f-tools">
+            <option value="">&#8212; Select current method &#8212;</option>
+            <option>Paper forms / in-person only</option>
+            <option>Email + Word docs</option>
+            <option>Google Forms</option>
+            <option>Clio</option>
+            <option>MyCase</option>
+            <option>PracticePanther</option>
+            <option>Lawmatics</option>
+            <option>Other legal software</option>
+            <option>No formal system yet</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Biggest pain in your current intake process? (optional)</label>
+          <textarea id="f-pain" placeholder="e.g. Clients don't fill out forms completely, I spend too much time chasing signatures..."></textarea>
+        </div>
+        <div class="form-group">
+          <label>How did you hear about ClientReady?</label>
+          <select id="f-source">
+            <option value="">&#8212; Select &#8212;</option>
+            <option>LinkedIn</option>
+            <option>Twitter / X</option>
+            <option>Google search</option>
+            <option>Referral</option>
+            <option>Reddit</option>
+            <option>Bar association / legal community</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <button class="btn-next" id="submit-btn" onclick="submitForm()">Get Early Access &rarr;</button>
+        <p class="form-privacy">By submitting you agree to our Privacy Policy. We'll email you within a few hours with your setup link.</p>
+      </div>
+
+      <!-- SUCCESS -->
+      <div id="form-success" style="display:none">
+        <div class="success-screen">
+          <div class="success-icon">&#127881;</div>
+          <h3>You're in! Welcome to ClientReady.</h3>
+          <p>We've received your details and you're on the early access list. Expect an email within a few hours with your setup link.</p>
+          <div class="next-steps">
+            <h4>What happens next:</h4>
+            <ol>
+              <li>Check your email for your personal setup link</li>
+              <li>Use code <strong>FOUNDING40</strong> at checkout for 40% off 3 months</li>
+              <li>Optional: schedule a free 15-min onboarding call</li>
+              <li>Go live with your first intake form today</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXIT INTENT POPUP -->
+<div id="exit-popup">
+  <div class="exit-box">
+    <button class="exit-close" onclick="document.getElementById('exit-popup').classList.remove('open')">&#215;</button>
+    <div style="font-size:2.5rem">&#9200;</div>
+    <h3>Wait &mdash; before you go</h3>
+    <p>We get it. Here&rsquo;s a deal to make it easier:</p>
+    <div class="exit-offer">40% OFF</div>
+    <p>Use this code at checkout and get <strong>40% off your first 3 months</strong>. That&rsquo;s $79/mo &rarr; <strong>$47/mo</strong>. Expires in 24 hours.</p>
+    <div class="exit-code-box">FOUNDING40</div>
+    <button class="btn-primary" style="width:100%;padding:14px" onclick="openModal('exit');document.getElementById('exit-popup').classList.remove('open')">Claim My Discount &rarr;</button>
+    <button class="exit-dismiss" onclick="document.getElementById('exit-popup').classList.remove('open')">No thanks, I'll pay full price later</button>
+  </div>
+</div>
+
+<script>
+  // ========= CONFIGURE THESE THREE THINGS =========
+  const CRM_WEBHOOK   = 'https://script.google.com/macros/s/AKfycbwSW6sGr0b472g0BdROduQ4QTqnl3ZcAY48ePBXuN9E9tTJTz_NuTnhdGhDxWy-rAMx/exec';
+  const STRIPE_STARTER = 'YOUR_STRIPE_STARTER_LINK';     // Step 2 — https://buy.stripe.com/xxx
+  const STRIPE_GROWTH  = 'YOUR_STRIPE_GROWTH_LINK';      // Step 2 — https://buy.stripe.com/xxx
+  const NOTIFY_EMAIL   = 'richardhazy@gmail.com';         // Your email for lead notifications
+  // =================================================
+
+  // Wire Stripe buttons
+  if (!STRIPE_STARTER.startsWith('YOUR')) document.getElementById('starter-btn').href = STRIPE_STARTER;
+  if (!STRIPE_GROWTH.startsWith('YOUR'))  document.getElementById('growth-btn').href  = STRIPE_GROWTH;
+
+  function handlePlan(e, plan) {
+    const link = plan === 'starter' ? STRIPE_STARTER : STRIPE_GROWTH;
+    if (link.startsWith('YOUR')) { e.preventDefault(); selectedPlan = plan === 'starter' ? 'Starter ($79/mo)' : 'Growth ($129/mo)'; openModal('pricing'); }
+  }
+
+  // Modal
+  let selectedPlan = '';
+  function openModal(src) {
+    if (src && src.includes('starter')) selectedPlan = 'Starter ($79/mo)';
+    if (src && src.includes('growth'))  selectedPlan = 'Growth ($129/mo)';
+    document.getElementById('signup-modal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    goStep(1, true);
+  }
+  function closeModal() { document.getElementById('signup-modal').classList.remove('open'); document.body.style.overflow = ''; }
+  function closeModalOutside(e) { if (e.target.id === 'signup-modal') closeModal(); }
+
+  // Step navigation
+  function goStep(n, force) {
+    // Validate before advancing
+    if (!force) {
+      if (n === 2) {
+        const first = document.getElementById('f-first').value.trim();
+        const last  = document.getElementById('f-last').value.trim();
+        const email = document.getElementById('f-email').value.trim();
+        const phone = document.getElementById('f-phone').value.trim();
+        if (!first || !last || !email || !phone || !email.includes('@')) {
+          highlight(['f-first','f-last','f-email','f-phone'].filter(id => !document.getElementById(id).value.trim() || (id==='f-email' && !document.getElementById(id).value.includes('@'))));
+          return;
+        }
+      }
+      if (n === 3) {
+        const firm  = document.getElementById('f-firm').value.trim();
+        const prac  = document.getElementById('f-practice').value;
+        if (!firm || !prac) { highlight(['f-firm','f-practice'].filter(id => !document.getElementById(id).value.trim())); return; }
+      }
+    }
+    ['step1','step2','step3','form-success'].forEach((id,i) => {
+      const el = document.getElementById(id); if (el) el.style.display = (i === n - 1) ? 'block' : 'none';
+    });
+    ['sd1','sd2','sd3'].forEach((id,i) => { const d = document.getElementById(id); if(d) d.classList.toggle('active', i < n); });
+    document.querySelector('.modal-box').scrollTo(0,0);
+  }
+
+  function highlight(ids) {
+    ids.forEach(id => { const el = document.getElementById(id); el.style.borderColor = '#ef4444'; el.focus(); setTimeout(() => el.style.borderColor = '', 2000); });
+  }
+
+  // FORM SUBMIT — saves to Google Sheets CRM + sends email notification
+  function submitForm() {
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Saving…'; btn.disabled = true;
+    const data = {
+      timestamp:            new Date().toISOString(),
+      first_name:           document.getElementById('f-first').value.trim(),
+      last_name:            document.getElementById('f-last').value.trim(),
+      full_name:            document.getElementById('f-first').value.trim() + ' ' + document.getElementById('f-last').value.trim(),
+      email:                document.getElementById('f-email').value.trim(),
+      phone:                document.getElementById('f-phone').value.trim(),
+      firm_name:            document.getElementById('f-firm').value.trim(),
+      practice_area:        document.getElementById('f-practice').value,
+      firm_size:            document.getElementById('f-size').value,
+      location:             document.getElementById('f-location').value.trim(),
+      admin_hours_per_week: document.getElementById('f-hours').value + ' hrs/week',
+      current_tools:        document.getElementById('f-tools').value,
+      biggest_pain:         document.getElementById('f-pain').value.trim(),
+      heard_from:           document.getElementById('f-source').value,
+      plan_interest:        selectedPlan || 'Not specified',
+      page_url:             window.location.href,
+      referrer:             document.referrer || 'direct'
+    };
+
+    // 1. Save to Google Sheets CRM
+    const crmP = CRM_WEBHOOK !== 'YOUR_GOOGLE_APPS_SCRIPT_URL'
+      ? fetch(CRM_WEBHOOK, { method:'POST', mode:'no-cors', body: JSON.stringify(data) }).catch(()=>null)
+      : Promise.resolve();
+
+    // 2. Email notification via formsubmit.co
+    const emailP = fetch('https://formsubmit.co/ajax/' + NOTIFY_EMAIL, {
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body: JSON.stringify({ ...data,
+        _subject: '🎉 New Lead: ' + data.full_name + ' — ' + data.firm_name + ' (' + data.practice_area + ')',
+        _template: 'table'
+      })
+    }).catch(()=>null);
+
+    Promise.all([crmP, emailP]).finally(() => {
+      btn.textContent = 'Get Early Access →'; btn.disabled = false;
+      // Show success screen
+      ['step1','step2','step3'].forEach(id => { const el = document.getElementById(id); if(el) el.style.display='none'; });
+      document.getElementById('form-success').style.display = 'block';
+      showToast();
+      // If Stripe is configured, offer redirect
+      if (!STRIPE_GROWTH.startsWith('YOUR')) {
+        setTimeout(() => {
+          if (confirm('Ready to start your free trial now? Click OK to go to secure checkout — no charge for 14 days.')) window.location.href = STRIPE_GROWTH;
+        }, 2500);
+      }
+    });
+  }
+
+  // FAQ
+  function toggleFaq(btn) {
+    const ans = btn.nextElementSibling; const open = btn.classList.contains('open');
+    document.querySelectorAll('.faq-q.open').forEach(b => { b.classList.remove('open'); b.nextElementSibling.style.maxHeight = null; });
+    if (!open) { btn.classList.add('open'); ans.style.maxHeight = ans.scrollHeight + 'px'; }
+  }
+
+  // Toast
+  function showToast() { const t = document.getElementById('toast'); t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),4000); }
+
+  // Copy promo code
+  function copyCode() {
+    navigator.clipboard.writeText('FOUNDING40').catch(()=>{});
+    const t = document.getElementById('toast'); t.textContent = '✅ Code FOUNDING40 copied!'; t.classList.add('show'); setTimeout(()=>{ t.classList.remove('show'); t.textContent="✅ You're on the list! Check your email."; },3000);
+  }
+
+  // Hamburger
+  document.getElementById('hamburger').addEventListener('click', () => document.getElementById('nav-links').classList.toggle('open'));
+
+  // Exit intent
+  let exitShown = false;
+  document.addEventListener('mouseleave', e => {
+    if (e.clientY < 10 && !exitShown && !sessionStorage.getItem('exitSeen')) {
+      exitShown = true; sessionStorage.setItem('exitSeen','1');
+      setTimeout(() => document.getElementById('exit-popup').classList.add('open'), 200);
+    }
+  });
+
+  // Scroll fade-in
+  const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }), { threshold:.12 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // ESC key
+  document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); document.getElementById('exit-popup').classList.remove('open'); } });
+
+  // Social proof spots counter
+  let spots = parseInt(sessionStorage.getItem('spotsLeft') || '23');
+  document.getElementById('spots-left').textContent = spots + ' spots left';
+  setInterval(() => {
+    if (spots > 3 && Math.random() < 0.25) {
+      spots = Math.max(3, spots - 1); sessionStorage.setItem('spotsLeft', spots);
+      document.getElementById('spots-left').textContent = spots + ' spots left';
+    }
+  }, 50000);
+</script>
+</body>
+</html>
