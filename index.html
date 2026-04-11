@@ -261,12 +261,12 @@
   <h1>Stop losing clients to<br><span class="accent">slow intake.</span></h1>
   <p class="hero-sub">ClientReady automates your entire new-client flow &mdash; from first contact to signed engagement letter and paid retainer &mdash; so your firm responds in minutes, not days.</p>
   <div class="hero-cta-group">
-    <button class="btn-primary" onclick="openModal('hero')">Start Free 14-Day Trial &rarr;</button>
+    <button class="btn-primary" onclick="openModal('hero')">Start Free 7-Day Trial &rarr;</button>
     <a href="#how-it-works" class="btn-secondary">See How It Works</a>
   </div>
   <div class="hero-proof">
     <span class="avatar-stack"><span>SM</span><span>JT</span><span>LR</span><span>AK</span><span>+</span></span>
-    <strong>240+ attorneys</strong> on the early access list &nbsp;&middot;&nbsp; <strong>No credit card required</strong>
+    <strong>240+ attorneys</strong> on the early access list &nbsp;&middot;&nbsp; <strong></strong>
   </div>
 </section>
 
@@ -475,7 +475,7 @@
     First 50 firms get <strong>40% off for 3 months</strong>. Use code <span class="promo-code">FOUNDING40</span> at checkout.
   </div>
   <p class="pricing-note">
-    &#128179; 14-day free trial &middot; No credit card until trial ends &middot; Cancel before day 14 and pay nothing<br>
+    &#128179; 7-day free trial &middot; Cancel before day 7 and pay nothing<br>
     After signup, your <em>client</em> retainer payments go through Stripe at standard rates (2.9% + 30&cent;). We charge no extra transaction fees.
   </p>
 </section>
@@ -507,7 +507,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q" onclick="toggleFaq(this)">What if I want to cancel?</button>
-      <div class="faq-a"><p>Cancel anytime from your account settings &mdash; no phone calls, no fees, no questions asked. If you cancel during your 14-day free trial, you are never charged.</p></div>
+      <div class="faq-a"><p>Cancel anytime from your account settings &mdash; no phone calls, no fees, no questions asked. If you cancel during your 7-day free trial, you are never charged.</p></div>
     </div>
   </div>
 </section>
@@ -516,8 +516,8 @@
 <section class="final-cta">
   <h2>Your next client is waiting.<br>Are you ready?</h2>
   <p>Set up in under an hour. No contracts. No per-user fees. Cancel anytime.</p>
-  <button class="btn-white" onclick="openModal('cta')">Start Free Trial &mdash; No Credit Card</button>
-  <p class="guarantee">&#128737; 14-day free trial &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; US-based support &nbsp;&middot;&nbsp; Setup in under 1 hour</p>
+  <button class="btn-white" onclick="openModal('cta')">Start Your 7-Day Free Trial</button>
+  <p class="guarantee">&#128737; 7-day free trial &nbsp;&middot;&nbsp; Cancel anytime &nbsp;&middot;&nbsp; US-based support &nbsp;&middot;&nbsp; Setup in under 1 hour</p>
 </section>
 
 <!-- FOOTER -->
@@ -558,8 +558,8 @@
   <div class="modal-box">
     <div class="modal-header">
       <div class="modal-header-text">
-        <h3 id="modal-title">Start Your 14-Day Free Trial</h3>
-        <p id="modal-sub">No credit card required &middot; Setup in under an hour</p>
+        <h3 id="modal-title">Start Your 7-Day Free Trial</h3>
+        <p id="modal-sub">Setup in under an hour</p>
       </div>
       <button class="modal-close-btn" onclick="closeModal()">&#215;</button>
     </div>
@@ -803,7 +803,7 @@
       // If Stripe is configured, offer redirect
       if (!STRIPE_GROWTH.startsWith('YOUR')) {
         setTimeout(() => {
-          if (confirm('Ready to start your free trial now? Click OK to go to secure checkout — no charge for 14 days.')) window.location.href = STRIPE_GROWTH;
+          if (confirm('Ready to start your free trial now? Click OK to go to secure checkout — no charge for 7 days.')) window.location.href = STRIPE_GROWTH;
         }, 2500);
       }
     });
