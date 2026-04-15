@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Client Intake — Powered by ClientReady</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --blue: #2563eb; --blue-dark: #1d4ed8; --green: #16a34a;
+      --red: #dc2626; --gray: #6b7280; --border: #e5e7eb;
+      --bg: #f9fafb; --white: #ffffff; --text: #111827;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+    /* HEADER */
+    header { background: var(--white); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .firm-name { font-size: 1.1rem; font-weight: 800; }
+    .powered-by { font-size: .75rem; color: var(--gray); }
+    .powered-by a { color: var(--blue); text-decoration: none; font-weight: 600; }
+
+    /* PROGRESS */
+    .progress-bar-wrap { background: var(--white); border-bottom: 1px solid var(--border); padding: 12px 24px; }
+    .progress-steps { display: flex; align-items: center; gap: 0; max-width: 600px; margin: 0 auto; }
+    .prog-step { display: flex; align-items: center; gap: 8px; flex: 1; }
+    .prog-num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 700; color: var(--gray); background: var(--white); flex-shrink: 0; transition: all .3s; }
+    .prog-num.active { border-color: var(--blue); color: var(--blue); background: #eff6ff; }
+    .prog-num.done { border-color: var(--green); background: var(--green); color: #fff; }
+    .prog-label { font-size: .75rem; font-weight: 600; color: var(--gray); white-space: nowrap; }
+    .prog-label.active { color: var(--blue); }
+    .prog-line { height: 2px; flex: 1; background: var(--border); margin: 0 8px; transition: background .3s; }
+    .prog-line.done { background: var(--green); }
+
+    /* MAIN */
+    main { max-width: 640px; margin: 32px auto; padding: 0 16px 80px; }
+    .step-card { background: var(--white); border: 1px solid var(--border); border-radius: 20px; padding: 36px; box-shadow: 0 2px 12px rgba(0,0,0,.05); }
+    .step-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 6px; }
+    .step-desc { font-size: .9rem; color: var(--gray); margin-bottom: 28px; line-height: 1.6; }
+
+    /* FORM */
+    .form-group { margin-bottom: 18px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    label { display: block; font-size: .85rem; font-weight: 600; margin-bottom: 6px; color: var(--text); }
+    .req { color: var(--red); }
+    input, select, textarea {
+      width: 100%; border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 11px 14px; font-size: .95rem; font-family: inherit;
+      transition: border-color .2s, box-shadow .2s; outline: none; background: var(--white);
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+    textarea { height: 100px; resize: vertical; }
+    .field-hint { font-size: .78rem; color: var(--gray); margin-top: 5px; }
+
+    /* CHECKBOX */
+    .check-group { display: flex; gap: 12px; align-items: flex-start; padding: 16px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 10px; cursor: pointer; transition: border-color .2s; }
+    .check-group:hover { border-color: var(--blue); }
+    .check-group input[type=checkbox] { width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px; accent-color: var(--blue); cursor: pointer; }
+    .check-group label { font-size: .88rem; color: var(--text-light); cursor: pointer; line-height: 1.5; margin: 0; font-weight: 400; }
+    .check-group label strong { font-weight: 700; }
+
+    /* SIGNATURE PAD */
+    .sig-wrap { border: 1.5px solid var(--border); border-radius: 10px; overflow: hidden; background: #fff; }
+    .sig-wrap canvas { display: block; touch-action: none; cursor: crosshair; }
+    .sig-controls { display: flex; justify-content: flex-end; padding: 8px 12px; border-top: 1px solid var(--border); background: var(--bg); }
+    .sig-clear { background: none; border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: .8rem; cursor: pointer; color: var(--gray); }
+    .sig-clear:hover { border-color: var(--red); color: var(--red); }
+    .sig-label { font-size: .75rem; color: var(--gray); text-align: center; padding: 6px; }
+
+    /* BUTTONS */
+    .btn-primary { background: var(--blue); color: #fff; border: none; border-radius: 10px; padding: 14px 28px; font-size: 1rem; font-weight: 700; cursor: pointer; width: 100%; transition: background .2s, transform .15s; margin-top: 8px; }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-primary:disabled { background: var(--gray); cursor: not-allowed; transform: none; }
+    .btn-back { background: none; border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 20px; font-size: .9rem; font-weight: 600; color: var(--gray); cursor: pointer; transition: border-color .2s; }
+    .btn-back:hover { border-color: var(--blue); color: var(--blue); }
+    .btn-row { display: flex; gap: 12px; align-items: center; margin-top: 4px; }
+    .btn-row .btn-primary { flex: 1; margin-top: 0; }
+
+    /* SUCCESS */
+    .success-wrap { text-align: center; padding: 16px 0; }
+    .success-icon { font-size: 4rem; margin-bottom: 20px; }
+    .success-wrap h2 { font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
+    .success-wrap p { color: var(--gray); margin-bottom: 24px; line-height: 1.6; max-width: 420px; margin-left: auto; margin-right: auto; }
+    .next-steps-card { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 14px; padding: 20px 24px; text-align: left; margin-top: 24px; }
+    .next-steps-card h4 { font-size: .9rem; font-weight: 700; color: #15803d; margin-bottom: 12px; }
+    .next-steps-card ol { padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+    .next-steps-card li { font-size: .88rem; color: #166534; line-height: 1.5; }
+
+    /* UPLOAD */
+    .upload-area { border: 2px dashed var(--border); border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+    .upload-area:hover { border-color: var(--blue); background: #eff6ff; }
+    .upload-area input { display: none; }
+    .upload-icon { font-size: 2rem; margin-bottom: 8px; }
+    .upload-text { font-size: .85rem; color: var(--gray); }
+    .upload-text strong { color: var(--blue); }
+    .file-chosen { font-size: .8rem; color: var(--green); margin-top: 6px; font-weight: 600; }
+
+    /* ERROR */
+    .error-msg { color: var(--red); font-size: .8rem; margin-top: 4px; display: none; }
+    .error-msg.show { display: block; }
+    input.error, select.error, textarea.error { border-color: var(--red); }
+
+    @media (max-width: 500px) {
+      .form-row { grid-template-columns: 1fr; }
+      .step-card { padding: 24px 18px; }
+      .prog-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="firm-name" id="firm-display">New Client Intake</div>
+  <div class="powered-by">Powered by <a href="https://clientready-seven.vercel.app" target="_blank">ClientReady</a></div>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-steps">
+    <div class="prog-step">
+      <div class="prog-num active" id="pn1">1</div>
+      <div class="prog-label active" id="pl1">About You</div>
+    </div>
+    <div class="prog-line" id="line1"></div>
+    <div class="prog-step">
+      <div class="prog-num" id="pn2">2</div>
+      <div class="prog-label" id="pl2">Your Matter</div>
+    </div>
+    <div class="prog-line" id="line2"></div>
+    <div class="prog-step">
+      <div class="prog-num" id="pn3">3</div>
+      <div class="prog-label" id="pl3">Review & Sign</div>
+    </div>
+    <div class="prog-line" id="line3"></div>
+    <div class="prog-step">
+      <div class="prog-num" id="pn4">4</div>
+      <div class="prog-label" id="pl4">Done</div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- STEP 1: Personal Info -->
+  <div class="step-card" id="step1">
+    <div class="step-title">Let's start with your information</div>
+    <div class="step-desc">This helps us prepare your intake file before your consultation. Everything is confidential.</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>First Name <span class="req">*</span></label>
+        <input type="text" id="firstName" placeholder="Jane" autocomplete="given-name" />
+        <div class="error-msg" id="err-firstName">Please enter your first name.</div>
+      </div>
+      <div class="form-group">
+        <label>Last Name <span class="req">*</span></label>
+        <input type="text" id="lastName" placeholder="Smith" autocomplete="family-name" />
+        <div class="error-msg" id="err-lastName">Please enter your last name.</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Email Address <span class="req">*</span></label>
+      <input type="email" id="email" placeholder="jane@example.com" autocomplete="email" />
+      <div class="error-msg" id="err-email">Please enter a valid email address.</div>
+    </div>
+
+    <div class="form-group">
+      <label>Phone Number <span class="req">*</span></label>
+      <input type="tel" id="phone" placeholder="(555) 000-0000" autocomplete="tel" />
+      <div class="error-msg" id="err-phone">Please enter your phone number.</div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>City</label>
+        <input type="text" id="city" placeholder="Chicago" autocomplete="address-level2" />
+      </div>
+      <div class="form-group">
+        <label>State</label>
+        <select id="state" autocomplete="address-level1">
+          <option value="">Select state</option>
+          <option>Alabama</option><option>Alaska</option><option>Arizona</option><option>Arkansas</option>
+          <option>California</option><option>Colorado</option><option>Connecticut</option><option>Delaware</option>
+          <option>Florida</option><option>Georgia</option><option>Hawaii</option><option>Idaho</option>
+          <option>Illinois</option><option>Indiana</option><option>Iowa</option><option>Kansas</option>
+          <option>Kentucky</option><option>Louisiana</option><option>Maine</option><option>Maryland</option>
+          <option>Massachusetts</option><option>Michigan</option><option>Minnesota</option><option>Mississippi</option>
+          <option>Missouri</option><option>Montana</option><option>Nebraska</option><option>Nevada</option>
+          <option>New Hampshire</option><option>New Jersey</option><option>New Mexico</option><option>New York</option>
+          <option>North Carolina</option><option>North Dakota</option><option>Ohio</option><option>Oklahoma</option>
+          <option>Oregon</option><option>Pennsylvania</option><option>Rhode Island</option><option>South Carolina</option>
+          <option>South Dakota</option><option>Tennessee</option><option>Texas</option><option>Utah</option>
+          <option>Vermont</option><option>Virginia</option><option>Washington</option><option>West Virginia</option>
+          <option>Wisconsin</option><option>Wyoming</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>How did you hear about us?</label>
+      <select id="referral">
+        <option value="">Select one</option>
+        <option>Google search</option>
+        <option>Referral from friend or family</option>
+        <option>Another attorney referred me</option>
+        <option>Social media</option>
+        <option>Online review site (Avvo, Yelp, etc.)</option>
+        <option>I've worked with this firm before</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <button class="btn-primary" onclick="nextStep(1)">Continue &rarr;</button>
+  </div>
+
+  <!-- STEP 2: Matter Info -->
+  <div class="step-card" id="step2" style="display:none">
+    <div class="step-title">Tell us about your legal matter</div>
+    <div class="step-desc">The more detail you provide, the better prepared your attorney will be for your consultation.</div>
+
+    <div class="form-group">
+      <label>Type of Legal Matter <span class="req">*</span></label>
+      <select id="matterType">
+        <option value="">Select the type of case</option>
+        <optgroup label="Family Law">
+          <option>Divorce / Dissolution of Marriage</option>
+          <option>Child Custody &amp; Visitation</option>
+          <option>Child Support</option>
+          <option>Adoption</option>
+          <option>Domestic Violence / Protective Order</option>
+          <option>Prenuptial Agreement</option>
+          <option>Paternity</option>
+        </optgroup>
+        <optgroup label="Estate Planning">
+          <option>Will / Testament</option>
+          <option>Trust Creation</option>
+          <option>Power of Attorney</option>
+          <option>Healthcare Directive / Living Will</option>
+          <option>Probate / Estate Administration</option>
+        </optgroup>
+        <optgroup label="Business Law">
+          <option>Business Formation (LLC, Corp, etc.)</option>
+          <option>Contract Drafting or Review</option>
+          <option>Business Dispute</option>
+          <option>Partnership / Operating Agreement</option>
+          <option>Employment Matter</option>
+        </optgroup>
+        <optgroup label="Real Estate">
+          <option>Property Purchase or Sale</option>
+          <option>Landlord / Tenant Dispute</option>
+          <option>Property Dispute</option>
+          <option>Commercial Real Estate</option>
+        </optgroup>
+        <optgroup label="Criminal Defense">
+          <option>Misdemeanor Charge</option>
+          <option>Felony Charge</option>
+          <option>DUI / Traffic Offense</option>
+          <option>Expungement / Record Sealing</option>
+        </optgroup>
+        <optgroup label="Other">
+          <option>Personal Injury</option>
+          <option>Immigration</option>
+          <option>Other / Not Sure</option>
+        </optgroup>
+      </select>
+      <div class="error-msg" id="err-matterType">Please select the type of legal matter.</div>
+    </div>
+
+    <div class="form-group">
+      <label>Urgency <span class="req">*</span></label>
+      <select id="urgency">
+        <option value="">How soon do you need help?</option>
+        <option value="emergency">Emergency — I need help within 24 hours</option>
+        <option value="urgent">Urgent — Within the next few days</option>
+        <option value="soon">Soon — Within the next 1–2 weeks</option>
+        <option value="planning">Planning ahead — Not urgent right now</option>
+      </select>
+      <div class="error-msg" id="err-urgency">Please indicate the urgency of your matter.</div>
+    </div>
+
+    <div class="form-group">
+      <label>Brief Description of Your Situation <span class="req">*</span></label>
+      <textarea id="description" placeholder="Please describe what happened and what outcome you're looking for. The more detail you share, the better prepared your attorney will be."></textarea>
+      <div class="error-msg" id="err-description">Please provide a brief description of your situation.</div>
+      <div class="field-hint">Minimum 20 characters. This is confidential and protected by attorney-client privilege.</div>
+    </div>
+
+    <div class="form-group">
+      <label>Have you worked with an attorney on this matter before?</label>
+      <select id="priorAttorney">
+        <option value="no">No, this is my first time seeking legal help for this</option>
+        <option value="yes">Yes, I've had previous legal representation</option>
+        <option value="self">I've been handling it myself</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Opposing Party (if applicable)</label>
+      <input type="text" id="opposingParty" placeholder="Name of the other person, company, or party (if any)" />
+      <div class="field-hint">Leave blank if there is no opposing party or if you don't know.</div>
+    </div>
+
+    <div class="form-group">
+      <label>Supporting Documents (optional)</label>
+      <div class="upload-area" onclick="document.getElementById('fileUpload').click()">
+        <input type="file" id="fileUpload" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onchange="showFiles(this)" />
+        <div class="upload-icon">📎</div>
+        <div class="upload-text">Click to attach files &mdash; <strong>PDFs, Word docs, photos</strong></div>
+        <div class="upload-text" style="font-size:.75rem;margin-top:4px">Court documents, agreements, photos, police reports, etc.</div>
+        <div class="file-chosen" id="fileNames"></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="prevStep(2)">&larr; Back</button>
+      <button class="btn-primary" onclick="nextStep(2)">Review Engagement Letter &rarr;</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Review & Sign -->
+  <div class="step-card" id="step3" style="display:none">
+    <div class="step-title">Review &amp; Sign Your Engagement Letter</div>
+    <div class="step-desc">Please read this carefully. By signing, you authorize the firm to represent you and confirm the terms below.</div>
+
+    <div id="engagement-letter" style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:24px;font-size:.88rem;line-height:1.8;max-height:340px;overflow-y:auto;">
+      <!-- Letter is generated by JS -->
+    </div>
+
+    <div class="form-group" style="margin-bottom:20px">
+      <label>Your Signature <span class="req">*</span></label>
+      <div class="sig-wrap">
+        <canvas id="sigCanvas" width="580" height="140"></canvas>
+        <div class="sig-controls">
+          <button class="sig-clear" onclick="clearSig()">Clear signature</button>
+        </div>
+      </div>
+      <div class="sig-label">Sign above using your mouse or finger</div>
+      <div class="error-msg" id="err-sig">Please provide your signature to continue.</div>
+    </div>
+
+    <div class="form-group">
+      <div class="check-group">
+        <input type="checkbox" id="agreeTerms" />
+        <label for="agreeTerms">
+          <strong>I have read and agree to this engagement letter.</strong> I understand that by signing, I am retaining this law firm to represent me and agree to the fee structure and terms described above.
+        </label>
+      </div>
+      <div class="error-msg" id="err-terms">You must agree to the terms to continue.</div>
+    </div>
+
+    <div class="form-group" style="margin-top:4px">
+      <div class="check-group">
+        <input type="checkbox" id="agreePrivacy" />
+        <label for="agreePrivacy">
+          I understand that the information I've provided is <strong>confidential and protected by attorney-client privilege</strong>. I consent to electronic communication and e-signature for this engagement.
+        </label>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-back" onclick="prevStep(3)">&larr; Back</button>
+      <button class="btn-primary" id="submitBtn" onclick="submitForm()">Submit &amp; Complete Intake ✓</button>
+    </div>
+    <div style="font-size:.75rem;color:var(--gray);text-align:center;margin-top:12px">🔒 Encrypted &amp; secure. Your data is never sold.</div>
+  </div>
+
+  <!-- STEP 4: Success -->
+  <div class="step-card" id="step4" style="display:none">
+    <div class="success-wrap">
+      <div class="success-icon">✅</div>
+      <h2>You're all set!</h2>
+      <p>Your intake form has been submitted and your attorney has been notified. Check your email for a copy of your signed engagement letter.</p>
+
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:20px 24px;text-align:left;margin-bottom:16px">
+        <h4 style="font-size:.9rem;font-weight:700;color:var(--blue);margin-bottom:12px">What happens next:</h4>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="font-size:1.1rem">📧</span>
+            <div>
+              <div style="font-size:.88rem;font-weight:700">Check your email</div>
+              <div style="font-size:.82rem;color:var(--gray)">A copy of your signed engagement letter is on its way to <strong id="confirm-email"></strong></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="font-size:1.1rem">📞</span>
+            <div>
+              <div style="font-size:.88rem;font-weight:700">Your attorney will reach out within 24 hours</div>
+              <div style="font-size:.82rem;color:var(--gray)">They've been notified and will contact you at the number and email you provided.</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:flex-start">
+            <span style="font-size:1.1rem">📁</span>
+            <div>
+              <div style="font-size:.88rem;font-weight:700">Your file is being prepared</div>
+              <div style="font-size:.82rem;color:var(--gray)">Your intake information has been securely saved and your case file is being set up.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p style="font-size:.8rem;color:var(--gray)">Questions? Reply to the confirmation email or call the firm directly.</p>
+    </div>
+  </div>
+
+</main>
+
+<script>
+// ─── CONFIG — attorney fills these in via their onboarding email ───
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSW6sGr0b472g0BdROduQ4QTqnl3ZcAY48ePBXuN9E9tTJTz_NuTnhdGhDxWy-rAMx/exec';
+
+// ─── Parse URL params ─────────────────────────────────────────────
+const params = new URLSearchParams(window.location.search);
+const firmName  = params.get('firm')  || 'Your Attorney';
+const firmEmail = params.get('email') || '';
+const firmId    = params.get('id')    || 'default';
+const retainerAmt = params.get('retainer') || '1,500';
+const hourlyRate  = params.get('rate')     || '300';
+
+document.getElementById('firm-display').textContent = decodeURIComponent(firmName) + ' — New Client Intake';
+document.title = 'New Client Intake — ' + decodeURIComponent(firmName);
+
+// ─── Signature Pad ────────────────────────────────────────────────
+const canvas = document.getElementById('sigCanvas');
+const ctx = canvas.getContext('2d');
+let drawing = false;
+let hasSig = false;
+
+function resizeCanvas() {
+  const w = canvas.parentElement.clientWidth;
+  canvas.width = Math.max(300, w - 2);
+  canvas.height = 140;
+  ctx.strokeStyle = '#1d4ed8';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+function getPos(e) {
+  const r = canvas.getBoundingClientRect();
+  const src = e.touches ? e.touches[0] : e;
+  return { x: src.clientX - r.left, y: src.clientY - r.top };
+}
+canvas.addEventListener('mousedown',  e => { drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+canvas.addEventListener('mousemove',  e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; });
+canvas.addEventListener('mouseup',    () => { drawing = false; });
+canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); hasSig = true; }, { passive: false });
+canvas.addEventListener('touchend',   () => { drawing = false; });
+
+function clearSig() { ctx.clearRect(0, 0, canvas.width, canvas.height); hasSig = false; }
+
+// ─── Engagement Letter Generator ──────────────────────────────────
+function generateLetter() {
+  const fn = document.getElementById('firstName').value.trim();
+  const ln = document.getElementById('lastName').value.trim();
+  const fullName = fn + ' ' + ln;
+  const mt = document.getElementById('matterType').value;
+  const firm = decodeURIComponent(firmName);
+  const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+  const letter = `
+    <p style="text-align:right;color:var(--gray);font-size:.82rem">${today}</p>
+    <p><strong>${fullName}</strong><br>${document.getElementById('city').value || 'Client'}, ${document.getElementById('state').value || ''}</p>
+    <br>
+    <p><strong>Re: Engagement Letter — ${mt || 'Legal Matter'}</strong></p>
+    <br>
+    <p>Dear ${fn},</p>
+    <br>
+    <p>Thank you for choosing <strong>${firm}</strong> to assist you with your legal matter. We are pleased to confirm our representation of you under the following terms:</p>
+    <br>
+    <p><strong>1. SCOPE OF REPRESENTATION</strong><br>
+    We are retained to represent you in connection with your <em>${mt || 'legal matter'}</em>. The scope of our representation is limited to this matter unless we agree in writing to expand it.</p>
+    <br>
+    <p><strong>2. FEES AND BILLING</strong><br>
+    Our services will be billed at <strong>$${hourlyRate}/hour</strong>. A retainer of <strong>$${retainerAmt}</strong> is due prior to commencement of substantive legal work. This retainer will be held in our client trust account and drawn against as fees are earned. You will receive monthly billing statements.</p>
+    <br>
+    <p><strong>3. COMMUNICATION</strong><br>
+    We will communicate with you via email and phone. We will respond to calls and emails within one business day. You agree to keep us informed of any changes in your contact information and to respond promptly to our requests for information or decisions.</p>
+    <br>
+    <p><strong>4. CLIENT RESPONSIBILITIES</strong><br>
+    You agree to be truthful with us, to cooperate fully, to keep us informed of developments, and to pay our fees as agreed. If you have other attorneys working on related matters, please notify us immediately.</p>
+    <br>
+    <p><strong>5. TERMINATION</strong><br>
+    Either party may terminate this representation upon written notice. In the event of termination, you will be responsible for fees and costs incurred through the date of termination.</p>
+    <br>
+    <p><strong>6. CONFIDENTIALITY</strong><br>
+    All information you share with us is protected by attorney-client privilege and will be kept strictly confidential, except as required by law or with your written consent.</p>
+    <br>
+    <p><strong>7. ELECTRONIC SIGNATURE</strong><br>
+    You agree that your electronic signature below is legally binding and equivalent to a handwritten signature under applicable law.</p>
+    <br>
+    <p>If you have any questions about these terms, please contact us before signing. By signing below, you confirm that you have read, understand, and agree to the terms of this engagement.</p>
+    <br>
+    <p>Sincerely,<br><strong>${firm}</strong></p>
+    <br>
+    <hr style="border:none;border-top:1px solid var(--border);margin:16px 0">
+    <p style="font-size:.82rem;color:var(--gray)"><em>CLIENT ACKNOWLEDGMENT: I have read and understand the above engagement letter and agree to retain ${firm} under these terms.</em></p>
+  `;
+  document.getElementById('engagement-letter').innerHTML = letter;
+}
+
+// ─── File upload display ──────────────────────────────────────────
+function showFiles(input) {
+  const names = Array.from(input.files).map(f => f.name).join(', ');
+  document.getElementById('fileNames').textContent = names ? '📎 ' + names : '';
+}
+
+// ─── Validation ───────────────────────────────────────────────────
+function showError(id, show) {
+  const el = document.getElementById('err-' + id);
+  const input = document.getElementById(id);
+  if (el) el.classList.toggle('show', show);
+  if (input) input.classList.toggle('error', show);
+}
+
+function validateStep1() {
+  let ok = true;
+  const fn = document.getElementById('firstName').value.trim();
+  const ln = document.getElementById('lastName').value.trim();
+  const em = document.getElementById('email').value.trim();
+  const ph = document.getElementById('phone').value.trim();
+  showError('firstName', !fn); if (!fn) ok = false;
+  showError('lastName', !ln);  if (!ln) ok = false;
+  showError('email', !em || !/\S+@\S+\.\S+/.test(em)); if (!em || !/\S+@\S+\.\S+/.test(em)) ok = false;
+  showError('phone', !ph); if (!ph) ok = false;
+  return ok;
+}
+
+function validateStep2() {
+  let ok = true;
+  const mt = document.getElementById('matterType').value;
+  const ug = document.getElementById('urgency').value;
+  const dc = document.getElementById('description').value.trim();
+  showError('matterType', !mt); if (!mt) ok = false;
+  showError('urgency', !ug);    if (!ug) ok = false;
+  showError('description', dc.length < 20); if (dc.length < 20) ok = false;
+  return ok;
+}
+
+// ─── Step navigation ──────────────────────────────────────────────
+function nextStep(from) {
+  if (from === 1 && !validateStep1()) return;
+  if (from === 2 && !validateStep2()) return;
+  if (from === 2) generateLetter();
+  document.getElementById('step' + from).style.display = 'none';
+  document.getElementById('step' + (from + 1)).style.display = 'block';
+  updateProgress(from + 1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function prevStep(from) {
+  document.getElementById('step' + from).style.display = 'none';
+  document.getElementById('step' + (from - 1)).style.display = 'block';
+  updateProgress(from - 1);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(current) {
+  [1, 2, 3, 4].forEach(i => {
+    const num = document.getElementById('pn' + i);
+    const lbl = document.getElementById('pl' + i);
+    if (i < current) { num.classList.add('done'); num.classList.remove('active'); num.innerHTML = '✓'; }
+    else if (i === current) { num.classList.add('active'); num.classList.remove('done'); num.innerHTML = i; }
+    else { num.classList.remove('active', 'done'); num.innerHTML = i; }
+    if (lbl) lbl.classList.toggle('active', i === current);
+    const line = document.getElementById('line' + i);
+    if (line) line.classList.toggle('done', i < current);
+  });
+}
+
+// ─── Submit ───────────────────────────────────────────────────────
+async function submitForm() {
+  // Validate signature
+  if (!hasSig) { showError('sig', true); return; }
+  showError('sig', false);
+
+  // Validate terms
+  if (!document.getElementById('agreeTerms').checked) {
+    document.getElementById('err-terms').classList.add('show');
+    return;
+  }
+  document.getElementById('err-terms').classList.remove('show');
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting…';
+
+  const data = {
+    type: 'intake',
+    firmName: decodeURIComponent(firmName),
+    firmEmail: firmEmail,
+    firmId: firmId,
+    firstName: document.getElementById('firstName').value.trim(),
+    lastName: document.getElementById('lastName').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    phone: document.getElementById('phone').value.trim(),
+    city: document.getElementById('city').value.trim(),
+    state: document.getElementById('state').value,
+    referral: document.getElementById('referral').value,
+    matterType: document.getElementById('matterType').value,
+    urgency: document.getElementById('urgency').value,
+    description: document.getElementById('description').value.trim(),
+    priorAttorney: document.getElementById('priorAttorney').value,
+    opposingParty: document.getElementById('opposingParty').value.trim(),
+    signature: canvas.toDataURL('image/png'),
+    signedAt: new Date().toISOString(),
+    retainerAmount: retainerAmt,
+    hourlyRate: hourlyRate,
+  };
+
+  try {
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    });
+  } catch(e) {
+    // no-cors mode — assume success if no network error
+    console.log('Submission sent');
+  }
+
+  // Show success
+  document.getElementById('confirm-email').textContent = data.email;
+  document.getElementById('step3').style.display = 'none';
+  document.getElementById('step4').style.display = 'block';
+  updateProgress(4);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

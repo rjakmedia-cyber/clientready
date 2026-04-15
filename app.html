@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ClientReady — Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#2563eb;--blue-dk:#1d4ed8;--green:#16a34a;--red:#dc2626;--orange:#f59e0b;--gray:#64748b;--border:#e2e8f0;--bg:#f8fafc;--white:#fff;--navy:#0f172a;--radius:12px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:var(--navy);color:#fff;padding:20px 0;display:flex;flex-direction:column;z-index:100}
+.sidebar-logo{padding:0 20px 24px;font-weight:900;font-size:1.15rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+.sidebar-logo span{color:#60a5fa}
+.sidebar-nav{flex:1;display:flex;flex-direction:column;gap:2px;padding:0 8px}
+.nav-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;font-size:.88rem;font-weight:500;color:rgba(255,255,255,.65);cursor:pointer;transition:all .15s}
+.nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
+.nav-item.active{background:var(--blue);color:#fff;font-weight:600}
+.nav-icon{font-size:1.1rem;width:24px;text-align:center}
+.nav-section{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:16px 14px 6px}
+.sidebar-footer{padding:12px 20px;border-top:1px solid rgba(255,255,255,.1);font-size:.78rem;color:rgba(255,255,255,.4)}
+.plan-badge{display:inline-block;background:var(--blue);color:#fff;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;margin-left:4px}
+
+/* MAIN */
+.main{margin-left:240px;padding:28px 32px 80px}
+.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
+.page-title{font-size:1.5rem;font-weight:800}
+.page-subtitle{font-size:.88rem;color:var(--gray);margin-top:2px}
+
+/* CARDS */
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:4px}
+.stat-label{font-size:.78rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
+.stat-value{font-size:1.8rem;font-weight:900}
+.stat-change{font-size:.78rem;font-weight:600;color:var(--green)}
+.stat-change.down{color:var(--red)}
+
+/* TABLE */
+.table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.table-title{font-weight:700;font-size:1rem}
+.table-actions{display:flex;gap:8px}
+.search-input{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-size:.85rem;width:220px;outline:none;font-family:inherit}
+.search-input:focus{border-color:var(--blue)}
+table{width:100%;border-collapse:collapse}
+thead th{text-align:left;padding:10px 16px;font-size:.78rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);background:var(--bg)}
+tbody td{padding:12px 16px;font-size:.88rem;border-bottom:1px solid #f1f5f9}
+tbody tr:hover{background:#f8fafc}
+.status-pill{display:inline-block;padding:3px 10px;border-radius:50px;font-size:.75rem;font-weight:600}
+.status-new{background:#dbeafe;color:#1d4ed8}
+.status-signed{background:#dcfce7;color:#15803d}
+.status-paid{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+.status-pending{background:#fef3c7;color:#92400e}
+.status-urgent{background:#fee2e2;color:#991b1b}
+.client-name{font-weight:600;cursor:pointer;color:var(--blue)}
+.client-name:hover{text-decoration:underline}
+
+/* BUTTONS */
+.btn{border:none;border-radius:8px;padding:8px 16px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dk)}
+.btn-outline{background:none;border:1.5px solid var(--border);color:var(--navy)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#15803d}
+.btn-sm{padding:5px 10px;font-size:.78rem}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-overlay.open{display:flex}
+.modal{background:var(--white);border-radius:16px;width:95%;max-width:640px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border)}
+.modal-head h3{font-size:1.1rem;font-weight:800}
+.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--gray);padding:4px}
+.modal-body{padding:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:.82rem;font-weight:600;margin-bottom:5px}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:.9rem;font-family:inherit;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue)}
+.form-group textarea{height:90px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* INTAKE LINK */
+.intake-link-box{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;margin:20px 0}
+.intake-link-box input{flex:1;border:none;background:none;font-size:.85rem;font-family:monospace;color:var(--navy);outline:none}
+.intake-link-box .btn{flex-shrink:0}
+
+/* LETTER PREVIEW */
+.letter-preview{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px;max-height:400px;overflow-y:auto;font-size:.88rem;line-height:1.8;margin:16px 0}
+
+/* SETTINGS */
+.settings-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
+.settings-card h3{font-size:1rem;font-weight:700;margin-bottom:12px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f5f9}
+.settings-row:last-child{border:none}
+.settings-label{font-size:.88rem;font-weight:500}
+.settings-value{font-size:.85rem;color:var(--gray)}
+
+/* ONBOARDING BANNER */
+.onboard-banner{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border-radius:16px;padding:28px;margin-bottom:24px;display:flex;align-items:center;gap:24px}
+.onboard-banner h3{font-size:1.1rem;font-weight:800;margin-bottom:8px}
+.onboard-banner p{font-size:.88rem;opacity:.85;margin-bottom:12px;line-height:1.6}
+.onboard-steps{display:flex;gap:16px;flex-wrap:wrap}
+.onboard-step{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:.82rem;font-weight:600}
+.onboard-step .check{color:#4ade80;font-size:1.1rem}
+.onboard-step.pending{opacity:.5}
+
+/* PAGES */
+.page{display:none}
+.page.active{display:block}
+
+/* EMPTY STATE */
+.empty-state{text-align:center;padding:60px 20px}
+.empty-icon{font-size:3.5rem;margin-bottom:16px}
+.empty-state h3{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+.empty-state p{color:var(--gray);font-size:.9rem;margin-bottom:20px;max-width:380px;margin-left:auto;margin-right:auto}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:10px;font-size:.88rem;font-weight:500;transform:translateY(100px);opacity:0;transition:all .3s;z-index:2000}
+.toast.show{transform:translateY(0);opacity:1}
+
+@media(max-width:768px){
+.sidebar{width:60px;padding:12px 0}.sidebar-logo span,.nav-item span:not(.nav-icon),.nav-section,.sidebar-footer,.plan-badge{display:none}
+.nav-item{justify-content:center;padding:10px}.main{margin-left:60px;padding:20px 16px}
+.stat-row{grid-template-columns:1fr 1fr}.form-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <div class="sidebar-logo">Client<span>Ready</span></div>
+  <div class="sidebar-nav">
+    <div class="nav-section">Main</div>
+    <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span><span>Dashboard</span></div>
+    <div class="nav-item" onclick="showPage('clients')"><span class="nav-icon">👤</span><span>Clients</span></div>
+    <div class="nav-item" onclick="showPage('letters')"><span class="nav-icon">📄</span><span>Letters</span></div>
+    <div class="nav-section">Tools</div>
+    <div class="nav-item" onclick="showPage('intake-setup')"><span class="nav-icon">📋</span><span>Intake Form</span></div>
+    <div class="nav-item" onclick="showPage('templates')"><span class="nav-icon">📝</span><span>Templates</span></div>
+    <div class="nav-item" onclick="showPage('payments')"><span class="nav-icon">💳</span><span>Payments</span></div>
+    <div class="nav-section">Account</div>
+    <div class="nav-item" onclick="showPage('settings')"><span class="nav-icon">⚙️</span><span>Settings</span></div>
+    <div class="nav-item" onclick="showPage('help')"><span class="nav-icon">❓</span><span>Help</span></div>
+  </div>
+  <div class="sidebar-footer">
+    <div id="sb-firm" style="font-weight:600;color:#fff;margin-bottom:4px">Your Firm</div>
+    <div><span id="sb-plan">Starter</span><span class="plan-badge" id="sb-plan-badge">$79/mo</span></div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<!-- ═══════════ DASHBOARD ═══════════ -->
+<div class="page active" id="pg-dashboard">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Dashboard</div>
+      <div class="page-subtitle">Welcome back! Here's your intake overview.</div>
+    </div>
+    <button class="btn btn-primary" onclick="showPage('intake-setup')">📋 Share Intake Link</button>
+  </div>
+
+  <div class="onboard-banner" id="onboard-banner">
+    <div>
+      <h3>🚀 Get started in 3 steps</h3>
+      <p>Complete these steps to start accepting new clients through ClientReady.</p>
+      <div class="onboard-steps">
+        <div class="onboard-step" id="ob1"><span class="check">✓</span> Create account</div>
+        <div class="onboard-step pending" id="ob2"><span class="check">○</span> Customize intake form</div>
+        <div class="onboard-step pending" id="ob3"><span class="check">○</span> Send first intake link</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-label">New Clients (This Month)</div><div class="stat-value" id="st-clients">0</div><div class="stat-change" id="st-clients-ch">—</div></div>
+    <div class="stat-card"><div class="stat-label">Letters Sent</div><div class="stat-value" id="st-letters">0</div></div>
+    <div class="stat-card"><div class="stat-label">Signed Letters</div><div class="stat-value" id="st-signed">0</div></div>
+    <div class="stat-card"><div class="stat-label">Retainers Collected</div><div class="stat-value" id="st-retainer">$0</div></div>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-header"><div class="table-title">Recent Client Activity</div></div>
+    <table>
+      <thead><tr><th>Client</th><th>Matter</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+      <tbody id="recent-tbody">
+        <tr><td colspan="5" class="empty-state" style="padding:40px"><div class="empty-icon">📭</div><h3>No clients yet</h3><p>Share your intake link to start receiving new client submissions.</p><button class="btn btn-primary" onclick="showPage('intake-setup')">Get Your Intake Link</button></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ CLIENTS ═══════════ -->
+<div class="page" id="pg-clients">
+  <div class="page-header">
+    <div><div class="page-title">Clients</div><div class="page-subtitle">All client intakes and their current status.</div></div>
+    <div class="table-actions"><input type="text" class="search-input" placeholder="Search clients..." oninput="filterClients(this.value)"/></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Name</th><th>Email</th><th>Matter</th><th>Urgency</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+      <tbody id="clients-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ LETTERS ═══════════ -->
+<div class="page" id="pg-letters">
+  <div class="page-header">
+    <div><div class="page-title">Engagement Letters</div><div class="page-subtitle">AI-drafted letters ready for your review.</div></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Client</th><th>Matter</th><th>Generated</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="letters-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ INTAKE SETUP ═══════════ -->
+<div class="page" id="pg-intake-setup">
+  <div class="page-header">
+    <div><div class="page-title">Your Intake Form</div><div class="page-subtitle">Share this link with potential clients. They fill it out, you get everything you need.</div></div>
+  </div>
+  <div class="stat-card" style="margin-bottom:20px">
+    <div class="stat-label" style="margin-bottom:12px">Your unique intake link</div>
+    <div class="intake-link-box">
+      <input type="text" id="intake-link" readonly/>
+      <button class="btn btn-primary" onclick="copyIntakeLink()">📋 Copy Link</button>
+    </div>
+    <div style="font-size:.82rem;color:var(--gray);margin-top:8px">Embed this on your website, add it to your email signature, or share it directly with prospects.</div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+    <div class="stat-card">
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px">📧 Email Template</h3>
+      <p style="font-size:.85rem;color:var(--gray);margin-bottom:12px">Send this to new inquiries to kick off intake:</p>
+      <textarea id="email-template" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:.82rem;font-family:inherit;height:160px;resize:vertical"></textarea>
+      <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="copyEmailTemplate()">Copy Template</button>
+    </div>
+    <div class="stat-card">
+      <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px">🌐 Website Embed Code</h3>
+      <p style="font-size:.85rem;color:var(--gray);margin-bottom:12px">Add a "Start Your Case" button to your website:</p>
+      <textarea id="embed-code" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:.82rem;font-family:monospace;height:100px;resize:vertical" readonly></textarea>
+      <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="copyEmbed()">Copy Code</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ TEMPLATES ═══════════ -->
+<div class="page" id="pg-templates">
+  <div class="page-header">
+    <div><div class="page-title">Letter Templates</div><div class="page-subtitle">Customize your engagement letter templates by practice area.</div></div>
+    <button class="btn btn-primary" onclick="openTemplateModal()">+ New Template</button>
+  </div>
+  <div id="templates-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px"></div>
+</div>
+
+<!-- ═══════════ PAYMENTS ═══════════ -->
+<div class="page" id="pg-payments">
+  <div class="page-header"><div><div class="page-title">Payments</div><div class="page-subtitle">Retainer payments collected from your clients.</div></div></div>
+  <div class="stat-row">
+    <div class="stat-card"><div class="stat-label">Total Collected</div><div class="stat-value" id="pay-total">$0</div></div>
+    <div class="stat-card"><div class="stat-label">Pending Retainers</div><div class="stat-value" id="pay-pending">0</div></div>
+    <div class="stat-card"><div class="stat-label">Avg Retainer</div><div class="stat-value" id="pay-avg">$0</div></div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Client</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+      <tbody id="payments-tbody">
+        <tr><td colspan="4" style="text-align:center;padding:40px;color:var(--gray)">No payments yet. Retainer payments will appear here once clients complete the intake flow.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ═══════════ SETTINGS ═══════════ -->
+<div class="page" id="pg-settings">
+  <div class="page-header"><div><div class="page-title">Settings</div><div class="page-subtitle">Manage your firm details and account.</div></div></div>
+
+  <div class="settings-card">
+    <h3>Firm Information</h3>
+    <div class="form-row" style="gap:12px;margin-bottom:12px">
+      <div class="form-group"><label>Firm Name</label><input type="text" id="set-firm" onchange="saveSettings()"/></div>
+      <div class="form-group"><label>Attorney Name</label><input type="text" id="set-attorney" onchange="saveSettings()"/></div>
+    </div>
+    <div class="form-row" style="gap:12px;margin-bottom:12px">
+      <div class="form-group"><label>Email</label><input type="email" id="set-email" onchange="saveSettings()"/></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="set-phone" onchange="saveSettings()"/></div>
+    </div>
+    <div class="form-row" style="gap:12px">
+      <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="set-rate" value="300" onchange="saveSettings()"/></div>
+      <div class="form-group"><label>Default Retainer ($)</label><input type="number" id="set-retainer" value="1500" onchange="saveSettings()"/></div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <h3>Practice Areas</h3>
+    <div class="form-group"><label>Select all that apply:</label>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px" id="practice-checks"></div>
+    </div>
+  </div>
+
+  <div class="settings-card">
+    <h3>Notifications</h3>
+    <div class="settings-row"><span class="settings-label">Email me when a new intake is submitted</span><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
+    <div class="settings-row"><span class="settings-label">Email me when a letter is signed</span><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
+    <div class="settings-row"><span class="settings-label">Email me when a retainer is paid</span><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
+  </div>
+
+  <div class="settings-card">
+    <h3>Subscription</h3>
+    <div class="settings-row">
+      <span class="settings-label">Current Plan</span>
+      <span class="settings-value" id="set-plan-display">Starter ($79/mo)</span>
+    </div>
+    <div class="settings-row">
+      <span class="settings-label">Status</span>
+      <span class="status-pill status-signed">Active</span>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button class="btn btn-outline btn-sm" id="upgrade-btn" onclick="window.open('https://buy.stripe.com/5kQ7sL2rE3Gd7Msdd11Fe02','_blank')">Upgrade to Growth</button>
+      <button class="btn btn-outline btn-sm" style="color:var(--red);border-color:#fecaca" onclick="alert('To cancel, email support@clientready.com or manage your subscription in Stripe.')">Cancel Plan</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ HELP ═══════════ -->
+<div class="page" id="pg-help">
+  <div class="page-header"><div><div class="page-title">Help & Support</div><div class="page-subtitle">Get help with ClientReady.</div></div></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+    <div class="stat-card"><h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">📧 Email Support</h3><p style="font-size:.88rem;color:var(--gray)">Reach us at <a href="mailto:richardhazy@gmail.com" style="color:var(--blue)">support@clientready.com</a>. We respond within 4 hours during business hours.</p></div>
+    <div class="stat-card"><h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">📖 Quick Start Guide</h3><p style="font-size:.88rem;color:var(--gray)">1. Go to Intake Form tab<br>2. Copy your unique intake link<br>3. Share with new inquiries<br>4. ClientReady handles the rest</p></div>
+    <div class="stat-card"><h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">🔧 Common Questions</h3><p style="font-size:.88rem;color:var(--gray)"><strong>How do I customize my letter?</strong> Go to Templates → edit any template or create a new one.<br><br><strong>Where do payments go?</strong> Directly to your Stripe account — we never touch your money.</p></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- CLIENT DETAIL MODAL -->
+<div class="modal-overlay" id="client-modal">
+  <div class="modal">
+    <div class="modal-head"><h3 id="cm-title">Client Details</h3><button class="modal-close" onclick="closeClientModal()">✕</button></div>
+    <div class="modal-body" id="cm-body"></div>
+  </div>
+</div>
+
+<!-- TEMPLATE MODAL -->
+<div class="modal-overlay" id="template-modal">
+  <div class="modal">
+    <div class="modal-head"><h3>Edit Letter Template</h3><button class="modal-close" onclick="document.getElementById('template-modal').classList.remove('open')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-group"><label>Template Name</label><input type="text" id="tpl-name" placeholder="e.g. Family Law Standard"/></div>
+      <div class="form-group"><label>Practice Area</label><select id="tpl-area"><option>Family Law</option><option>Estate Planning</option><option>Business Law</option><option>Real Estate</option><option>Criminal Defense</option><option>Personal Injury</option><option>Immigration</option><option>General</option></select></div>
+      <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="tpl-rate" value="300"/></div>
+      <div class="form-group"><label>Retainer Amount ($)</label><input type="number" id="tpl-retainer" value="1500"/></div>
+      <div class="form-group"><label>Additional Terms (optional)</label><textarea id="tpl-terms" placeholder="Any additional terms specific to this practice area..."></textarea></div>
+      <button class="btn btn-primary" style="width:100%" onclick="saveTemplate()">Save Template</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════ DATA LAYER (localStorage) ═══════════
+const FIRM_KEY = 'cr_firm_' + (new URLSearchParams(location.search).get('id') || 'demo');
+
+function getData(key, def) { try { return JSON.parse(localStorage.getItem(FIRM_KEY + '_' + key)) || def; } catch { return def; } }
+function setData(key, val) { localStorage.setItem(FIRM_KEY + '_' + key, JSON.stringify(val)); }
+
+// ═══════════ SETTINGS ═══════════
+function loadSettings() {
+  const params = new URLSearchParams(location.search);
+  const s = getData('settings', {
+    firm: params.get('firm') ? decodeURIComponent(params.get('firm')) : 'My Law Firm',
+    attorney: params.get('name') || 'Attorney',
+    email: params.get('email') || '',
+    phone: '',
+    rate: 300,
+    retainer: 1500,
+    plan: params.get('plan') || 'starter',
+    practices: ['Family Law']
+  });
+  document.getElementById('set-firm').value = s.firm;
+  document.getElementById('set-attorney').value = s.attorney;
+  document.getElementById('set-email').value = s.email;
+  document.getElementById('set-phone').value = s.phone;
+  document.getElementById('set-rate').value = s.rate;
+  document.getElementById('set-retainer').value = s.retainer;
+  document.getElementById('sb-firm').textContent = s.firm;
+
+  const isGrowth = s.plan === 'growth';
+  document.getElementById('sb-plan').textContent = isGrowth ? 'Growth' : 'Starter';
+  document.getElementById('sb-plan-badge').textContent = isGrowth ? '$129/mo' : '$79/mo';
+  document.getElementById('set-plan-display').textContent = isGrowth ? 'Growth ($129/mo)' : 'Starter ($79/mo)';
+  if (isGrowth) document.getElementById('upgrade-btn').style.display = 'none';
+
+  // Intake link
+  const base = location.origin + '/intake.html';
+  const link = base + '?firm=' + encodeURIComponent(s.firm) + '&email=' + encodeURIComponent(s.email) + '&rate=' + s.rate + '&retainer=' + s.retainer + '&id=' + FIRM_KEY;
+  document.getElementById('intake-link').value = link;
+
+  // Email template
+  document.getElementById('email-template').value =
+`Hi [Client Name],
+
+Thank you for reaching out to ${s.firm}. To get started, please complete our secure intake form:
+
+${link}
+
+This takes about 5 minutes and helps us prepare for your consultation. All information is confidential and protected by attorney-client privilege.
+
+We'll review your submission and be in touch within 24 hours.
+
+Best regards,
+${s.attorney}
+${s.firm}`;
+
+  // Embed code
+  document.getElementById('embed-code').value =
+`<a href="${link}" style="display:inline-block;background:#2563eb;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-family:sans-serif">Start Your Case →</a>`;
+
+  // Practice checks
+  const areas = ['Family Law','Estate Planning','Business Law','Real Estate','Criminal Defense','Personal Injury','Immigration'];
+  const pc = document.getElementById('practice-checks');
+  pc.innerHTML = areas.map(a => `<label style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:.85rem"><input type="checkbox" ${(s.practices||[]).includes(a)?'checked':''} onchange="saveSettings()"/>${a}</label>`).join('');
+
+  return s;
+}
+
+function saveSettings() {
+  const s = {
+    firm: document.getElementById('set-firm').value,
+    attorney: document.getElementById('set-attorney').value,
+    email: document.getElementById('set-email').value,
+    phone: document.getElementById('set-phone').value,
+    rate: parseInt(document.getElementById('set-rate').value) || 300,
+    retainer: parseInt(document.getElementById('set-retainer').value) || 1500,
+    plan: getData('settings', {}).plan || 'starter',
+    practices: Array.from(document.querySelectorAll('#practice-checks input:checked')).map(c => c.parentElement.textContent.trim())
+  };
+  setData('settings', s);
+  loadSettings();
+  showToast('Settings saved!');
+}
+
+// ═══════════ CLIENTS ═══════════
+function getClients() { return getData('clients', []); }
+function addClient(c) { const all = getClients(); all.unshift(c); setData('clients', all); }
+
+function renderClients() {
+  const clients = getClients();
+  const tbody = document.getElementById('clients-tbody');
+  if (!clients.length) {
+    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray)">No clients yet. Share your intake link to get started.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = clients.map((c, i) => `<tr>
+    <td><span class="client-name" onclick="viewClient(${i})">${c.firstName} ${c.lastName}</span></td>
+    <td>${c.matterType || '—'}</td>
+    <td>${c.email || '—'}</td>
+    <td><span class="status-pill status-${c.urgency === 'emergency' ? 'urgent' : c.urgency === 'urgent' ? 'pending' : 'new'}">${(c.urgency||'—').charAt(0).toUpperCase()+(c.urgency||'').slice(1)}</span></td>
+    <td><span class="status-pill status-${c.status === 'signed' ? 'signed' : c.status === 'paid' ? 'paid' : 'new'}">${(c.status||'New').charAt(0).toUpperCase()+(c.status||'new').slice(1)}</span></td>
+    <td>${new Date(c.submittedAt||Date.now()).toLocaleDateString()}</td>
+    <td><button class="btn btn-outline btn-sm" onclick="viewClient(${i})">View</button> <button class="btn btn-primary btn-sm" onclick="generateLetter(${i})">📄 Letter</button></td>
+  </tr>`).join('');
+}
+
+function filterClients(q) {
+  const clients = getClients();
+  const rows = document.getElementById('clients-tbody').querySelectorAll('tr');
+  q = q.toLowerCase();
+  rows.forEach((row, i) => {
+    if (!clients[i]) return;
+    const c = clients[i];
+    const match = (c.firstName+' '+c.lastName+' '+c.email+' '+c.matterType).toLowerCase().includes(q);
+    row.style.display = match ? '' : 'none';
+  });
+}
+
+function viewClient(i) {
+  const c = getClients()[i];
+  document.getElementById('cm-title').textContent = c.firstName + ' ' + c.lastName;
+  document.getElementById('cm-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Email</div><div style="font-size:.9rem">${c.email}</div></div>
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Phone</div><div style="font-size:.9rem">${c.phone||'—'}</div></div>
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Matter</div><div style="font-size:.9rem">${c.matterType||'—'}</div></div>
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Urgency</div><div style="font-size:.9rem;font-weight:600;color:${c.urgency==='emergency'?'var(--red)':c.urgency==='urgent'?'var(--orange)':'var(--navy)'}">${c.urgency||'—'}</div></div>
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Location</div><div style="font-size:.9rem">${c.city||''} ${c.state||''}</div></div>
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Opposing Party</div><div style="font-size:.9rem">${c.opposingParty||'None'}</div></div>
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Referral</div><div style="font-size:.9rem">${c.referral||'—'}</div></div>
+      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Status</div><span class="status-pill status-${c.status==='signed'?'signed':c.status==='paid'?'paid':'new'}">${c.status||'New'}</span></div>
+    </div>
+    <div style="margin-bottom:16px"><div style="font-size:.78rem;color:var(--gray);font-weight:600;margin-bottom:4px">Description</div><div style="font-size:.9rem;background:var(--bg);padding:14px;border-radius:8px;line-height:1.6">${c.description||'No description provided.'}</div></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="generateLetter(${i});closeClientModal()">📄 Generate Letter</button>
+      <button class="btn btn-green" onclick="markStatus(${i},'signed');closeClientModal()">✅ Mark Signed</button>
+      <button class="btn btn-outline" onclick="markStatus(${i},'paid');closeClientModal()">💰 Mark Paid</button>
+    </div>
+  `;
+  document.getElementById('client-modal').classList.add('open');
+}
+function closeClientModal() { document.getElementById('client-modal').classList.remove('open'); }
+
+function markStatus(i, status) {
+  const all = getClients();
+  all[i].status = status;
+  setData('clients', all);
+  renderClients();
+  refreshDashboard();
+  showToast('Client marked as ' + status + '!');
+}
+
+// ═══════════ LETTER GENERATION ═══════════
+function generateLetter(i) {
+  const c = getClients()[i];
+  const s = getData('settings', {});
+  const today = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
+  const letter = {
+    clientIndex: i,
+    client: c.firstName + ' ' + c.lastName,
+    matter: c.matterType,
+    generatedAt: new Date().toISOString(),
+    status: 'draft',
+    content: `
+ENGAGEMENT LETTER
+
+${today}
+
+${c.firstName} ${c.lastName}
+${c.city || ''}, ${c.state || ''}
+
+Re: ${c.matterType || 'Legal Matter'}
+
+Dear ${c.firstName},
+
+Thank you for choosing ${s.firm || 'our firm'} to assist you with your legal matter. We are pleased to confirm our representation of you under the following terms.
+
+1. SCOPE OF REPRESENTATION
+We are retained to represent you in connection with your ${c.matterType || 'legal matter'}. The scope of our representation is limited to this matter unless we agree in writing to expand it.
+
+2. FEES AND BILLING
+Our services will be billed at $${s.rate || 300}/hour. A retainer of $${s.retainer || 1500} is due prior to commencement of substantive legal work. This retainer will be held in our client trust account and applied against fees as earned. You will receive monthly billing statements.
+
+3. COMMUNICATION
+We will communicate with you via email and phone. We will respond to inquiries within one business day. You agree to keep us informed of any developments and respond promptly to our requests.
+
+4. CLIENT RESPONSIBILITIES
+You agree to be truthful, cooperate fully, keep us informed of developments, and pay fees as agreed.
+
+5. TERMINATION
+Either party may terminate this representation upon written notice. You will be responsible for fees and costs incurred through the date of termination.
+
+6. CONFIDENTIALITY
+All information shared is protected by attorney-client privilege and kept strictly confidential.
+
+Sincerely,
+${s.attorney || 'Attorney'}
+${s.firm || 'Firm'}
+    `.trim()
+  };
+
+  const letters = getData('letters', []);
+  letters.unshift(letter);
+  setData('letters', letters);
+  renderLetters();
+  showPage('letters');
+  showToast('Letter generated for ' + c.firstName + ' ' + c.lastName);
+}
+
+function renderLetters() {
+  const letters = getData('letters', []);
+  const tbody = document.getElementById('letters-tbody');
+  if (!letters.length) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--gray)">No letters yet. Generate one from a client record.</td></tr>';
+    return;
+  }
+  tbody.innerHTML = letters.map((l, i) => `<tr>
+    <td style="font-weight:600">${l.client}</td>
+    <td>${l.matter||'—'}</td>
+    <td>${new Date(l.generatedAt).toLocaleDateString()}</td>
+    <td><span class="status-pill status-${l.status==='sent'?'pending':l.status==='signed'?'signed':'new'}">${l.status.charAt(0).toUpperCase()+l.status.slice(1)}</span></td>
+    <td>
+      <button class="btn btn-outline btn-sm" onclick="previewLetter(${i})">Preview</button>
+      <button class="btn btn-primary btn-sm" onclick="sendLetter(${i})">📧 Send</button>
+    </td>
+  </tr>`).join('');
+}
+
+function previewLetter(i) {
+  const l = getData('letters', [])[i];
+  document.getElementById('cm-title').textContent = 'Letter: ' + l.client;
+  document.getElementById('cm-body').innerHTML = `<div class="letter-preview" style="white-space:pre-wrap">${l.content}</div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-primary" onclick="sendLetter(${i});closeClientModal()">📧 Send to Client</button><button class="btn btn-outline" onclick="closeClientModal()">Close</button></div>`;
+  document.getElementById('client-modal').classList.add('open');
+}
+
+function sendLetter(i) {
+  const letters = getData('letters', []);
+  letters[i].status = 'sent';
+  setData('letters', letters);
+  renderLetters();
+  showToast('Letter sent to ' + letters[i].client + '!');
+}
+
+// ═══════════ TEMPLATES ═══════════
+function renderTemplates() {
+  const tpls = getData('templates', [
+    { name: 'Family Law Standard', area: 'Family Law', rate: 300, retainer: 2500, terms: '' },
+    { name: 'Estate Planning', area: 'Estate Planning', rate: 350, retainer: 2000, terms: '' },
+    { name: 'Business Formation', area: 'Business Law', rate: 275, retainer: 1500, terms: '' }
+  ]);
+  const grid = document.getElementById('templates-grid');
+  grid.innerHTML = tpls.map((t, i) => `
+    <div class="stat-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
+        <div style="font-weight:700;font-size:.95rem">${t.name}</div>
+        <span class="status-pill status-new">${t.area}</span>
+      </div>
+      <div style="font-size:.85rem;color:var(--gray);margin-bottom:4px">Rate: <strong>$${t.rate}/hr</strong> &middot; Retainer: <strong>$${t.retainer.toLocaleString()}</strong></div>
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button class="btn btn-outline btn-sm" onclick="editTemplate(${i})">Edit</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openTemplateModal() {
+  document.getElementById('tpl-name').value = '';
+  document.getElementById('tpl-terms').value = '';
+  document.getElementById('template-modal').classList.add('open');
+}
+
+function editTemplate(i) {
+  const tpls = getData('templates', []);
+  const t = tpls[i];
+  document.getElementById('tpl-name').value = t.name;
+  document.getElementById('tpl-area').value = t.area;
+  document.getElementById('tpl-rate').value = t.rate;
+  document.getElementById('tpl-retainer').value = t.retainer;
+  document.getElementById('tpl-terms').value = t.terms || '';
+  document.getElementById('template-modal').classList.add('open');
+  document.getElementById('template-modal').dataset.editIndex = i;
+}
+
+function saveTemplate() {
+  const tpl = {
+    name: document.getElementById('tpl-name').value || 'Untitled',
+    area: document.getElementById('tpl-area').value,
+    rate: parseInt(document.getElementById('tpl-rate').value) || 300,
+    retainer: parseInt(document.getElementById('tpl-retainer').value) || 1500,
+    terms: document.getElementById('tpl-terms').value
+  };
+  const tpls = getData('templates', []);
+  const idx = document.getElementById('template-modal').dataset.editIndex;
+  if (idx !== undefined && idx !== '') { tpls[idx] = tpl; } else { tpls.push(tpl); }
+  setData('templates', tpls);
+  delete document.getElementById('template-modal').dataset.editIndex;
+  document.getElementById('template-modal').classList.remove('open');
+  renderTemplates();
+  showToast('Template saved!');
+}
+
+// ═══════════ DASHBOARD STATS ═══════════
+function refreshDashboard() {
+  const clients = getClients();
+  const now = new Date();
+  const thisMonth = clients.filter(c => new Date(c.submittedAt).getMonth() === now.getMonth());
+  const signed = clients.filter(c => c.status === 'signed' || c.status === 'paid');
+  const paid = clients.filter(c => c.status === 'paid');
+  const s = getData('settings', {});
+  const retainerTotal = paid.length * (s.retainer || 1500);
+
+  document.getElementById('st-clients').textContent = thisMonth.length;
+  document.getElementById('st-letters').textContent = getData('letters', []).length;
+  document.getElementById('st-signed').textContent = signed.length;
+  document.getElementById('st-retainer').textContent = '$' + retainerTotal.toLocaleString();
+
+  // Recent activity
+  const recent = clients.slice(0, 5);
+  if (recent.length) {
+    document.getElementById('recent-tbody').innerHTML = recent.map((c, i) => `<tr>
+      <td><span class="client-name" onclick="showPage('clients');viewClient(${i})">${c.firstName} ${c.lastName}</span></td>
+      <td>${c.matterType||'—'}</td>
+      <td><span class="status-pill status-${c.status==='signed'?'signed':c.status==='paid'?'paid':'new'}">${(c.status||'New').charAt(0).toUpperCase()+(c.status||'new').slice(1)}</span></td>
+      <td>${new Date(c.submittedAt||Date.now()).toLocaleDateString()}</td>
+      <td><button class="btn btn-outline btn-sm" onclick="showPage('clients');viewClient(${i})">View</button></td>
+    </tr>`).join('');
+  }
+}
+
+// ═══════════ NAVIGATION ═══════════
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('pg-' + id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navMap = { dashboard:0,clients:1,letters:2,'intake-setup':3,templates:4,payments:5,settings:6,help:7 };
+  const idx = navMap[id];
+  if (idx !== undefined) document.querySelectorAll('.nav-item')[idx].classList.add('active');
+}
+
+// ═══════════ TOAST ═══════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = '✅ ' + msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+function copyIntakeLink() {
+  navigator.clipboard.writeText(document.getElementById('intake-link').value);
+  showToast('Intake link copied!');
+}
+function copyEmailTemplate() {
+  navigator.clipboard.writeText(document.getElementById('email-template').value);
+  showToast('Email template copied!');
+}
+function copyEmbed() {
+  navigator.clipboard.writeText(document.getElementById('embed-code').value);
+  showToast('Embed code copied!');
+}
+
+// ═══════════ LISTEN FOR INTAKE SUBMISSIONS ═══════════
+// intake.html posts to the Apps Script, which then stores to Sheets
+// We also listen via BroadcastChannel for same-origin intake forms
+const bc = new BroadcastChannel('clientready_intake');
+bc.onmessage = (e) => {
+  if (e.data && e.data.type === 'new_intake') {
+    addClient({ ...e.data.client, status: 'new', submittedAt: new Date().toISOString() });
+    renderClients();
+    refreshDashboard();
+    showToast('New client intake received: ' + e.data.client.firstName + ' ' + e.data.client.lastName);
+  }
+};
+
+// Also check localStorage for any pending intakes (cross-tab)
+window.addEventListener('storage', (e) => {
+  if (e.key && e.key.includes('_clients')) {
+    renderClients();
+    refreshDashboard();
+  }
+});
+
+// ═══════════ INIT ═══════════
+loadSettings();
+renderClients();
+renderLetters();
+renderTemplates();
+refreshDashboard();
+
+// Check for URL params (post-Stripe redirect)
+const urlParams = new URLSearchParams(location.search);
+if (urlParams.get('setup') === '1') {
+  // First-time setup
+  document.getElementById('onboard-banner').style.display = 'flex';
+} else {
+  // Hide if client count > 0
+  if (getClients().length > 0) document.getElementById('onboard-banner').style.display = 'none';
+}
+</script>
+</body>
+</html>

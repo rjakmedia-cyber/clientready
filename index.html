@@ -266,7 +266,7 @@
   </div>
   <div class="hero-proof">
     <span class="avatar-stack"><span>SM</span><span>JT</span><span>LR</span><span>AK</span><span>+</span></span>
-    <strong>240+ attorneys</strong> on the early access list &nbsp;&middot;&nbsp; <strong></strong>
+    <strong>240+ attorneys</strong> on the early access list
   </div>
 </section>
 
@@ -545,8 +545,21 @@
   </div>
 </footer>
 
-<!-- CHAT BUTTON -->
-<button id="chat-btn" onclick="openModal('chat')">
+<!-- CHAT WIDGET -->
+<div id="chatbot" style="display:none;position:fixed;bottom:24px;right:24px;width:380px;max-height:520px;background:#fff;border-radius:20px;box-shadow:0 16px 60px rgba(0,0,0,.2);z-index:9000;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border)">
+  <div style="background:var(--blue);color:#fff;padding:16px 20px;display:flex;align-items:center;justify-content:space-between">
+    <div><div style="font-weight:800;font-size:.95rem">ClientReady Support</div><div style="font-size:.75rem;opacity:.8">Ask about our services &middot; Typically replies instantly</div></div>
+    <button onclick="toggleChat()" style="background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer">&#215;</button>
+  </div>
+  <div id="chat-messages" style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;max-height:360px">
+    <div class="bot-msg" style="background:#f1f5f9;padding:12px 16px;border-radius:14px 14px 14px 4px;font-size:.88rem;line-height:1.6;max-width:85%">Hi! I'm the ClientReady support assistant. I can help you with questions about our intake automation, pricing plans, setup, and features. How can I help you today?</div>
+  </div>
+  <div style="padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px">
+    <input type="text" id="chat-input" placeholder="Type your question..." style="flex:1;border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;font-size:.88rem;outline:none;font-family:inherit" onkeydown="if(event.key==='Enter')sendChat()"/>
+    <button onclick="sendChat()" style="background:var(--blue);color:#fff;border:none;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;font-size:.88rem">Send</button>
+  </div>
+</div>
+<button id="chat-btn" onclick="toggleChat()">
   <span class="chat-pulse"></span> Questions? Chat with us
 </button>
 
@@ -559,7 +572,7 @@
     <div class="modal-header">
       <div class="modal-header-text">
         <h3 id="modal-title">Start Your 7-Day Free Trial</h3>
-        <p id="modal-sub">Setup in under an hour</p>
+        <p id="modal-sub">7-day free trial &middot; Setup in under an hour</p>
       </div>
       <button class="modal-close-btn" onclick="closeModal()">&#215;</button>
     </div>
@@ -698,8 +711,8 @@
 <script>
   // ========= CONFIGURE THESE THREE THINGS =========
   const CRM_WEBHOOK   = 'https://script.google.com/macros/s/AKfycbwSW6sGr0b472g0BdROduQ4QTqnl3ZcAY48ePBXuN9E9tTJTz_NuTnhdGhDxWy-rAMx/exec';
-  const STRIPE_STARTER = 'https://buy.stripe.com/fZu6oHd6i3GdeaQ2yn1Fe01';     // Step 2 — https://buy.stripe.com/xxx
-  const STRIPE_GROWTH  = 'https://buy.stripe.com/5kQ7sL2rE3Gd7Msdd11Fe02';      // Step 2 — https://buy.stripe.com/xxx
+  const STRIPE_STARTER = 'https://buy.stripe.com/fZu6oHd6i3GdeaQ2yn1Fe01';
+  const STRIPE_GROWTH  = 'https://buy.stripe.com/5kQ7sL2rE3Gd7Msdd11Fe02';
   const NOTIFY_EMAIL   = 'richardhazy@gmail.com';         // Your email for lead notifications
   // =================================================
 
@@ -842,7 +855,95 @@
   document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
 
   // ESC key
-  document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); document.getElementById('exit-popup').classList.remove('open'); } });
+  document.addEventListener('keydown', e => { if(e.key==='Escape') { closeModal(); document.getElementById('exit-popup').classList.remove('open'); document.getElementById('chatbot').style.display='none'; } });
+
+  // ═══════════ CHATBOT ═══════════
+  function toggleChat() {
+    const cb = document.getElementById('chatbot');
+    cb.style.display = cb.style.display === 'flex' ? 'none' : 'flex';
+  }
+
+  const CHATBOT_KB = {
+    pricing: "ClientReady has two plans:\n\n• **Starter ($79/mo)** — Up to 30 clients/month, branded intake forms, AI engagement letter drafts, e-signatures, retainer collection, email reminders, 1 practice area template.\n\n• **Growth ($129/mo)** — Unlimited clients, all Starter features plus SMS reminders, all practice area templates, conflict check integration, and priority support.\n\nBoth include a 7-day free trial. Use code FOUNDING40 for 40% off your first 3 months.",
+    trial: "Yes! Both plans include a **7-day free trial**. You won't be charged until day 7. You can cancel anytime during the trial — no questions asked.",
+    setup: "Setup takes about **30-60 minutes**. Here's the process:\n1. Choose your plan and start your free trial\n2. Enter your firm details and practice area\n3. Customize your intake form (we provide templates)\n4. Share your intake link with prospective clients\n5. ClientReady handles the rest — intake, letters, signatures, and payment.",
+    features: "ClientReady automates your entire new-client intake flow:\n\n• **Branded intake forms** — Clients fill out your custom questionnaire\n• **AI engagement letters** — Drafts generated automatically based on intake data\n• **E-signatures** — Clients sign electronically, no printing\n• **Retainer collection** — Stripe-powered payment processing\n• **Automated reminders** — Email (and SMS on Growth) follow-ups\n• **Conflict checks** — Integration available on Growth plan",
+    payment: "Client retainer payments are processed through **Stripe** and go directly to your bank account. We charge no extra transaction fees — you only pay Stripe's standard 2.9% + 30¢. Setup takes about 5 minutes.",
+    security: "All data is encrypted in transit (SSL/TLS) and at rest. We use US-based servers. Client information is protected by attorney-client privilege. We never sell, share, or use client data for any purpose other than powering the features you use.",
+    cancel: "You can cancel anytime — no phone calls, no fees, no questions. If you cancel during your 7-day free trial, you're never charged. Just go to Settings → Cancel Plan in your dashboard.",
+    intake: "Our intake form is a branded, multi-step questionnaire that collects:\n• Client contact information\n• Type of legal matter\n• Urgency level\n• Detailed description of the situation\n• Prior attorney history\n• Opposing party info\n• Supporting documents\n\nWhen a client submits, you get notified instantly and an engagement letter is auto-drafted.",
+    letter: "ClientReady uses AI to automatically draft engagement letters based on the client's intake data. The letter includes scope of representation, fee structure, billing terms, communication policy, and termination clause. You always review and approve before anything is sent to the client.",
+    support: "You can reach us via:\n• Email: support@clientready.com\n• Live chat on our website\n• In-app help center\n\nWe respond within 4 hours during business hours (Mon-Fri, 9am-6pm ET).",
+    difference: "The main differences between Starter and Growth:\n\n• **Client limit**: Starter = 30/month, Growth = unlimited\n• **Templates**: Starter = 1 practice area, Growth = all areas\n• **Reminders**: Starter = email only, Growth = email + SMS\n• **Conflict checks**: Growth only\n• **Support**: Growth gets priority support",
+    refund: "If you cancel within your 7-day trial, you're never charged. After the trial, we don't offer refunds for partial months, but you can cancel anytime and won't be billed again.",
+    integration: "ClientReady works alongside your existing tools — it doesn't replace them. It handles the front-door intake flow and hands off clients to your practice management system (Clio, MyCase, PracticePanther, etc.)."
+  };
+
+  function getBotReply(msg) {
+    const lower = msg.toLowerCase();
+    // Off-topic filter
+    const offTopicPatterns = ['weather','sports','news','politics','recipe','joke','song','movie','game','bitcoin','crypto','stock','horoscope','what is the meaning','tell me a story','write me a','who is the president','capital of'];
+    if (offTopicPatterns.some(p => lower.includes(p))) {
+      return "I'm specifically here to help with ClientReady's intake automation services for law firms. I can answer questions about our pricing, features, setup process, and how the platform works. What would you like to know?";
+    }
+
+    if (lower.match(/pric|cost|how much|plan|79|129|starter|growth|cheap|expensive|afford/)) return CHATBOT_KB.pricing;
+    if (lower.match(/trial|free|try|test|demo/)) return CHATBOT_KB.trial;
+    if (lower.match(/setup|start|begin|onboard|how do i|get started|long does|install/)) return CHATBOT_KB.setup;
+    if (lower.match(/feature|what does|can it|capabilit|do you|what can|include|offer/)) return CHATBOT_KB.features;
+    if (lower.match(/pay|retainer|stripe|billing|charge|transaction|fee|money|bank/)) return CHATBOT_KB.payment;
+    if (lower.match(/secur|encrypt|safe|privacy|confidential|data|protect|hipaa/)) return CHATBOT_KB.security;
+    if (lower.match(/cancel|stop|quit|unsubscribe|end my/)) return CHATBOT_KB.cancel;
+    if (lower.match(/intake|form|questionnaire|client fill|onboard/)) return CHATBOT_KB.intake;
+    if (lower.match(/letter|engagement|draft|document|ai.*generat|template/)) return CHATBOT_KB.letter;
+    if (lower.match(/support|help|contact|email|phone|reach/)) return CHATBOT_KB.support;
+    if (lower.match(/differ|compare|vs|versus|which plan|starter.*growth|growth.*starter/)) return CHATBOT_KB.difference;
+    if (lower.match(/refund|money back|return/)) return CHATBOT_KB.refund;
+    if (lower.match(/integrat|clio|mycase|practice.*panther|software|tool|crm/)) return CHATBOT_KB.integration;
+    if (lower.match(/sign|signature|esign|e-sign|electronic/)) return "ClientReady includes built-in e-signatures. After the AI drafts the engagement letter, your client can review and sign it electronically — right from their phone or computer. No printing, scanning, or faxing needed. The signed copy is stored and emailed to both parties.";
+    if (lower.match(/thank|thanks/)) return "You're welcome! Feel free to ask anything else about ClientReady. Ready to try it? Start your 7-day free trial at the top of this page!";
+    if (lower.match(/hello|hi|hey/)) return "Hi there! I'm the ClientReady support assistant. I can help with questions about pricing, features, setup, security, or anything else about our intake automation platform. What would you like to know?";
+
+    return "I can help you with questions about ClientReady — our pricing plans, features, setup process, security, integrations, and more. Could you rephrase your question? Or try asking about:\n\n• Pricing & plans\n• How setup works\n• Features & capabilities\n• Security & privacy\n• Cancellation policy";
+  }
+
+  function sendChat() {
+    const input = document.getElementById('chat-input');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+
+    const container = document.getElementById('chat-messages');
+    // User message
+    container.innerHTML += '<div style="align-self:flex-end;background:var(--blue);color:#fff;padding:10px 16px;border-radius:14px 14px 4px 14px;font-size:.88rem;max-width:85%">' + msg.replace(/</g,'&lt;') + '</div>';
+    container.scrollTop = container.scrollHeight;
+
+    // Bot typing
+    const typingId = 'typing-' + Date.now();
+    container.innerHTML += '<div id="' + typingId + '" style="background:#f1f5f9;padding:10px 16px;border-radius:14px 14px 14px 4px;font-size:.88rem;max-width:85%;color:var(--gray)">Typing...</div>';
+    container.scrollTop = container.scrollHeight;
+
+    setTimeout(() => {
+      const reply = getBotReply(msg);
+      const el = document.getElementById(typingId);
+      if (el) {
+        el.style.color = '';
+        el.innerHTML = reply.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>');
+      }
+      container.scrollTop = container.scrollHeight;
+    }, 600 + Math.random() * 800);
+  }
+
+  // ═══════════ POST-STRIPE REDIRECT ═══════════
+  // When someone returns from Stripe checkout, redirect them to the app
+  const returnParams = new URLSearchParams(location.search);
+  if (returnParams.get('success') === 'true' || returnParams.get('session_id')) {
+    // Just subscribed — redirect to app dashboard
+    const plan = returnParams.get('plan') || 'starter';
+    setTimeout(() => {
+      window.location.href = '/app.html?setup=1&plan=' + plan;
+    }, 1500);
+  }
 
   // Social proof spots counter
   let spots = parseInt(sessionStorage.getItem('spotsLeft') || '23');

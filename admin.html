@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ClientReady Admin — Owner Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--blue:#2563eb;--green:#16a34a;--red:#dc2626;--orange:#f59e0b;--gray:#64748b;--border:#e2e8f0;--bg:#f8fafc;--white:#fff;--navy:#0f172a;--radius:12px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh}
+
+/* AUTH */
+.auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.auth-box{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:40px;width:100%;max-width:400px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.08)}
+.auth-logo{font-size:1.4rem;font-weight:900;margin-bottom:8px}
+.auth-logo span{color:var(--blue)}
+.auth-sub{font-size:.9rem;color:var(--gray);margin-bottom:28px}
+.auth-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:1rem;font-family:inherit;outline:none;margin-bottom:12px}
+.auth-input:focus{border-color:var(--blue)}
+.auth-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:10px;padding:13px;font-size:1rem;font-weight:700;cursor:pointer}
+.auth-btn:hover{background:#1d4ed8}
+.auth-error{color:var(--red);font-size:.85rem;margin-top:8px;display:none}
+
+/* HEADER */
+.admin-header{background:var(--navy);color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
+.admin-header .logo{font-weight:900;font-size:1.1rem}.logo span{color:#60a5fa}
+.admin-badge{background:var(--red);color:#fff;padding:3px 10px;border-radius:4px;font-size:.75rem;font-weight:700;margin-left:10px}
+.admin-user{font-size:.85rem;opacity:.7}
+
+/* TABS */
+.tab-bar{background:var(--white);border-bottom:1px solid var(--border);display:flex;gap:0;padding:0 28px}
+.tab{padding:14px 20px;font-size:.88rem;font-weight:600;color:var(--gray);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab:hover{color:var(--navy)}
+.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* MAIN */
+.admin-main{padding:28px;max-width:1200px;margin:0 auto}
+.admin-page{display:none}.admin-page.active{display:block}
+
+/* CARDS */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+.kpi-label{font-size:.75rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
+.kpi-value{font-size:1.6rem;font-weight:900;margin-top:4px}
+.kpi-sub{font-size:.78rem;color:var(--green);font-weight:600;margin-top:2px}
+
+/* TABLE */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
+.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.card-title{font-weight:700;font-size:.95rem}
+table{width:100%;border-collapse:collapse}
+thead th{text-align:left;padding:10px 16px;font-size:.75rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);background:var(--bg)}
+tbody td{padding:11px 16px;font-size:.85rem;border-bottom:1px solid #f1f5f9}
+tbody tr:hover{background:#f8fafc}
+.pill{display:inline-block;padding:2px 8px;border-radius:50px;font-size:.72rem;font-weight:600}
+.pill-blue{background:#dbeafe;color:#1d4ed8}
+.pill-green{background:#dcfce7;color:#15803d}
+.pill-orange{background:#fef3c7;color:#92400e}
+.pill-red{background:#fee2e2;color:#991b1b}
+.pill-gray{background:#f1f5f9;color:#64748b}
+
+.btn-sm{border:none;border-radius:6px;padding:4px 10px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-blue{background:var(--blue);color:#fff}
+.search-input{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-size:.85rem;width:200px;outline:none;font-family:inherit}
+.search-input:focus{border-color:var(--blue)}
+
+.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.detail-item{padding:10px;background:var(--bg);border-radius:8px}
+.detail-label{font-size:.72rem;font-weight:600;color:var(--gray);text-transform:uppercase;margin-bottom:2px}
+.detail-value{font-size:.88rem;font-weight:500}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal-box{background:var(--white);border-radius:16px;width:95%;max-width:700px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.modal-top{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border)}
+.modal-top h3{font-size:1.05rem;font-weight:800}
+.close-btn{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--gray)}
+.modal-content{padding:24px}
+</style>
+</head>
+<body>
+
+<!-- AUTH SCREEN -->
+<div class="auth-screen" id="auth-screen">
+  <div class="auth-box">
+    <div class="auth-logo">Client<span>Ready</span></div>
+    <div class="auth-sub">Admin Dashboard — Owner Access Only</div>
+    <input type="password" class="auth-input" id="admin-pass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()"/>
+    <button class="auth-btn" onclick="adminLogin()">Sign In</button>
+    <div class="auth-error" id="auth-error">Invalid password. Try again.</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="admin-panel" style="display:none">
+
+<div class="admin-header">
+  <div style="display:flex;align-items:center"><span class="logo">Client<span>Ready</span></span><span class="admin-badge">ADMIN</span></div>
+  <div class="admin-user">richardhazy@gmail.com &middot; <a href="#" onclick="adminLogout()" style="color:#60a5fa;text-decoration:none">Sign Out</a></div>
+</div>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="showTab('overview')">Overview</div>
+  <div class="tab" onclick="showTab('subscribers')">Subscribers</div>
+  <div class="tab" onclick="showTab('intakes')">All Intakes</div>
+  <div class="tab" onclick="showTab('revenue')">Revenue</div>
+  <div class="tab" onclick="showTab('crm')">CRM Leads</div>
+</div>
+
+<div class="admin-main">
+
+<!-- OVERVIEW -->
+<div class="admin-page active" id="tab-overview">
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Total Subscribers</div><div class="kpi-value" id="k-subs">0</div><div class="kpi-sub" id="k-subs-ch"></div></div>
+    <div class="kpi"><div class="kpi-label">MRR</div><div class="kpi-value" id="k-mrr">$0</div></div>
+    <div class="kpi"><div class="kpi-label">Total Intakes</div><div class="kpi-value" id="k-intakes">0</div></div>
+    <div class="kpi"><div class="kpi-label">Letters Generated</div><div class="kpi-value" id="k-letters">0</div></div>
+    <div class="kpi"><div class="kpi-label">Conversion Rate</div><div class="kpi-value" id="k-conv">—</div></div>
+    <div class="kpi"><div class="kpi-label">Retainers Collected</div><div class="kpi-value" id="k-retainers">$0</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="card-title">Recent Activity</span></div>
+    <table>
+      <thead><tr><th>Event</th><th>Detail</th><th>Time</th></tr></thead>
+      <tbody id="activity-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- SUBSCRIBERS -->
+<div class="admin-page" id="tab-subscribers">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <h2 style="font-size:1.2rem;font-weight:800">Subscribers</h2>
+    <div style="display:flex;gap:8px"><input type="text" class="search-input" placeholder="Search..." oninput="filterSubs(this.value)"/><button class="btn-sm btn-blue" onclick="addDemoSub()">+ Add Demo</button></div>
+  </div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Firm</th><th>Attorney</th><th>Email</th><th>Plan</th><th>Status</th><th>Clients</th><th>Joined</th><th>Actions</th></tr></thead>
+      <tbody id="subs-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ALL INTAKES -->
+<div class="admin-page" id="tab-intakes">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <h2 style="font-size:1.2rem;font-weight:800">All Client Intakes</h2>
+    <input type="text" class="search-input" placeholder="Search intakes..." oninput="filterIntakes(this.value)"/>
+  </div>
+  <div class="card">
+    <table>
+      <thead><tr><th>Client</th><th>Firm</th><th>Matter</th><th>Urgency</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+      <tbody id="intakes-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- REVENUE -->
+<div class="admin-page" id="tab-revenue">
+  <div class="kpi-row">
+    <div class="kpi"><div class="kpi-label">Monthly Recurring Revenue</div><div class="kpi-value" id="r-mrr">$0</div></div>
+    <div class="kpi"><div class="kpi-label">Annual Run Rate</div><div class="kpi-value" id="r-arr">$0</div></div>
+    <div class="kpi"><div class="kpi-label">Starter Plans</div><div class="kpi-value" id="r-starter">0</div></div>
+    <div class="kpi"><div class="kpi-label">Growth Plans</div><div class="kpi-value" id="r-growth">0</div></div>
+    <div class="kpi"><div class="kpi-label">Churn Rate</div><div class="kpi-value">0%</div></div>
+    <div class="kpi"><div class="kpi-label">LTV (Est.)</div><div class="kpi-value" id="r-ltv">$0</div></div>
+  </div>
+  <div class="card">
+    <div class="card-head"><span class="card-title">Revenue Breakdown</span></div>
+    <table>
+      <thead><tr><th>Month</th><th>New Subs</th><th>Churned</th><th>MRR</th><th>Retainer Rev</th></tr></thead>
+      <tbody id="rev-tbody">
+        <tr><td>April 2026</td><td id="r-new-apr">0</td><td>0</td><td id="r-mrr-apr">$0</td><td>$0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CRM LEADS -->
+<div class="admin-page" id="tab-crm">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <h2 style="font-size:1.2rem;font-weight:800">CRM Leads (from landing page signups)</h2>
+    <input type="text" class="search-input" placeholder="Search leads..." oninput="filterLeads(this.value)"/>
+  </div>
+  <p style="font-size:.85rem;color:var(--gray);margin-bottom:16px">These are people who filled out the signup form on your landing page but haven't necessarily subscribed yet.</p>
+  <div class="card">
+    <table>
+      <thead><tr><th>Name</th><th>Firm</th><th>Email</th><th>Practice</th><th>Plan Interest</th><th>Date</th></tr></thead>
+      <tbody id="leads-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="modal-bg" id="detail-modal">
+  <div class="modal-box">
+    <div class="modal-top"><h3 id="dm-title">Details</h3><button class="close-btn" onclick="document.getElementById('detail-modal').classList.remove('open')">✕</button></div>
+    <div class="modal-content" id="dm-body"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════ AUTH ═══════════
+const ADMIN_PASS = 'clientready2026';
+
+function adminLogin() {
+  const pass = document.getElementById('admin-pass').value;
+  if (pass === ADMIN_PASS) {
+    sessionStorage.setItem('cr_admin', '1');
+    showAdmin();
+  } else {
+    document.getElementById('auth-error').style.display = 'block';
+  }
+}
+
+function adminLogout() {
+  sessionStorage.removeItem('cr_admin');
+  document.getElementById('admin-panel').style.display = 'none';
+  document.getElementById('auth-screen').style.display = 'flex';
+}
+
+function showAdmin() {
+  document.getElementById('auth-screen').style.display = 'none';
+  document.getElementById('admin-panel').style.display = 'block';
+  loadAdminData();
+}
+
+if (sessionStorage.getItem('cr_admin')) showAdmin();
+
+// ═══════════ DATA ═══════════
+function getAll(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch { return def; } }
+function setAll(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+function getSubs() { return getAll('cr_admin_subscribers', []); }
+function setSubs(v) { setAll('cr_admin_subscribers', v); }
+function getIntakes() { return getAll('cr_admin_intakes', []); }
+function setIntakes(v) { setAll('cr_admin_intakes', v); }
+function getLeads() { return getAll('cr_admin_leads', []); }
+
+// Scan all localStorage for firm data
+function scanFirmData() {
+  const firms = [];
+  const intakes = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.startsWith('cr_firm_') && key.endsWith('_settings')) {
+      try {
+        const settings = JSON.parse(localStorage.getItem(key));
+        const firmKey = key.replace('_settings', '');
+        const clients = JSON.parse(localStorage.getItem(firmKey + '_clients') || '[]');
+        const letters = JSON.parse(localStorage.getItem(firmKey + '_letters') || '[]');
+        firms.push({ ...settings, firmKey, clientCount: clients.length, letterCount: letters.length, joinedAt: settings.joinedAt || new Date().toISOString() });
+        clients.forEach(c => intakes.push({ ...c, firmName: settings.firm, firmKey }));
+      } catch {}
+    }
+  }
+  return { firms, intakes };
+}
+
+function addDemoSub() {
+  const subs = getSubs();
+  const demos = [
+    { firm: 'Johnson Family Law', attorney: 'Mark Johnson', email: 'mjohnson@jfamilylaw.com', plan: 'starter', status: 'active', clients: 3, joined: '2026-04-10' },
+    { firm: 'Rivera Estate Planning', attorney: 'Ana Rivera', email: 'ana@riveralaw.com', plan: 'growth', status: 'active', clients: 8, joined: '2026-04-08' },
+    { firm: 'Chen & Associates', attorney: 'David Chen', email: 'dchen@chenlaw.com', plan: 'growth', status: 'active', clients: 12, joined: '2026-04-05' },
+    { firm: 'Patterson Legal', attorney: 'Sarah Patterson', email: 'sp@pattersonlegal.com', plan: 'starter', status: 'trial', clients: 1, joined: '2026-04-12' }
+  ];
+  subs.push(demos[subs.length % demos.length]);
+  setSubs(subs);
+  loadAdminData();
+}
+
+// ═══════════ RENDER ═══════════
+function loadAdminData() {
+  const subs = getSubs();
+  const { firms, intakes: scannedIntakes } = scanFirmData();
+  const allSubs = [...subs, ...firms];
+  const allIntakes = [...getIntakes(), ...scannedIntakes];
+
+  // KPIs
+  const starterCount = allSubs.filter(s => s.plan === 'starter').length;
+  const growthCount = allSubs.filter(s => s.plan === 'growth').length;
+  const mrr = starterCount * 79 + growthCount * 129;
+  const totalIntakes = allIntakes.length;
+  const totalLetters = allSubs.reduce((sum, s) => sum + (s.letterCount || 0), 0);
+
+  document.getElementById('k-subs').textContent = allSubs.length;
+  document.getElementById('k-mrr').textContent = '$' + mrr.toLocaleString();
+  document.getElementById('k-intakes').textContent = totalIntakes;
+  document.getElementById('k-letters').textContent = totalLetters;
+  document.getElementById('k-retainers').textContent = '$' + (allIntakes.filter(i => i.status === 'paid').length * 1500).toLocaleString();
+
+  // Revenue
+  document.getElementById('r-mrr').textContent = '$' + mrr.toLocaleString();
+  document.getElementById('r-arr').textContent = '$' + (mrr * 12).toLocaleString();
+  document.getElementById('r-starter').textContent = starterCount;
+  document.getElementById('r-growth').textContent = growthCount;
+  document.getElementById('r-ltv').textContent = '$' + Math.round(mrr * 14 / Math.max(1, allSubs.length)).toLocaleString();
+  document.getElementById('r-new-apr').textContent = allSubs.length;
+  document.getElementById('r-mrr-apr').textContent = '$' + mrr.toLocaleString();
+
+  // Subscribers table
+  const stbody = document.getElementById('subs-tbody');
+  stbody.innerHTML = allSubs.length ? allSubs.map((s, i) => `<tr>
+    <td style="font-weight:600">${s.firm||'—'}</td>
+    <td>${s.attorney||'—'}</td>
+    <td>${s.email||'—'}</td>
+    <td><span class="pill pill-${s.plan==='growth'?'blue':'gray'}">${(s.plan||'starter').charAt(0).toUpperCase()+(s.plan||'').slice(1)}</span></td>
+    <td><span class="pill pill-${s.status==='active'||!s.status?'green':s.status==='trial'?'orange':'red'}">${(s.status||'Active').charAt(0).toUpperCase()+(s.status||'active').slice(1)}</span></td>
+    <td>${s.clientCount||s.clients||0}</td>
+    <td>${s.joined||s.joinedAt?new Date(s.joined||s.joinedAt).toLocaleDateString():'—'}</td>
+    <td><button class="btn-sm btn-blue" onclick="viewSub(${i})">View</button></td>
+  </tr>`).join('') : '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gray)">No subscribers yet.</td></tr>';
+
+  // Intakes table
+  const itbody = document.getElementById('intakes-tbody');
+  itbody.innerHTML = allIntakes.length ? allIntakes.map((c, i) => `<tr>
+    <td style="font-weight:600">${c.firstName||''} ${c.lastName||''}</td>
+    <td>${c.firmName||'—'}</td>
+    <td>${c.matterType||'—'}</td>
+    <td><span class="pill pill-${c.urgency==='emergency'?'red':c.urgency==='urgent'?'orange':'gray'}">${c.urgency||'—'}</span></td>
+    <td><span class="pill pill-${c.status==='signed'?'green':c.status==='paid'?'green':'gray'}">${c.status||'new'}</span></td>
+    <td>${c.submittedAt?new Date(c.submittedAt).toLocaleDateString():'—'}</td>
+    <td><button class="btn-sm btn-blue" onclick="viewIntake(${i})">View</button></td>
+  </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--gray)">No intakes yet.</td></tr>';
+
+  // Activity feed
+  const activities = [];
+  allSubs.forEach(s => activities.push({ event: '🆕 New subscriber', detail: s.firm + ' (' + (s.plan||'starter') + ')', time: s.joined||s.joinedAt||''}));
+  allIntakes.forEach(c => activities.push({ event: '📋 Client intake', detail: (c.firstName||'')+' '+(c.lastName||'')+' → '+(c.firmName||''), time: c.submittedAt||''}));
+  activities.sort((a,b) => new Date(b.time) - new Date(a.time));
+  document.getElementById('activity-tbody').innerHTML = activities.slice(0,20).map(a =>
+    `<tr><td>${a.event}</td><td>${a.detail}</td><td>${a.time?new Date(a.time).toLocaleString():'—'}</td></tr>`
+  ).join('') || '<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--gray)">No activity yet.</td></tr>';
+
+  // CRM Leads
+  const leads = getLeads();
+  document.getElementById('leads-tbody').innerHTML = leads.length ? leads.map(l =>
+    `<tr><td>${l.full_name||l.first_name||'—'}</td><td>${l.firm_name||'—'}</td><td>${l.email||'—'}</td><td>${l.practice_area||'—'}</td><td>${l.plan_interest||'—'}</td><td>${l.timestamp?new Date(l.timestamp).toLocaleDateString():'—'}</td></tr>`
+  ).join('') : '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--gray)">No CRM leads yet. They\'ll appear here when people sign up on your landing page.</td></tr>';
+}
+
+function viewSub(i) {
+  const subs = [...getSubs(), ...scanFirmData().firms];
+  const s = subs[i];
+  document.getElementById('dm-title').textContent = s.firm || 'Subscriber';
+  document.getElementById('dm-body').innerHTML = `
+    <div class="detail-grid">
+      <div class="detail-item"><div class="detail-label">Firm</div><div class="detail-value">${s.firm||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Attorney</div><div class="detail-value">${s.attorney||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Email</div><div class="detail-value">${s.email||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Plan</div><div class="detail-value"><span class="pill pill-blue">${s.plan||'starter'}</span></div></div>
+      <div class="detail-item"><div class="detail-label">Clients</div><div class="detail-value">${s.clientCount||s.clients||0}</div></div>
+      <div class="detail-item"><div class="detail-label">Letters</div><div class="detail-value">${s.letterCount||0}</div></div>
+      <div class="detail-item"><div class="detail-label">Joined</div><div class="detail-value">${s.joined||s.joinedAt?new Date(s.joined||s.joinedAt).toLocaleDateString():'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value"><span class="pill pill-green">${s.status||'active'}</span></div></div>
+    </div>
+  `;
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+function viewIntake(i) {
+  const all = [...getIntakes(), ...scanFirmData().intakes];
+  const c = all[i];
+  document.getElementById('dm-title').textContent = (c.firstName||'') + ' ' + (c.lastName||'');
+  document.getElementById('dm-body').innerHTML = `
+    <div class="detail-grid">
+      <div class="detail-item"><div class="detail-label">Name</div><div class="detail-value">${c.firstName||''} ${c.lastName||''}</div></div>
+      <div class="detail-item"><div class="detail-label">Email</div><div class="detail-value">${c.email||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Phone</div><div class="detail-value">${c.phone||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Firm</div><div class="detail-value">${c.firmName||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Matter</div><div class="detail-value">${c.matterType||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Urgency</div><div class="detail-value" style="font-weight:700;color:${c.urgency==='emergency'?'var(--red)':c.urgency==='urgent'?'var(--orange)':'inherit'}">${c.urgency||'—'}</div></div>
+      <div class="detail-item"><div class="detail-label">Location</div><div class="detail-value">${c.city||''} ${c.state||''}</div></div>
+      <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value"><span class="pill pill-${c.status==='paid'?'green':'gray'}">${c.status||'new'}</span></div></div>
+    </div>
+    ${c.description ? `<div style="margin-top:12px"><div class="detail-label" style="margin-bottom:6px">Description</div><div style="background:var(--bg);padding:14px;border-radius:8px;font-size:.88rem;line-height:1.6">${c.description}</div></div>` : ''}
+    ${c.opposingParty ? `<div style="margin-top:12px"><div class="detail-label" style="margin-bottom:4px">Opposing Party</div><div style="font-size:.88rem">${c.opposingParty}</div></div>` : ''}
+  `;
+  document.getElementById('detail-modal').classList.add('open');
+}
+
+// ═══════════ TABS ═══════════
+function showTab(id) {
+  document.querySelectorAll('.admin-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  const tabs = document.querySelectorAll('.tab');
+  const idx = { overview:0, subscribers:1, intakes:2, revenue:3, crm:4 }[id];
+  if (tabs[idx]) tabs[idx].classList.add('active');
+}
+
+function filterSubs(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('#subs-tbody tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+}
+function filterIntakes(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('#intakes-tbody tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+}
+function filterLeads(q) {
+  q = q.toLowerCase();
+  document.querySelectorAll('#leads-tbody tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+}
+
+// Listen for new data
+window.addEventListener('storage', loadAdminData);
+</script>
+</body>
+</html>
