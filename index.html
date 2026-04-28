@@ -224,6 +224,32 @@
     .fade-in { opacity:0; transform:translateY(24px); transition:opacity .5s,transform .5s; }
     .fade-in.visible { opacity:1; transform:none; }
 
+    /* LOGIN MODAL */
+    #login-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:10001; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(4px); }
+    #login-overlay.open { display:flex; }
+    .login-box { background:#fff; border-radius:20px; width:100%; max-width:420px; box-shadow:0 32px 80px rgba(0,0,0,.25); overflow:hidden; }
+    .login-box-header { background:linear-gradient(135deg,#1e40af,#2563eb); padding:28px 32px 24px; color:#fff; }
+    .login-box-header .logo { font-weight:900; font-size:1.2rem; letter-spacing:-.02em; margin-bottom:4px; }
+    .login-box-header .logo span { color:#93c5fd; }
+    .login-box-header p { font-size:.875rem; opacity:.85; }
+    .login-box-body { padding:28px 32px 32px; }
+    .login-tabs { display:flex; gap:0; margin-bottom:24px; background:#f1f5f9; border-radius:10px; padding:4px; }
+    .login-tab { flex:1; padding:8px; border:none; background:none; border-radius:8px; font-weight:600; font-size:.875rem; cursor:pointer; color:#64748b; transition:all .2s; }
+    .login-tab.active { background:#fff; color:#1e40af; box-shadow:0 1px 4px rgba(0,0,0,.1); }
+    .login-form-group { margin-bottom:16px; }
+    .login-form-group label { display:block; font-size:.8rem; font-weight:600; color:#374151; margin-bottom:5px; }
+    .login-form-group input { width:100%; padding:11px 14px; border:1.5px solid #e5e7eb; border-radius:9px; font-size:.95rem; font-family:'Inter',sans-serif; outline:none; transition:border-color .2s,box-shadow .2s; }
+    .login-form-group input:focus { border-color:#2563eb; box-shadow:0 0 0 3px #dbeafe; }
+    .login-btn { width:100%; padding:13px; background:linear-gradient(135deg,#1e40af,#2563eb); color:#fff; border:none; border-radius:10px; font-weight:700; font-size:1rem; cursor:pointer; transition:transform .15s,box-shadow .15s; margin-top:4px; }
+    .login-btn:hover { transform:translateY(-1px); box-shadow:0 6px 20px rgba(37,99,235,.35); }
+    .login-err { background:#fef2f2; border:1px solid #fecaca; color:#dc2626; border-radius:8px; padding:10px 14px; font-size:.82rem; margin-bottom:14px; display:none; }
+    .login-err.show { display:block; }
+    .login-footer-note { text-align:center; font-size:.78rem; color:#9ca3af; margin-top:14px; }
+    .login-footer-note a { color:#2563eb; text-decoration:none; font-weight:600; }
+    .login-close-btn { float:right; background:rgba(255,255,255,.2); border:none; color:#fff; border-radius:50%; width:28px; height:28px; cursor:pointer; font-size:1rem; line-height:28px; text-align:center; margin-top:-4px; }
+    .nav-signin-btn { background:transparent!important; color:var(--blue)!important; border:1.5px solid var(--blue)!important; padding:8px 18px!important; border-radius:8px; font-weight:600!important; font-size:.875rem!important; cursor:pointer; transition:all .2s!important; text-decoration:none!important; }
+    .nav-signin-btn:hover { background:#eff6ff!important; }
+
     /* MOBILE */
     @media(max-width:768px) {
       .nav-links { display:none; }
@@ -242,6 +268,57 @@
   <button id="announce-close" onclick="this.parentElement.style.display='none'">&#10005;</button>
 </div>
 
+<!-- LOGIN MODAL -->
+<div id="login-overlay" onclick="if(event.target===this)closeLogin()">
+  <div class="login-box">
+    <div class="login-box-header">
+      <button class="login-close-btn" onclick="closeLogin()">&#10005;</button>
+      <div class="logo">Client<span>Ready</span></div>
+      <p>Sign in to access your firm's CRM dashboard</p>
+    </div>
+    <div class="login-box-body">
+      <div class="login-tabs">
+        <button class="login-tab active" id="tab-signin" onclick="switchLoginTab('signin')">Sign In</button>
+        <button class="login-tab" id="tab-register" onclick="switchLoginTab('register')">Create Account</button>
+      </div>
+
+      <div id="login-err" class="login-err"></div>
+
+      <!-- SIGN IN PANEL -->
+      <div id="panel-signin">
+        <div class="login-form-group">
+          <label>Email Address</label>
+          <input type="email" id="li-email" placeholder="you@yourfirm.com" autocomplete="email" onkeydown="if(event.key==='Enter')submitLogin()" />
+        </div>
+        <div class="login-form-group">
+          <label>Password</label>
+          <input type="password" id="li-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')submitLogin()" />
+        </div>
+        <button class="login-btn" onclick="submitLogin()">Sign In to My Dashboard →</button>
+        <div class="login-footer-note">Don't have an account? <a href="#" onclick="switchLoginTab('register');return false;">Create one free</a></div>
+      </div>
+
+      <!-- REGISTER PANEL -->
+      <div id="panel-register" style="display:none">
+        <div class="login-form-group">
+          <label>Firm Name</label>
+          <input type="text" id="li-firm" placeholder="Smith & Associates Law" autocomplete="organization" />
+        </div>
+        <div class="login-form-group">
+          <label>Email Address</label>
+          <input type="email" id="li-reg-email" placeholder="you@yourfirm.com" autocomplete="email" />
+        </div>
+        <div class="login-form-group">
+          <label>Password</label>
+          <input type="password" id="li-reg-pass" placeholder="Min. 8 characters" autocomplete="new-password" onkeydown="if(event.key==='Enter')submitRegister()" />
+        </div>
+        <button class="login-btn" onclick="submitRegister()">Create Account & Enter CRM →</button>
+        <div class="login-footer-note">Already have an account? <a href="#" onclick="switchLoginTab('signin');return false;">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">Client<span>Ready</span></a>
@@ -250,6 +327,7 @@
     <li><a href="#how-it-works">How It Works</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
+    <li><a href="#" class="nav-signin-btn" onclick="openLogin();return false;">Sign In</a></li>
     <li><a href="#" class="nav-cta" onclick="openModal('nav');return false;">Get Early Access</a></li>
   </ul>
   <button class="hamburger" id="hamburger">&#9776;</button>
@@ -264,6 +342,7 @@
     <button class="btn-primary" onclick="openModal('hero')">Start Free 7-Day Trial &rarr;</button>
     <a href="#how-it-works" class="btn-secondary">See How It Works</a>
   </div>
+  <div style="margin-top:16px;font-size:.875rem;color:var(--gray)">Already a member? <a href="#" onclick="openLogin();return false;" style="color:var(--blue);font-weight:700;text-decoration:none">Sign in to your dashboard →</a></div>
   <div class="hero-proof">
     <span class="avatar-stack"><span>SM</span><span>JT</span><span>LR</span><span>AK</span><span>+</span></span>
     <strong>240+ attorneys</strong> on the early access list
@@ -715,6 +794,69 @@
   const STRIPE_GROWTH  = 'https://buy.stripe.com/5kQ7sL2rE3Gd7Msdd11Fe02';
   const NOTIFY_EMAIL   = 'richardhazy@gmail.com';         // Your email for lead notifications
   // =================================================
+
+  // ─── LOGIN SYSTEM ────────────────────────────────────────────────
+  function simpleHash(str){ let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h)+str.charCodeAt(i); h|=0; } return h.toString(36); }
+
+  function openLogin() {
+    document.getElementById('login-overlay').classList.add('open');
+    setTimeout(()=>document.getElementById('li-email').focus(), 100);
+  }
+  function closeLogin() { document.getElementById('login-overlay').classList.remove('open'); }
+
+  function switchLoginTab(tab) {
+    document.getElementById('tab-signin').classList.toggle('active', tab==='signin');
+    document.getElementById('tab-register').classList.toggle('active', tab==='register');
+    document.getElementById('panel-signin').style.display = tab==='signin' ? 'block' : 'none';
+    document.getElementById('panel-register').style.display = tab==='register' ? 'block' : 'none';
+    document.getElementById('login-err').classList.remove('show');
+  }
+
+  function loginErr(msg) {
+    const el = document.getElementById('login-err');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+
+  function submitLogin() {
+    const email = document.getElementById('li-email').value.trim().toLowerCase();
+    const pass  = document.getElementById('li-pass').value;
+    if (!email || !pass) { loginErr('Please enter your email and password.'); return; }
+    const accounts = JSON.parse(localStorage.getItem('cr_accounts') || '[]');
+    const acct = accounts.find(a => a.email === email);
+    if (!acct) { loginErr('No account found with that email. Create an account below.'); return; }
+    if (acct.passHash !== simpleHash(pass)) { loginErr('Incorrect password. Please try again.'); return; }
+    sessionStorage.setItem('cr_session', JSON.stringify(acct));
+    window.location.href = 'app.html';
+  }
+
+  function submitRegister() {
+    const firm  = document.getElementById('li-firm').value.trim();
+    const email = document.getElementById('li-reg-email').value.trim().toLowerCase();
+    const pass  = document.getElementById('li-reg-pass').value;
+    if (!firm) { loginErr('Please enter your firm name.'); return; }
+    if (!email || !email.includes('@')) { loginErr('Please enter a valid email address.'); return; }
+    if (pass.length < 8) { loginErr('Password must be at least 8 characters.'); return; }
+    const accounts = JSON.parse(localStorage.getItem('cr_accounts') || '[]');
+    if (accounts.find(a => a.email === email)) { loginErr('An account with that email already exists. Please sign in.'); return; }
+    const acct = { email, firm, plan: 'Starter ($79/mo)', passHash: simpleHash(pass), firmId: 'firm_' + Date.now(), createdAt: new Date().toISOString() };
+    accounts.push(acct);
+    localStorage.setItem('cr_accounts', JSON.stringify(accounts));
+    sessionStorage.setItem('cr_session', JSON.stringify(acct));
+    window.location.href = 'app.html';
+  }
+
+  // If already logged in, show "Go to Dashboard" in nav
+  (function() {
+    const s = sessionStorage.getItem('cr_session');
+    if (s) {
+      try {
+        const acct = JSON.parse(s);
+        const signinLink = document.querySelector('.nav-signin-btn');
+        if (signinLink) { signinLink.textContent = '→ My Dashboard'; signinLink.onclick = function(){ window.location.href='app.html'; return false; }; }
+      } catch(e) {}
+    }
+  })();
 
   // Wire Stripe buttons
   if (!STRIPE_STARTER.startsWith('YOUR')) document.getElementById('starter-btn').href = STRIPE_STARTER;
