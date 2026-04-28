@@ -145,6 +145,44 @@ tbody tr:hover{background:#fafbfd}
 .ai-dot:nth-child(3){animation-delay:.4s}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 
+/* ─── AI CHAT WIDGET ─────────────────────── */
+#cr-chat-btn{position:fixed;bottom:24px;right:24px;z-index:8000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1e40af,#7c3aed);border:none;cursor:pointer;box-shadow:0 6px 24px rgba(37,99,235,.45);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:transform .2s,box-shadow .2s;color:#fff}
+#cr-chat-btn:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(37,99,235,.55)}
+#cr-chat-btn .chat-notif{position:absolute;top:-2px;right:-2px;width:14px;height:14px;background:#22c55e;border-radius:50%;border:2px solid #fff;animation:pulse 2s infinite}
+#cr-chat-panel{position:fixed;bottom:92px;right:24px;z-index:8001;width:380px;max-height:580px;background:#fff;border-radius:20px;box-shadow:0 16px 56px rgba(0,0,0,.22);display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border)}
+#cr-chat-panel.open{display:flex}
+.chat-panel-head{background:linear-gradient(135deg,#1e40af,#7c3aed);padding:16px 18px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.chat-head-avatar{width:36px;height:36px;background:rgba(255,255,255,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.chat-head-info{flex:1}
+.chat-head-name{font-weight:700;color:#fff;font-size:.93rem}
+.chat-head-status{font-size:.72rem;color:rgba(255,255,255,.75);display:flex;align-items:center;gap:4px}
+.chat-head-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ade80;display:inline-block}
+.chat-head-close{background:none;border:none;color:rgba(255,255,255,.7);cursor:pointer;font-size:1.2rem;padding:2px;line-height:1}
+.chat-head-close:hover{color:#fff}
+.chat-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;background:#f8fafc}
+.chat-msg{max-width:88%;display:flex;flex-direction:column;gap:3px}
+.chat-msg.user{align-self:flex-end;align-items:flex-end}
+.chat-msg.assistant{align-self:flex-start;align-items:flex-start}
+.chat-bubble{padding:10px 14px;border-radius:16px;font-size:.85rem;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+.chat-msg.user .chat-bubble{background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.chat-msg.assistant .chat-bubble{background:#fff;color:var(--navy);border:1px solid var(--border);border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.chat-msg-time{font-size:.65rem;color:var(--gray);padding:0 4px}
+.chat-typing{display:flex;align-items:center;gap:5px;padding:10px 14px;background:#fff;border:1px solid var(--border);border-radius:16px;border-bottom-left-radius:4px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.chat-typing span{width:6px;height:6px;border-radius:50%;background:#94a3b8;animation:chatpulse .9s infinite}
+.chat-typing span:nth-child(2){animation-delay:.2s}
+.chat-typing span:nth-child(3){animation-delay:.4s}
+@keyframes chatpulse{0%,80%,100%{transform:scale(0.7);opacity:.5}40%{transform:scale(1);opacity:1}}
+.chat-quick-btns{display:flex;gap:6px;flex-wrap:wrap;padding:0 16px 10px;flex-shrink:0;background:#f8fafc}
+.chat-quick-btn{background:#fff;border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:.75rem;font-weight:600;color:var(--navy);cursor:pointer;white-space:nowrap;transition:all .12s}
+.chat-quick-btn:hover{border-color:var(--blue);color:var(--blue);background:#eff6ff}
+.chat-input-area{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--border);background:#fff;flex-shrink:0}
+.chat-input{flex:1;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-size:.87rem;font-family:inherit;outline:none;resize:none;height:40px;transition:border .12s;line-height:1.4}
+.chat-input:focus{border-color:var(--blue)}
+.chat-send-btn{width:36px;height:36px;border-radius:9px;background:var(--blue);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;transition:background .12s;align-self:flex-end}
+.chat-send-btn:hover{background:var(--blue-dk)}
+.chat-send-btn:disabled{background:var(--gray);cursor:not-allowed}
+@media(max-width:480px){#cr-chat-panel{width:calc(100vw - 24px);right:12px;bottom:84px}}
+
 /* ─── INTAKE LINK ─────────────────────────── */
 .intake-link-box{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px}
 .intake-link-box input{flex:1;border:none;background:none;font-size:.84rem;font-family:monospace;color:var(--navy);outline:none;min-width:0}
@@ -1597,6 +1635,202 @@ try{
 if(!checkSession()){
   document.getElementById('auth-wrap').style.display='flex';
 }
+
+// ═══════════════════════════════════════════════════
+// AI CHAT WIDGET
+// ═══════════════════════════════════════════════════
+const chatHistory = []; // {role:'user'|'assistant', content:'...'}
+
+function toggleChat(){
+  const panel = document.getElementById('cr-chat-panel');
+  const isOpen = panel.classList.contains('open');
+  if(isOpen){ panel.classList.remove('open'); }
+  else {
+    panel.classList.add('open');
+    // Remove notification dot once opened
+    const dot = document.querySelector('#cr-chat-btn .chat-notif');
+    if(dot) dot.style.display = 'none';
+    // Show welcome message if first open
+    if(chatHistory.length === 0) initChatWelcome();
+    setTimeout(()=>document.getElementById('cr-chat-input').focus(), 100);
+  }
+}
+
+function initChatWelcome(){
+  const s = getSettings();
+  const clients = getClients();
+  const firmName = s.firmName || 'your firm';
+  const newCount = clients.filter(c=>c.status==='new').length;
+  const welcome = `Hi! I'm your ClientReady AI assistant 👋\n\nI'm connected to ${firmName}'s CRM. You currently have ${clients.length} client${clients.length!==1?'s':''} on file${newCount>0?' ('+newCount+' new)':''}.\n\nI can help you:\n• Draft and send intake links\n• Summarize or review client files\n• Answer questions about how to use ClientReady\n• Draft engagement letters\n• Get support on anything in your CRM\n\nWhat can I help you with?`;
+  appendChatMsg('assistant', welcome);
+}
+
+function appendChatMsg(role, text){
+  chatHistory.push({role, content: text});
+  const container = document.getElementById('cr-chat-messages');
+  const msgEl = document.createElement('div');
+  msgEl.className = 'chat-msg ' + role;
+  const now = new Date().toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'});
+  msgEl.innerHTML = `<div class="chat-bubble">${escapeHtml(text)}</div><div class="chat-msg-time">${now}</div>`;
+  container.appendChild(msgEl);
+  container.scrollTop = container.scrollHeight;
+}
+
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function showChatTyping(){
+  const container = document.getElementById('cr-chat-messages');
+  const el = document.createElement('div');
+  el.className = 'chat-msg assistant';
+  el.id = 'chat-typing-indicator';
+  el.innerHTML = '<div class="chat-typing"><span></span><span></span><span></span></div>';
+  container.appendChild(el);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeChatTyping(){
+  const el = document.getElementById('chat-typing-indicator');
+  if(el) el.remove();
+}
+
+function chatQuick(text){
+  document.getElementById('cr-chat-input').value = text;
+  sendChat();
+}
+
+async function sendChat(){
+  const input = document.getElementById('cr-chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  const sendBtn = document.getElementById('cr-send-btn');
+
+  const s = getSettings();
+  if(!s.claudeKey){
+    appendChatMsg('assistant', '⚠️ To use AI chat, please add your Claude API key in Settings → Integrations. Once added, I\'ll be able to answer questions and help with intakes!');
+    input.value = '';
+    return;
+  }
+
+  input.value = '';
+  input.style.height = '40px';
+  sendBtn.disabled = true;
+  appendChatMsg('user', text);
+  showChatTyping();
+
+  // Build context snapshot for the system prompt
+  const clients = getClients();
+  const letters = getLetters();
+  const newClients = clients.filter(c=>c.status==='new');
+  const intakeUrl = (location.origin + '/intake.html') + '?id=' + (FIRM_KEY||'default') + '&firm=' + encodeURIComponent(s.firmName||'Law Firm') + '&email=' + encodeURIComponent(s.firmEmail||'') + '&retainer=' + encodeURIComponent(s.defaultRetainer||'1500') + '&rate=' + encodeURIComponent(s.hourlyRate||'300');
+
+  const systemPrompt = `You are an expert AI legal practice assistant embedded inside ClientReady, an AI-powered client intake and CRM platform for law firms.
+
+FIRM CONTEXT:
+- Firm: ${s.firmName || 'Law Firm'}
+- Email: ${s.firmEmail || 'not set'}
+- Plan: ${s.plan || 'Starter'}
+- Total clients in CRM: ${clients.length}
+- New/unreviewed clients: ${newClients.length}
+- Pending letters: ${letters.filter(l=>l.status==='draft').length}
+- Intake link: ${intakeUrl}
+
+RECENT CLIENTS (last 5):
+${clients.slice(0,5).map((c,i)=>`${i+1}. ${c.firstName||''} ${c.lastName||''} — ${c.matterType||'Unknown matter'} — Status: ${c.status||'new'} — Submitted: ${c.submittedAt ? new Date(c.submittedAt).toLocaleDateString() : 'unknown'}`).join('\n') || 'No clients yet.'}
+
+YOUR CAPABILITIES:
+You can help the attorney/staff with:
+1. Drafting intake links — provide the full intake URL above with explanation
+2. Summarizing client status and workload
+3. Explaining how ClientReady features work (settings, templates, letters, payments)
+4. Drafting follow-up emails or messages for clients
+5. Answering legal workflow and intake best-practice questions
+6. Troubleshooting or support (e.g. "how do I set up Stripe?", "where do I find my API key?")
+7. Suggesting next actions based on current CRM state
+
+INSTRUCTIONS:
+- Be concise, warm, and professional — you're an assistant in a busy law firm
+- Format responses with line breaks for readability (no markdown headers or bullets — use plain text with line breaks)
+- When providing the intake link, always show the full URL
+- If asked something you don't know, say so honestly
+- Never fabricate client data — only reference what's in the context above`;
+
+  // Build messages array (last 10 messages for context)
+  const recentHistory = chatHistory.slice(-10).map(m=>({role:m.role, content:m.content}));
+
+  try {
+    const res = await fetch(CLAUDE_API, {
+      method: 'POST',
+      headers: {
+        'x-api-key': s.claudeKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        system: systemPrompt,
+        messages: recentHistory
+      })
+    });
+    removeChatTyping();
+    if(!res.ok){ const e=await res.json(); throw new Error(e.error?.message||'API error'); }
+    const data = await res.json();
+    const reply = data.content[0].text;
+    appendChatMsg('assistant', reply);
+  } catch(e) {
+    removeChatTyping();
+    appendChatMsg('assistant', '⚠️ Error: ' + e.message + '\n\nPlease check your API key in Settings.');
+  }
+  sendBtn.disabled = false;
+  input.focus();
+}
+
+// Enter to send, Shift+Enter for newline
+document.addEventListener('DOMContentLoaded', ()=>{
+  const inp = document.getElementById('cr-chat-input');
+  if(inp){
+    inp.addEventListener('keydown', e=>{
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); sendChat(); }
+    });
+    inp.addEventListener('input', ()=>{
+      inp.style.height = '40px';
+      inp.style.height = Math.min(inp.scrollHeight, 100) + 'px';
+    });
+  }
+});
 </script>
+
+<!-- AI CHAT WIDGET -->
+<button id="cr-chat-btn" onclick="toggleChat()" title="AI Assistant">
+  🤖
+  <span class="chat-notif"></span>
+</button>
+
+<div id="cr-chat-panel">
+  <div class="chat-panel-head">
+    <div class="chat-head-avatar">🤖</div>
+    <div class="chat-head-info">
+      <div class="chat-head-name">ClientReady AI</div>
+      <div class="chat-head-status">Online — Ask me anything</div>
+    </div>
+    <button class="chat-head-close" onclick="toggleChat()">✕</button>
+  </div>
+
+  <div id="cr-chat-messages" class="chat-messages"></div>
+
+  <div class="chat-quick-btns">
+    <button class="chat-quick-btn" onclick="chatQuick('Send me my intake link')">📋 Intake link</button>
+    <button class="chat-quick-btn" onclick="chatQuick('Summarize my new clients')">👥 New clients</button>
+    <button class="chat-quick-btn" onclick="chatQuick('How do I set up Stripe payments?')">💳 Stripe help</button>
+    <button class="chat-quick-btn" onclick="chatQuick('What should I do today in my CRM?')">✅ Today\'s tasks</button>
+  </div>
+
+  <div class="chat-input-area">
+    <textarea id="cr-chat-input" class="chat-input" placeholder="Ask anything about your clients, intakes, or how to use ClientReady…" rows="1"></textarea>
+    <button id="cr-send-btn" class="chat-send-btn" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
 </body>
 </html>
