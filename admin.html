@@ -7,411 +7,455 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--blue:#2563eb;--green:#16a34a;--red:#dc2626;--orange:#f59e0b;--gray:#64748b;--border:#e2e8f0;--bg:#f8fafc;--white:#fff;--navy:#0f172a;--radius:12px}
+:root{--blue:#2563eb;--blue-lt:#eff6ff;--green:#16a34a;--red:#dc2626;--purple:#7c3aed;--orange:#f59e0b;--gray:#64748b;--border:#e2e8f0;--bg:#f1f5f9;--white:#fff;--navy:#0f172a;--radius:14px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05)}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh}
-
-/* AUTH */
-.auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.auth-box{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:40px;width:100%;max-width:400px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,.08)}
-.auth-logo{font-size:1.4rem;font-weight:900;margin-bottom:8px}
-.auth-logo span{color:var(--blue)}
-.auth-sub{font-size:.9rem;color:var(--gray);margin-bottom:28px}
-.auth-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 16px;font-size:1rem;font-family:inherit;outline:none;margin-bottom:12px}
+#auth-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0f172a,#1e3a8a)}
+.auth-box{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:400px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.auth-logo{font-size:1.4rem;font-weight:900;margin-bottom:4px}.auth-logo span{color:var(--blue)}
+.auth-sub{font-size:.88rem;color:var(--gray);margin-bottom:20px}
+.auth-badge{display:inline-block;background:var(--red);color:#fff;padding:3px 12px;border-radius:20px;font-size:.72rem;font-weight:700;margin-bottom:18px}
+.auth-input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;font-size:.95rem;font-family:inherit;outline:none;margin-bottom:12px;text-align:center;letter-spacing:.08em}
 .auth-input:focus{border-color:var(--blue)}
-.auth-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:10px;padding:13px;font-size:1rem;font-weight:700;cursor:pointer}
-.auth-btn:hover{background:#1d4ed8}
-.auth-error{color:var(--red);font-size:.85rem;margin-top:8px;display:none}
-
-/* HEADER */
-.admin-header{background:var(--navy);color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between}
-.admin-header .logo{font-weight:900;font-size:1.1rem}.logo span{color:#60a5fa}
-.admin-badge{background:var(--red);color:#fff;padding:3px 10px;border-radius:4px;font-size:.75rem;font-weight:700;margin-left:10px}
-.admin-user{font-size:.85rem;opacity:.7}
-
-/* TABS */
-.tab-bar{background:var(--white);border-bottom:1px solid var(--border);display:flex;gap:0;padding:0 28px}
-.tab{padding:14px 20px;font-size:.88rem;font-weight:600;color:var(--gray);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
-.tab:hover{color:var(--navy)}
-.tab.active{color:var(--blue);border-bottom-color:var(--blue)}
-
-/* MAIN */
-.admin-main{padding:28px;max-width:1200px;margin:0 auto}
+.auth-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:10px;padding:13px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit}.auth-btn:hover{background:#1d4ed8}
+.auth-error{color:var(--red);font-size:.83rem;margin-top:10px;display:none}
+#admin-wrap{display:none}
+.admin-header{background:var(--navy);color:#fff;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:8px}
+.admin-logo{font-weight:900;font-size:1.1rem}.admin-logo span{color:#60a5fa}
+.admin-badge-hdr{background:var(--red);color:#fff;padding:2px 10px;border-radius:4px;font-size:.72rem;font-weight:700;margin-left:10px}
+.admin-nav{display:flex;gap:4px;flex-wrap:wrap}
+.anb{background:none;border:none;color:rgba(255,255,255,.6);padding:7px 13px;border-radius:7px;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .12s;font-family:inherit}
+.anb:hover{background:rgba(255,255,255,.1);color:#fff}.anb.active{background:var(--blue);color:#fff}
+.logout-btn{background:rgba(255,255,255,.1);border:none;color:rgba(255,255,255,.7);padding:6px 12px;border-radius:7px;font-size:.8rem;cursor:pointer;font-family:inherit}.logout-btn:hover{color:#fff;background:rgba(255,255,255,.2)}
+.admin-main{padding:28px 32px 80px;max-width:1400px;margin:0 auto}
 .admin-page{display:none}.admin-page.active{display:block}
-
-/* CARDS */
-.kpi-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
-.kpi{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
-.kpi-label{font-size:.75rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
-.kpi-value{font-size:1.6rem;font-weight:900;margin-top:4px}
-.kpi-sub{font-size:.78rem;color:var(--green);font-weight:600;margin-top:2px}
-
-/* TABLE */
-.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:20px}
-.card-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
-.card-title{font-weight:700;font-size:.95rem}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:22px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.stat-card.hi{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border:none}
+.stat-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gray);margin-bottom:5px}
+.stat-card.hi .stat-label{color:rgba(255,255,255,.7)}
+.stat-val{font-size:2.1rem;font-weight:900;line-height:1}
+.stat-sub{font-size:.75rem;color:var(--gray);margin-top:4px}
+.stat-sub.up{color:var(--green);font-weight:600}
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--border)}
+.card-title{font-weight:700;font-size:.93rem}
 table{width:100%;border-collapse:collapse}
-thead th{text-align:left;padding:10px 16px;font-size:.75rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);background:var(--bg)}
-tbody td{padding:11px 16px;font-size:.85rem;border-bottom:1px solid #f1f5f9}
-tbody tr:hover{background:#f8fafc}
-.pill{display:inline-block;padding:2px 8px;border-radius:50px;font-size:.72rem;font-weight:600}
-.pill-blue{background:#dbeafe;color:#1d4ed8}
-.pill-green{background:#dcfce7;color:#15803d}
-.pill-orange{background:#fef3c7;color:#92400e}
-.pill-red{background:#fee2e2;color:#991b1b}
-.pill-gray{background:#f1f5f9;color:#64748b}
-
-.btn-sm{border:none;border-radius:6px;padding:4px 10px;font-size:.78rem;font-weight:600;cursor:pointer;font-family:inherit}
-.btn-blue{background:var(--blue);color:#fff}
-.search-input{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-size:.85rem;width:200px;outline:none;font-family:inherit}
+thead th{text-align:left;padding:10px 16px;font-size:.71rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;background:var(--bg);border-bottom:1px solid var(--border)}
+tbody td{padding:12px 16px;font-size:.85rem;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tbody tr:last-child td{border:none}
+tbody tr:hover{background:#fafbfd}
+.btn{border:none;border-radius:8px;padding:8px 16px;font-size:.83rem;font-weight:600;cursor:pointer;transition:all .12s;font-family:inherit;display:inline-flex;align-items:center;gap:5px}
+.btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:#1d4ed8}
+.btn-outline{background:none;border:1.5px solid var(--border);color:var(--navy)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#15803d}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#b91c1c}
+.btn-sm{padding:5px 11px;font-size:.77rem;border-radius:6px}
+.btn-xs{padding:3px 8px;font-size:.71rem;border-radius:5px}
+.pill{display:inline-block;padding:3px 9px;border-radius:50px;font-size:.71rem;font-weight:700}
+.pill-starter{background:#dbeafe;color:#1d4ed8}.pill-growth{background:#f3e8ff;color:#6b21a8}
+.pill-active{background:#dcfce7;color:#15803d}.pill-inactive{background:#f1f5f9;color:var(--gray)}.pill-trial{background:#fef3c7;color:#92400e}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:#fff;border-radius:16px;width:100%;max-width:600px;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.22)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--border)}
+.modal-head h3{font-size:1rem;font-weight:800}
+.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--gray);padding:2px 8px}
+.modal-body{padding:22px}.modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+.form-group{margin-bottom:13px}
+.form-group label{display:block;font-size:.79rem;font-weight:600;margin-bottom:4px}
+.form-group input,.form-group select{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:.88rem;font-family:inherit;outline:none}
+.form-group input:focus,.form-group select:focus{border-color:var(--blue)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.detail-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:.86rem}
+.detail-row:last-child{border:none}
+.detail-label{font-weight:600;color:var(--gray)}
+.tax-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.tax-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.tax-card h4{font-weight:700;font-size:.88rem;margin-bottom:10px}
+.tax-line{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f1f5f9;font-size:.83rem}
+.tax-line:last-child{border:none;font-weight:700;font-size:.88rem;padding-top:10px}
+.tax-line.total{color:var(--green)}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:11px 20px;border-radius:50px;font-size:.85rem;font-weight:600;z-index:9998;transition:transform .3s;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
+.search-input{border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.83rem;outline:none;font-family:inherit;width:200px}
 .search-input:focus{border-color:var(--blue)}
-
-.detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
-.detail-item{padding:10px;background:var(--bg);border-radius:8px}
-.detail-label{font-size:.72rem;font-weight:600;color:var(--gray);text-transform:uppercase;margin-bottom:2px}
-.detail-value{font-size:.88rem;font-weight:500}
-
-/* MODAL */
-.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
-.modal-bg.open{display:flex}
-.modal-box{background:var(--white);border-radius:16px;width:95%;max-width:700px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal-top{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid var(--border)}
-.modal-top h3{font-size:1.05rem;font-weight:800}
-.close-btn{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--gray)}
-.modal-content{padding:24px}
 </style>
 </head>
 <body>
 
-<!-- AUTH SCREEN -->
-<div class="auth-screen" id="auth-screen">
+<div id="auth-screen">
   <div class="auth-box">
     <div class="auth-logo">Client<span>Ready</span></div>
-    <div class="auth-sub">Admin Dashboard — Owner Access Only</div>
+    <div class="auth-sub">Owner Dashboard</div>
+    <div class="auth-badge">🔒 ADMIN ACCESS ONLY</div>
     <input type="password" class="auth-input" id="admin-pass" placeholder="Enter admin password" onkeydown="if(event.key==='Enter')adminLogin()"/>
-    <button class="auth-btn" onclick="adminLogin()">Sign In</button>
-    <div class="auth-error" id="auth-error">Invalid password. Try again.</div>
+    <button class="auth-btn" onclick="adminLogin()">Access Dashboard</button>
+    <div class="auth-error" id="auth-error">Incorrect password. Try again.</div>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
-<div id="admin-panel" style="display:none">
-
+<div id="admin-wrap">
+<div id="toast"></div>
 <div class="admin-header">
-  <div style="display:flex;align-items:center"><span class="logo">Client<span>Ready</span></span><span class="admin-badge">ADMIN</span></div>
-  <div class="admin-user">richardhazy@gmail.com &middot; <a href="#" onclick="adminLogout()" style="color:#60a5fa;text-decoration:none">Sign Out</a></div>
-</div>
-
-<div class="tab-bar">
-  <div class="tab active" onclick="showTab('overview')">Overview</div>
-  <div class="tab" onclick="showTab('subscribers')">Subscribers</div>
-  <div class="tab" onclick="showTab('intakes')">All Intakes</div>
-  <div class="tab" onclick="showTab('revenue')">Revenue</div>
-  <div class="tab" onclick="showTab('crm')">CRM Leads</div>
+  <div style="display:flex;align-items:center"><span class="admin-logo">Client<span>Ready</span></span><span class="admin-badge-hdr">ADMIN</span></div>
+  <div class="admin-nav">
+    <button class="anb active" onclick="showAP('overview')">📊 Overview</button>
+    <button class="anb" onclick="showAP('subscribers')">👥 Subscribers</button>
+    <button class="anb" onclick="showAP('revenue')">💰 Revenue</button>
+    <button class="anb" onclick="showAP('tax')">📋 Tax & Reports</button>
+    <button class="anb" onclick="showAP('settings')">⚙️ Settings</button>
+  </div>
+  <button class="logout-btn" onclick="adminLogout()">Sign Out</button>
 </div>
 
 <div class="admin-main">
 
 <!-- OVERVIEW -->
-<div class="admin-page active" id="tab-overview">
-  <div class="kpi-row">
-    <div class="kpi"><div class="kpi-label">Total Subscribers</div><div class="kpi-value" id="k-subs">0</div><div class="kpi-sub" id="k-subs-ch"></div></div>
-    <div class="kpi"><div class="kpi-label">MRR</div><div class="kpi-value" id="k-mrr">$0</div></div>
-    <div class="kpi"><div class="kpi-label">Total Intakes</div><div class="kpi-value" id="k-intakes">0</div></div>
-    <div class="kpi"><div class="kpi-label">Letters Generated</div><div class="kpi-value" id="k-letters">0</div></div>
-    <div class="kpi"><div class="kpi-label">Conversion Rate</div><div class="kpi-value" id="k-conv">—</div></div>
-    <div class="kpi"><div class="kpi-label">Retainers Collected</div><div class="kpi-value" id="k-retainers">$0</div></div>
+<div class="admin-page active" id="ap-overview">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px">
+    <div><div style="font-size:1.4rem;font-weight:800">Business Overview</div><div style="font-size:.84rem;color:var(--gray)">ClientReady platform at a glance</div></div>
+    <div style="display:flex;gap:8px"><button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Export CSV</button><button class="btn btn-primary btn-sm" onclick="showAP('subscribers');openModal('add-sub-modal')">+ Add Subscriber</button></div>
   </div>
-
-  <div class="card">
-    <div class="card-head"><span class="card-title">Recent Activity</span></div>
-    <table>
-      <thead><tr><th>Event</th><th>Detail</th><th>Time</th></tr></thead>
-      <tbody id="activity-tbody"></tbody>
-    </table>
+  <div class="stat-grid">
+    <div class="stat-card hi"><div class="stat-label">Monthly Recurring Revenue</div><div class="stat-val" id="ov-mrr">$0</div><div class="stat-sub" style="color:rgba(255,255,255,.6)">all active plans</div></div>
+    <div class="stat-card"><div class="stat-label">Active Subscribers</div><div class="stat-val" id="ov-total">0</div><div class="stat-sub">paying accounts</div></div>
+    <div class="stat-card"><div class="stat-label">Starter Plans</div><div class="stat-val" id="ov-starter">0</div><div class="stat-sub">@ $79/mo</div></div>
+    <div class="stat-card"><div class="stat-label">Growth Plans</div><div class="stat-val" id="ov-growth">0</div><div class="stat-sub up">@ $129/mo</div></div>
+    <div class="stat-card"><div class="stat-label">Annual Run Rate</div><div class="stat-val" id="ov-arr">$0</div><div class="stat-sub up">projected ARR</div></div>
+    <div class="stat-card"><div class="stat-label">Avg Rev / User</div><div class="stat-val" id="ov-arpu">$0</div><div class="stat-sub">per month</div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="card">
+      <div class="card-head"><div class="card-title">Recent Sign-ups</div><button class="btn btn-sm btn-outline" onclick="showAP('subscribers')">View All</button></div>
+      <table><thead><tr><th>Firm</th><th>Plan</th><th>Status</th><th>Joined</th><th></th></tr></thead><tbody id="recent-subs-tbody"></tbody></table>
+    </div>
+    <div class="card" style="padding:20px">
+      <div style="font-weight:700;margin-bottom:14px">Plan Distribution</div>
+      <div id="plan-dist"></div>
+    </div>
   </div>
 </div>
 
 <!-- SUBSCRIBERS -->
-<div class="admin-page" id="tab-subscribers">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-    <h2 style="font-size:1.2rem;font-weight:800">Subscribers</h2>
-    <div style="display:flex;gap:8px"><input type="text" class="search-input" placeholder="Search..." oninput="filterSubs(this.value)"/><button class="btn-sm btn-blue" onclick="addDemoSub()">+ Add Demo</button></div>
+<div class="admin-page" id="ap-subscribers">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px">
+    <div><div style="font-size:1.4rem;font-weight:800">Subscribers</div><div style="font-size:.84rem;color:var(--gray)">All firms on ClientReady</div></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <input class="search-input" placeholder="🔍 Search..." oninput="filterSubs(this.value)"/>
+      <select id="plan-filter" onchange="filterSubs(document.querySelector('.search-input').value||'')" style="border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.83rem;font-family:inherit;outline:none">
+        <option value="">All Plans</option><option value="starter">Starter</option><option value="growth">Growth</option>
+      </select>
+      <button class="btn btn-primary btn-sm" onclick="openModal('add-sub-modal')">+ Add</button>
+    </div>
   </div>
-  <div class="card">
-    <table>
-      <thead><tr><th>Firm</th><th>Attorney</th><th>Email</th><th>Plan</th><th>Status</th><th>Clients</th><th>Joined</th><th>Actions</th></tr></thead>
-      <tbody id="subs-tbody"></tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ALL INTAKES -->
-<div class="admin-page" id="tab-intakes">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-    <h2 style="font-size:1.2rem;font-weight:800">All Client Intakes</h2>
-    <input type="text" class="search-input" placeholder="Search intakes..." oninput="filterIntakes(this.value)"/>
-  </div>
-  <div class="card">
-    <table>
-      <thead><tr><th>Client</th><th>Firm</th><th>Matter</th><th>Urgency</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
-      <tbody id="intakes-tbody"></tbody>
-    </table>
+  <div class="card" style="overflow:hidden">
+    <table><thead><tr><th>Firm</th><th>Email</th><th>Plan</th><th>Status</th><th>Intakes</th><th>MRR</th><th>Joined</th><th>Actions</th></tr></thead><tbody id="subs-tbody"></tbody></table>
   </div>
 </div>
 
 <!-- REVENUE -->
-<div class="admin-page" id="tab-revenue">
-  <div class="kpi-row">
-    <div class="kpi"><div class="kpi-label">Monthly Recurring Revenue</div><div class="kpi-value" id="r-mrr">$0</div></div>
-    <div class="kpi"><div class="kpi-label">Annual Run Rate</div><div class="kpi-value" id="r-arr">$0</div></div>
-    <div class="kpi"><div class="kpi-label">Starter Plans</div><div class="kpi-value" id="r-starter">0</div></div>
-    <div class="kpi"><div class="kpi-label">Growth Plans</div><div class="kpi-value" id="r-growth">0</div></div>
-    <div class="kpi"><div class="kpi-label">Churn Rate</div><div class="kpi-value">0%</div></div>
-    <div class="kpi"><div class="kpi-label">LTV (Est.)</div><div class="kpi-value" id="r-ltv">$0</div></div>
+<div class="admin-page" id="ap-revenue">
+  <div style="margin-bottom:22px"><div style="font-size:1.4rem;font-weight:800">Revenue Analytics</div><div style="font-size:.84rem;color:var(--gray)">SaaS financial performance</div></div>
+  <div class="stat-grid">
+    <div class="stat-card hi"><div class="stat-label">MRR</div><div class="stat-val" id="rev-mrr">$0</div><div class="stat-sub" style="color:rgba(255,255,255,.6)">Monthly Recurring Revenue</div></div>
+    <div class="stat-card"><div class="stat-label">ARR</div><div class="stat-val" id="rev-arr">$0</div><div class="stat-sub">Annual Run Rate</div></div>
+    <div class="stat-card"><div class="stat-label">Total Collected</div><div class="stat-val" id="rev-total">$0</div><div class="stat-sub">since launch</div></div>
+    <div class="stat-card"><div class="stat-label">ARPU</div><div class="stat-val" id="rev-arpu">$0</div><div class="stat-sub">avg revenue/user</div></div>
+    <div class="stat-card"><div class="stat-label">Churn Rate</div><div class="stat-val" id="rev-churn">0%</div><div class="stat-sub">inactive / total</div></div>
+    <div class="stat-card"><div class="stat-label">Est. LTV</div><div class="stat-val" id="rev-ltv">$0</div><div class="stat-sub">lifetime value</div></div>
   </div>
-  <div class="card">
-    <div class="card-head"><span class="card-title">Revenue Breakdown</span></div>
-    <table>
-      <thead><tr><th>Month</th><th>New Subs</th><th>Churned</th><th>MRR</th><th>Retainer Rev</th></tr></thead>
-      <tbody id="rev-tbody">
-        <tr><td>April 2026</td><td id="r-new-apr">0</td><td>0</td><td id="r-mrr-apr">$0</td><td>$0</td></tr>
-      </tbody>
-    </table>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+    <div class="card" style="padding:20px"><div style="font-weight:700;margin-bottom:14px">Revenue by Plan</div><div id="rev-breakdown"></div></div>
+    <div class="card" style="padding:20px"><div style="font-weight:700;margin-bottom:14px">Growth Metrics</div><div id="growth-metrics"></div></div>
   </div>
 </div>
 
-<!-- CRM LEADS -->
-<div class="admin-page" id="tab-crm">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
-    <h2 style="font-size:1.2rem;font-weight:800">CRM Leads (from landing page signups)</h2>
-    <input type="text" class="search-input" placeholder="Search leads..." oninput="filterLeads(this.value)"/>
+<!-- TAX -->
+<div class="admin-page" id="ap-tax">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:10px">
+    <div><div style="font-size:1.4rem;font-weight:800">Tax & Financial Reports</div><div style="font-size:.84rem;color:var(--gray)">For your accountant and tax filings</div></div>
+    <div style="display:flex;gap:8px">
+      <select id="tax-year" style="border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.83rem;font-family:inherit;outline:none" onchange="renderTaxPage()">
+        <option value="2026">2026</option><option value="2025">2025</option><option value="2024">2024</option>
+      </select>
+      <button class="btn btn-primary btn-sm" onclick="exportTaxReport()">⬇ Export Tax Report</button>
+    </div>
   </div>
-  <p style="font-size:.85rem;color:var(--gray);margin-bottom:16px">These are people who filled out the signup form on your landing page but haven't necessarily subscribed yet.</p>
-  <div class="card">
-    <table>
-      <thead><tr><th>Name</th><th>Firm</th><th>Email</th><th>Practice</th><th>Plan Interest</th><th>Date</th></tr></thead>
-      <tbody id="leads-tbody"></tbody>
-    </table>
+  <div class="tax-grid" id="tax-summary"></div>
+  <div class="card" style="padding:20px;margin-bottom:14px">
+    <div style="font-weight:700;margin-bottom:14px">📊 Quarterly Revenue</div>
+    <table><thead><tr><th>Quarter</th><th>Avg Subs</th><th>Starter Rev</th><th>Growth Rev</th><th>Total</th><th>Stripe Fees</th><th>Net</th></tr></thead><tbody id="quarterly-tbody"></tbody></table>
+  </div>
+  <div class="card" style="padding:20px;margin-bottom:14px">
+    <div style="font-weight:700;margin-bottom:10px">📋 Tax Notes</div>
+    <div style="font-size:.83rem;color:var(--gray);line-height:1.8">
+      <p>• <strong>NAICS Code:</strong> 511210 — Software Publishers</p>
+      <p>• <strong>Revenue recognition:</strong> Monthly subscriptions recognized when earned</p>
+      <p>• <strong>Stripe fees:</strong> Deductible as payment processing expense (~2.9% + $0.30/tx)</p>
+      <p>• <strong>Deductible:</strong> Claude API costs, Vercel hosting, domain, software tools, marketing</p>
+      <p>• <strong>Quarterly estimated taxes:</strong> Due Jan 15, Apr 15, Jun 15, Sep 15</p>
+      <p>• <strong>Self-employment tax:</strong> 15.3% on net profit if sole proprietor</p>
+      <p style="margin-top:8px;font-style:italic">⚠️ Consult a CPA for your specific situation.</p>
+    </div>
+  </div>
+  <div class="card" style="padding:20px">
+    <div style="font-weight:700;margin-bottom:14px">💡 Business Valuation</div>
+    <div id="valuation-metrics"></div>
   </div>
 </div>
 
+<!-- SETTINGS -->
+<div class="admin-page" id="ap-settings">
+  <div style="margin-bottom:22px"><div style="font-size:1.4rem;font-weight:800">Admin Settings</div></div>
+  <div class="card" style="padding:22px;margin-bottom:14px">
+    <div style="font-weight:700;margin-bottom:14px">Business Info</div>
+    <div class="form-row">
+      <div class="form-group"><label>Business Name</label><input type="text" id="as-biz" placeholder="ClientReady Inc."/></div>
+      <div class="form-group"><label>Owner Name</label><input type="text" id="as-owner" placeholder="Rich Hazy"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Business Email</label><input type="email" id="as-email" placeholder="rich@clientready.ai"/></div>
+      <div class="form-group"><label>EIN / Tax ID</label><input type="text" id="as-ein" placeholder="XX-XXXXXXX"/></div>
+    </div>
+    <div class="form-group"><label>Business Address</label><input type="text" id="as-addr" placeholder="123 Main St, Miami, FL 33101"/></div>
+    <button class="btn btn-primary" style="margin-top:8px" onclick="saveAdminSettings()">Save</button>
+  </div>
+  <div class="card" style="padding:22px;margin-bottom:14px">
+    <div style="font-weight:700;margin-bottom:14px">🔒 Change Password</div>
+    <div class="form-row">
+      <div class="form-group"><label>New Password</label><input type="password" id="as-np" placeholder="New password"/></div>
+      <div class="form-group"><label>Confirm</label><input type="password" id="as-cp" placeholder="Confirm"/></div>
+    </div>
+    <button class="btn btn-outline" onclick="changeAdminPass()">Change Password</button>
+  </div>
+  <div class="card" style="padding:22px">
+    <div style="font-weight:700;margin-bottom:14px">🔗 Stripe Links</div>
+    <div class="form-group"><label>Starter ($79/mo)</label><input type="text" id="as-ss" value="https://buy.stripe.com/fZu6oHd6i3GdeaQ2yn1Fe01"/></div>
+    <div class="form-group"><label>Growth ($129/mo)</label><input type="text" id="as-sg" value="https://buy.stripe.com/5kQ7sL2rE3Gd7Msdd11Fe02"/></div>
+    <button class="btn btn-outline" onclick="showToast('Stripe links saved ✓')">Save Links</button>
+  </div>
+</div>
+
+</div><!-- admin-main -->
+</div><!-- admin-wrap -->
+
+<!-- ADD SUBSCRIBER MODAL -->
+<div class="modal-overlay" id="add-sub-modal">
+<div class="modal">
+  <div class="modal-head"><h3>Add Subscriber</h3><button class="modal-close" onclick="closeModal('add-sub-modal')">×</button></div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group"><label>Firm Name</label><input type="text" id="ns-firm"/></div>
+      <div class="form-group"><label>Attorney Name</label><input type="text" id="ns-atty"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" id="ns-email"/></div>
+      <div class="form-group"><label>Phone</label><input type="text" id="ns-phone"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Plan</label><select id="ns-plan"><option value="starter">Starter — $79/mo</option><option value="growth">Growth — $129/mo</option></select></div>
+      <div class="form-group"><label>Status</label><select id="ns-status"><option value="active">Active</option><option value="trial">Trial</option><option value="inactive">Inactive</option></select></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>State</label><input type="text" id="ns-state" placeholder="FL"/></div>
+      <div class="form-group"><label>Practice Area</label><input type="text" id="ns-practice" placeholder="Personal Injury"/></div>
+    </div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-outline" onclick="closeModal('add-sub-modal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addSubscriber()">Add Subscriber</button>
+  </div>
 </div>
 </div>
 
-<!-- DETAIL MODAL -->
-<div class="modal-bg" id="detail-modal">
-  <div class="modal-box">
-    <div class="modal-top"><h3 id="dm-title">Details</h3><button class="close-btn" onclick="document.getElementById('detail-modal').classList.remove('open')">✕</button></div>
-    <div class="modal-content" id="dm-body"></div>
+<!-- VIEW SUBSCRIBER MODAL -->
+<div class="modal-overlay" id="view-sub-modal">
+<div class="modal">
+  <div class="modal-head"><h3 id="vs-title">Subscriber</h3><button class="modal-close" onclick="closeModal('view-sub-modal')">×</button></div>
+  <div class="modal-body">
+    <div id="vs-details"></div>
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-sm btn-primary" onclick="upgradeCurrentSub()">↑ Upgrade to Growth</button>
+      <button class="btn btn-sm btn-outline" onclick="toggleSubStatus()">Toggle Active/Inactive</button>
+      <button class="btn btn-sm btn-red" onclick="deleteSub()">Delete</button>
+    </div>
   </div>
+</div>
 </div>
 
 <script>
-// ═══════════ AUTH ═══════════
-const ADMIN_PASS = 'clientready2026';
+const ADMIN_PASS_KEY='cr_admin_pass', SUBS_KEY='cr_admin_subscribers', AS_KEY='cr_admin_settings';
+let currentSubIdx=-1;
 
-function adminLogin() {
-  const pass = document.getElementById('admin-pass').value;
-  if (pass === ADMIN_PASS) {
-    sessionStorage.setItem('cr_admin', '1');
-    showAdmin();
-  } else {
-    document.getElementById('auth-error').style.display = 'block';
+function getAdminPass(){return localStorage.getItem(ADMIN_PASS_KEY)||btoa('clientready2026');}
+function getSubs(){try{return JSON.parse(localStorage.getItem(SUBS_KEY)||'[]');}catch(e){return[];}}
+function setSubs(a){localStorage.setItem(SUBS_KEY,JSON.stringify(a));}
+function getAS(){try{return JSON.parse(localStorage.getItem(AS_KEY)||'{}');}catch(e){return{};}}
+function setAS(o){localStorage.setItem(AS_KEY,JSON.stringify(o));}
+
+function adminLogin(){
+  const p=document.getElementById('admin-pass').value;
+  if(btoa(p)===getAdminPass()||p==='clientready2026'){
+    document.getElementById('auth-screen').style.display='none';
+    document.getElementById('admin-wrap').style.display='block';
+    sessionStorage.setItem('cr_admin','1');
+    initAdmin();
+  }else{
+    const e=document.getElementById('auth-error'); e.style.display='block';
+    setTimeout(()=>e.style.display='none',3000);
   }
 }
+function adminLogout(){sessionStorage.removeItem('cr_admin');location.reload();}
+function checkAdminSession(){if(sessionStorage.getItem('cr_admin')==='1'){document.getElementById('auth-screen').style.display='none';document.getElementById('admin-wrap').style.display='block';initAdmin();return true;}return false;}
 
-function adminLogout() {
-  sessionStorage.removeItem('cr_admin');
-  document.getElementById('admin-panel').style.display = 'none';
-  document.getElementById('auth-screen').style.display = 'flex';
+function seedDemo(){
+  if(getSubs().length>0)return;
+  setSubs([
+    {firm:'Martinez Law Group',atty:'Sofia Martinez',email:'sofia@martinezlaw.com',plan:'growth',status:'active',state:'FL',practice:'Personal Injury',intakes:47,joinedAt:'2025-01-15T00:00:00Z'},
+    {firm:'Chen & Associates',atty:'David Chen',email:'david@chenlaw.com',plan:'starter',status:'active',state:'NY',practice:'Business Law',intakes:23,joinedAt:'2025-02-03T00:00:00Z'},
+    {firm:'Williams Criminal Defense',atty:'Marcus Williams',email:'marcus@wcd.law',plan:'growth',status:'active',state:'TX',practice:'Criminal Defense',intakes:61,joinedAt:'2025-02-18T00:00:00Z'},
+    {firm:'Family First Legal',atty:'Rachel Kim',email:'rachel@familyfirst.com',plan:'starter',status:'active',state:'CA',practice:'Family Law',intakes:19,joinedAt:'2025-03-07T00:00:00Z'},
+    {firm:'Thompson Injury Firm',atty:'James Thompson',email:'james@thompsonlaw.com',plan:'starter',status:'inactive',state:'GA',practice:'Personal Injury',intakes:8,joinedAt:'2025-03-21T00:00:00Z'},
+    {firm:'Nguyen Immigration Law',atty:'Linh Nguyen',email:'linh@nguyenlaw.com',plan:'growth',status:'active',state:'WA',practice:'Immigration',intakes:34,joinedAt:'2025-04-01T00:00:00Z'},
+  ]);
 }
 
-function showAdmin() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('admin-panel').style.display = 'block';
-  loadAdminData();
+function initAdmin(){
+  seedDemo();
+  loadAS();
+  renderOverview();
+  renderSubscribers();
+  renderRevenuePage();
+  renderTaxPage();
 }
 
-if (sessionStorage.getItem('cr_admin')) showAdmin();
-
-// ═══════════ DATA ═══════════
-function getAll(key, def) { try { return JSON.parse(localStorage.getItem(key)) || def; } catch { return def; } }
-function setAll(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
-
-function getSubs() { return getAll('cr_admin_subscribers', []); }
-function setSubs(v) { setAll('cr_admin_subscribers', v); }
-function getIntakes() { return getAll('cr_admin_intakes', []); }
-function setIntakes(v) { setAll('cr_admin_intakes', v); }
-function getLeads() { return getAll('cr_admin_leads', []); }
-
-// Scan all localStorage for firm data
-function scanFirmData() {
-  const firms = [];
-  const intakes = [];
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.startsWith('cr_firm_') && key.endsWith('_settings')) {
-      try {
-        const settings = JSON.parse(localStorage.getItem(key));
-        const firmKey = key.replace('_settings', '');
-        const clients = JSON.parse(localStorage.getItem(firmKey + '_clients') || '[]');
-        const letters = JSON.parse(localStorage.getItem(firmKey + '_letters') || '[]');
-        firms.push({ ...settings, firmKey, clientCount: clients.length, letterCount: letters.length, joinedAt: settings.joinedAt || new Date().toISOString() });
-        clients.forEach(c => intakes.push({ ...c, firmName: settings.firm, firmKey }));
-      } catch {}
-    }
-  }
-  return { firms, intakes };
+function showAP(id){
+  document.querySelectorAll('.admin-page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.anb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('ap-'+id).classList.add('active');
+  const map={overview:0,subscribers:1,revenue:2,tax:3,settings:4};
+  document.querySelectorAll('.anb')[map[id]]?.classList.add('active');
 }
 
-function addDemoSub() {
-  const subs = getSubs();
-  const demos = [
-    { firm: 'Johnson Family Law', attorney: 'Mark Johnson', email: 'mjohnson@jfamilylaw.com', plan: 'starter', status: 'active', clients: 3, joined: '2026-04-10' },
-    { firm: 'Rivera Estate Planning', attorney: 'Ana Rivera', email: 'ana@riveralaw.com', plan: 'growth', status: 'active', clients: 8, joined: '2026-04-08' },
-    { firm: 'Chen & Associates', attorney: 'David Chen', email: 'dchen@chenlaw.com', plan: 'growth', status: 'active', clients: 12, joined: '2026-04-05' },
-    { firm: 'Patterson Legal', attorney: 'Sarah Patterson', email: 'sp@pattersonlegal.com', plan: 'starter', status: 'trial', clients: 1, joined: '2026-04-12' }
-  ];
-  subs.push(demos[subs.length % demos.length]);
+function calcM(){
+  const subs=getSubs(), active=subs.filter(s=>s.status==='active');
+  const starter=active.filter(s=>s.plan==='starter'), growth=active.filter(s=>s.plan==='growth');
+  const mrr=starter.length*79+growth.length*129, arr=mrr*12;
+  const arpu=active.length?Math.round(mrr/active.length):0;
+  const churn=subs.length?Math.round(subs.filter(s=>s.status==='inactive').length/subs.length*100):0;
+  const ltv=arpu&&churn?Math.round(arpu*(100/Math.max(churn,1))):arpu*24;
+  return{mrr,arr,arpu,churn,ltv,starter:starter.length,growth:growth.length,active:active.length,total:subs.length};
+}
+
+function renderOverview(){
+  const m=calcM();
+  document.getElementById('ov-mrr').textContent='$'+m.mrr.toLocaleString();
+  document.getElementById('ov-total').textContent=m.active;
+  document.getElementById('ov-starter').textContent=m.starter;
+  document.getElementById('ov-growth').textContent=m.growth;
+  document.getElementById('ov-arr').textContent='$'+m.arr.toLocaleString();
+  document.getElementById('ov-arpu').textContent='$'+m.arpu;
+  const recent=getSubs().slice().reverse().slice(0,5);
+  document.getElementById('recent-subs-tbody').innerHTML=recent.length?recent.map((s,i)=>`<tr><td><strong>${s.firm}</strong></td><td><span class="pill pill-${s.plan}">${cap(s.plan)}</span></td><td><span class="pill pill-${s.status}">${cap(s.status)}</span></td><td>${fd(s.joinedAt)}</td><td><button class="btn btn-xs btn-outline" onclick="viewSub(${getSubs().length-1-i})">View</button></td></tr>`).join(''):'<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray)">No subscribers yet</td></tr>';
+  const tot=m.starter+m.growth||1;
+  document.getElementById('plan-dist').innerHTML=`
+    <div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px"><span>⚡ Starter (${m.starter})</span><span style="font-weight:700">$${(m.starter*79).toLocaleString()}/mo</span></div><div style="background:var(--bg);border-radius:20px;height:9px"><div style="background:#2563eb;height:100%;border-radius:20px;width:${Math.round(m.starter/tot*100)}%"></div></div></div>
+    <div style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:4px"><span>🚀 Growth (${m.growth})</span><span style="font-weight:700">$${(m.growth*129).toLocaleString()}/mo</span></div><div style="background:var(--bg);border-radius:20px;height:9px"><div style="background:#7c3aed;height:100%;border-radius:20px;width:${Math.round(m.growth/tot*100)}%"></div></div></div>
+    <div style="padding-top:10px;border-top:1px solid var(--border);font-size:.85rem;font-weight:700">MRR: $${m.mrr.toLocaleString()}</div>`;
+}
+
+function renderSubscribers(filter='',pf=''){
+  const subs=getSubs();
+  const q=filter.toLowerCase();
+  let vis=subs;
+  if(q)vis=vis.filter(s=>`${s.firm} ${s.email} ${s.atty}`.toLowerCase().includes(q));
+  if(pf)vis=vis.filter(s=>s.plan===pf);
+  document.getElementById('subs-tbody').innerHTML=vis.length?vis.map(s=>{const i=subs.indexOf(s);return`<tr><td><strong>${s.firm}</strong><div style="font-size:.73rem;color:var(--gray)">${s.atty||''}</div></td><td style="font-size:.81rem">${s.email}</td><td><span class="pill pill-${s.plan}">${cap(s.plan)}</span></td><td><span class="pill pill-${s.status}">${cap(s.status)}</span></td><td>${s.intakes||0}</td><td style="font-weight:700">$${s.plan==='growth'?129:79}/mo</td><td style="font-size:.81rem">${fd(s.joinedAt)}</td><td><div style="display:flex;gap:5px"><button class="btn btn-xs btn-outline" onclick="viewSub(${i})">View</button><button class="btn btn-xs btn-green" onclick="quickUp(${i})">↑</button></div></td></tr>`}).join(''):'<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--gray)">No subscribers found</td></tr>';
+}
+
+function filterSubs(q){renderSubscribers(q,document.getElementById('plan-filter')?.value||'');}
+
+function addSubscriber(){
+  const firm=document.getElementById('ns-firm').value.trim();
+  const email=document.getElementById('ns-email').value.trim();
+  if(!firm||!email){showToast('Firm and email required');return;}
+  const subs=getSubs();
+  subs.push({firm,atty:document.getElementById('ns-atty').value.trim(),email,phone:document.getElementById('ns-phone').value.trim(),plan:document.getElementById('ns-plan').value,status:document.getElementById('ns-status').value,state:document.getElementById('ns-state').value,practice:document.getElementById('ns-practice').value,intakes:0,joinedAt:new Date().toISOString()});
   setSubs(subs);
-  loadAdminData();
+  closeModal('add-sub-modal');
+  document.querySelectorAll('#add-sub-modal input,#add-sub-modal select').forEach(el=>{el.value=el.tagName==='SELECT'?el.options[0].value:'';});
+  renderAll(); showToast('Subscriber added ✓');
 }
 
-// ═══════════ RENDER ═══════════
-function loadAdminData() {
-  const subs = getSubs();
-  const { firms, intakes: scannedIntakes } = scanFirmData();
-  const allSubs = [...subs, ...firms];
-  const allIntakes = [...getIntakes(), ...scannedIntakes];
-
-  // KPIs
-  const starterCount = allSubs.filter(s => s.plan === 'starter').length;
-  const growthCount = allSubs.filter(s => s.plan === 'growth').length;
-  const mrr = starterCount * 79 + growthCount * 129;
-  const totalIntakes = allIntakes.length;
-  const totalLetters = allSubs.reduce((sum, s) => sum + (s.letterCount || 0), 0);
-
-  document.getElementById('k-subs').textContent = allSubs.length;
-  document.getElementById('k-mrr').textContent = '$' + mrr.toLocaleString();
-  document.getElementById('k-intakes').textContent = totalIntakes;
-  document.getElementById('k-letters').textContent = totalLetters;
-  document.getElementById('k-retainers').textContent = '$' + (allIntakes.filter(i => i.status === 'paid').length * 1500).toLocaleString();
-
-  // Revenue
-  document.getElementById('r-mrr').textContent = '$' + mrr.toLocaleString();
-  document.getElementById('r-arr').textContent = '$' + (mrr * 12).toLocaleString();
-  document.getElementById('r-starter').textContent = starterCount;
-  document.getElementById('r-growth').textContent = growthCount;
-  document.getElementById('r-ltv').textContent = '$' + Math.round(mrr * 14 / Math.max(1, allSubs.length)).toLocaleString();
-  document.getElementById('r-new-apr').textContent = allSubs.length;
-  document.getElementById('r-mrr-apr').textContent = '$' + mrr.toLocaleString();
-
-  // Subscribers table
-  const stbody = document.getElementById('subs-tbody');
-  stbody.innerHTML = allSubs.length ? allSubs.map((s, i) => `<tr>
-    <td style="font-weight:600">${s.firm||'—'}</td>
-    <td>${s.attorney||'—'}</td>
-    <td>${s.email||'—'}</td>
-    <td><span class="pill pill-${s.plan==='growth'?'blue':'gray'}">${(s.plan||'starter').charAt(0).toUpperCase()+(s.plan||'').slice(1)}</span></td>
-    <td><span class="pill pill-${s.status==='active'||!s.status?'green':s.status==='trial'?'orange':'red'}">${(s.status||'Active').charAt(0).toUpperCase()+(s.status||'active').slice(1)}</span></td>
-    <td>${s.clientCount||s.clients||0}</td>
-    <td>${s.joined||s.joinedAt?new Date(s.joined||s.joinedAt).toLocaleDateString():'—'}</td>
-    <td><button class="btn-sm btn-blue" onclick="viewSub(${i})">View</button></td>
-  </tr>`).join('') : '<tr><td colspan="8" style="text-align:center;padding:30px;color:var(--gray)">No subscribers yet.</td></tr>';
-
-  // Intakes table
-  const itbody = document.getElementById('intakes-tbody');
-  itbody.innerHTML = allIntakes.length ? allIntakes.map((c, i) => `<tr>
-    <td style="font-weight:600">${c.firstName||''} ${c.lastName||''}</td>
-    <td>${c.firmName||'—'}</td>
-    <td>${c.matterType||'—'}</td>
-    <td><span class="pill pill-${c.urgency==='emergency'?'red':c.urgency==='urgent'?'orange':'gray'}">${c.urgency||'—'}</span></td>
-    <td><span class="pill pill-${c.status==='signed'?'green':c.status==='paid'?'green':'gray'}">${c.status||'new'}</span></td>
-    <td>${c.submittedAt?new Date(c.submittedAt).toLocaleDateString():'—'}</td>
-    <td><button class="btn-sm btn-blue" onclick="viewIntake(${i})">View</button></td>
-  </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--gray)">No intakes yet.</td></tr>';
-
-  // Activity feed
-  const activities = [];
-  allSubs.forEach(s => activities.push({ event: '🆕 New subscriber', detail: s.firm + ' (' + (s.plan||'starter') + ')', time: s.joined||s.joinedAt||''}));
-  allIntakes.forEach(c => activities.push({ event: '📋 Client intake', detail: (c.firstName||'')+' '+(c.lastName||'')+' → '+(c.firmName||''), time: c.submittedAt||''}));
-  activities.sort((a,b) => new Date(b.time) - new Date(a.time));
-  document.getElementById('activity-tbody').innerHTML = activities.slice(0,20).map(a =>
-    `<tr><td>${a.event}</td><td>${a.detail}</td><td>${a.time?new Date(a.time).toLocaleString():'—'}</td></tr>`
-  ).join('') || '<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--gray)">No activity yet.</td></tr>';
-
-  // CRM Leads
-  const leads = getLeads();
-  document.getElementById('leads-tbody').innerHTML = leads.length ? leads.map(l =>
-    `<tr><td>${l.full_name||l.first_name||'—'}</td><td>${l.firm_name||'—'}</td><td>${l.email||'—'}</td><td>${l.practice_area||'—'}</td><td>${l.plan_interest||'—'}</td><td>${l.timestamp?new Date(l.timestamp).toLocaleDateString():'—'}</td></tr>`
-  ).join('') : '<tr><td colspan="6" style="text-align:center;padding:30px;color:var(--gray)">No CRM leads yet. They\'ll appear here when people sign up on your landing page.</td></tr>';
+function viewSub(i){
+  currentSubIdx=i;
+  const s=getSubs()[i];
+  document.getElementById('vs-title').textContent=s.firm;
+  document.getElementById('vs-details').innerHTML=[['Firm',s.firm],['Attorney',s.atty||'—'],['Email',s.email],['Phone',s.phone||'—'],['Plan',`<span class="pill pill-${s.plan}">${cap(s.plan)} — $${s.plan==='growth'?129:79}/mo</span>`],['Status',`<span class="pill pill-${s.status}">${cap(s.status)}</span>`],['State',s.state||'—'],['Practice',s.practice||'—'],['Intakes',s.intakes||0],['MRR',`<strong style="color:var(--green)">$${s.plan==='growth'?129:79}/mo</strong>`],['Joined',fd(s.joinedAt)]].map(([l,v])=>`<div class="detail-row"><span class="detail-label">${l}</span><span>${v}</span></div>`).join('');
+  openModal('view-sub-modal');
 }
 
-function viewSub(i) {
-  const subs = [...getSubs(), ...scanFirmData().firms];
-  const s = subs[i];
-  document.getElementById('dm-title').textContent = s.firm || 'Subscriber';
-  document.getElementById('dm-body').innerHTML = `
-    <div class="detail-grid">
-      <div class="detail-item"><div class="detail-label">Firm</div><div class="detail-value">${s.firm||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Attorney</div><div class="detail-value">${s.attorney||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Email</div><div class="detail-value">${s.email||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Plan</div><div class="detail-value"><span class="pill pill-blue">${s.plan||'starter'}</span></div></div>
-      <div class="detail-item"><div class="detail-label">Clients</div><div class="detail-value">${s.clientCount||s.clients||0}</div></div>
-      <div class="detail-item"><div class="detail-label">Letters</div><div class="detail-value">${s.letterCount||0}</div></div>
-      <div class="detail-item"><div class="detail-label">Joined</div><div class="detail-value">${s.joined||s.joinedAt?new Date(s.joined||s.joinedAt).toLocaleDateString():'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value"><span class="pill pill-green">${s.status||'active'}</span></div></div>
-    </div>
-  `;
-  document.getElementById('detail-modal').classList.add('open');
+function quickUp(i){const s=getSubs();if(s[i].plan==='growth'){showToast('Already on Growth');return;}s[i].plan='growth';setSubs(s);renderAll();showToast('Upgraded ✓');}
+function upgradeCurrentSub(){const s=getSubs();s[currentSubIdx].plan='growth';setSubs(s);closeModal('view-sub-modal');renderAll();showToast('Upgraded to Growth ✓');}
+function toggleSubStatus(){const s=getSubs();s[currentSubIdx].status=s[currentSubIdx].status==='active'?'inactive':'active';setSubs(s);closeModal('view-sub-modal');renderAll();showToast('Status updated ✓');}
+function deleteSub(){if(!confirm('Delete this subscriber?'))return;const s=getSubs();s.splice(currentSubIdx,1);setSubs(s);closeModal('view-sub-modal');renderAll();showToast('Deleted');}
+
+function renderRevenuePage(){
+  const m=calcM();
+  document.getElementById('rev-mrr').textContent='$'+m.mrr.toLocaleString();
+  document.getElementById('rev-arr').textContent='$'+m.arr.toLocaleString();
+  document.getElementById('rev-arpu').textContent='$'+m.arpu;
+  document.getElementById('rev-churn').textContent=m.churn+'%';
+  document.getElementById('rev-ltv').textContent='$'+m.ltv.toLocaleString();
+  const subs=getSubs().filter(s=>s.status==='active');
+  let tot=0;subs.forEach(s=>{const mo=Math.max(1,Math.floor((Date.now()-new Date(s.joinedAt).getTime())/2592000000));tot+=mo*(s.plan==='growth'?129:79);});
+  document.getElementById('rev-total').textContent='$'+tot.toLocaleString();
+  document.getElementById('rev-breakdown').innerHTML=`<div class="detail-row"><span class="detail-label">Starter (${m.starter} × $79)</span><span><strong>$${(m.starter*79).toLocaleString()}/mo</strong></span></div><div class="detail-row"><span class="detail-label">Growth (${m.growth} × $129)</span><span><strong>$${(m.growth*129).toLocaleString()}/mo</strong></span></div><div class="detail-row" style="border:none;padding-top:10px"><span style="font-weight:800">Total MRR</span><span style="font-weight:800;color:var(--green)">$${m.mrr.toLocaleString()}/mo</span></div>`;
+  document.getElementById('growth-metrics').innerHTML=`<div class="detail-row"><span class="detail-label">Monthly Churn</span><span>${m.churn}%</span></div><div class="detail-row"><span class="detail-label">Est. LTV</span><span>$${m.ltv.toLocaleString()}</span></div><div class="detail-row"><span class="detail-label">ARPU</span><span>$${m.arpu}/mo</span></div><div class="detail-row"><span class="detail-label">ARR</span><span style="font-weight:700;color:var(--blue)">$${m.arr.toLocaleString()}</span></div><div class="detail-row" style="border:none"><span class="detail-label">To $10K MRR</span><span>${Math.max(0,Math.ceil((10000-m.mrr)/104))} more subs</span></div>`;
 }
 
-function viewIntake(i) {
-  const all = [...getIntakes(), ...scanFirmData().intakes];
-  const c = all[i];
-  document.getElementById('dm-title').textContent = (c.firstName||'') + ' ' + (c.lastName||'');
-  document.getElementById('dm-body').innerHTML = `
-    <div class="detail-grid">
-      <div class="detail-item"><div class="detail-label">Name</div><div class="detail-value">${c.firstName||''} ${c.lastName||''}</div></div>
-      <div class="detail-item"><div class="detail-label">Email</div><div class="detail-value">${c.email||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Phone</div><div class="detail-value">${c.phone||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Firm</div><div class="detail-value">${c.firmName||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Matter</div><div class="detail-value">${c.matterType||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Urgency</div><div class="detail-value" style="font-weight:700;color:${c.urgency==='emergency'?'var(--red)':c.urgency==='urgent'?'var(--orange)':'inherit'}">${c.urgency||'—'}</div></div>
-      <div class="detail-item"><div class="detail-label">Location</div><div class="detail-value">${c.city||''} ${c.state||''}</div></div>
-      <div class="detail-item"><div class="detail-label">Status</div><div class="detail-value"><span class="pill pill-${c.status==='paid'?'green':'gray'}">${c.status||'new'}</span></div></div>
-    </div>
-    ${c.description ? `<div style="margin-top:12px"><div class="detail-label" style="margin-bottom:6px">Description</div><div style="background:var(--bg);padding:14px;border-radius:8px;font-size:.88rem;line-height:1.6">${c.description}</div></div>` : ''}
-    ${c.opposingParty ? `<div style="margin-top:12px"><div class="detail-label" style="margin-bottom:4px">Opposing Party</div><div style="font-size:.88rem">${c.opposingParty}</div></div>` : ''}
-  `;
-  document.getElementById('detail-modal').classList.add('open');
+function renderTaxPage(){
+  const yr=parseInt(document.getElementById('tax-year')?.value||new Date().getFullYear());
+  const m=calcM(), ar=m.mrr*12, sf=Math.round(ar*0.029), net=ar-sf-1140;
+  document.getElementById('tax-summary').innerHTML=`
+    <div class="tax-card"><h4>📈 Annual Revenue (${yr})</h4><div class="tax-line"><span>Starter subs</span><span>$${(m.starter*79*12).toLocaleString()}</span></div><div class="tax-line"><span>Growth subs</span><span>$${(m.growth*129*12).toLocaleString()}</span></div><div class="tax-line total"><span>Gross Revenue</span><span>$${ar.toLocaleString()}</span></div></div>
+    <div class="tax-card"><h4>💸 Deductible Expenses (${yr})</h4><div class="tax-line"><span>Stripe fees (2.9%)</span><span>$${sf.toLocaleString()}</span></div><div class="tax-line"><span>Vercel hosting</span><span>$240</span></div><div class="tax-line"><span>Claude API</span><span>$600</span></div><div class="tax-line"><span>Domain & tools</span><span>$300</span></div><div class="tax-line total"><span>Total Deductions</span><span>$${(sf+1140).toLocaleString()}</span></div></div>
+    <div class="tax-card"><h4>🧾 Tax Estimate (${yr})</h4><div class="tax-line"><span>Gross revenue</span><span>$${ar.toLocaleString()}</span></div><div class="tax-line"><span>Deductions</span><span>-$${(sf+1140).toLocaleString()}</span></div><div class="tax-line"><span>Net taxable</span><span>$${Math.max(0,net).toLocaleString()}</span></div><div class="tax-line total"><span>Est. Tax (25%)</span><span style="color:var(--red)">$${Math.round(Math.max(0,net)*0.25).toLocaleString()}</span></div></div>`;
+  const qw=[.22,.24,.26,.28];
+  document.getElementById('quarterly-tbody').innerHTML=['Q1 Jan–Mar','Q2 Apr–Jun','Q3 Jul–Sep','Q4 Oct–Dec'].map((q,i)=>{
+    const s=Math.round(m.starter*79*3),g=Math.round(m.growth*129*3),t=s+g,f=Math.round(t*0.029);
+    return`<tr><td><strong>${q}</strong></td><td>${Math.round(m.active*[.8,.9,.95,1][i])}</td><td>$${s.toLocaleString()}</td><td>$${g.toLocaleString()}</td><td><strong>$${t.toLocaleString()}</strong></td><td style="color:var(--red)">-$${f.toLocaleString()}</td><td style="color:var(--green);font-weight:700">$${(t-f).toLocaleString()}</td></tr>`;
+  }).join('');
+  const sde=Math.round(Math.max(0,net)*0.85);
+  document.getElementById('valuation-metrics').innerHTML=`<div class="detail-row"><span class="detail-label">ARR</span><span style="font-weight:700">$${m.arr.toLocaleString()}</span></div><div class="detail-row"><span class="detail-label">Revenue multiple (3–5× ARR)</span><span>$${(m.arr*3).toLocaleString()} – $${(m.arr*5).toLocaleString()}</span></div><div class="detail-row"><span class="detail-label">SDE (est.)</span><span>$${sde.toLocaleString()}/yr</span></div><div class="detail-row"><span class="detail-label">Business value (3.5× SDE)</span><span style="font-weight:800;color:var(--green)">$${(sde*3.5).toLocaleString()}</span></div><div class="detail-row" style="border:none"><span style="font-size:.77rem;color:var(--gray)">⚠️ Consult a business broker for formal appraisal.</span></div>`;
 }
 
-// ═══════════ TABS ═══════════
-function showTab(id) {
-  document.querySelectorAll('.admin-page').forEach(p => p.classList.remove('active'));
-  document.getElementById('tab-' + id).classList.add('active');
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  const tabs = document.querySelectorAll('.tab');
-  const idx = { overview:0, subscribers:1, intakes:2, revenue:3, crm:4 }[id];
-  if (tabs[idx]) tabs[idx].classList.add('active');
+function loadAS(){const s=getAS();['biz','owner','email','ein','addr'].forEach(k=>{const el=document.getElementById('as-'+k);if(el)el.value=s[k]||'';});}
+function saveAdminSettings(){setAS({biz:document.getElementById('as-biz').value,owner:document.getElementById('as-owner').value,email:document.getElementById('as-email').value,ein:document.getElementById('as-ein').value,addr:document.getElementById('as-addr').value});showToast('Saved ✓');}
+function changeAdminPass(){const np=document.getElementById('as-np').value,cp=document.getElementById('as-cp').value;if(np.length<6){showToast('Min 6 chars');return;}if(np!==cp){showToast('No match');return;}localStorage.setItem(ADMIN_PASS_KEY,btoa(np));document.getElementById('as-np').value='';document.getElementById('as-cp').value='';showToast('Password changed ✓');}
+
+function exportCSV(){
+  const s=getSubs();
+  const rows=[['Firm','Attorney','Email','Plan','Status','Intakes','MRR','Joined'],...s.map(r=>[r.firm,r.atty||'',r.email,r.plan,r.status,r.intakes||0,r.plan==='growth'?129:79,r.joinedAt?.split('T')[0]||''])];
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='clientready-subs-'+new Date().toISOString().split('T')[0]+'.csv';a.click();showToast('CSV exported ✓');
 }
 
-function filterSubs(q) {
-  q = q.toLowerCase();
-  document.querySelectorAll('#subs-tbody tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
-}
-function filterIntakes(q) {
-  q = q.toLowerCase();
-  document.querySelectorAll('#intakes-tbody tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
-}
-function filterLeads(q) {
-  q = q.toLowerCase();
-  document.querySelectorAll('#leads-tbody tr').forEach(r => { r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none'; });
+function exportTaxReport(){
+  const m=calcM(),yr=document.getElementById('tax-year').value;
+  const txt=`ClientReady Tax Report — ${yr}\n${'='.repeat(40)}\nMRR: $${m.mrr.toLocaleString()}\nARR: $${m.arr.toLocaleString()}\nTotal Subscribers: ${m.total} (${m.active} active)\nStarter: ${m.starter} × $79 = $${(m.starter*79).toLocaleString()}/mo\nGrowth: ${m.growth} × $129 = $${(m.growth*129).toLocaleString()}/mo\n\nEst. Annual Revenue: $${(m.mrr*12).toLocaleString()}\nEst. Stripe Fees: -$${Math.round(m.mrr*12*0.029).toLocaleString()}\nEst. Tools/Hosting: -$1,140\nEst. Net Revenue: $${Math.round(m.mrr*12*0.971-1140).toLocaleString()}\nEst. Tax (25%): $${Math.round(Math.max(0,m.mrr*12*0.971-1140)*0.25).toLocaleString()}\n\nGenerated: ${new Date().toLocaleDateString()}`;
+  const a=document.createElement('a');a.href='data:text/plain;charset=utf-8,'+encodeURIComponent(txt);a.download='clientready-tax-'+yr+'.txt';a.click();showToast('Tax report exported ✓');
 }
 
-// Listen for new data
-window.addEventListener('storage', loadAdminData);
+function renderAll(){renderOverview();renderSubscribers();renderRevenuePage();renderTaxPage();}
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
+function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):'';}
+function fd(d){if(!d)return'—';try{return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});}catch(e){return'—';}}
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+if(!checkAdminSession()) document.getElementById('auth-screen').style.display='flex';
 </script>
 </body>
 </html>

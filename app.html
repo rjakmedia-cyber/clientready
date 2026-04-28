@@ -3,762 +3,1599 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>ClientReady — Dashboard</title>
+<title>ClientReady — Law Firm Dashboard</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-:root{--blue:#2563eb;--blue-dk:#1d4ed8;--green:#16a34a;--red:#dc2626;--orange:#f59e0b;--gray:#64748b;--border:#e2e8f0;--bg:#f8fafc;--white:#fff;--navy:#0f172a;--radius:12px}
-body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh}
+:root{--blue:#2563eb;--blue-dk:#1d4ed8;--blue-lt:#eff6ff;--green:#16a34a;--green-lt:#f0fdf4;--red:#dc2626;--red-lt:#fef2f2;--orange:#f59e0b;--gray:#64748b;--gray-lt:#f8fafc;--border:#e2e8f0;--bg:#f1f5f9;--white:#fff;--navy:#0f172a;--radius:14px;--shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.05)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--navy);min-height:100vh;line-height:1.5}
 
-/* SIDEBAR */
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:240px;background:var(--navy);color:#fff;padding:20px 0;display:flex;flex-direction:column;z-index:100}
-.sidebar-logo{padding:0 20px 24px;font-weight:900;font-size:1.15rem;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:12px}
+/* ─── AUTH ─────────────────────────────────── */
+#auth-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:linear-gradient(135deg,#0f172a 0%,#1e3a8a 50%,#0f172a 100%)}
+.auth-card{background:#fff;border-radius:20px;padding:40px;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.auth-logo{font-size:1.5rem;font-weight:900;text-align:center;margin-bottom:4px}
+.auth-logo span{color:var(--blue)}
+.auth-tag{text-align:center;color:var(--gray);font-size:.88rem;margin-bottom:28px}
+.auth-tabs{display:flex;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:24px;gap:4px}
+.auth-tab{flex:1;text-align:center;padding:8px;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--gray);transition:all .15s}
+.auth-tab.active{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.auth-form{display:none}.auth-form.active{display:block}
+.auth-field{margin-bottom:14px}
+.auth-field label{display:block;font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--navy)}
+.auth-field input{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:11px 14px;font-size:.92rem;font-family:inherit;outline:none;transition:border .15s}
+.auth-field input:focus{border-color:var(--blue)}
+.auth-btn{width:100%;background:var(--blue);color:#fff;border:none;border-radius:10px;padding:13px;font-size:.95rem;font-weight:700;cursor:pointer;transition:background .15s;margin-top:4px;font-family:inherit}
+.auth-btn:hover{background:var(--blue-dk)}
+.auth-err{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;border-radius:8px;padding:10px 14px;font-size:.83rem;margin-bottom:14px;display:none}
+.auth-err.show{display:block}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:20px 0;color:var(--gray);font-size:.8rem}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+.plan-select-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.plan-option{border:2px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;text-align:center}
+.plan-option:hover{border-color:var(--blue)}
+.plan-option.selected{border-color:var(--blue);background:var(--blue-lt)}
+.plan-option-name{font-weight:700;font-size:.95rem}
+.plan-option-price{font-size:.82rem;color:var(--gray);margin-top:2px}
+
+/* ─── SIDEBAR ─────────────────────────────── */
+#app-wrap{display:none}
+#app-wrap.visible{display:block}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:248px;background:var(--navy);color:#fff;display:flex;flex-direction:column;z-index:100}
+.sidebar-logo{padding:20px 20px 16px;font-weight:900;font-size:1.15rem;display:flex;align-items:center;gap:8px}
 .sidebar-logo span{color:#60a5fa}
-.sidebar-nav{flex:1;display:flex;flex-direction:column;gap:2px;padding:0 8px}
-.nav-item{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:8px;font-size:.88rem;font-weight:500;color:rgba(255,255,255,.65);cursor:pointer;transition:all .15s}
+.sidebar-plan{margin:0 12px 12px;background:rgba(255,255,255,.08);border-radius:8px;padding:8px 12px;font-size:.78rem;display:flex;align-items:center;justify-content:space-between}
+.sidebar-plan-name{color:rgba(255,255,255,.7)}
+.plan-pill{background:var(--blue);color:#fff;padding:2px 8px;border-radius:4px;font-size:.68rem;font-weight:700}
+.plan-pill.growth{background:#7c3aed}
+.sidebar-nav{flex:1;overflow-y:auto;padding:8px}
+.nav-section-label{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.3);padding:14px 10px 6px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:8px;font-size:.87rem;font-weight:500;color:rgba(255,255,255,.6);cursor:pointer;transition:all .12s;user-select:none}
 .nav-item:hover{background:rgba(255,255,255,.08);color:#fff}
 .nav-item.active{background:var(--blue);color:#fff;font-weight:600}
-.nav-icon{font-size:1.1rem;width:24px;text-align:center}
-.nav-section{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.35);padding:16px 14px 6px}
-.sidebar-footer{padding:12px 20px;border-top:1px solid rgba(255,255,255,.1);font-size:.78rem;color:rgba(255,255,255,.4)}
-.plan-badge{display:inline-block;background:var(--blue);color:#fff;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700;margin-left:4px}
+.nav-icon{font-size:1rem;width:22px;text-align:center;flex-shrink:0}
+.sidebar-bottom{padding:14px;border-top:1px solid rgba(255,255,255,.08)}
+.sidebar-user{display:flex;align-items:center;gap:10px}
+.user-avatar{width:32px;height:32px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.85rem;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.user-name{font-size:.82rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-role{font-size:.72rem;color:rgba(255,255,255,.4)}
+.logout-btn{background:none;border:none;color:rgba(255,255,255,.4);cursor:pointer;font-size:.85rem;padding:4px;transition:color .12s}
+.logout-btn:hover{color:#fff}
 
-/* MAIN */
-.main{margin-left:240px;padding:28px 32px 80px}
-.page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
-.page-title{font-size:1.5rem;font-weight:800}
-.page-subtitle{font-size:.88rem;color:var(--gray);margin-top:2px}
+/* ─── MAIN ────────────────────────────────── */
+.main{margin-left:248px;padding:28px 32px 80px;min-height:100vh}
+.page{display:none}.page.active{display:block}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px}
+.page-title{font-size:1.45rem;font-weight:800;line-height:1.2}
+.page-sub{font-size:.85rem;color:var(--gray);margin-top:3px}
+.page-actions{display:flex;gap:8px;flex-wrap:wrap}
 
-/* CARDS */
-.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:28px}
-.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:4px}
-.stat-label{font-size:.78rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
-.stat-value{font-size:1.8rem;font-weight:900}
-.stat-change{font-size:.78rem;font-weight:600;color:var(--green)}
-.stat-change.down{color:var(--red)}
+/* ─── STATS ───────────────────────────────── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
+.stat-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gray)}
+.stat-val{font-size:2rem;font-weight:900;line-height:1;margin:6px 0 4px}
+.stat-sub{font-size:.75rem;color:var(--gray)}
+.stat-sub.up{color:var(--green);font-weight:600}
+.stat-sub.down{color:var(--red);font-weight:600}
 
-/* TABLE */
-.table-wrap{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
-.table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
-.table-title{font-weight:700;font-size:1rem}
-.table-actions{display:flex;gap:8px}
-.search-input{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-size:.85rem;width:220px;outline:none;font-family:inherit}
-.search-input:focus{border-color:var(--blue)}
+/* ─── CARDS ───────────────────────────────── */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow)}
+.card-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.card-title{font-weight:700;font-size:.95rem}
+
+/* ─── TABLE ───────────────────────────────── */
+.table-wrap{overflow:hidden;border-radius:var(--radius)}
 table{width:100%;border-collapse:collapse}
-thead th{text-align:left;padding:10px 16px;font-size:.78rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em;border-bottom:1px solid var(--border);background:var(--bg)}
-tbody td{padding:12px 16px;font-size:.88rem;border-bottom:1px solid #f1f5f9}
-tbody tr:hover{background:#f8fafc}
-.status-pill{display:inline-block;padding:3px 10px;border-radius:50px;font-size:.75rem;font-weight:600}
-.status-new{background:#dbeafe;color:#1d4ed8}
-.status-signed{background:#dcfce7;color:#15803d}
-.status-paid{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
-.status-pending{background:#fef3c7;color:#92400e}
-.status-urgent{background:#fee2e2;color:#991b1b}
-.client-name{font-weight:600;cursor:pointer;color:var(--blue)}
-.client-name:hover{text-decoration:underline}
+thead th{text-align:left;padding:10px 16px;font-size:.72rem;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;background:var(--gray-lt);border-bottom:1px solid var(--border)}
+tbody td{padding:13px 16px;font-size:.87rem;border-bottom:1px solid #f1f5f9;vertical-align:middle}
+tbody tr:last-child td{border:none}
+tbody tr:hover{background:#fafbfd}
+.client-name{font-weight:600;cursor:pointer;color:var(--blue);transition:opacity .12s}
+.client-name:hover{opacity:.75}
+.status-pill{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:50px;font-size:.72rem;font-weight:700;white-space:nowrap}
+.s-new{background:#dbeafe;color:#1d4ed8}
+.s-signed{background:#dcfce7;color:#15803d}
+.s-paid{background:#bbf7d0;color:#14532d}
+.s-pending{background:#fef3c7;color:#92400e}
+.s-urgent{background:#fee2e2;color:#991b1b}
+.s-reviewing{background:#f3e8ff;color:#6b21a8}
 
-/* BUTTONS */
-.btn{border:none;border-radius:8px;padding:8px 16px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;font-family:inherit}
+/* ─── BUTTONS ─────────────────────────────── */
+.btn{border:none;border-radius:8px;padding:8px 16px;font-size:.84rem;font-weight:600;cursor:pointer;transition:all .12s;font-family:inherit;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .btn-primary{background:var(--blue);color:#fff}.btn-primary:hover{background:var(--blue-dk)}
 .btn-outline{background:none;border:1.5px solid var(--border);color:var(--navy)}.btn-outline:hover{border-color:var(--blue);color:var(--blue)}
 .btn-green{background:var(--green);color:#fff}.btn-green:hover{background:#15803d}
-.btn-sm{padding:5px 10px;font-size:.78rem}
+.btn-ghost{background:none;color:var(--gray);border:none}.btn-ghost:hover{color:var(--navy);background:var(--bg)}
+.btn-purple{background:#7c3aed;color:#fff}.btn-purple:hover{background:#6d28d9}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:#b91c1c}
+.btn-sm{padding:5px 11px;font-size:.77rem;border-radius:6px}
+.btn-xs{padding:3px 8px;font-size:.72rem;border-radius:5px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
 
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+/* ─── MODAL ───────────────────────────────── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(2px)}
 .modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:16px;width:95%;max-width:640px;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.2)}
-.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border)}
-.modal-head h3{font-size:1.1rem;font-weight:800}
-.modal-close{background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--gray);padding:4px}
+.modal{background:#fff;border-radius:18px;width:100%;max-width:680px;max-height:88vh;overflow-y:auto;box-shadow:0 24px 64px rgba(0,0,0,.22)}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:1;border-radius:18px 18px 0 0}
+.modal-head h3{font-size:1.05rem;font-weight:800}
+.modal-close{background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--gray);padding:2px 6px;border-radius:6px;line-height:1}
+.modal-close:hover{background:var(--bg)}
 .modal-body{padding:24px}
+.modal-foot{padding:16px 24px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+
+/* ─── FORMS ───────────────────────────────── */
 .form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:.82rem;font-weight:600;margin-bottom:5px}
-.form-group input,.form-group select,.form-group textarea{width:100%;border:1.5px solid var(--border);border-radius:8px;padding:9px 12px;font-size:.9rem;font-family:inherit;outline:none}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue)}
-.form-group textarea{height:90px;resize:vertical}
+.form-group label{display:block;font-size:.8rem;font-weight:600;margin-bottom:5px;color:var(--navy)}
+.form-group label .hint{font-weight:400;color:var(--gray);font-size:.75rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:.9rem;font-family:inherit;outline:none;transition:border .12s;background:#fff;color:var(--navy)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.form-group textarea{height:100px;resize:vertical;line-height:1.6}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-/* INTAKE LINK */
-.intake-link-box{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:16px;display:flex;align-items:center;gap:12px;margin:20px 0}
-.intake-link-box input{flex:1;border:none;background:none;font-size:.85rem;font-family:monospace;color:var(--navy);outline:none}
-.intake-link-box .btn{flex-shrink:0}
+/* ─── AI SECTION ──────────────────────────── */
+.ai-panel{background:linear-gradient(135deg,#f5f3ff,#eff6ff);border:1px solid #c4b5fd;border-radius:12px;padding:18px;margin:16px 0}
+.ai-panel-head{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem;color:#4c1d95;margin-bottom:10px}
+.ai-badge{background:#7c3aed;color:#fff;font-size:.68rem;font-weight:700;padding:2px 7px;border-radius:4px}
+.ai-output{background:#fff;border:1px solid #c4b5fd;border-radius:9px;padding:14px;font-size:.87rem;line-height:1.7;min-height:80px;max-height:320px;overflow-y:auto;white-space:pre-wrap;color:var(--navy)}
+.ai-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.ai-thinking{display:flex;align-items:center;gap:8px;color:#6d28d9;font-size:.85rem;font-style:italic}
+.ai-dot{width:6px;height:6px;border-radius:50%;background:#7c3aed;animation:pulse 1s infinite}
+.ai-dot:nth-child(2){animation-delay:.2s}
+.ai-dot:nth-child(3){animation-delay:.4s}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 
-/* LETTER PREVIEW */
-.letter-preview{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px;max-height:400px;overflow-y:auto;font-size:.88rem;line-height:1.8;margin:16px 0}
+/* ─── INTAKE LINK ─────────────────────────── */
+.intake-link-box{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px 16px;display:flex;align-items:center;gap:10px}
+.intake-link-box input{flex:1;border:none;background:none;font-size:.84rem;font-family:monospace;color:var(--navy);outline:none;min-width:0}
 
-/* SETTINGS */
-.settings-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px}
-.settings-card h3{font-size:1rem;font-weight:700;margin-bottom:12px}
-.settings-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f5f9}
-.settings-row:last-child{border:none}
-.settings-label{font-size:.88rem;font-weight:500}
-.settings-value{font-size:.85rem;color:var(--gray)}
+/* ─── LETTER PREVIEW ─────────────────────── */
+.letter-box{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px;font-size:.87rem;line-height:1.8;max-height:360px;overflow-y:auto}
 
-/* ONBOARDING BANNER */
-.onboard-banner{background:linear-gradient(135deg,#1e3a8a,#2563eb);color:#fff;border-radius:16px;padding:28px;margin-bottom:24px;display:flex;align-items:center;gap:24px}
-.onboard-banner h3{font-size:1.1rem;font-weight:800;margin-bottom:8px}
-.onboard-banner p{font-size:.88rem;opacity:.85;margin-bottom:12px;line-height:1.6}
-.onboard-steps{display:flex;gap:16px;flex-wrap:wrap}
-.onboard-step{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);border-radius:8px;padding:8px 14px;font-size:.82rem;font-weight:600}
-.onboard-step .check{color:#4ade80;font-size:1.1rem}
-.onboard-step.pending{opacity:.5}
+/* ─── TEMPLATE EDITOR ─────────────────────── */
+.template-card{background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:18px;margin-bottom:12px;transition:border .12s}
+.template-card:hover{border-color:var(--blue)}
+.template-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.template-card-name{font-weight:700;font-size:.95rem}
+.template-editor{border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-top:12px}
+.editor-toolbar{background:var(--bg);border-bottom:1px solid var(--border);padding:8px 12px;display:flex;gap:6px;flex-wrap:wrap}
+.editor-btn{background:#fff;border:1px solid var(--border);border-radius:5px;padding:4px 8px;font-size:.78rem;cursor:pointer;font-weight:600;transition:all .12s}
+.editor-btn:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+.editor-area{width:100%;min-height:180px;border:none;padding:14px;font-size:.87rem;font-family:'Inter',sans-serif;line-height:1.7;resize:vertical;outline:none;background:#fff}
 
-/* PAGES */
-.page{display:none}
-.page.active{display:block}
+/* ─── PAYMENT PLANS ──────────────────────── */
+.plan-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px}
+.plan-card{border:2px solid var(--border);border-radius:14px;padding:22px;position:relative}
+.plan-card.current{border-color:var(--blue);background:var(--blue-lt)}
+.plan-card.upgrade-card{border-color:#7c3aed;background:#faf5ff}
+.plan-name{font-weight:800;font-size:1.1rem}
+.plan-price{font-size:2rem;font-weight:900;margin:6px 0 14px;line-height:1}
+.plan-price sup{font-size:1rem;vertical-align:super}
+.plan-price sub{font-size:.85rem;font-weight:500;color:var(--gray)}
+.plan-feature{font-size:.84rem;color:var(--gray);padding:4px 0;display:flex;align-items:center;gap:6px}
+.plan-feature::before{content:'✓';color:var(--green);font-weight:700;flex-shrink:0}
+.plan-badge-cur{position:absolute;top:14px;right:14px;background:var(--blue);color:#fff;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:20px}
 
-/* EMPTY STATE */
-.empty-state{text-align:center;padding:60px 20px}
-.empty-icon{font-size:3.5rem;margin-bottom:16px}
-.empty-state h3{font-size:1.2rem;font-weight:700;margin-bottom:8px}
-.empty-state p{color:var(--gray);font-size:.9rem;margin-bottom:20px;max-width:380px;margin-left:auto;margin-right:auto}
+/* ─── MILESTONE ───────────────────────────── */
+.milestone-banner{background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;border-radius:14px;padding:22px 24px;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.milestone-text h3{font-size:1.1rem;font-weight:800;margin-bottom:4px}
+.milestone-text p{font-size:.85rem;opacity:.85}
+.milestone-emoji{font-size:2.8rem;flex-shrink:0}
 
-/* TOAST */
-.toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:12px 20px;border-radius:10px;font-size:.88rem;font-weight:500;transform:translateY(100px);opacity:0;transition:all .3s;z-index:2000}
-.toast.show{transform:translateY(0);opacity:1}
+/* ─── CONFETTI ────────────────────────────── */
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;display:none}
 
+/* ─── TOAST ───────────────────────────────── */
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--navy);color:#fff;padding:12px 22px;border-radius:50px;font-size:.87rem;font-weight:600;z-index:9998;transition:transform .3s;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2)}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ─── MISC ────────────────────────────────── */
+.empty-state{text-align:center;padding:60px 20px;color:var(--gray)}
+.empty-state .icon{font-size:2.8rem;margin-bottom:12px}
+.empty-state h3{font-weight:700;font-size:1rem;color:var(--navy);margin-bottom:6px}
+.empty-state p{font-size:.85rem;max-width:320px;margin:0 auto 16px}
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:.7rem;font-weight:700}
+.divider{height:1px;background:var(--border);margin:20px 0}
+.section-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:12px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.client-detail-row{display:flex;flex-direction:column;gap:3px;padding:10px 0;border-bottom:1px solid #f1f5f9}
+.client-detail-row:last-child{border:none}
+.detail-label{font-size:.75rem;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.04em}
+.detail-val{font-size:.9rem;color:var(--navy)}
+.search-input{border:1.5px solid var(--border);border-radius:8px;padding:8px 12px;font-size:.84rem;outline:none;font-family:inherit;transition:border .12s;width:200px}
+.search-input:focus{border-color:var(--blue)}
+.toggle{position:relative;display:inline-block;width:40px;height:22px}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;cursor:pointer;inset:0;background:#cbd5e1;border-radius:22px;transition:.2s}
+.slider:before{content:'';position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:#fff;border-radius:50%;transition:.2s}
+input:checked+.slider{background:var(--blue)}
+input:checked+.slider:before{transform:translateX(18px)}
+
+/* ─── RESPONSIVE ──────────────────────────── */
 @media(max-width:768px){
-.sidebar{width:60px;padding:12px 0}.sidebar-logo span,.nav-item span:not(.nav-icon),.nav-section,.sidebar-footer,.plan-badge{display:none}
-.nav-item{justify-content:center;padding:10px}.main{margin-left:60px;padding:20px 16px}
-.stat-row{grid-template-columns:1fr 1fr}.form-row{grid-template-columns:1fr}
+  .sidebar{width:100%;height:auto;position:relative}
+  .main{margin-left:0;padding:16px}
+  .plan-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .two-col{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <div class="sidebar-logo">Client<span>Ready</span></div>
-  <div class="sidebar-nav">
-    <div class="nav-section">Main</div>
-    <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span><span>Dashboard</span></div>
-    <div class="nav-item" onclick="showPage('clients')"><span class="nav-icon">👤</span><span>Clients</span></div>
-    <div class="nav-item" onclick="showPage('letters')"><span class="nav-icon">📄</span><span>Letters</span></div>
-    <div class="nav-section">Tools</div>
-    <div class="nav-item" onclick="showPage('intake-setup')"><span class="nav-icon">📋</span><span>Intake Form</span></div>
-    <div class="nav-item" onclick="showPage('templates')"><span class="nav-icon">📝</span><span>Templates</span></div>
-    <div class="nav-item" onclick="showPage('payments')"><span class="nav-icon">💳</span><span>Payments</span></div>
-    <div class="nav-section">Account</div>
-    <div class="nav-item" onclick="showPage('settings')"><span class="nav-icon">⚙️</span><span>Settings</span></div>
-    <div class="nav-item" onclick="showPage('help')"><span class="nav-icon">❓</span><span>Help</span></div>
+<!-- ═══════════════════ AUTH ═══════════════════ -->
+<div id="auth-wrap">
+<div class="auth-card">
+  <div class="auth-logo">Client<span>Ready</span></div>
+  <div class="auth-tag">AI-powered client intake for law firms</div>
+  <div class="auth-tabs">
+    <div class="auth-tab active" onclick="switchAuthTab('login')">Sign In</div>
+    <div class="auth-tab" onclick="switchAuthTab('register')">Create Account</div>
   </div>
-  <div class="sidebar-footer">
-    <div id="sb-firm" style="font-weight:600;color:#fff;margin-bottom:4px">Your Firm</div>
-    <div><span id="sb-plan">Starter</span><span class="plan-badge" id="sb-plan-badge">$79/mo</span></div>
-  </div>
-</div>
+  <div class="auth-err" id="auth-err"></div>
 
-<!-- MAIN CONTENT -->
-<div class="main">
-
-<!-- ═══════════ DASHBOARD ═══════════ -->
-<div class="page active" id="pg-dashboard">
-  <div class="page-header">
-    <div>
-      <div class="page-title">Dashboard</div>
-      <div class="page-subtitle">Welcome back! Here's your intake overview.</div>
-    </div>
-    <button class="btn btn-primary" onclick="showPage('intake-setup')">📋 Share Intake Link</button>
+  <!-- LOGIN -->
+  <div class="auth-form active" id="form-login">
+    <div class="auth-field"><label>Email</label><input type="email" id="l-email" placeholder="you@yourfirm.com" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <div class="auth-field"><label>Password</label><input type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+    <button class="auth-btn" onclick="doLogin()">Sign In →</button>
   </div>
 
-  <div class="onboard-banner" id="onboard-banner">
-    <div>
-      <h3>🚀 Get started in 3 steps</h3>
-      <p>Complete these steps to start accepting new clients through ClientReady.</p>
-      <div class="onboard-steps">
-        <div class="onboard-step" id="ob1"><span class="check">✓</span> Create account</div>
-        <div class="onboard-step pending" id="ob2"><span class="check">○</span> Customize intake form</div>
-        <div class="onboard-step pending" id="ob3"><span class="check">○</span> Send first intake link</div>
+  <!-- REGISTER -->
+  <div class="auth-form" id="form-register">
+    <div class="auth-field"><label>Firm Name</label><input type="text" id="r-firm" placeholder="Smith & Associates, PLLC"/></div>
+    <div class="auth-field"><label>Your Email</label><input type="email" id="r-email" placeholder="you@yourfirm.com"/></div>
+    <div class="auth-field"><label>Password <span style="font-weight:400;color:var(--gray)">(min 8 chars)</span></label><input type="password" id="r-pass" placeholder="••••••••"/></div>
+    <div class="auth-field"><label>Choose Your Plan</label>
+      <div class="plan-select-grid">
+        <div class="plan-option selected" id="po-starter" onclick="selectPlan('starter')">
+          <div class="plan-option-name">⚡ Starter</div>
+          <div class="plan-option-price">$79/mo</div>
+        </div>
+        <div class="plan-option" id="po-growth" onclick="selectPlan('growth')">
+          <div class="plan-option-name">🚀 Growth</div>
+          <div class="plan-option-price">$129/mo</div>
+        </div>
       </div>
     </div>
+    <button class="auth-btn" onclick="doRegister()" id="reg-btn">Create Account & Continue →</button>
+    <div style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--gray)">Payment handled securely via Stripe after setup</div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════ APP ═══════════════════ -->
+<div id="app-wrap">
+<canvas id="confetti-canvas"></canvas>
+<div id="toast"></div>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">⚖️ <span>Client</span>Ready</div>
+  <div class="sidebar-plan">
+    <span class="sidebar-plan-name" id="sb-plan-name">Starter Plan</span>
+    <span class="plan-pill" id="sb-plan-pill">STARTER</span>
+  </div>
+  <div class="sidebar-nav">
+    <div class="nav-section-label">Main</div>
+    <div class="nav-item active" onclick="showPage('dashboard')"><span class="nav-icon">📊</span>Dashboard</div>
+    <div class="nav-item" onclick="showPage('clients')"><span class="nav-icon">👥</span>Clients<span id="nav-client-count" style="margin-left:auto;background:rgba(255,255,255,.15);padding:1px 7px;border-radius:10px;font-size:.7rem"></span></div>
+    <div class="nav-item" onclick="showPage('letters')"><span class="nav-icon">📄</span>AI Letters</div>
+    <div class="nav-section-label">Setup</div>
+    <div class="nav-item" onclick="showPage('intake-setup')"><span class="nav-icon">🔗</span>Intake Form</div>
+    <div class="nav-item" onclick="showPage('templates')"><span class="nav-icon">✏️</span>Templates</div>
+    <div class="nav-section-label">Account</div>
+    <div class="nav-item" onclick="showPage('payments')"><span class="nav-icon">💳</span>Billing & Plans</div>
+    <div class="nav-item" onclick="showPage('settings')"><span class="nav-icon">⚙️</span>Settings</div>
+    <div class="nav-item" onclick="showPage('help')"><span class="nav-icon">💡</span>Help & Guide</div>
+  </div>
+  <div class="sidebar-bottom">
+    <div class="sidebar-user">
+      <div class="user-avatar" id="user-avatar">R</div>
+      <div class="user-info">
+        <div class="user-name" id="user-name-display">Loading...</div>
+        <div class="user-role" id="user-email-display">—</div>
+      </div>
+      <button class="logout-btn" onclick="doLogout()" title="Sign out">⏻</button>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- ═══ DASHBOARD ═══ -->
+<div class="page active" id="pg-dashboard">
+  <div id="milestone-wrap" style="display:none"></div>
+  <div class="page-header">
+    <div>
+      <div class="page-title">Good morning, <span id="dash-firm-name">Firm</span> 👋</div>
+      <div class="page-sub">Here's what's happening with your practice today</div>
+    </div>
+    <div class="page-actions">
+      <button class="btn btn-outline" onclick="showPage('intake-setup')">🔗 Share Intake</button>
+      <button class="btn btn-primary" onclick="openModal('add-client-modal')">+ New Client</button>
+    </div>
   </div>
 
-  <div class="stat-row">
-    <div class="stat-card"><div class="stat-label">New Clients (This Month)</div><div class="stat-value" id="st-clients">0</div><div class="stat-change" id="st-clients-ch">—</div></div>
-    <div class="stat-card"><div class="stat-label">Letters Sent</div><div class="stat-value" id="st-letters">0</div></div>
-    <div class="stat-card"><div class="stat-label">Signed Letters</div><div class="stat-value" id="st-signed">0</div></div>
-    <div class="stat-card"><div class="stat-label">Retainers Collected</div><div class="stat-value" id="st-retainer">$0</div></div>
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-label">This Month</div>
+      <div class="stat-val" id="d-month">0</div>
+      <div class="stat-sub">New intakes</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total Clients</div>
+      <div class="stat-val" id="d-total">0</div>
+      <div class="stat-sub">All time</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Signed</div>
+      <div class="stat-val" id="d-signed">0</div>
+      <div class="stat-sub up" id="d-signed-pct">clients engaged</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Retainer Collected</div>
+      <div class="stat-val" id="d-rev">$0</div>
+      <div class="stat-sub up">via Stripe</div>
+    </div>
   </div>
 
-  <div class="table-wrap">
-    <div class="table-header"><div class="table-title">Recent Client Activity</div></div>
-    <table>
-      <thead><tr><th>Client</th><th>Matter</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
-      <tbody id="recent-tbody">
-        <tr><td colspan="5" class="empty-state" style="padding:40px"><div class="empty-icon">📭</div><h3>No clients yet</h3><p>Share your intake link to start receiving new client submissions.</p><button class="btn btn-primary" onclick="showPage('intake-setup')">Get Your Intake Link</button></td></tr>
-      </tbody>
-    </table>
+  <!-- Onboard banner (shows for new users) -->
+  <div class="milestone-banner" id="onboard-banner" style="display:none">
+    <div class="milestone-text">
+      <h3>🚀 Welcome to ClientReady!</h3>
+      <p>Complete these 3 steps to start automating your intake in under 5 minutes.</p>
+      <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3)" onclick="showPage('settings')">1. Add firm info</button>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3)" onclick="showPage('settings')">2. Add Claude API key</button>
+        <button class="btn btn-sm" style="background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.3)" onclick="showPage('intake-setup')">3. Share intake link</button>
+      </div>
+    </div>
+    <div class="milestone-emoji">⚡</div>
+  </div>
+
+  <!-- Recent activity -->
+  <div class="card">
+    <div class="card-head">
+      <div class="card-title">Recent Clients</div>
+      <button class="btn btn-sm btn-outline" onclick="showPage('clients')">View All</button>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Client</th><th>Matter</th><th>Status</th><th>Date</th><th></th></tr></thead>
+        <tbody id="dash-tbody"><tr><td colspan="5" style="text-align:center;padding:30px;color:var(--gray)">No clients yet — share your intake link to get started</td></tr></tbody>
+      </table>
+    </div>
   </div>
 </div>
 
-<!-- ═══════════ CLIENTS ═══════════ -->
+<!-- ═══ CLIENTS ═══ -->
 <div class="page" id="pg-clients">
   <div class="page-header">
-    <div><div class="page-title">Clients</div><div class="page-subtitle">All client intakes and their current status.</div></div>
-    <div class="table-actions"><input type="text" class="search-input" placeholder="Search clients..." oninput="filterClients(this.value)"/></div>
+    <div><div class="page-title">Clients</div><div class="page-sub">Manage all your client relationships</div></div>
+    <div class="page-actions">
+      <input class="search-input" type="text" placeholder="🔍 Search clients..." oninput="filterClients(this.value)"/>
+      <button class="btn btn-primary" onclick="openModal('add-client-modal')">+ Add Client</button>
+    </div>
   </div>
-  <div class="table-wrap">
+  <div class="card table-wrap">
     <table>
-      <thead><tr><th>Name</th><th>Email</th><th>Matter</th><th>Urgency</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
+      <thead><tr><th>Client</th><th>Matter</th><th>Urgency</th><th>Status</th><th>Submitted</th><th>Actions</th></tr></thead>
       <tbody id="clients-tbody"></tbody>
     </table>
   </div>
 </div>
 
-<!-- ═══════════ LETTERS ═══════════ -->
+<!-- ═══ AI LETTERS ═══ -->
 <div class="page" id="pg-letters">
   <div class="page-header">
-    <div><div class="page-title">Engagement Letters</div><div class="page-subtitle">AI-drafted letters ready for your review.</div></div>
+    <div><div class="page-title">AI Engagement Letters</div><div class="page-sub">Claude drafts customized retainer letters from intake data</div></div>
+    <button class="btn btn-purple" onclick="openModal('new-letter-modal')">✨ Draft New Letter</button>
   </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Client</th><th>Matter</th><th>Generated</th><th>Status</th><th>Actions</th></tr></thead>
-      <tbody id="letters-tbody"></tbody>
-    </table>
-  </div>
+  <div id="letters-grid"></div>
 </div>
 
-<!-- ═══════════ INTAKE SETUP ═══════════ -->
+<!-- ═══ INTAKE SETUP ═══ -->
 <div class="page" id="pg-intake-setup">
   <div class="page-header">
-    <div><div class="page-title">Your Intake Form</div><div class="page-subtitle">Share this link with potential clients. They fill it out, you get everything you need.</div></div>
-  </div>
-  <div class="stat-card" style="margin-bottom:20px">
-    <div class="stat-label" style="margin-bottom:12px">Your unique intake link</div>
-    <div class="intake-link-box">
-      <input type="text" id="intake-link" readonly/>
-      <button class="btn btn-primary" onclick="copyIntakeLink()">📋 Copy Link</button>
-    </div>
-    <div style="font-size:.82rem;color:var(--gray);margin-top:8px">Embed this on your website, add it to your email signature, or share it directly with prospects.</div>
+    <div><div class="page-title">Intake Form Setup</div><div class="page-sub">Share this link with prospects — they fill, sign, and pay in one flow</div></div>
   </div>
 
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-    <div class="stat-card">
-      <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px">📧 Email Template</h3>
-      <p style="font-size:.85rem;color:var(--gray);margin-bottom:12px">Send this to new inquiries to kick off intake:</p>
-      <textarea id="email-template" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:.82rem;font-family:inherit;height:160px;resize:vertical"></textarea>
-      <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="copyEmailTemplate()">Copy Template</button>
+  <div class="card" style="padding:24px;margin-bottom:16px">
+    <div class="section-title">Your Intake Link</div>
+    <div class="intake-link-box">
+      <input type="text" id="intake-link-display" readonly/>
+      <button class="btn btn-sm btn-primary" onclick="copyIntakeLink()">Copy Link</button>
+      <a id="intake-link-open" href="#" target="_blank" class="btn btn-sm btn-outline">Open ↗</a>
     </div>
-    <div class="stat-card">
-      <h3 style="font-size:1rem;font-weight:700;margin-bottom:12px">🌐 Website Embed Code</h3>
-      <p style="font-size:.85rem;color:var(--gray);margin-bottom:12px">Add a "Start Your Case" button to your website:</p>
-      <textarea id="embed-code" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:12px;font-size:.82rem;font-family:monospace;height:100px;resize:vertical" readonly></textarea>
-      <button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="copyEmbed()">Copy Code</button>
+    <div style="margin-top:16px">
+      <div class="section-title">Embed on your website</div>
+      <div class="intake-link-box" style="margin-top:8px">
+        <input type="text" id="embed-code-display" readonly/>
+        <button class="btn btn-sm btn-outline" onclick="copyEmbed()">Copy Embed</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="padding:24px;margin-bottom:16px">
+    <div class="section-title" style="margin-bottom:16px">Email Template — Send to Prospects</div>
+    <textarea id="email-template-display" style="width:100%;height:180px;border:1.5px solid var(--border);border-radius:9px;padding:12px;font-size:.85rem;font-family:inherit;resize:vertical;outline:none;line-height:1.7"></textarea>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn btn-sm btn-primary" onclick="copyEmailTemplate()">Copy Email Template</button>
+      <button class="btn btn-sm btn-outline" onclick="regenerateEmailTemplate()">↺ Regenerate</button>
+    </div>
+  </div>
+
+  <div class="card" style="padding:24px">
+    <div class="section-title">How It Works</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:12px">
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:1.8rem;margin-bottom:8px">📨</div>
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">1. Client fills form</div>
+        <div style="font-size:.82rem;color:var(--gray)">Branded, mobile-friendly intake in 3 minutes</div>
+      </div>
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:1.8rem;margin-bottom:8px">🤖</div>
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">2. AI drafts letter</div>
+        <div style="font-size:.82rem;color:var(--gray)">Claude reads intake & writes engagement letter</div>
+      </div>
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:1.8rem;margin-bottom:8px">✍️</div>
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">3. Client e-signs</div>
+        <div style="font-size:.82rem;color:var(--gray)">One tap — no DocuSign, no extra login</div>
+      </div>
+      <div style="text-align:center;padding:16px">
+        <div style="font-size:1.8rem;margin-bottom:8px">💳</div>
+        <div style="font-weight:700;font-size:.9rem;margin-bottom:4px">4. Retainer paid</div>
+        <div style="font-size:.82rem;color:var(--gray)">Stripe collects it automatically — done</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ TEMPLATES ═══════════ -->
+<!-- ═══ TEMPLATES ═══ -->
 <div class="page" id="pg-templates">
   <div class="page-header">
-    <div><div class="page-title">Letter Templates</div><div class="page-subtitle">Customize your engagement letter templates by practice area.</div></div>
-    <button class="btn btn-primary" onclick="openTemplateModal()">+ New Template</button>
+    <div><div class="page-title">Intake Templates</div><div class="page-sub">Edit pre-built templates or create your own — becomes a draft you customize</div></div>
+    <button class="btn btn-primary" onclick="openModal('template-modal');setupNewTemplate()">+ New Template</button>
   </div>
-  <div id="templates-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px"></div>
+  <div id="templates-grid"></div>
 </div>
 
-<!-- ═══════════ PAYMENTS ═══════════ -->
+<!-- ═══ PAYMENTS ═══ -->
 <div class="page" id="pg-payments">
-  <div class="page-header"><div><div class="page-title">Payments</div><div class="page-subtitle">Retainer payments collected from your clients.</div></div></div>
-  <div class="stat-row">
-    <div class="stat-card"><div class="stat-label">Total Collected</div><div class="stat-value" id="pay-total">$0</div></div>
-    <div class="stat-card"><div class="stat-label">Pending Retainers</div><div class="stat-value" id="pay-pending">0</div></div>
-    <div class="stat-card"><div class="stat-label">Avg Retainer</div><div class="stat-value" id="pay-avg">$0</div></div>
+  <div class="page-header">
+    <div><div class="page-title">Billing & Plans</div><div class="page-sub">Manage your subscription and unlock more features</div></div>
   </div>
-  <div class="table-wrap">
-    <table>
-      <thead><tr><th>Client</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
-      <tbody id="payments-tbody">
-        <tr><td colspan="4" style="text-align:center;padding:40px;color:var(--gray)">No payments yet. Retainer payments will appear here once clients complete the intake flow.</td></tr>
-      </tbody>
-    </table>
+  <div class="plan-grid" id="plan-grid-wrap"></div>
+
+  <div class="card" style="padding:24px">
+    <div class="section-title">Payment History</div>
+    <div style="color:var(--gray);font-size:.85rem;margin-top:12px">Payment history is managed through Stripe. <a href="https://billing.stripe.com" target="_blank" style="color:var(--blue)">Access your Stripe billing portal →</a></div>
   </div>
 </div>
 
-<!-- ═══════════ SETTINGS ═══════════ -->
+<!-- ═══ SETTINGS ═══ -->
 <div class="page" id="pg-settings">
-  <div class="page-header"><div><div class="page-title">Settings</div><div class="page-subtitle">Manage your firm details and account.</div></div></div>
+  <div class="page-header">
+    <div><div class="page-title">Settings</div><div class="page-sub">Configure your firm and integrations</div></div>
+    <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+  </div>
 
-  <div class="settings-card">
-    <h3>Firm Information</h3>
-    <div class="form-row" style="gap:12px;margin-bottom:12px">
-      <div class="form-group"><label>Firm Name</label><input type="text" id="set-firm" onchange="saveSettings()"/></div>
-      <div class="form-group"><label>Attorney Name</label><input type="text" id="set-attorney" onchange="saveSettings()"/></div>
+  <div class="card" style="padding:24px;margin-bottom:16px">
+    <h3 style="font-weight:700;margin-bottom:16px">Firm Information</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Firm Name</label><input type="text" id="s-firm-name" placeholder="Smith & Associates, PLLC"/></div>
+      <div class="form-group"><label>Attorney Name</label><input type="text" id="s-attorney" placeholder="James Smith, Esq."/></div>
     </div>
-    <div class="form-row" style="gap:12px;margin-bottom:12px">
-      <div class="form-group"><label>Email</label><input type="email" id="set-email" onchange="saveSettings()"/></div>
-      <div class="form-group"><label>Phone</label><input type="tel" id="set-phone" onchange="saveSettings()"/></div>
+    <div class="form-row">
+      <div class="form-group"><label>Phone</label><input type="text" id="s-phone" placeholder="(555) 123-4567"/></div>
+      <div class="form-group"><label>Email</label><input type="text" id="s-email-firm" placeholder="contact@yourfirm.com"/></div>
     </div>
-    <div class="form-row" style="gap:12px">
-      <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="set-rate" value="300" onchange="saveSettings()"/></div>
-      <div class="form-group"><label>Default Retainer ($)</label><input type="number" id="set-retainer" value="1500" onchange="saveSettings()"/></div>
+    <div class="form-row">
+      <div class="form-group"><label>Address</label><input type="text" id="s-address" placeholder="123 Main St, Suite 100, New York, NY 10001"/></div>
+      <div class="form-group"><label>Practice Areas</label><input type="text" id="s-practice" placeholder="Personal Injury, Criminal Defense, Family Law"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Default Hourly Rate ($)</label><input type="number" id="s-rate" placeholder="300"/></div>
+      <div class="form-group"><label>Default Retainer ($)</label><input type="number" id="s-retainer" placeholder="1500"/></div>
     </div>
   </div>
 
-  <div class="settings-card">
-    <h3>Practice Areas</h3>
-    <div class="form-group"><label>Select all that apply:</label>
-      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px" id="practice-checks"></div>
+  <div class="card" style="padding:24px;margin-bottom:16px">
+    <h3 style="font-weight:700;margin-bottom:4px">🤖 Claude AI Integration</h3>
+    <p style="font-size:.84rem;color:var(--gray);margin-bottom:16px">Add your Claude API key to unlock AI letter drafting, client summaries, and automated intake analysis.</p>
+    <div class="form-group">
+      <label>Claude API Key <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue);font-weight:400;font-size:.75rem">Get key →</a></label>
+      <input type="password" id="s-claude-key" placeholder="sk-ant-..."/>
     </div>
+    <div id="claude-status" style="font-size:.82rem;margin-top:-8px"></div>
+    <button class="btn btn-sm btn-outline" style="margin-top:8px" onclick="testClaudeKey()">Test Connection</button>
   </div>
 
-  <div class="settings-card">
-    <h3>Notifications</h3>
-    <div class="settings-row"><span class="settings-label">Email me when a new intake is submitted</span><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
-    <div class="settings-row"><span class="settings-label">Email me when a letter is signed</span><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
-    <div class="settings-row"><span class="settings-label">Email me when a retainer is paid</span><label class="switch"><input type="checkbox" checked/><span class="slider"></span></label></div>
-  </div>
-
-  <div class="settings-card">
-    <h3>Subscription</h3>
-    <div class="settings-row">
-      <span class="settings-label">Current Plan</span>
-      <span class="settings-value" id="set-plan-display">Starter ($79/mo)</span>
-    </div>
-    <div class="settings-row">
-      <span class="settings-label">Status</span>
-      <span class="status-pill status-signed">Active</span>
-    </div>
-    <div style="margin-top:12px;display:flex;gap:8px">
-      <button class="btn btn-outline btn-sm" id="upgrade-btn" onclick="window.open('https://buy.stripe.com/5kQ7sL2rE3Gd7Msdd11Fe02','_blank')">Upgrade to Growth</button>
-      <button class="btn btn-outline btn-sm" style="color:var(--red);border-color:#fecaca" onclick="alert('To cancel, email support@clientready.com or manage your subscription in Stripe.')">Cancel Plan</button>
+  <div class="card" style="padding:24px;margin-bottom:16px">
+    <h3 style="font-weight:700;margin-bottom:16px">Notifications & Reminders</h3>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div><div style="font-size:.88rem;font-weight:600">New intake alert</div><div style="font-size:.78rem;color:var(--gray)">Get notified when someone submits your form</div></div>
+        <label class="toggle"><input type="checkbox" id="n-intake" checked/><span class="slider"></span></label>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div><div style="font-size:.88rem;font-weight:600">Auto-send engagement letter</div><div style="font-size:.78rem;color:var(--gray)">Automatically send AI-drafted letter after intake</div></div>
+        <label class="toggle"><input type="checkbox" id="n-auto-letter"/><span class="slider"></span></label>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <div><div style="font-size:.88rem;font-weight:600">Payment reminders</div><div style="font-size:.78rem;color:var(--gray)">Remind clients about unsigned letters or unpaid retainers</div></div>
+        <label class="toggle"><input type="checkbox" id="n-reminders" checked/><span class="slider"></span></label>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- ═══════════ HELP ═══════════ -->
+<!-- ═══ HELP ═══ -->
 <div class="page" id="pg-help">
-  <div class="page-header"><div><div class="page-title">Help & Support</div><div class="page-subtitle">Get help with ClientReady.</div></div></div>
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
-    <div class="stat-card"><h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">📧 Email Support</h3><p style="font-size:.88rem;color:var(--gray)">Reach us at <a href="mailto:richardhazy@gmail.com" style="color:var(--blue)">support@clientready.com</a>. We respond within 4 hours during business hours.</p></div>
-    <div class="stat-card"><h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">📖 Quick Start Guide</h3><p style="font-size:.88rem;color:var(--gray)">1. Go to Intake Form tab<br>2. Copy your unique intake link<br>3. Share with new inquiries<br>4. ClientReady handles the rest</p></div>
-    <div class="stat-card"><h3 style="font-size:1rem;font-weight:700;margin-bottom:8px">🔧 Common Questions</h3><p style="font-size:.88rem;color:var(--gray)"><strong>How do I customize my letter?</strong> Go to Templates → edit any template or create a new one.<br><br><strong>Where do payments go?</strong> Directly to your Stripe account — we never touch your money.</p></div>
+  <div class="page-header"><div><div class="page-title">Help & Quick Start</div><div class="page-sub">Get up and running in under 5 minutes</div></div></div>
+  <div class="card" style="padding:28px;margin-bottom:16px">
+    <h3 style="font-weight:800;margin-bottom:20px">⚡ Getting Started Checklist</h3>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">1</div><div><div style="font-weight:700;margin-bottom:3px">Add your firm info in Settings</div><div style="font-size:.84rem;color:var(--gray)">Your name, phone, address — appears on all engagement letters</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">2</div><div><div style="font-weight:700;margin-bottom:3px">Add your Claude API key</div><div style="font-size:.84rem;color:var(--gray)">Unlocks AI letter drafting. Get a free key at console.anthropic.com</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">3</div><div><div style="font-weight:700;margin-bottom:3px">Share your intake link</div><div style="font-size:.84rem;color:var(--gray)">Put it on your website, email signature, or text it to prospects</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">4</div><div><div style="font-weight:700;margin-bottom:3px">Customize your templates</div><div style="font-size:.84rem;color:var(--gray)">Edit the pre-built engagement letter templates to match your practice</div></div></div>
+    </div>
+  </div>
+  <div class="card" style="padding:24px">
+    <h3 style="font-weight:800;margin-bottom:16px">📞 Need Help?</h3>
+    <p style="font-size:.87rem;color:var(--gray);line-height:1.7">Contact our support team at <strong>support@clientready.ai</strong> or visit our documentation site. We typically respond within 2 hours during business hours.</p>
   </div>
 </div>
 
-</div><!-- /main -->
+</main>
+</div><!-- end app-wrap -->
 
-<!-- CLIENT DETAIL MODAL -->
-<div class="modal-overlay" id="client-modal">
-  <div class="modal">
-    <div class="modal-head"><h3 id="cm-title">Client Details</h3><button class="modal-close" onclick="closeClientModal()">✕</button></div>
-    <div class="modal-body" id="cm-body"></div>
+<!-- ═══════════════ MODALS ═══════════════════ -->
+
+<!-- ADD CLIENT -->
+<div class="modal-overlay" id="add-client-modal">
+<div class="modal">
+  <div class="modal-head"><h3>Add New Client</h3><button class="modal-close" onclick="closeModal('add-client-modal')">×</button></div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group"><label>First Name</label><input type="text" id="ac-first" placeholder="Jane"/></div>
+      <div class="form-group"><label>Last Name</label><input type="text" id="ac-last" placeholder="Doe"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" id="ac-email" placeholder="jane@example.com"/></div>
+      <div class="form-group"><label>Phone</label><input type="text" id="ac-phone" placeholder="(555) 123-4567"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Matter Type</label>
+        <select id="ac-matter">
+          <option value="">— Select —</option>
+          <option>Personal Injury</option><option>Criminal Defense</option><option>Family Law / Divorce</option>
+          <option>Business Law</option><option>Immigration</option><option>Estate Planning</option>
+          <option>Real Estate</option><option>Employment Law</option><option>Civil Litigation</option><option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Urgency</label>
+        <select id="ac-urgency">
+          <option value="standard">Standard</option><option value="urgent">Urgent</option><option value="emergency">Emergency</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Case Description</label><textarea id="ac-desc" placeholder="Brief description of the matter..."></textarea></div>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-outline" onclick="closeModal('add-client-modal')">Cancel</button>
+    <button class="btn btn-primary" onclick="addClientManual()">Add Client</button>
   </div>
 </div>
+</div>
 
-<!-- TEMPLATE MODAL -->
-<div class="modal-overlay" id="template-modal">
-  <div class="modal">
-    <div class="modal-head"><h3>Edit Letter Template</h3><button class="modal-close" onclick="document.getElementById('template-modal').classList.remove('open')">✕</button></div>
-    <div class="modal-body">
-      <div class="form-group"><label>Template Name</label><input type="text" id="tpl-name" placeholder="e.g. Family Law Standard"/></div>
-      <div class="form-group"><label>Practice Area</label><select id="tpl-area"><option>Family Law</option><option>Estate Planning</option><option>Business Law</option><option>Real Estate</option><option>Criminal Defense</option><option>Personal Injury</option><option>Immigration</option><option>General</option></select></div>
-      <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="tpl-rate" value="300"/></div>
-      <div class="form-group"><label>Retainer Amount ($)</label><input type="number" id="tpl-retainer" value="1500"/></div>
-      <div class="form-group"><label>Additional Terms (optional)</label><textarea id="tpl-terms" placeholder="Any additional terms specific to this practice area..."></textarea></div>
-      <button class="btn btn-primary" style="width:100%" onclick="saveTemplate()">Save Template</button>
+<!-- VIEW CLIENT -->
+<div class="modal-overlay" id="view-client-modal">
+<div class="modal" style="max-width:780px">
+  <div class="modal-head">
+    <h3 id="vc-title">Client Details</h3>
+    <div style="display:flex;gap:8px;align-items:center">
+      <select id="vc-status-sel" onchange="updateClientStatus()" style="border:1.5px solid var(--border);border-radius:7px;padding:5px 10px;font-size:.82rem;font-family:inherit;outline:none">
+        <option value="new">New</option><option value="reviewing">Reviewing</option><option value="pending">Pending Signature</option><option value="signed">Signed</option><option value="paid">Paid ✓</option><option value="urgent">Urgent</option>
+      </select>
+      <button class="modal-close" onclick="closeModal('view-client-modal')">×</button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <div class="two-col" style="margin-bottom:20px">
+      <div>
+        <div class="section-title">Contact Information</div>
+        <div class="client-detail-row"><div class="detail-label">Name</div><div class="detail-val" id="vc-name">—</div></div>
+        <div class="client-detail-row"><div class="detail-label">Email</div><div class="detail-val" id="vc-email">—</div></div>
+        <div class="client-detail-row"><div class="detail-label">Phone</div><div class="detail-val" id="vc-phone">—</div></div>
+        <div class="client-detail-row"><div class="detail-label">Location</div><div class="detail-val" id="vc-location">—</div></div>
+      </div>
+      <div>
+        <div class="section-title">Matter Details</div>
+        <div class="client-detail-row"><div class="detail-label">Matter Type</div><div class="detail-val" id="vc-matter">—</div></div>
+        <div class="client-detail-row"><div class="detail-label">Urgency</div><div class="detail-val" id="vc-urgency">—</div></div>
+        <div class="client-detail-row"><div class="detail-label">Submitted</div><div class="detail-val" id="vc-date">—</div></div>
+        <div class="client-detail-row"><div class="detail-label">Referral</div><div class="detail-val" id="vc-referral">—</div></div>
+      </div>
+    </div>
+    <div class="form-group"><label>Description</label><div id="vc-desc" style="background:var(--bg);border-radius:8px;padding:12px;font-size:.87rem;line-height:1.7;color:var(--gray)">—</div></div>
+
+    <!-- AI SUMMARY -->
+    <div class="ai-panel" id="vc-ai-panel">
+      <div class="ai-panel-head">🤖 <span>AI Client Summary</span><span class="ai-badge">CLAUDE</span></div>
+      <div id="vc-ai-output" class="ai-output" style="color:var(--gray);font-style:italic">Click "Generate Summary" to get an AI analysis of this client</div>
+      <div class="ai-actions">
+        <button class="btn btn-sm btn-purple" onclick="generateClientSummary()">✨ Generate Summary</button>
+        <button class="btn btn-sm btn-outline" onclick="generateEngagementLetter()">📄 Draft Letter</button>
+        <button class="btn btn-sm btn-green" onclick="closeModal('view-client-modal');showPage('letters')">View Letters</button>
+      </div>
+    </div>
+    <div class="modal-foot" style="padding:0;border:none;margin-top:16px">
+      <button class="btn btn-outline btn-sm btn-red" onclick="deleteCurrentClient()">🗑 Delete Client</button>
     </div>
   </div>
 </div>
+</div>
 
-<div class="toast" id="toast"></div>
+<!-- NEW LETTER MODAL -->
+<div class="modal-overlay" id="new-letter-modal">
+<div class="modal" style="max-width:760px">
+  <div class="modal-head"><h3>✨ Draft AI Engagement Letter</h3><button class="modal-close" onclick="closeModal('new-letter-modal')">×</button></div>
+  <div class="modal-body">
+    <div class="form-group"><label>Select Client</label>
+      <select id="nl-client-sel" onchange="prefillLetterFromClient()">
+        <option value="">— Choose a client —</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Matter Type</label><input type="text" id="nl-matter" placeholder="Personal Injury"/></div>
+      <div class="form-group"><label>Retainer Amount ($)</label><input type="number" id="nl-retainer" placeholder="1500"/></div>
+    </div>
+    <div class="form-group"><label>Additional Notes <span class="hint">(optional)</span></label><textarea id="nl-notes" placeholder="Any specific terms, prior discussions, or context to include..."></textarea></div>
+
+    <div class="ai-panel">
+      <div class="ai-panel-head">🤖 <span>Claude will draft your letter</span><span class="ai-badge">AI</span></div>
+      <div id="nl-ai-status" style="color:var(--gray);font-size:.84rem;font-style:italic">Select a client and click Generate to create a customized engagement letter</div>
+      <div id="nl-ai-output" class="ai-output" style="display:none"></div>
+      <div class="ai-actions" style="margin-top:12px">
+        <button class="btn btn-purple" onclick="generateLetter()" id="nl-gen-btn">✨ Generate Letter</button>
+        <button class="btn btn-outline" onclick="copyLetter()" id="nl-copy-btn" style="display:none">Copy Text</button>
+        <button class="btn btn-green" onclick="saveLetter()" id="nl-save-btn" style="display:none">Save Letter</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- TEMPLATE EDITOR MODAL -->
+<div class="modal-overlay" id="template-modal">
+<div class="modal" style="max-width:720px">
+  <div class="modal-head"><h3 id="tpl-modal-title">Edit Template</h3><button class="modal-close" onclick="closeModal('template-modal')">×</button></div>
+  <div class="modal-body">
+    <div class="form-row">
+      <div class="form-group"><label>Template Name</label><input type="text" id="tpl-name" placeholder="Personal Injury Standard"/></div>
+      <div class="form-group"><label>Practice Area</label><input type="text" id="tpl-area" placeholder="Personal Injury"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Hourly Rate ($)</label><input type="number" id="tpl-rate" placeholder="300"/></div>
+      <div class="form-group"><label>Retainer ($)</label><input type="number" id="tpl-retainer" placeholder="1500"/></div>
+    </div>
+    <div class="form-group">
+      <label>Engagement Letter Template <span class="hint">— use {CLIENT_NAME}, {MATTER_TYPE}, {RETAINER}, {FIRM_NAME}</span></label>
+      <div class="template-editor">
+        <div class="editor-toolbar">
+          <button class="editor-btn" onclick="insertText('**','**')"><b>B</b></button>
+          <button class="editor-btn" onclick="insertText('_','_')"><i>I</i></button>
+          <button class="editor-btn" onclick="insertText('{CLIENT_NAME}','')">Client</button>
+          <button class="editor-btn" onclick="insertText('{MATTER_TYPE}','')">Matter</button>
+          <button class="editor-btn" onclick="insertText('{RETAINER}','')">Retainer</button>
+          <button class="editor-btn" onclick="insertText('{FIRM_NAME}','')">Firm</button>
+          <button class="editor-btn" onclick="insertText('{DATE}','')">Date</button>
+        </div>
+        <textarea class="editor-area" id="tpl-body" placeholder="Write your engagement letter template here..."></textarea>
+      </div>
+    </div>
+    <input type="hidden" id="tpl-edit-idx" value=""/>
+  </div>
+  <div class="modal-foot">
+    <button class="btn btn-outline" onclick="closeModal('template-modal')">Cancel</button>
+    <button class="btn btn-primary" onclick="saveTemplate()">Save Template</button>
+  </div>
+</div>
+</div>
 
 <script>
-// ═══════════ DATA LAYER (localStorage) ═══════════
-const FIRM_KEY = 'cr_firm_' + (new URLSearchParams(location.search).get('id') || 'demo');
+// ═══════════════════════════════════════════════════
+// CONSTANTS
+// ═══════════════════════════════════════════════════
+const STRIPE_STARTER = 'https://buy.stripe.com/fZu6oHd6i3GdeaQ2yn1Fe01';
+const STRIPE_GROWTH  = 'https://buy.stripe.com/5kQ7sL2rE3Gd7Msdd11Fe02';
+const INTAKE_BASE    = location.origin + '/intake.html';
+const CLAUDE_API     = 'https://api.anthropic.com/v1/messages';
+const MILESTONES     = [1,10,50,100,500,1000];
 
-function getData(key, def) { try { return JSON.parse(localStorage.getItem(FIRM_KEY + '_' + key)) || def; } catch { return def; } }
-function setData(key, val) { localStorage.setItem(FIRM_KEY + '_' + key, JSON.stringify(val)); }
+// ═══════════════════════════════════════════════════
+// DATA HELPERS  (namespaced per firm)
+// ═══════════════════════════════════════════════════
+let FIRM_KEY = '';
 
-// ═══════════ SETTINGS ═══════════
-function loadSettings() {
-  const params = new URLSearchParams(location.search);
-  const s = getData('settings', {
-    firm: params.get('firm') ? decodeURIComponent(params.get('firm')) : 'My Law Firm',
-    attorney: params.get('name') || 'Attorney',
-    email: params.get('email') || '',
-    phone: '',
-    rate: 300,
-    retainer: 1500,
-    plan: params.get('plan') || 'starter',
-    practices: ['Family Law']
-  });
-  document.getElementById('set-firm').value = s.firm;
-  document.getElementById('set-attorney').value = s.attorney;
-  document.getElementById('set-email').value = s.email;
-  document.getElementById('set-phone').value = s.phone;
-  document.getElementById('set-rate').value = s.rate;
-  document.getElementById('set-retainer').value = s.retainer;
-  document.getElementById('sb-firm').textContent = s.firm;
+function dk(k){ return FIRM_KEY + '_' + k; }
+function get(k,d=null){ try{ const v=localStorage.getItem(dk(k)); return v?JSON.parse(v):d; }catch(e){ return d; } }
+function set(k,v){ localStorage.setItem(dk(k),JSON.stringify(v)); }
 
-  const isGrowth = s.plan === 'growth';
-  document.getElementById('sb-plan').textContent = isGrowth ? 'Growth' : 'Starter';
-  document.getElementById('sb-plan-badge').textContent = isGrowth ? '$129/mo' : '$79/mo';
-  document.getElementById('set-plan-display').textContent = isGrowth ? 'Growth ($129/mo)' : 'Starter ($79/mo)';
-  if (isGrowth) document.getElementById('upgrade-btn').style.display = 'none';
+function getClients(){ return get('clients',[]); }
+function setClients(arr){ set('clients',arr); }
+function addClientObj(c){ const a=getClients(); a.unshift(c); setClients(a); checkMilestone(a.length); }
 
-  // Intake link
-  const base = location.origin + '/intake.html';
-  const link = base + '?firm=' + encodeURIComponent(s.firm) + '&email=' + encodeURIComponent(s.email) + '&rate=' + s.rate + '&retainer=' + s.retainer + '&id=' + FIRM_KEY;
-  document.getElementById('intake-link').value = link;
+function getLetters(){ return get('letters',[]); }
+function setLetters(arr){ set('letters',arr); }
 
-  // Email template
-  document.getElementById('email-template').value =
-`Hi [Client Name],
+function getSettings(){ return get('settings',{}); }
+function setSettings(o){ set('settings',o); }
 
-Thank you for reaching out to ${s.firm}. To get started, please complete our secure intake form:
+function getTemplates(){ return get('templates',defaultTemplates()); }
+function setTemplates(arr){ set('templates',arr); }
 
-${link}
+// ═══════════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════════
+let selectedPlan = 'starter';
+let currentClientIdx = -1;
 
-This takes about 5 minutes and helps us prepare for your consultation. All information is confidential and protected by attorney-client privilege.
-
-We'll review your submission and be in touch within 24 hours.
-
-Best regards,
-${s.attorney}
-${s.firm}`;
-
-  // Embed code
-  document.getElementById('embed-code').value =
-`<a href="${link}" style="display:inline-block;background:#2563eb;color:#fff;padding:14px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-family:sans-serif">Start Your Case →</a>`;
-
-  // Practice checks
-  const areas = ['Family Law','Estate Planning','Business Law','Real Estate','Criminal Defense','Personal Injury','Immigration'];
-  const pc = document.getElementById('practice-checks');
-  pc.innerHTML = areas.map(a => `<label style="display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;cursor:pointer;font-size:.85rem"><input type="checkbox" ${(s.practices||[]).includes(a)?'checked':''} onchange="saveSettings()"/>${a}</label>`).join('');
-
-  return s;
+function switchAuthTab(tab){
+  document.querySelectorAll('.auth-tab').forEach((t,i)=>t.classList.toggle('active',i===(tab==='login'?0:1)));
+  document.getElementById('form-login').classList.toggle('active', tab==='login');
+  document.getElementById('form-register').classList.toggle('active', tab==='register');
+  document.getElementById('auth-err').classList.remove('show');
 }
 
-function saveSettings() {
-  const s = {
-    firm: document.getElementById('set-firm').value,
-    attorney: document.getElementById('set-attorney').value,
-    email: document.getElementById('set-email').value,
-    phone: document.getElementById('set-phone').value,
-    rate: parseInt(document.getElementById('set-rate').value) || 300,
-    retainer: parseInt(document.getElementById('set-retainer').value) || 1500,
-    plan: getData('settings', {}).plan || 'starter',
-    practices: Array.from(document.querySelectorAll('#practice-checks input:checked')).map(c => c.parentElement.textContent.trim())
-  };
-  setData('settings', s);
-  loadSettings();
-  showToast('Settings saved!');
+function selectPlan(p){
+  selectedPlan = p;
+  document.getElementById('po-starter').classList.toggle('selected', p==='starter');
+  document.getElementById('po-growth').classList.toggle('selected', p==='growth');
 }
 
-// ═══════════ CLIENTS ═══════════
-function getClients() { return getData('clients', []); }
-function addClient(c) { const all = getClients(); all.unshift(c); setData('clients', all); }
+function authErr(msg){ const e=document.getElementById('auth-err'); e.textContent=msg; e.classList.add('show'); }
 
-function renderClients() {
-  const clients = getClients();
-  const tbody = document.getElementById('clients-tbody');
-  if (!clients.length) {
-    tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--gray)">No clients yet. Share your intake link to get started.</td></tr>';
-    return;
+function doLogin(){
+  const email = document.getElementById('l-email').value.trim().toLowerCase();
+  const pass   = document.getElementById('l-pass').value;
+  if(!email||!pass){ authErr('Please enter your email and password.'); return; }
+  // Find matching account
+  const accounts = JSON.parse(localStorage.getItem('cr_accounts')||'[]');
+  const acct = accounts.find(a=>a.email===email);
+  if(!acct){ authErr('No account found with that email.'); return; }
+  if(acct.passHash !== simpleHash(pass)){ authErr('Incorrect password.'); return; }
+  startSession(acct);
+}
+
+function doRegister(){
+  const firm  = document.getElementById('r-firm').value.trim();
+  const email = document.getElementById('r-email').value.trim().toLowerCase();
+  const pass  = document.getElementById('r-pass').value;
+  if(!firm){ authErr('Please enter your firm name.'); return; }
+  if(!email||!email.includes('@')){ authErr('Please enter a valid email.'); return; }
+  if(pass.length < 8){ authErr('Password must be at least 8 characters.'); return; }
+  const accounts = JSON.parse(localStorage.getItem('cr_accounts')||'[]');
+  if(accounts.find(a=>a.email===email)){ authErr('An account with that email already exists. Please sign in.'); return; }
+  const acct = { email, firm, plan: selectedPlan, passHash: simpleHash(pass), firmId: 'firm_'+Date.now(), createdAt: new Date().toISOString() };
+  accounts.push(acct);
+  localStorage.setItem('cr_accounts', JSON.stringify(accounts));
+  startSession(acct);
+}
+
+function startSession(acct){
+  sessionStorage.setItem('cr_session', JSON.stringify(acct));
+  FIRM_KEY = acct.firmId;
+  loadApp(acct);
+}
+
+function doLogout(){
+  sessionStorage.removeItem('cr_session');
+  location.reload();
+}
+
+function simpleHash(str){
+  let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h)+str.charCodeAt(i); h|=0; } return h.toString(36);
+}
+
+function checkSession(){
+  const s = sessionStorage.getItem('cr_session');
+  if(s){
+    const acct = JSON.parse(s);
+    FIRM_KEY = acct.firmId;
+    loadApp(acct);
+    return true;
   }
-  tbody.innerHTML = clients.map((c, i) => `<tr>
-    <td><span class="client-name" onclick="viewClient(${i})">${c.firstName} ${c.lastName}</span></td>
-    <td>${c.matterType || '—'}</td>
-    <td>${c.email || '—'}</td>
-    <td><span class="status-pill status-${c.urgency === 'emergency' ? 'urgent' : c.urgency === 'urgent' ? 'pending' : 'new'}">${(c.urgency||'—').charAt(0).toUpperCase()+(c.urgency||'').slice(1)}</span></td>
-    <td><span class="status-pill status-${c.status === 'signed' ? 'signed' : c.status === 'paid' ? 'paid' : 'new'}">${(c.status||'New').charAt(0).toUpperCase()+(c.status||'new').slice(1)}</span></td>
-    <td>${new Date(c.submittedAt||Date.now()).toLocaleDateString()}</td>
-    <td><button class="btn btn-outline btn-sm" onclick="viewClient(${i})">View</button> <button class="btn btn-primary btn-sm" onclick="generateLetter(${i})">📄 Letter</button></td>
-  </tr>`).join('');
+  return false;
 }
 
-function filterClients(q) {
-  const clients = getClients();
-  const rows = document.getElementById('clients-tbody').querySelectorAll('tr');
-  q = q.toLowerCase();
-  rows.forEach((row, i) => {
-    if (!clients[i]) return;
-    const c = clients[i];
-    const match = (c.firstName+' '+c.lastName+' '+c.email+' '+c.matterType).toLowerCase().includes(q);
-    row.style.display = match ? '' : 'none';
-  });
-}
+// ═══════════════════════════════════════════════════
+// APP INIT
+// ═══════════════════════════════════════════════════
+function loadApp(acct){
+  document.getElementById('auth-wrap').style.display='none';
+  document.getElementById('app-wrap').style.display='block';
 
-function viewClient(i) {
-  const c = getClients()[i];
-  document.getElementById('cm-title').textContent = c.firstName + ' ' + c.lastName;
-  document.getElementById('cm-body').innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Email</div><div style="font-size:.9rem">${c.email}</div></div>
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Phone</div><div style="font-size:.9rem">${c.phone||'—'}</div></div>
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Matter</div><div style="font-size:.9rem">${c.matterType||'—'}</div></div>
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Urgency</div><div style="font-size:.9rem;font-weight:600;color:${c.urgency==='emergency'?'var(--red)':c.urgency==='urgent'?'var(--orange)':'var(--navy)'}">${c.urgency||'—'}</div></div>
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Location</div><div style="font-size:.9rem">${c.city||''} ${c.state||''}</div></div>
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Opposing Party</div><div style="font-size:.9rem">${c.opposingParty||'None'}</div></div>
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Referral</div><div style="font-size:.9rem">${c.referral||'—'}</div></div>
-      <div><div style="font-size:.78rem;color:var(--gray);font-weight:600">Status</div><span class="status-pill status-${c.status==='signed'?'signed':c.status==='paid'?'paid':'new'}">${c.status||'New'}</span></div>
-    </div>
-    <div style="margin-bottom:16px"><div style="font-size:.78rem;color:var(--gray);font-weight:600;margin-bottom:4px">Description</div><div style="font-size:.9rem;background:var(--bg);padding:14px;border-radius:8px;line-height:1.6">${c.description||'No description provided.'}</div></div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-primary" onclick="generateLetter(${i});closeClientModal()">📄 Generate Letter</button>
-      <button class="btn btn-green" onclick="markStatus(${i},'signed');closeClientModal()">✅ Mark Signed</button>
-      <button class="btn btn-outline" onclick="markStatus(${i},'paid');closeClientModal()">💰 Mark Paid</button>
-    </div>
-  `;
-  document.getElementById('client-modal').classList.add('open');
-}
-function closeClientModal() { document.getElementById('client-modal').classList.remove('open'); }
+  // Sidebar user info
+  document.getElementById('user-name-display').textContent = acct.firm;
+  document.getElementById('user-email-display').textContent = acct.email;
+  document.getElementById('user-avatar').textContent = acct.firm.charAt(0).toUpperCase();
 
-function markStatus(i, status) {
-  const all = getClients();
-  all[i].status = status;
-  setData('clients', all);
+  // Plan display
+  const isGrowth = acct.plan === 'growth';
+  document.getElementById('sb-plan-name').textContent = isGrowth ? 'Growth Plan' : 'Starter Plan';
+  const pill = document.getElementById('sb-plan-pill');
+  pill.textContent = isGrowth ? 'GROWTH' : 'STARTER';
+  pill.className = 'plan-pill' + (isGrowth ? ' growth' : '');
+
+  // Load settings
+  const s = getSettings();
+  if(!s.firmName && acct.firm){ s.firmName = acct.firm; setSettings(s); }
+
+  renderDashboard();
   renderClients();
-  refreshDashboard();
-  showToast('Client marked as ' + status + '!');
-}
-
-// ═══════════ LETTER GENERATION ═══════════
-function generateLetter(i) {
-  const c = getClients()[i];
-  const s = getData('settings', {});
-  const today = new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'});
-  const letter = {
-    clientIndex: i,
-    client: c.firstName + ' ' + c.lastName,
-    matter: c.matterType,
-    generatedAt: new Date().toISOString(),
-    status: 'draft',
-    content: `
-ENGAGEMENT LETTER
-
-${today}
-
-${c.firstName} ${c.lastName}
-${c.city || ''}, ${c.state || ''}
-
-Re: ${c.matterType || 'Legal Matter'}
-
-Dear ${c.firstName},
-
-Thank you for choosing ${s.firm || 'our firm'} to assist you with your legal matter. We are pleased to confirm our representation of you under the following terms.
-
-1. SCOPE OF REPRESENTATION
-We are retained to represent you in connection with your ${c.matterType || 'legal matter'}. The scope of our representation is limited to this matter unless we agree in writing to expand it.
-
-2. FEES AND BILLING
-Our services will be billed at $${s.rate || 300}/hour. A retainer of $${s.retainer || 1500} is due prior to commencement of substantive legal work. This retainer will be held in our client trust account and applied against fees as earned. You will receive monthly billing statements.
-
-3. COMMUNICATION
-We will communicate with you via email and phone. We will respond to inquiries within one business day. You agree to keep us informed of any developments and respond promptly to our requests.
-
-4. CLIENT RESPONSIBILITIES
-You agree to be truthful, cooperate fully, keep us informed of developments, and pay fees as agreed.
-
-5. TERMINATION
-Either party may terminate this representation upon written notice. You will be responsible for fees and costs incurred through the date of termination.
-
-6. CONFIDENTIALITY
-All information shared is protected by attorney-client privilege and kept strictly confidential.
-
-Sincerely,
-${s.attorney || 'Attorney'}
-${s.firm || 'Firm'}
-    `.trim()
-  };
-
-  const letters = getData('letters', []);
-  letters.unshift(letter);
-  setData('letters', letters);
   renderLetters();
-  showPage('letters');
-  showToast('Letter generated for ' + c.firstName + ' ' + c.lastName);
-}
-
-function renderLetters() {
-  const letters = getData('letters', []);
-  const tbody = document.getElementById('letters-tbody');
-  if (!letters.length) {
-    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;color:var(--gray)">No letters yet. Generate one from a client record.</td></tr>';
-    return;
-  }
-  tbody.innerHTML = letters.map((l, i) => `<tr>
-    <td style="font-weight:600">${l.client}</td>
-    <td>${l.matter||'—'}</td>
-    <td>${new Date(l.generatedAt).toLocaleDateString()}</td>
-    <td><span class="status-pill status-${l.status==='sent'?'pending':l.status==='signed'?'signed':'new'}">${l.status.charAt(0).toUpperCase()+l.status.slice(1)}</span></td>
-    <td>
-      <button class="btn btn-outline btn-sm" onclick="previewLetter(${i})">Preview</button>
-      <button class="btn btn-primary btn-sm" onclick="sendLetter(${i})">📧 Send</button>
-    </td>
-  </tr>`).join('');
-}
-
-function previewLetter(i) {
-  const l = getData('letters', [])[i];
-  document.getElementById('cm-title').textContent = 'Letter: ' + l.client;
-  document.getElementById('cm-body').innerHTML = `<div class="letter-preview" style="white-space:pre-wrap">${l.content}</div><div style="display:flex;gap:8px;margin-top:12px"><button class="btn btn-primary" onclick="sendLetter(${i});closeClientModal()">📧 Send to Client</button><button class="btn btn-outline" onclick="closeClientModal()">Close</button></div>`;
-  document.getElementById('client-modal').classList.add('open');
-}
-
-function sendLetter(i) {
-  const letters = getData('letters', []);
-  letters[i].status = 'sent';
-  setData('letters', letters);
-  renderLetters();
-  showToast('Letter sent to ' + letters[i].client + '!');
-}
-
-// ═══════════ TEMPLATES ═══════════
-function renderTemplates() {
-  const tpls = getData('templates', [
-    { name: 'Family Law Standard', area: 'Family Law', rate: 300, retainer: 2500, terms: '' },
-    { name: 'Estate Planning', area: 'Estate Planning', rate: 350, retainer: 2000, terms: '' },
-    { name: 'Business Formation', area: 'Business Law', rate: 275, retainer: 1500, terms: '' }
-  ]);
-  const grid = document.getElementById('templates-grid');
-  grid.innerHTML = tpls.map((t, i) => `
-    <div class="stat-card">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
-        <div style="font-weight:700;font-size:.95rem">${t.name}</div>
-        <span class="status-pill status-new">${t.area}</span>
-      </div>
-      <div style="font-size:.85rem;color:var(--gray);margin-bottom:4px">Rate: <strong>$${t.rate}/hr</strong> &middot; Retainer: <strong>$${t.retainer.toLocaleString()}</strong></div>
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button class="btn btn-outline btn-sm" onclick="editTemplate(${i})">Edit</button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function openTemplateModal() {
-  document.getElementById('tpl-name').value = '';
-  document.getElementById('tpl-terms').value = '';
-  document.getElementById('template-modal').classList.add('open');
-}
-
-function editTemplate(i) {
-  const tpls = getData('templates', []);
-  const t = tpls[i];
-  document.getElementById('tpl-name').value = t.name;
-  document.getElementById('tpl-area').value = t.area;
-  document.getElementById('tpl-rate').value = t.rate;
-  document.getElementById('tpl-retainer').value = t.retainer;
-  document.getElementById('tpl-terms').value = t.terms || '';
-  document.getElementById('template-modal').classList.add('open');
-  document.getElementById('template-modal').dataset.editIndex = i;
-}
-
-function saveTemplate() {
-  const tpl = {
-    name: document.getElementById('tpl-name').value || 'Untitled',
-    area: document.getElementById('tpl-area').value,
-    rate: parseInt(document.getElementById('tpl-rate').value) || 300,
-    retainer: parseInt(document.getElementById('tpl-retainer').value) || 1500,
-    terms: document.getElementById('tpl-terms').value
-  };
-  const tpls = getData('templates', []);
-  const idx = document.getElementById('template-modal').dataset.editIndex;
-  if (idx !== undefined && idx !== '') { tpls[idx] = tpl; } else { tpls.push(tpl); }
-  setData('templates', tpls);
-  delete document.getElementById('template-modal').dataset.editIndex;
-  document.getElementById('template-modal').classList.remove('open');
   renderTemplates();
-  showToast('Template saved!');
+  renderPayments(acct.plan);
+  loadSettingsForm();
+  setupIntakeLinks(acct);
+
+  // Show onboard if no clients
+  if(getClients().length === 0){
+    document.getElementById('onboard-banner').style.display='flex';
+  }
+
+  // Handle post-Stripe redirect
+  const params = new URLSearchParams(location.search);
+  if(params.get('setup')==='1') showToast('🎉 Welcome! Your account is live.');
 }
 
-// ═══════════ DASHBOARD STATS ═══════════
-function refreshDashboard() {
+// ═══════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const pg = document.getElementById('pg-'+id);
+  if(pg) pg.classList.add('active');
+  const navMap={dashboard:0,clients:1,letters:2,'intake-setup':3,templates:4,payments:5,settings:6,help:7};
+  const items = document.querySelectorAll('.nav-item');
+  if(navMap[id]!==undefined) items[navMap[id]]?.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════
+function renderDashboard(){
   const clients = getClients();
   const now = new Date();
-  const thisMonth = clients.filter(c => new Date(c.submittedAt).getMonth() === now.getMonth());
-  const signed = clients.filter(c => c.status === 'signed' || c.status === 'paid');
-  const paid = clients.filter(c => c.status === 'paid');
-  const s = getData('settings', {});
-  const retainerTotal = paid.length * (s.retainer || 1500);
+  const thisMonth = clients.filter(c=>new Date(c.submittedAt).getMonth()===now.getMonth()&&new Date(c.submittedAt).getFullYear()===now.getFullYear());
+  const signed = clients.filter(c=>c.status==='signed'||c.status==='paid');
+  const paid   = clients.filter(c=>c.status==='paid');
+  const s      = getSettings();
+  const retainer = paid.length * (parseInt(s.retainer)||1500);
 
-  document.getElementById('st-clients').textContent = thisMonth.length;
-  document.getElementById('st-letters').textContent = getData('letters', []).length;
-  document.getElementById('st-signed').textContent = signed.length;
-  document.getElementById('st-retainer').textContent = '$' + retainerTotal.toLocaleString();
+  document.getElementById('d-month').textContent = thisMonth.length;
+  document.getElementById('d-total').textContent = clients.length;
+  document.getElementById('d-signed').textContent = signed.length;
+  document.getElementById('d-rev').textContent   = '$'+retainer.toLocaleString();
+  document.getElementById('nav-client-count').textContent = clients.length||'';
+  document.getElementById('dash-firm-name').textContent = (s.firmName||'').split(' ')[0] || 'there';
 
-  // Recent activity
-  const recent = clients.slice(0, 5);
-  if (recent.length) {
-    document.getElementById('recent-tbody').innerHTML = recent.map((c, i) => `<tr>
-      <td><span class="client-name" onclick="showPage('clients');viewClient(${i})">${c.firstName} ${c.lastName}</span></td>
+  const tbody = document.getElementById('dash-tbody');
+  const recent = clients.slice(0,5);
+  if(!recent.length){
+    tbody.innerHTML='<tr><td colspan="5" style="text-align:center;padding:30px;color:var(--gray)">No clients yet — share your intake link to get started</td></tr>';
+    return;
+  }
+  tbody.innerHTML = recent.map((c,i)=>`
+    <tr>
+      <td><span class="client-name" onclick="viewClient(${i})">${c.firstName} ${c.lastName}</span></td>
       <td>${c.matterType||'—'}</td>
-      <td><span class="status-pill status-${c.status==='signed'?'signed':c.status==='paid'?'paid':'new'}">${(c.status||'New').charAt(0).toUpperCase()+(c.status||'new').slice(1)}</span></td>
-      <td>${new Date(c.submittedAt||Date.now()).toLocaleDateString()}</td>
-      <td><button class="btn btn-outline btn-sm" onclick="showPage('clients');viewClient(${i})">View</button></td>
+      <td><span class="status-pill s-${c.status||'new'}">${capFirst(c.status||'New')}</span></td>
+      <td>${fmtDate(c.submittedAt)}</td>
+      <td><button class="btn btn-xs btn-outline" onclick="viewClient(${i})">View</button></td>
     </tr>`).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// CLIENTS
+// ═══════════════════════════════════════════════════
+let clientFilter = '';
+
+function renderClients(filter=''){
+  const clients = getClients();
+  const tbody = document.getElementById('clients-tbody');
+  const q = filter.toLowerCase();
+  const visible = q ? clients.filter(c=>`${c.firstName} ${c.lastName} ${c.matterType} ${c.email}`.toLowerCase().includes(q)) : clients;
+
+  if(!visible.length){
+    tbody.innerHTML=`<tr><td colspan="6"><div class="empty-state"><div class="icon">👥</div><h3>${q?'No matches':'No clients yet'}</h3><p>${q?'Try a different search':'Add your first client or share your intake link'}</p>${!q?'<button class="btn btn-primary" onclick="openModal(\'add-client-modal\')">+ Add Client</button>':''}</div></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = visible.map((c,i)=>`
+    <tr>
+      <td><span class="client-name" onclick="viewClient(${clients.indexOf(c)})">${c.firstName} ${c.lastName}</span><div style="font-size:.74rem;color:var(--gray)">${c.email||''}</div></td>
+      <td>${c.matterType||'—'}</td>
+      <td><span class="status-pill s-${c.urgency==='urgent'?'urgent':c.urgency==='emergency'?'urgent':'new'}">${capFirst(c.urgency||'Standard')}</span></td>
+      <td><span class="status-pill s-${c.status||'new'}">${capFirst(c.status||'New')}</span></td>
+      <td>${fmtDate(c.submittedAt)}</td>
+      <td><div style="display:flex;gap:6px"><button class="btn btn-xs btn-outline" onclick="viewClient(${clients.indexOf(c)})">View</button><button class="btn btn-xs btn-purple" onclick="viewClient(${clients.indexOf(c)});setTimeout(()=>generateEngagementLetter(),300)">✨ Letter</button></div></td>
+    </tr>`).join('');
+}
+
+function filterClients(q){ renderClients(q); }
+
+function viewClient(idx){
+  currentClientIdx = idx;
+  const c = getClients()[idx];
+  if(!c) return;
+  document.getElementById('vc-title').textContent = `${c.firstName} ${c.lastName}`;
+  document.getElementById('vc-name').textContent = `${c.firstName} ${c.lastName}`;
+  document.getElementById('vc-email').textContent = c.email||'—';
+  document.getElementById('vc-phone').textContent = c.phone||'—';
+  document.getElementById('vc-location').textContent = [c.city,c.state].filter(Boolean).join(', ')||'—';
+  document.getElementById('vc-matter').textContent = c.matterType||'—';
+  document.getElementById('vc-urgency').textContent = capFirst(c.urgency||'Standard');
+  document.getElementById('vc-date').textContent = fmtDate(c.submittedAt);
+  document.getElementById('vc-referral').textContent = c.referral||'—';
+  document.getElementById('vc-desc').textContent = c.description||'No description provided.';
+  document.getElementById('vc-status-sel').value = c.status||'new';
+  document.getElementById('vc-ai-output').textContent = 'Click "Generate Summary" to get an AI analysis of this client';
+  document.getElementById('vc-ai-output').style.fontStyle='italic';
+  openModal('view-client-modal');
+}
+
+function updateClientStatus(){
+  const clients = getClients();
+  clients[currentClientIdx].status = document.getElementById('vc-status-sel').value;
+  setClients(clients);
+  renderClients();
+  renderDashboard();
+  showToast('Status updated ✓');
+}
+
+function addClientManual(){
+  const first = document.getElementById('ac-first').value.trim();
+  const last  = document.getElementById('ac-last').value.trim();
+  if(!first||!last){ showToast('Please enter first and last name'); return; }
+  addClientObj({
+    firstName:first, lastName:last,
+    email:document.getElementById('ac-email').value.trim(),
+    phone:document.getElementById('ac-phone').value.trim(),
+    matterType:document.getElementById('ac-matter').value,
+    urgency:document.getElementById('ac-urgency').value,
+    description:document.getElementById('ac-desc').value.trim(),
+    status:'new', submittedAt:new Date().toISOString()
+  });
+  closeModal('add-client-modal');
+  document.getElementById('add-client-modal').querySelectorAll('input,select,textarea').forEach(el=>el.value='');
+  renderClients(); renderDashboard();
+  showToast('Client added ✓');
+}
+
+function deleteCurrentClient(){
+  if(!confirm('Delete this client? This cannot be undone.')) return;
+  const clients = getClients();
+  clients.splice(currentClientIdx,1);
+  setClients(clients);
+  closeModal('view-client-modal');
+  renderClients(); renderDashboard();
+  showToast('Client deleted');
+}
+
+// ═══════════════════════════════════════════════════
+// CLAUDE AI
+// ═══════════════════════════════════════════════════
+async function callClaude(prompt){
+  const s = getSettings();
+  const key = s.claudeKey;
+  if(!key){ showToast('⚠️ Add your Claude API key in Settings first'); showPage('settings'); return null; }
+  try{
+    const res = await fetch(CLAUDE_API,{
+      method:'POST',
+      headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-opus-4-6',max_tokens:2048,messages:[{role:'user',content:prompt}]})
+    });
+    if(!res.ok){ const e=await res.json(); throw new Error(e.error?.message||'API error'); }
+    const data = await res.json();
+    return data.content[0].text;
+  }catch(e){
+    showToast('Claude error: '+e.message);
+    return null;
   }
 }
 
-// ═══════════ NAVIGATION ═══════════
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('pg-' + id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  const navMap = { dashboard:0,clients:1,letters:2,'intake-setup':3,templates:4,payments:5,settings:6,help:7 };
-  const idx = navMap[id];
-  if (idx !== undefined) document.querySelectorAll('.nav-item')[idx].classList.add('active');
-}
+async function generateClientSummary(){
+  const c = getClients()[currentClientIdx];
+  if(!c) return;
+  const out = document.getElementById('vc-ai-output');
+  out.innerHTML='<div class="ai-thinking"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div> Claude is analyzing this client...</div>';
+  out.style.fontStyle='normal';
 
-// ═══════════ TOAST ═══════════
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = '✅ ' + msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
-}
+  const s = getSettings();
+  const prompt = `You are an experienced legal case manager. Analyze this client intake and provide a structured summary.
 
-function copyIntakeLink() {
-  navigator.clipboard.writeText(document.getElementById('intake-link').value);
-  showToast('Intake link copied!');
-}
-function copyEmailTemplate() {
-  navigator.clipboard.writeText(document.getElementById('email-template').value);
-  showToast('Email template copied!');
-}
-function copyEmbed() {
-  navigator.clipboard.writeText(document.getElementById('embed-code').value);
-  showToast('Embed code copied!');
-}
+Client: ${c.firstName} ${c.lastName}
+Matter Type: ${c.matterType||'Not specified'}
+Urgency: ${c.urgency||'Standard'}
+Description: ${c.description||'Not provided'}
+Location: ${[c.city,c.state].filter(Boolean).join(', ')||'Not provided'}
+Submitted: ${fmtDate(c.submittedAt)}
+Law Firm: ${s.firmName||'the firm'}
 
-// ═══════════ LISTEN FOR INTAKE SUBMISSIONS ═══════════
-// intake.html posts to the Apps Script, which then stores to Sheets
-// We also listen via BroadcastChannel for same-origin intake forms
-const bc = new BroadcastChannel('clientready_intake');
-bc.onmessage = (e) => {
-  if (e.data && e.data.type === 'new_intake') {
-    addClient({ ...e.data.client, status: 'new', submittedAt: new Date().toISOString() });
-    renderClients();
-    refreshDashboard();
-    showToast('New client intake received: ' + e.data.client.firstName + ' ' + e.data.client.lastName);
+Provide a structured response with:
+1. **Case Summary** (2-3 sentences)
+2. **Key Facts** (bullet points)
+3. **Missing Information** (what additional info is needed)
+4. **Recommended Next Steps** (3 concrete actions)
+5. **Urgency Assessment** and priority rating (High/Medium/Low)
+
+Be concise and professional. Format for quick reading by an attorney.`;
+
+  const result = await callClaude(prompt);
+  if(result){
+    out.textContent = result;
+    out.style.fontStyle='normal';
   }
-};
+}
 
-// Also check localStorage for any pending intakes (cross-tab)
-window.addEventListener('storage', (e) => {
-  if (e.key && e.key.includes('_clients')) {
-    renderClients();
-    refreshDashboard();
+async function generateEngagementLetter(){
+  closeModal('view-client-modal');
+  const c = getClients()[currentClientIdx];
+  if(!c) return;
+  showPage('letters');
+  openModal('new-letter-modal');
+  // Pre-fill with client data
+  setTimeout(()=>{
+    const sel = document.getElementById('nl-client-sel');
+    const opt = Array.from(sel.options).find(o=>o.value==currentClientIdx);
+    if(opt){ sel.value=currentClientIdx; prefillLetterFromClient(); }
+  },100);
+}
+
+async function generateLetter(){
+  const clientIdx = document.getElementById('nl-client-sel').value;
+  const matter    = document.getElementById('nl-matter').value.trim();
+  const retainer  = document.getElementById('nl-retainer').value;
+  const notes     = document.getElementById('nl-notes').value.trim();
+  const s         = getSettings();
+
+  const btn = document.getElementById('nl-gen-btn');
+  const statusEl = document.getElementById('nl-ai-status');
+  const outEl    = document.getElementById('nl-ai-output');
+
+  btn.disabled=true; btn.textContent='Generating...';
+  statusEl.innerHTML='<div class="ai-thinking"><div class="ai-dot"></div><div class="ai-dot"></div><div class="ai-dot"></div> Claude is drafting your letter...</div>';
+  outEl.style.display='none';
+
+  let clientInfo = '';
+  if(clientIdx!==''){
+    const c = getClients()[parseInt(clientIdx)];
+    if(c) clientInfo = `Client: ${c.firstName} ${c.lastName}\nEmail: ${c.email||'N/A'}\nPhone: ${c.phone||'N/A'}\nMatter: ${c.matterType||matter}\nDescription: ${c.description||'N/A'}`;
+  }
+
+  const prompt = `You are a skilled legal document writer at ${s.firmName||'a law firm'}. Draft a professional, legally sound engagement letter.
+
+Firm: ${s.firmName||'[FIRM NAME]'}
+Attorney: ${s.attorney||'[ATTORNEY NAME]'}
+Address: ${s.address||'[ADDRESS]'}
+Phone: ${s.phone||'[PHONE]'}
+${clientInfo}
+Matter Type: ${matter||'General Legal Services'}
+Retainer Amount: $${retainer||s.retainer||1500}
+${notes?'Additional Notes: '+notes:''}
+Today's Date: ${new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})}
+
+Write a complete, professional engagement letter that includes:
+1. Professional greeting
+2. Scope of representation (specific to the matter type)
+3. Fee structure and retainer terms
+4. Client responsibilities
+5. Confidentiality provisions
+6. Termination clause
+7. Electronic signature acknowledgment
+
+Use a professional but approachable tone. Make it specific to the client's matter. Format it as a proper legal letter ready to send.`;
+
+  const result = await callClaude(prompt);
+  btn.disabled=false; btn.textContent='✨ Generate Letter';
+
+  if(result){
+    statusEl.textContent='';
+    outEl.textContent = result;
+    outEl.style.display='block';
+    document.getElementById('nl-copy-btn').style.display='inline-flex';
+    document.getElementById('nl-save-btn').style.display='inline-flex';
+    window._lastLetter = { text:result, matter, retainer, clientIdx, createdAt:new Date().toISOString() };
+  }
+}
+
+function prefillLetterFromClient(){
+  const idx = document.getElementById('nl-client-sel').value;
+  if(idx==='') return;
+  const c = getClients()[parseInt(idx)];
+  if(!c) return;
+  document.getElementById('nl-matter').value = c.matterType||'';
+  const s = getSettings();
+  document.getElementById('nl-retainer').value = s.retainer||1500;
+}
+
+function copyLetter(){
+  const text = document.getElementById('nl-ai-output').textContent;
+  navigator.clipboard.writeText(text).then(()=>showToast('Letter copied!'));
+}
+
+function saveLetter(){
+  if(!window._lastLetter) return;
+  const clients = getClients();
+  const clientIdx = parseInt(window._lastLetter.clientIdx);
+  const c = clients[clientIdx];
+  const letters = getLetters();
+  letters.unshift({
+    id:'ltr_'+Date.now(),
+    clientName: c ? `${c.firstName} ${c.lastName}` : 'Unknown',
+    clientIdx,
+    matter: window._lastLetter.matter,
+    retainer: window._lastLetter.retainer,
+    text: window._lastLetter.text,
+    status:'draft',
+    createdAt: new Date().toISOString()
+  });
+  setLetters(letters);
+  closeModal('new-letter-modal');
+  renderLetters();
+  showToast('Letter saved ✓');
+}
+
+async function testClaudeKey(){
+  const key = document.getElementById('s-claude-key').value.trim();
+  if(!key){ showToast('Enter an API key first'); return; }
+  const statusEl = document.getElementById('claude-status');
+  statusEl.innerHTML='<span style="color:var(--gray)">Testing connection...</span>';
+  try{
+    const res = await fetch(CLAUDE_API,{
+      method:'POST',
+      headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:10,messages:[{role:'user',content:'Hi'}]})
+    });
+    if(res.ok){ statusEl.innerHTML='<span style="color:var(--green);font-weight:600">✓ Connected! Claude AI is ready.</span>'; }
+    else{ statusEl.innerHTML='<span style="color:var(--red)">✗ Invalid key. Check and try again.</span>'; }
+  }catch(e){
+    statusEl.innerHTML='<span style="color:var(--red)">✗ Connection failed: '+e.message+'</span>';
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// LETTERS
+// ═══════════════════════════════════════════════════
+function renderLetters(){
+  // Populate client select in modal
+  const sel = document.getElementById('nl-client-sel');
+  sel.innerHTML='<option value="">— Choose a client —</option>'+
+    getClients().map((c,i)=>`<option value="${i}">${c.firstName} ${c.lastName} — ${c.matterType||'General'}</option>`).join('');
+
+  const letters = getLetters();
+  const container = document.getElementById('letters-grid');
+  if(!letters.length){
+    container.innerHTML=`<div class="empty-state"><div class="icon">📄</div><h3>No letters yet</h3><p>Click "Draft New Letter" to have Claude write a customized engagement letter for any client</p><button class="btn btn-purple" onclick="openModal('new-letter-modal')">✨ Draft First Letter</button></div>`;
+    return;
+  }
+  container.innerHTML = letters.map((l,i)=>`
+    <div class="card" style="padding:20px;margin-bottom:12px">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px">
+        <div>
+          <div style="font-weight:700;font-size:.95rem">${l.clientName}</div>
+          <div style="font-size:.82rem;color:var(--gray);margin-top:2px">${l.matter||'General'} · Retainer: $${parseInt(l.retainer||0).toLocaleString()} · ${fmtDate(l.createdAt)}</div>
+        </div>
+        <div style="display:flex;gap:6px;flex-shrink:0">
+          <span class="status-pill s-${l.status==='sent'?'signed':l.status==='paid'?'paid':'new'}">${capFirst(l.status||'Draft')}</span>
+          <button class="btn btn-xs btn-outline" onclick="toggleLetter(${i})">View/Edit</button>
+          <button class="btn btn-xs btn-green" onclick="markLetterSent(${i})">Mark Sent</button>
+        </div>
+      </div>
+      <div id="letter-body-${i}" class="letter-box" style="display:none">${(l.text||'').replace(/\n/g,'<br>')}</div>
+      <div id="letter-edit-${i}" style="display:none;margin-top:10px">
+        <textarea id="letter-textarea-${i}" style="width:100%;height:240px;border:1.5px solid var(--border);border-radius:9px;padding:12px;font-size:.85rem;font-family:inherit;resize:vertical;outline:none;line-height:1.6">${l.text||''}</textarea>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn btn-sm btn-primary" onclick="saveLtrEdit(${i})">Save Edit</button>
+          <button class="btn btn-sm btn-outline" onclick="copyLtrText(${i})">Copy</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function toggleLetter(i){
+  const body=document.getElementById('letter-body-'+i);
+  const edit=document.getElementById('letter-edit-'+i);
+  const showing = body.style.display!=='none';
+  body.style.display = showing?'none':'block';
+  edit.style.display = showing?'none':'none';
+}
+
+function markLetterSent(i){
+  const letters=getLetters(); letters[i].status='sent'; setLetters(letters); renderLetters(); showToast('Marked as sent ✓');
+}
+function saveLtrEdit(i){
+  const letters=getLetters(); letters[i].text=document.getElementById('letter-textarea-'+i).value; setLetters(letters); renderLetters(); showToast('Letter updated ✓');
+}
+function copyLtrText(i){
+  navigator.clipboard.writeText(getLetters()[i].text||'').then(()=>showToast('Copied!'));
+}
+
+// ═══════════════════════════════════════════════════
+// TEMPLATES
+// ═══════════════════════════════════════════════════
+function defaultTemplates(){
+  return [
+    { name:'Personal Injury', area:'Personal Injury', rate:350, retainer:2500, body:`Dear {CLIENT_NAME},
+
+Thank you for choosing {FIRM_NAME} to represent you in your personal injury matter.
+
+SCOPE OF REPRESENTATION
+We agree to represent you in connection with your personal injury claim arising from the incident described in your intake form. Our representation includes investigation of the incident, negotiation with insurance companies, and if necessary, litigation.
+
+CONTINGENCY FEE
+Our fee for this representation is one-third (33.3%) of any gross recovery obtained by settlement, or 40% if the case proceeds to trial or appeal. You will not owe attorney fees unless we recover compensation for you.
+
+RETAINER & COSTS
+An initial retainer of ${'{RETAINER}'} is required to cover case expenses including filing fees, expert witness fees, and investigation costs.
+
+CLIENT RESPONSIBILITIES
+You agree to cooperate fully, keep all medical appointments, notify us of any changes in your condition, and not discuss the case with anyone except us.
+
+CONFIDENTIALITY
+All communications between you and our firm are protected by attorney-client privilege and will be kept strictly confidential.
+
+By signing below, you confirm you have read and agree to these terms.
+
+Sincerely,
+{FIRM_NAME}` },
+    { name:'Criminal Defense', area:'Criminal Defense', rate:400, retainer:3500, body:`Dear {CLIENT_NAME},
+
+Thank you for retaining {FIRM_NAME} for your criminal defense matter.
+
+SCOPE OF REPRESENTATION
+We agree to represent you in connection with the criminal charges described in your intake. Our representation includes arraignment, pre-trial motions, negotiation with prosecutors, and trial if necessary.
+
+FEE STRUCTURE
+Our flat fee for this matter is ${'{RETAINER}'}, due upon signing this agreement. This covers all phases through trial on the stated charges.
+
+ADDITIONAL CHARGES
+Charges not covered by this agreement include appeals, new charges filed after this agreement, and extraordinary expert witness fees exceeding $2,000.
+
+YOUR RIGHTS & OBLIGATIONS
+You have the right to make final decisions regarding plea offers. You must appear at all scheduled court dates and maintain contact with our office.
+
+CONFIDENTIALITY
+All information you share is protected by attorney-client privilege.
+
+Sincerely,
+{FIRM_NAME}` },
+    { name:'Family Law / Divorce', area:'Family Law', rate:300, retainer:2000, body:`Dear {CLIENT_NAME},
+
+Thank you for choosing {FIRM_NAME} for your family law matter.
+
+SCOPE OF REPRESENTATION
+We agree to represent you in your {MATTER_TYPE} proceeding, including all related matters of property division, support, and custody as applicable.
+
+HOURLY FEE
+Our hourly rate is $300/hour, billed in minimum 15-minute increments. An initial retainer of ${'{RETAINER}'} is due upon signing.
+
+RETAINER REPLENISHMENT
+When your retainer balance falls below $500, you will be required to replenish it to the initial amount to ensure continued representation.
+
+BILLING
+You will receive monthly invoices detailing all time spent on your matter.
+
+SETTLEMENT
+All settlement decisions are yours to make. We will advise you on the legal implications of any proposed agreement.
+
+Sincerely,
+{FIRM_NAME}` }
+  ];
+}
+
+function renderTemplates(){
+  const tmpls = getTemplates();
+  const grid = document.getElementById('templates-grid');
+  grid.innerHTML = tmpls.map((t,i)=>`
+    <div class="template-card">
+      <div class="template-card-head">
+        <div>
+          <div class="template-card-name">${t.name}</div>
+          <div style="font-size:.78rem;color:var(--gray);margin-top:2px">${t.area} · $${t.rate}/hr · Retainer: $${(t.retainer||0).toLocaleString()}</div>
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-outline" onclick="editTemplate(${i})">✏️ Edit</button>
+          <button class="btn btn-sm btn-purple" onclick="useTemplate(${i})">Use for Letter</button>
+          <button class="btn btn-xs btn-ghost" onclick="deleteTemplate(${i})" style="color:var(--red)">✕</button>
+        </div>
+      </div>
+      <div style="font-size:.82rem;color:var(--gray);line-height:1.6;max-height:60px;overflow:hidden;position:relative">
+        ${(t.body||'').substring(0,200).replace(/\n/g,' ')}...
+        <div style="position:absolute;bottom:0;left:0;right:0;height:30px;background:linear-gradient(transparent,#fff)"></div>
+      </div>
+    </div>`).join('');
+}
+
+function setupNewTemplate(){
+  document.getElementById('tpl-modal-title').textContent='New Template';
+  document.getElementById('tpl-name').value='';
+  document.getElementById('tpl-area').value='';
+  document.getElementById('tpl-rate').value='';
+  document.getElementById('tpl-retainer').value='';
+  document.getElementById('tpl-body').value='';
+  document.getElementById('tpl-edit-idx').value='';
+}
+
+function editTemplate(i){
+  const t = getTemplates()[i];
+  document.getElementById('tpl-modal-title').textContent='Edit Template';
+  document.getElementById('tpl-name').value=t.name||'';
+  document.getElementById('tpl-area').value=t.area||'';
+  document.getElementById('tpl-rate').value=t.rate||'';
+  document.getElementById('tpl-retainer').value=t.retainer||'';
+  document.getElementById('tpl-body').value=t.body||'';
+  document.getElementById('tpl-edit-idx').value=i;
+  openModal('template-modal');
+}
+
+function saveTemplate(){
+  const name=document.getElementById('tpl-name').value.trim();
+  if(!name){showToast('Template name required');return;}
+  const tpl={name,area:document.getElementById('tpl-area').value,rate:parseInt(document.getElementById('tpl-rate').value)||300,retainer:parseInt(document.getElementById('tpl-retainer').value)||1500,body:document.getElementById('tpl-body').value};
+  const tmpls=getTemplates();
+  const idx=document.getElementById('tpl-edit-idx').value;
+  if(idx!==''){tmpls[parseInt(idx)]=tpl;}else{tmpls.push(tpl);}
+  setTemplates(tmpls);
+  closeModal('template-modal');
+  renderTemplates();
+  showToast('Template saved ✓');
+}
+
+function deleteTemplate(i){
+  if(!confirm('Delete this template?'))return;
+  const t=getTemplates(); t.splice(i,1); setTemplates(t); renderTemplates(); showToast('Template deleted');
+}
+
+function useTemplate(i){
+  const t=getTemplates()[i];
+  document.getElementById('nl-matter').value=t.area||'';
+  document.getElementById('nl-retainer').value=t.retainer||1500;
+  document.getElementById('nl-notes').value=t.body||'';
+  showPage('letters');
+  openModal('new-letter-modal');
+}
+
+function insertText(before,after){
+  const ta=document.getElementById('tpl-body');
+  const s=ta.selectionStart, e=ta.selectionEnd;
+  const sel=ta.value.substring(s,e);
+  ta.value=ta.value.substring(0,s)+before+sel+after+ta.value.substring(e);
+  ta.focus(); ta.setSelectionRange(s+before.length,s+before.length+sel.length);
+}
+
+// ═══════════════════════════════════════════════════
+// PAYMENTS
+// ═══════════════════════════════════════════════════
+function renderPayments(plan){
+  const isGrowth = plan==='growth';
+  document.getElementById('plan-grid-wrap').innerHTML=`
+    <div class="plan-card current">
+      ${isGrowth?'':'<div class="plan-badge-cur">CURRENT</div>'}
+      <div class="plan-name">⚡ Starter</div>
+      <div class="plan-price"><sup>$</sup>79<sub>/month</sub></div>
+      <div class="plan-feature">Up to 50 clients/month</div>
+      <div class="plan-feature">AI engagement letters</div>
+      <div class="plan-feature">E-signature collection</div>
+      <div class="plan-feature">Stripe retainer payments</div>
+      <div class="plan-feature">Email support</div>
+      ${isGrowth?'':`<div style="margin-top:16px"><span style="background:var(--blue);color:#fff;padding:6px 14px;border-radius:8px;font-size:.82rem;font-weight:700">Your Current Plan</span></div>`}
+    </div>
+    <div class="plan-card upgrade-card">
+      ${isGrowth?'<div class="plan-badge-cur" style="background:#7c3aed">CURRENT</div>':''}
+      <div class="plan-name" style="color:#7c3aed">🚀 Growth</div>
+      <div class="plan-price" style="color:#7c3aed"><sup>$</sup>129<sub>/month</sub></div>
+      <div class="plan-feature">Unlimited clients</div>
+      <div class="plan-feature">Everything in Starter</div>
+      <div class="plan-feature">Priority AI processing</div>
+      <div class="plan-feature">Custom branding</div>
+      <div class="plan-feature">SMS reminders</div>
+      <div class="plan-feature">Advanced analytics</div>
+      <div class="plan-feature">Priority support</div>
+      ${isGrowth
+        ? `<div style="margin-top:16px"><span style="background:#7c3aed;color:#fff;padding:6px 14px;border-radius:8px;font-size:.82rem;font-weight:700">Your Current Plan</span></div>`
+        : `<div style="margin-top:16px"><a href="${STRIPE_GROWTH}" target="_blank" class="btn btn-purple" style="width:100%;justify-content:center;text-decoration:none">Upgrade to Growth →</a></div>`
+      }
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════
+function loadSettingsForm(){
+  const s = getSettings();
+  document.getElementById('s-firm-name').value   = s.firmName||'';
+  document.getElementById('s-attorney').value    = s.attorney||'';
+  document.getElementById('s-phone').value       = s.phone||'';
+  document.getElementById('s-email-firm').value  = s.emailFirm||'';
+  document.getElementById('s-address').value     = s.address||'';
+  document.getElementById('s-practice').value    = s.practice||'';
+  document.getElementById('s-rate').value        = s.rate||'';
+  document.getElementById('s-retainer').value    = s.retainer||'';
+  document.getElementById('s-claude-key').value  = s.claudeKey||'';
+  document.getElementById('n-intake').checked    = s.nIntake!==false;
+  document.getElementById('n-auto-letter').checked = s.nAutoLetter||false;
+  document.getElementById('n-reminders').checked = s.nReminders!==false;
+}
+
+function saveSettings(){
+  const s = {
+    firmName:   document.getElementById('s-firm-name').value.trim(),
+    attorney:   document.getElementById('s-attorney').value.trim(),
+    phone:      document.getElementById('s-phone').value.trim(),
+    emailFirm:  document.getElementById('s-email-firm').value.trim(),
+    address:    document.getElementById('s-address').value.trim(),
+    practice:   document.getElementById('s-practice').value.trim(),
+    rate:       parseInt(document.getElementById('s-rate').value)||300,
+    retainer:   parseInt(document.getElementById('s-retainer').value)||1500,
+    claudeKey:  document.getElementById('s-claude-key').value.trim(),
+    nIntake:    document.getElementById('n-intake').checked,
+    nAutoLetter:document.getElementById('n-auto-letter').checked,
+    nReminders: document.getElementById('n-reminders').checked,
+  };
+  setSettings(s);
+  renderDashboard();
+  showToast('Settings saved ✓');
+}
+
+// ═══════════════════════════════════════════════════
+// INTAKE LINKS
+// ═══════════════════════════════════════════════════
+function setupIntakeLinks(acct){
+  const s = getSettings();
+  const base = location.origin + '/intake.html';
+  const params = `?firm=${encodeURIComponent(acct.firmId)}&name=${encodeURIComponent(s.firmName||acct.firm)}&email=${encodeURIComponent(acct.email)}`;
+  const link = base + params;
+
+  const linkEl = document.getElementById('intake-link-display');
+  if(linkEl){ linkEl.value=link; }
+  const openEl = document.getElementById('intake-link-open');
+  if(openEl){ openEl.href=link; }
+
+  const embed = `<iframe src="${link}" width="100%" height="700" frameborder="0" style="border-radius:12px;"></iframe>`;
+  const embedEl = document.getElementById('embed-code-display');
+  if(embedEl){ embedEl.value=embed; }
+
+  const emailTpl = `Subject: Your ${s.firmName||acct.firm} Client Intake Form\n\nDear [Client Name],\n\nThank you for reaching out to ${s.firmName||acct.firm}. To get started with your case, please complete our secure client intake form using the link below. It only takes about 5 minutes.\n\n${link}\n\nOnce you complete the form, you'll receive a personalized engagement letter to review and sign electronically. Your retainer can be paid directly through the secure link — no separate steps needed.\n\nIf you have any questions, please don't hesitate to call us at ${s.phone||'our office'}.\n\nWarm regards,\n${s.attorney||s.firmName||acct.firm}`;
+  const etEl = document.getElementById('email-template-display');
+  if(etEl){ etEl.value=emailTpl; }
+}
+
+function copyIntakeLink(){
+  const v = document.getElementById('intake-link-display').value;
+  navigator.clipboard.writeText(v).then(()=>showToast('Intake link copied! 🔗'));
+}
+function copyEmbed(){
+  navigator.clipboard.writeText(document.getElementById('embed-code-display').value).then(()=>showToast('Embed code copied!'));
+}
+function copyEmailTemplate(){
+  navigator.clipboard.writeText(document.getElementById('email-template-display').value).then(()=>showToast('Email template copied!'));
+}
+function regenerateEmailTemplate(){
+  const acct = JSON.parse(sessionStorage.getItem('cr_session')||'{}');
+  setupIntakeLinks(acct);
+  showToast('Template refreshed ✓');
+}
+
+// ═══════════════════════════════════════════════════
+// MILESTONES
+// ═══════════════════════════════════════════════════
+function checkMilestone(count){
+  if(!MILESTONES.includes(count)) return;
+  const msgs = {
+    1:  {emoji:'🎉', title:'First Client!', msg:'You just got your first intake. The journey begins!'},
+    10: {emoji:'🔥', title:'10 Clients!', msg:'You\'re building momentum. 10 clients in the books!'},
+    50: {emoji:'💪', title:'50 Clients!', msg:'Halfway to 100. Your practice is growing fast!'},
+    100:{emoji:'🏆', title:'100 Clients!', msg:'Triple digits! You\'re running a real operation now.'},
+    500:{emoji:'👑', title:'500 Clients!', msg:'500 intakes processed. You are an absolute machine.'},
+    1000:{emoji:'🚀',title:'1,000 Clients!', msg:'ONE THOUSAND. This is elite. Incredible achievement!'}
+  };
+  const m = msgs[count];
+  if(!m) return;
+
+  const wrap = document.getElementById('milestone-wrap');
+  wrap.style.display='block';
+  wrap.innerHTML=`<div class="milestone-banner"><div class="milestone-text"><h3>${m.emoji} ${m.title}</h3><p>${m.msg}</p></div><div class="milestone-emoji">${m.emoji}</div></div>`;
+  launchConfetti();
+  showToast(`${m.emoji} Milestone reached: ${count} clients!`);
+}
+
+function launchConfetti(){
+  const canvas = document.getElementById('confetti-canvas');
+  canvas.style.display='block';
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const particles = Array.from({length:120},()=>({
+    x:Math.random()*canvas.width, y:Math.random()*canvas.height-canvas.height,
+    r:Math.random()*6+3, d:Math.random()*120,
+    color:`hsl(${Math.random()*360},80%,60%)`,
+    tilt:Math.random()*10-10, tiltAngle:0, tiltSpeed:Math.random()*.1+.05
+  }));
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      ctx.beginPath(); ctx.lineWidth=p.r; ctx.strokeStyle=p.color;
+      ctx.moveTo(p.x+p.tilt+p.r/2,p.y); ctx.lineTo(p.x+p.tilt,p.y+p.tilt+p.r);
+      ctx.stroke();
+    });
+    update();
+  }
+  function update(){
+    particles.forEach(p=>{
+      p.tiltAngle+=p.tiltSpeed; p.y+=( Math.cos(frame/20)+3+p.r/2)*0.8;
+      p.tilt=Math.sin(p.tiltAngle)*12;
+      if(p.y>canvas.height+20){ p.x=Math.random()*canvas.width; p.y=-20; }
+    });
+    frame++;
+  }
+  const anim = setInterval(()=>{ draw(); },16);
+  setTimeout(()=>{ clearInterval(anim); canvas.style.display='none'; },4000);
+}
+
+// ═══════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+function capFirst(s){ return s ? s.charAt(0).toUpperCase()+s.slice(1) : ''; }
+function fmtDate(d){ if(!d) return '—'; try{ return new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }catch(e){ return '—'; } }
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{ if(e.target===o) o.classList.remove('open'); }));
+
+// ═══════════════════════════════════════════════════
+// INTAKE LISTENER (cross-tab via localStorage)
+// ═══════════════════════════════════════════════════
+window.addEventListener('storage',e=>{
+  if(!FIRM_KEY) return;
+  if(e.key && e.key.includes(FIRM_KEY+'_clients')){
+    renderClients(); renderDashboard(); renderLetters();
+    showToast('📨 New client intake received!');
   }
 });
 
-// ═══════════ INIT ═══════════
-loadSettings();
-renderClients();
-renderLetters();
-renderTemplates();
-refreshDashboard();
+// BroadcastChannel for same-origin intake
+try{
+  const bc = new BroadcastChannel('clientready_intake');
+  bc.onmessage = (e)=>{
+    if(e.data?.type==='new_intake' && FIRM_KEY){
+      addClientObj({...e.data.client, status:'new', submittedAt:new Date().toISOString()});
+      renderClients(); renderDashboard();
+      showToast('📨 New client: '+e.data.client.firstName+' '+e.data.client.lastName);
+    }
+  };
+}catch(err){}
 
-// Check for URL params (post-Stripe redirect)
-const urlParams = new URLSearchParams(location.search);
-if (urlParams.get('setup') === '1') {
-  // First-time setup
-  document.getElementById('onboard-banner').style.display = 'flex';
-} else {
-  // Hide if client count > 0
-  if (getClients().length > 0) document.getElementById('onboard-banner').style.display = 'none';
+// ═══════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════
+if(!checkSession()){
+  document.getElementById('auth-wrap').style.display='flex';
 }
 </script>
 </body>

@@ -371,12 +371,22 @@
   <!-- STEP 4: Success -->
   <div class="step-card" id="step4" style="display:none">
     <div class="success-wrap">
-      <div class="success-icon">✅</div>
-      <h2>You're all set!</h2>
-      <p>Your intake form has been submitted and your attorney has been notified. Check your email for a copy of your signed engagement letter.</p>
+      <div class="success-icon">🎉</div>
+      <h2>Intake Complete!</h2>
+      <p>Welcome to <strong id="confirm-firm"></strong>. Your signed engagement letter and intake file have been received. Your attorney will be in touch shortly.</p>
+
+      <!-- Retainer payment CTA (shown only if retainerAmt set) -->
+      <div id="retainer-cta" style="display:none;background:linear-gradient(135deg,#1e40af,#2563eb);border-radius:16px;padding:24px;margin-bottom:20px;color:#fff;text-align:left">
+        <div style="font-size:1rem;font-weight:800;margin-bottom:6px">⚡ One last step — Secure your spot</div>
+        <div style="font-size:.88rem;opacity:.9;margin-bottom:16px">Submit your retainer payment of <strong id="retainer-amount-display"></strong> to officially activate your case and lock in your attorney's availability.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <a id="retainer-pay-link" href="#" target="_blank" style="background:#fff;color:#1e40af;border-radius:10px;padding:11px 22px;font-weight:700;font-size:.9rem;text-decoration:none;display:inline-block">💳 Pay Retainer Now</a>
+          <span style="font-size:.78rem;opacity:.7;align-self:center">Secure payment via Stripe</span>
+        </div>
+      </div>
 
       <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:14px;padding:20px 24px;text-align:left;margin-bottom:16px">
-        <h4 style="font-size:.9rem;font-weight:700;color:var(--blue);margin-bottom:12px">What happens next:</h4>
+        <h4 style="font-size:.9rem;font-weight:700;color:var(--blue);margin-bottom:12px">✅ What happens next:</h4>
         <div style="display:flex;flex-direction:column;gap:12px">
           <div style="display:flex;gap:12px;align-items:flex-start">
             <span style="font-size:1.1rem">📧</span>
@@ -393,16 +403,17 @@
             </div>
           </div>
           <div style="display:flex;gap:12px;align-items:flex-start">
-            <span style="font-size:1.1rem">📁</span>
+            <span style="font-size:1.1rem">🔒</span>
             <div>
-              <div style="font-size:.88rem;font-weight:700">Your file is being prepared</div>
-              <div style="font-size:.82rem;color:var(--gray)">Your intake information has been securely saved and your case file is being set up.</div>
+              <div style="font-size:.88rem;font-weight:700">Your information is secure</div>
+              <div style="font-size:.82rem;color:var(--gray)">All data is encrypted and protected by attorney-client privilege.</div>
             </div>
           </div>
         </div>
       </div>
 
       <p style="font-size:.8rem;color:var(--gray)">Questions? Reply to the confirmation email or call the firm directly.</p>
+      <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--border);font-size:.75rem;color:var(--gray)">Intake powered by <a href="https://clientready-seven.vercel.app" target="_blank" style="color:var(--blue);font-weight:600">ClientReady</a> — AI-powered client intake for law firms</div>
     </div>
   </div>
 
@@ -414,11 +425,19 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwSW6sGr0b472g0
 
 // ─── Parse URL params ─────────────────────────────────────────────
 const params = new URLSearchParams(window.location.search);
-const firmName  = params.get('firm')  || 'Your Attorney';
-const firmEmail = params.get('email') || '';
-const firmId    = params.get('id')    || 'default';
+const firmName    = params.get('firm')     || 'Your Attorney';
+const firmEmail   = params.get('email')    || '';
+const firmId      = params.get('id')       || 'default';
 const retainerAmt = params.get('retainer') || '1,500';
 const hourlyRate  = params.get('rate')     || '300';
+const stripeLink  = params.get('stripe')   || '';
+
+// Set retainer pay link if Stripe URL provided
+if (stripeLink) {
+  document.getElementById('retainer-pay-link').href = stripeLink;
+} else {
+  document.getElementById('retainer-pay-link').href = 'https://buy.stripe.com/fZu6oHd6i3GdeaQ2yn1Fe01';
+}
 
 document.getElementById('firm-display').textContent = decodeURIComponent(firmName) + ' — New Client Intake';
 document.title = 'New Client Intake — ' + decodeURIComponent(firmName);
@@ -622,12 +641,42 @@ async function submitForm() {
       body: JSON.stringify(data)
     });
   } catch(e) {
-    // no-cors mode — assume success if no network error
     console.log('Submission sent');
+  }
+
+  // ─── Save to localStorage so CRM picks it up instantly ────────────
+  if (firmId && firmId !== 'default') {
+    try {
+      const clientRecord = {
+        ...data,
+        id: 'cl_' + Date.now() + '_' + Math.random().toString(36).slice(2,7),
+        status: 'new',
+        submittedAt: new Date().toISOString(),
+        name: data.firstName + ' ' + data.lastName
+      };
+      const storageKey = firmId + '_clients';
+      const existing = JSON.parse(localStorage.getItem(storageKey) || '[]');
+      existing.unshift(clientRecord);
+      localStorage.setItem(storageKey, JSON.stringify(existing));
+
+      // Notify CRM tab via BroadcastChannel
+      try {
+        const bc = new BroadcastChannel('clientready_intake');
+        bc.postMessage({ type: 'new_intake', client: clientRecord });
+        bc.close();
+      } catch(e2) {}
+    } catch(e3) { console.warn('localStorage save failed', e3); }
+  }
+
+  // ─── Show retainer CTA if retainer amount set ─────────────────────
+  if (retainerAmt && retainerAmt !== '0') {
+    document.getElementById('retainer-cta').style.display = 'block';
+    document.getElementById('retainer-amount-display').textContent = '$' + retainerAmt;
   }
 
   // Show success
   document.getElementById('confirm-email').textContent = data.email;
+  document.getElementById('confirm-firm').textContent = decodeURIComponent(firmName);
   document.getElementById('step3').style.display = 'none';
   document.getElementById('step4').style.display = 'block';
   updateProgress(4);
