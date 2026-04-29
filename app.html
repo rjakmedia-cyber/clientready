@@ -145,6 +145,35 @@ tbody tr:hover{background:#fafbfd}
 .ai-dot:nth-child(3){animation-delay:.4s}
 @keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
 
+/* ─── ONBOARDING TUTORIAL ───────────────── */
+#ob-overlay{position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.65);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(6px)}
+#ob-overlay.open{display:flex}
+.ob-card{background:#fff;border-radius:22px;width:100%;max-width:520px;box-shadow:0 32px 80px rgba(0,0,0,.3);overflow:hidden;position:relative}
+.ob-progress{height:4px;background:#e2e8f0;position:absolute;top:0;left:0;right:0}
+.ob-progress-fill{height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:2px;transition:width .4s ease}
+.ob-step{display:none;padding:44px 40px 36px;text-align:center}
+.ob-step.active{display:block;animation:obIn .35s ease}
+@keyframes obIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.ob-emoji{font-size:3rem;margin-bottom:16px}
+.ob-title{font-size:1.4rem;font-weight:900;color:#0f172a;margin-bottom:8px;letter-spacing:-.02em}
+.ob-sub{font-size:.95rem;color:#64748b;line-height:1.6;margin-bottom:24px;max-width:380px;margin-left:auto;margin-right:auto}
+.ob-checklist{text-align:left;display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.ob-check{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#f8fafc;border-radius:10px;font-size:.9rem;font-weight:500;color:#0f172a}
+.ob-check-icon{width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.ob-input-group{text-align:left;margin-bottom:20px}
+.ob-input-group label{display:block;font-size:.82rem;font-weight:700;color:#374151;margin-bottom:6px}
+.ob-input-group input{width:100%;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px 14px;font-size:.95rem;font-family:inherit;outline:none;transition:border .15s}
+.ob-input-group input:focus{border-color:#2563eb;box-shadow:0 0 0 3px #dbeafe}
+.ob-link-preview{background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;font-size:.78rem;color:#64748b;font-family:monospace;word-break:break-all;margin-bottom:16px;text-align:left}
+.ob-btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.ob-btn-primary{background:linear-gradient(135deg,#1e40af,#2563eb);color:#fff;border:none;border-radius:11px;padding:13px 32px;font-size:.95rem;font-weight:700;cursor:pointer;transition:transform .15s,box-shadow .15s;font-family:inherit}
+.ob-btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.35)}
+.ob-btn-skip{background:none;border:none;color:#94a3b8;font-size:.83rem;cursor:pointer;font-family:inherit;padding:8px 16px;transition:color .15s}
+.ob-btn-skip:hover{color:#64748b}
+.ob-step-counter{font-size:.75rem;color:#94a3b8;margin-bottom:20px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+.ob-link-copy-btn{width:100%;background:#f1f5f9;border:1.5px solid #e2e8f0;border-radius:10px;padding:11px;font-size:.87rem;font-weight:600;cursor:pointer;color:#1e40af;transition:all .15s;margin-bottom:10px;font-family:inherit}
+.ob-link-copy-btn:hover{background:#dbeafe;border-color:#93c5fd}
+
 /* ─── AI CHAT WIDGET ─────────────────────── */
 #cr-chat-btn{position:fixed;bottom:24px;right:24px;z-index:8000;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#1e40af,#7c3aed);border:none;cursor:pointer;box-shadow:0 6px 24px rgba(37,99,235,.45);display:flex;align-items:center;justify-content:center;font-size:1.5rem;transition:transform .2s,box-shadow .2s;color:#fff}
 #cr-chat-btn:hover{transform:scale(1.1);box-shadow:0 10px 32px rgba(37,99,235,.55)}
@@ -542,14 +571,39 @@ input:checked+.slider:before{transform:translateX(18px)}
   </div>
 
   <div class="card" style="padding:24px;margin-bottom:16px">
-    <h3 style="font-weight:700;margin-bottom:4px">🤖 Claude AI Integration</h3>
-    <p style="font-size:.84rem;color:var(--gray);margin-bottom:16px">Add your Claude API key to unlock AI letter drafting, client summaries, and automated intake analysis.</p>
+    <h3 style="font-weight:700;margin-bottom:4px">💳 Client Retainer Payments</h3>
+    <p style="font-size:.84rem;color:var(--gray);margin-bottom:16px">Add your Stripe payment link so clients are sent directly to YOUR payment page after signing — not a generic page.</p>
     <div class="form-group">
-      <label>Claude API Key <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue);font-weight:400;font-size:.75rem">Get key →</a></label>
-      <input type="password" id="s-claude-key" placeholder="sk-ant-..."/>
+      <label>Your Stripe Payment Link <a href="https://dashboard.stripe.com/payment-links" target="_blank" style="color:var(--blue);font-weight:400;font-size:.75rem">Create in Stripe →</a></label>
+      <input type="url" id="s-stripe-link" placeholder="https://buy.stripe.com/your-link-here"/>
+      <div style="font-size:.77rem;color:var(--gray);margin-top:5px">Clients will be redirected here after completing their intake form to pay their retainer.</div>
     </div>
-    <div id="claude-status" style="font-size:.82rem;margin-top:-8px"></div>
-    <button class="btn btn-sm btn-outline" style="margin-top:8px" onclick="testClaudeKey()">Test Connection</button>
+    <div class="form-group">
+      <label>Bank / Zelle / Venmo Link <span style="font-weight:400;color:var(--gray);font-size:.75rem">(optional alternative)</span></label>
+      <input type="url" id="s-bank-link" placeholder="https://venmo.com/yourfirm or zelle instructions page"/>
+    </div>
+  </div>
+
+  <div class="card" style="padding:24px;margin-bottom:16px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+      <h3 style="font-weight:700">🤖 AI Features</h3>
+      <span style="background:#dcfce7;color:#15803d;font-size:.7rem;font-weight:700;padding:2px 8px;border-radius:4px">INCLUDED</span>
+    </div>
+    <p style="font-size:.84rem;color:var(--gray);margin-bottom:16px">AI letter drafting, client summaries, intake analysis, and the AI chat assistant are all <strong>included in your plan</strong> — no API key needed.</p>
+    <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px 16px;font-size:.84rem;color:#166534">
+      ✅ AI Engagement Letter Drafting &nbsp;·&nbsp; ✅ Client Summaries &nbsp;·&nbsp; ✅ Intake Analysis &nbsp;·&nbsp; ✅ AI Chat Assistant
+    </div>
+    <details style="margin-top:16px">
+      <summary style="font-size:.82rem;color:var(--gray);cursor:pointer;font-weight:600">Advanced: Use your own Claude API key (optional override)</summary>
+      <div style="margin-top:12px">
+        <div class="form-group">
+          <label>Personal Claude API Key <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue);font-weight:400;font-size:.75rem">Get key →</a></label>
+          <input type="password" id="s-claude-key" placeholder="sk-ant-... (optional)"/>
+        </div>
+        <div id="claude-status" style="font-size:.82rem;margin-top:-8px"></div>
+        <button class="btn btn-sm btn-outline" style="margin-top:8px" onclick="testClaudeKey()">Test Connection</button>
+      </div>
+    </details>
   </div>
 
   <div class="card" style="padding:24px;margin-bottom:16px">
@@ -573,19 +627,28 @@ input:checked+.slider:before{transform:translateX(18px)}
 
 <!-- ═══ HELP ═══ -->
 <div class="page" id="pg-help">
-  <div class="page-header"><div><div class="page-title">Help & Quick Start</div><div class="page-sub">Get up and running in under 5 minutes</div></div></div>
+  <div class="page-header">
+    <div><div class="page-title">Help & Support</div><div class="page-sub">Get up and running in under 2 minutes</div></div>
+    <button class="btn btn-outline" onclick="restartOnboarding()">▶ Restart Setup Tour</button>
+  </div>
   <div class="card" style="padding:28px;margin-bottom:16px">
-    <h3 style="font-weight:800;margin-bottom:20px">⚡ Getting Started Checklist</h3>
+    <h3 style="font-weight:800;margin-bottom:20px">⚡ Quick Start Checklist</h3>
     <div style="display:flex;flex-direction:column;gap:14px">
-      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">1</div><div><div style="font-weight:700;margin-bottom:3px">Add your firm info in Settings</div><div style="font-size:.84rem;color:var(--gray)">Your name, phone, address — appears on all engagement letters</div></div></div>
-      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">2</div><div><div style="font-weight:700;margin-bottom:3px">Add your Claude API key</div><div style="font-size:.84rem;color:var(--gray)">Unlocks AI letter drafting. Get a free key at console.anthropic.com</div></div></div>
-      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">3</div><div><div style="font-weight:700;margin-bottom:3px">Share your intake link</div><div style="font-size:.84rem;color:var(--gray)">Put it on your website, email signature, or text it to prospects</div></div></div>
-      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">4</div><div><div style="font-weight:700;margin-bottom:3px">Customize your templates</div><div style="font-size:.84rem;color:var(--gray)">Edit the pre-built engagement letter templates to match your practice</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">✓</div><div><div style="font-weight:700;margin-bottom:3px">Add your firm info in Settings</div><div style="font-size:.84rem;color:var(--gray)">Your name, phone, address — appears on all engagement letters and client communications</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">✓</div><div><div style="font-weight:700;margin-bottom:3px">AI is ready — no setup needed</div><div style="font-size:.84rem;color:var(--gray)">Letter drafting, client summaries, intake analysis, and the AI chat are all included in your plan</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">2</div><div><div style="font-weight:700;margin-bottom:3px">Add your Stripe payment link in Settings</div><div style="font-size:.84rem;color:var(--gray)">So clients pay your retainer directly to you after signing — not a generic page</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">3</div><div><div style="font-weight:700;margin-bottom:3px">Share your intake link</div><div style="font-size:.84rem;color:var(--gray)">Find it under Intake Links. Put it on your website, email signature, or text it directly to prospects</div></div></div>
+      <div style="display:flex;gap:14px;align-items:flex-start"><div style="width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0">4</div><div><div style="font-weight:700;margin-bottom:3px">Customize your templates</div><div style="font-size:.84rem;color:var(--gray)">Use the AI template generator to create practice-specific engagement letters in seconds</div></div></div>
     </div>
   </div>
+  <div class="card" style="padding:24px;margin-bottom:16px;background:linear-gradient(135deg,#f5f3ff,#eff6ff);border-color:#c4b5fd">
+    <h3 style="font-weight:800;margin-bottom:8px">🤖 Ask the AI Assistant</h3>
+    <p style="font-size:.87rem;color:var(--gray);line-height:1.7;margin-bottom:14px">The AI chat button (bottom-right corner) knows your firm's data and can help with anything — draft emails, explain features, summarize clients, get your intake link, and more.</p>
+    <button class="btn btn-purple" onclick="toggleChat()">Open AI Chat</button>
+  </div>
   <div class="card" style="padding:24px">
-    <h3 style="font-weight:800;margin-bottom:16px">📞 Need Help?</h3>
-    <p style="font-size:.87rem;color:var(--gray);line-height:1.7">Contact our support team at <strong>support@clientready.ai</strong> or visit our documentation site. We typically respond within 2 hours during business hours.</p>
+    <h3 style="font-weight:800;margin-bottom:16px">📞 Contact Support</h3>
+    <p style="font-size:.87rem;color:var(--gray);line-height:1.7">Email us at <strong>support@clientready.ai</strong> — we respond within 2 hours during business hours (Mon–Fri, 9am–6pm ET).</p>
   </div>
 </div>
 
@@ -739,6 +802,18 @@ input:checked+.slider:before{transform:translateX(18px)}
     </div>
     <input type="hidden" id="tpl-edit-idx" value=""/>
   </div>
+  <div style="padding:0 24px 16px">
+    <div style="background:linear-gradient(135deg,#f5f3ff,#eff6ff);border:1px solid #c4b5fd;border-radius:10px;padding:14px 16px">
+      <div style="font-size:.82rem;font-weight:700;color:#4c1d95;margin-bottom:8px">🤖 AI Template Generator</div>
+      <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap">
+        <div style="flex:1;min-width:180px">
+          <input type="text" id="tpl-ai-prompt" placeholder="e.g. car accident personal injury, $3,500 retainer" style="width:100%;border:1.5px solid #c4b5fd;border-radius:8px;padding:9px 12px;font-size:.85rem;font-family:inherit;outline:none"/>
+        </div>
+        <button class="btn btn-purple btn-sm" onclick="generateAITemplate()" id="tpl-ai-btn">✨ Generate with AI</button>
+      </div>
+      <div id="tpl-ai-status" style="font-size:.78rem;color:#6d28d9;margin-top:6px;font-style:italic;display:none"></div>
+    </div>
+  </div>
   <div class="modal-foot">
     <button class="btn btn-outline" onclick="closeModal('template-modal')">Cancel</button>
     <button class="btn btn-primary" onclick="saveTemplate()">Save Template</button>
@@ -891,6 +966,9 @@ function loadApp(acct){
   // Handle post-Stripe redirect
   const params = new URLSearchParams(location.search);
   if(params.get('setup')==='1') showToast('🎉 Welcome! Your account is live.');
+
+  // Launch onboarding for new users
+  setTimeout(launchOnboarding, 500);
 }
 
 // ═══════════════════════════════════════════════════
@@ -1031,21 +1109,32 @@ function deleteCurrentClient(){
 // ═══════════════════════════════════════════════════
 // CLAUDE AI
 // ═══════════════════════════════════════════════════
-async function callClaude(prompt){
+// Uses /api/claude proxy (no API key needed by law firms).
+// Falls back to direct call if user has their own key in settings.
+async function callClaude(prompt, opts={}){
   const s = getSettings();
-  const key = s.claudeKey;
-  if(!key){ showToast('⚠️ Add your Claude API key in Settings first'); showPage('settings'); return null; }
+  const userKey = s.claudeKey;
+  const useProxy = !userKey; // proxy when no personal key set
+
+  const body = {
+    model: opts.model || 'claude-opus-4-6',
+    max_tokens: opts.maxTokens || 2048,
+    messages: opts.messages || [{role:'user',content:prompt}],
+    ...(opts.system ? {system: opts.system} : {})
+  };
+
   try{
-    const res = await fetch(CLAUDE_API,{
-      method:'POST',
-      headers:{'x-api-key':key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},
-      body:JSON.stringify({model:'claude-opus-4-6',max_tokens:2048,messages:[{role:'user',content:prompt}]})
-    });
+    let res;
+    if(useProxy){
+      res = await fetch('/api/claude',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)});
+    } else {
+      res = await fetch(CLAUDE_API,{method:'POST',headers:{'x-api-key':userKey,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify(body)});
+    }
     if(!res.ok){ const e=await res.json(); throw new Error(e.error?.message||'API error'); }
     const data = await res.json();
     return data.content[0].text;
   }catch(e){
-    showToast('Claude error: '+e.message);
+    showToast('AI error: '+e.message);
     return null;
   }
 }
@@ -1420,6 +1509,66 @@ function insertText(before,after){
   ta.focus(); ta.setSelectionRange(s+before.length,s+before.length+sel.length);
 }
 
+async function generateAITemplate(){
+  const prompt = document.getElementById('tpl-ai-prompt').value.trim();
+  const area   = document.getElementById('tpl-area').value.trim();
+  const rate   = document.getElementById('tpl-rate').value || '300';
+  const retainer = document.getElementById('tpl-retainer').value || '1500';
+  const sf = getSettings();
+
+  if(!prompt && !area){ showToast('Enter a practice area or describe the template first'); return; }
+
+  const btn = document.getElementById('tpl-ai-btn');
+  const statusEl = document.getElementById('tpl-ai-status');
+  btn.disabled = true; btn.textContent = '⏳ Generating…';
+  statusEl.style.display = 'block';
+  statusEl.textContent = 'Claude is drafting your template…';
+
+  const context = prompt || area;
+  const aiPrompt = `You are a legal document specialist. Write a professional engagement letter TEMPLATE for a law firm.
+
+Details:
+- Practice area / case type: ${context}
+- Law firm: ${sf.firmName || '{FIRM_NAME}'}
+- Hourly rate: $${rate}/hour
+- Retainer: $${retainer}
+- Attorney: ${sf.attorney || '{ATTORNEY_NAME}'}
+
+Write a complete, professional engagement letter template. Use these exact placeholders where appropriate:
+{CLIENT_NAME} — client's full name
+{MATTER_TYPE} — the legal matter
+{RETAINER} — retainer amount
+{FIRM_NAME} — the law firm name
+{DATE} — today's date
+{ATTORNEY_NAME} — attorney name
+
+The letter should include:
+1. A warm, professional greeting
+2. Scope of representation specific to ${context}
+3. Fee structure and retainer terms
+4. Client responsibilities
+5. Communication expectations
+6. Termination clause
+7. E-signature consent statement
+8. Professional closing
+
+Write ONLY the letter body text — no JSON, no explanation, just the letter content ready to use as a template. Make it specific and accurate for ${context} cases.`;
+
+  const result = await callClaude(aiPrompt, {model:'claude-haiku-4-5-20251001', maxTokens:1500});
+  btn.disabled = false; btn.textContent = '✨ Generate with AI';
+
+  if(result){
+    document.getElementById('tpl-body').value = result;
+    if(!document.getElementById('tpl-name').value) document.getElementById('tpl-name').value = (area || context) + ' — AI Template';
+    if(!document.getElementById('tpl-area').value) document.getElementById('tpl-area').value = area || context;
+    statusEl.textContent = '✅ Template generated! Review and edit as needed, then save.';
+    statusEl.style.color = '#16a34a';
+  } else {
+    statusEl.textContent = 'Generation failed. Try again.';
+    statusEl.style.color = '#dc2626';
+  }
+}
+
 // ═══════════════════════════════════════════════════
 // PAYMENTS
 // ═══════════════════════════════════════════════════
@@ -1469,6 +1618,8 @@ function loadSettingsForm(){
   document.getElementById('s-rate').value        = s.rate||'';
   document.getElementById('s-retainer').value    = s.retainer||'';
   document.getElementById('s-claude-key').value  = s.claudeKey||'';
+  document.getElementById('s-stripe-link').value  = s.stripeLink||'';
+  document.getElementById('s-bank-link').value    = s.bankLink||'';
   document.getElementById('n-intake').checked    = s.nIntake!==false;
   document.getElementById('n-auto-letter').checked = s.nAutoLetter||false;
   document.getElementById('n-reminders').checked = s.nReminders!==false;
@@ -1484,12 +1635,17 @@ function saveSettings(){
     practice:   document.getElementById('s-practice').value.trim(),
     rate:       parseInt(document.getElementById('s-rate').value)||300,
     retainer:   parseInt(document.getElementById('s-retainer').value)||1500,
+    stripeLink: document.getElementById('s-stripe-link').value.trim(),
+    bankLink:   document.getElementById('s-bank-link').value.trim(),
     claudeKey:  document.getElementById('s-claude-key').value.trim(),
     nIntake:    document.getElementById('n-intake').checked,
     nAutoLetter:document.getElementById('n-auto-letter').checked,
     nReminders: document.getElementById('n-reminders').checked,
   };
   setSettings(s);
+  // Rebuild intake links with new stripe link
+  const acct = JSON.parse(sessionStorage.getItem('cr_session')||'{}');
+  if(acct.firmId) setupIntakeLinks(acct);
   renderDashboard();
   showToast('Settings saved ✓');
 }
@@ -1500,7 +1656,8 @@ function saveSettings(){
 function setupIntakeLinks(acct){
   const s = getSettings();
   const base = location.origin + '/intake.html';
-  const params = `?firm=${encodeURIComponent(acct.firmId)}&name=${encodeURIComponent(s.firmName||acct.firm)}&email=${encodeURIComponent(acct.email)}`;
+  const stripeParam = s.stripeLink ? `&stripe=${encodeURIComponent(s.stripeLink)}` : '';
+  const params = `?firm=${encodeURIComponent(acct.firmId)}&name=${encodeURIComponent(s.firmName||acct.firm)}&email=${encodeURIComponent(acct.email)}&retainer=${encodeURIComponent(s.retainer||1500)}&rate=${encodeURIComponent(s.rate||300)}${stripeParam}`;
   const link = base + params;
 
   const linkEl = document.getElementById('intake-link-display');
@@ -1634,6 +1791,9 @@ try{
 // ═══════════════════════════════════════════════════
 if(!checkSession()){
   document.getElementById('auth-wrap').style.display='flex';
+} else {
+  // Already logged in — trigger onboarding check after short delay
+  setTimeout(launchOnboarding, 600);
 }
 
 // ═══════════════════════════════════════════════════
@@ -1705,12 +1865,6 @@ async function sendChat(){
   const sendBtn = document.getElementById('cr-send-btn');
 
   const s = getSettings();
-  if(!s.claudeKey){
-    appendChatMsg('assistant', '⚠️ To use AI chat, please add your Claude API key in Settings → Integrations. Once added, I\'ll be able to answer questions and help with intakes!');
-    input.value = '';
-    return;
-  }
-
   input.value = '';
   input.style.height = '40px';
   sendBtn.disabled = true;
@@ -1758,14 +1912,16 @@ INSTRUCTIONS:
   const recentHistory = chatHistory.slice(-10).map(m=>({role:m.role, content:m.content}));
 
   try {
-    const res = await fetch(CLAUDE_API, {
+    // Use proxy (no API key needed from user)
+    const useProxy = !s.claudeKey;
+    const endpoint = useProxy ? '/api/claude' : CLAUDE_API;
+    const headers = useProxy
+      ? {'content-type':'application/json'}
+      : {'x-api-key':s.claudeKey,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'};
+
+    const res = await fetch(endpoint, {
       method: 'POST',
-      headers: {
-        'x-api-key': s.claudeKey,
-        'anthropic-version': '2023-06-01',
-        'content-type': 'application/json',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers,
       body: JSON.stringify({
         model: 'claude-haiku-4-5-20251001',
         max_tokens: 1024,
@@ -1780,7 +1936,7 @@ INSTRUCTIONS:
     appendChatMsg('assistant', reply);
   } catch(e) {
     removeChatTyping();
-    appendChatMsg('assistant', '⚠️ Error: ' + e.message + '\n\nPlease check your API key in Settings.');
+    appendChatMsg('assistant', '⚠️ Something went wrong: ' + e.message + '\n\nIf this keeps happening, contact support@clientready.ai');
   }
   sendBtn.disabled = false;
   input.focus();
@@ -1799,6 +1955,181 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
   }
 });
+</script>
+
+<!-- ONBOARDING TUTORIAL OVERLAY -->
+<div id="ob-overlay">
+  <div class="ob-card">
+    <div class="ob-progress"><div class="ob-progress-fill" id="ob-fill" style="width:0%"></div></div>
+
+    <!-- Step 1: Welcome -->
+    <div class="ob-step active" id="ob-step-1">
+      <div class="ob-emoji">👋</div>
+      <div class="ob-step-counter">Welcome to ClientReady</div>
+      <div class="ob-title">Let's get your firm set up</div>
+      <div class="ob-sub">Takes about 2 minutes. We'll walk you through everything so you can start getting signed, paid clients today.</div>
+      <div class="ob-checklist">
+        <div class="ob-check"><div class="ob-check-icon">⚡</div><div>Set up your firm profile</div></div>
+        <div class="ob-check"><div class="ob-check-icon">🔗</div><div>Get your client intake link</div></div>
+        <div class="ob-check"><div class="ob-check-icon">💳</div><div>Connect your payment method</div></div>
+        <div class="ob-check"><div class="ob-check-icon">🤖</div><div>AI is already on — no setup needed</div></div>
+      </div>
+      <div class="ob-btn-row">
+        <button class="ob-btn-primary" onclick="obNext()">Let's Go →</button>
+        <button class="ob-btn-skip" onclick="obDismiss()">Skip for now</button>
+      </div>
+    </div>
+
+    <!-- Step 2: Firm Info -->
+    <div class="ob-step" id="ob-step-2">
+      <div class="ob-emoji">🏛️</div>
+      <div class="ob-step-counter">Step 1 of 3</div>
+      <div class="ob-title">Your firm's details</div>
+      <div class="ob-sub">This appears on all engagement letters and client communications.</div>
+      <div class="ob-input-group"><label>Firm Name *</label><input type="text" id="ob-firm" placeholder="Smith & Associates, PLLC" oninput="obUpdateFirmPreview()"/></div>
+      <div class="ob-input-group"><label>Your Name</label><input type="text" id="ob-attorney" placeholder="James Smith, Esq."/></div>
+      <div class="ob-input-group"><label>Phone</label><input type="tel" id="ob-phone" placeholder="(555) 123-4567"/></div>
+      <div class="ob-btn-row">
+        <button class="ob-btn-primary" onclick="obSaveFirm()">Save & Continue →</button>
+        <button class="ob-btn-skip" onclick="obNext()">Skip</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Intake Link -->
+    <div class="ob-step" id="ob-step-3">
+      <div class="ob-emoji">🔗</div>
+      <div class="ob-step-counter">Step 2 of 3</div>
+      <div class="ob-title">Your intake link is ready</div>
+      <div class="ob-sub">Share this link on your website, email signature, or text it directly to prospects. Clients fill it out in minutes — you get notified instantly.</div>
+      <div id="ob-link-preview" class="ob-link-preview">Loading your link…</div>
+      <button class="ob-link-copy-btn" onclick="obCopyLink()">📋 Copy My Intake Link</button>
+      <div style="font-size:.78rem;color:#94a3b8;margin-bottom:20px">You can always find this link in the Intake Links section of your dashboard.</div>
+      <div class="ob-btn-row">
+        <button class="ob-btn-primary" onclick="obNext()">Next →</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Payments -->
+    <div class="ob-step" id="ob-step-4">
+      <div class="ob-emoji">💳</div>
+      <div class="ob-step-counter">Step 3 of 3</div>
+      <div class="ob-title">Connect your payments</div>
+      <div class="ob-sub">Add your Stripe payment link so clients are sent directly to YOUR payment page after signing their engagement letter.</div>
+      <div class="ob-input-group">
+        <label>Your Stripe Payment Link <a href="https://dashboard.stripe.com/payment-links" target="_blank" style="color:#2563eb;font-size:.75rem;font-weight:400">Create one free →</a></label>
+        <input type="url" id="ob-stripe" placeholder="https://buy.stripe.com/your-link" style="font-size:.83rem"/>
+      </div>
+      <div style="font-size:.78rem;color:#94a3b8;margin-bottom:20px;text-align:left">Don't have one yet? You can add it later in Settings → Client Retainer Payments.</div>
+      <div class="ob-btn-row">
+        <button class="ob-btn-primary" onclick="obSavePayments()">Save & Finish →</button>
+        <button class="ob-btn-skip" onclick="obFinish()">Skip for now</button>
+      </div>
+    </div>
+
+    <!-- Step 5: All done -->
+    <div class="ob-step" id="ob-step-5">
+      <div class="ob-emoji">🎉</div>
+      <div class="ob-title">You're all set!</div>
+      <div class="ob-sub">Your ClientReady CRM is live. Start sharing your intake link and watch clients come in — signed, paid, and ready.</div>
+      <div class="ob-checklist">
+        <div class="ob-check" id="ob-done-firm" style="opacity:.4"><div class="ob-check-icon">✓</div><div>Firm profile saved</div></div>
+        <div class="ob-check"><div class="ob-check-icon">🤖</div><div>AI features active — no setup needed</div></div>
+        <div class="ob-check"><div class="ob-check-icon">🔗</div><div>Intake link ready to share</div></div>
+      </div>
+      <div class="ob-btn-row">
+        <button class="ob-btn-primary" onclick="obFinish()">Go to My Dashboard →</button>
+      </div>
+      <div style="font-size:.75rem;color:#94a3b8;margin-top:12px">Need help? Chat with our AI assistant anytime — just click the 🤖 button.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// ONBOARDING TUTORIAL
+// ═══════════════════════════════════════════════════
+let obCurrentStep = 1;
+const OB_TOTAL = 4; // steps 2-5 count (welcome + 3 steps + done = 5 screens, progress covers 3 middle steps)
+
+function obShowStep(n){
+  document.querySelectorAll('.ob-step').forEach(el=>el.classList.remove('active'));
+  const el = document.getElementById('ob-step-'+n);
+  if(el) el.classList.add('active');
+  obCurrentStep = n;
+  // Progress: steps 2,3,4 → 33%, 66%, 100%; step 1 & 5 → 0% & 100%
+  const pct = n===1 ? 0 : n===5 ? 100 : Math.round(((n-1)/3)*100);
+  document.getElementById('ob-fill').style.width = pct + '%';
+  // Step 3: populate intake link
+  if(n===3) obPopulateLink();
+}
+
+function obNext(){ obShowStep(obCurrentStep+1); }
+
+function obDismiss(){
+  set('ob_done', true);
+  document.getElementById('ob-overlay').classList.remove('open');
+}
+
+function obFinish(){
+  set('ob_done', true);
+  document.getElementById('ob-overlay').classList.remove('open');
+  showToast('🎉 Setup complete! You\'re ready to go.');
+}
+
+function obSaveFirm(){
+  const firm     = document.getElementById('ob-firm').value.trim();
+  const attorney = document.getElementById('ob-attorney').value.trim();
+  const phone    = document.getElementById('ob-phone').value.trim();
+  if(!firm){ document.getElementById('ob-firm').focus(); return; }
+  // Merge into settings
+  const s = getSettings();
+  s.firmName = firm; s.attorney = attorney; s.phone = phone;
+  setSettings(s);
+  // Update firm name display in CRM header
+  const acct = JSON.parse(sessionStorage.getItem('cr_session')||'{}');
+  if(acct.firmId) setupIntakeLinks(acct);
+  document.getElementById('ob-done-firm').style.opacity = '1';
+  obShowStep(3);
+}
+
+function obPopulateLink(){
+  const acct = JSON.parse(sessionStorage.getItem('cr_session')||'{}');
+  const s = getSettings();
+  if(!acct.firmId){ document.getElementById('ob-link-preview').textContent = 'Save your firm name first'; return; }
+  const link = location.origin + '/intake.html?firm=' + encodeURIComponent(acct.firmId) + '&name=' + encodeURIComponent(s.firmName||acct.firm||'Your Firm') + '&email=' + encodeURIComponent(acct.email||'') + '&retainer=' + encodeURIComponent(s.retainer||1500) + '&rate=' + encodeURIComponent(s.rate||300);
+  document.getElementById('ob-link-preview').textContent = link;
+  window._obIntakeLink = link;
+}
+
+function obCopyLink(){
+  const link = window._obIntakeLink || document.getElementById('ob-link-preview').textContent;
+  navigator.clipboard.writeText(link).then(()=>{ showToast('Intake link copied! 🔗'); });
+}
+
+function obSavePayments(){
+  const stripe = document.getElementById('ob-stripe').value.trim();
+  if(stripe){
+    const s = getSettings(); s.stripeLink = stripe; setSettings(s);
+    const acct = JSON.parse(sessionStorage.getItem('cr_session')||'{}');
+    if(acct.firmId) setupIntakeLinks(acct);
+    showToast('Payment link saved ✓');
+  }
+  obShowStep(5);
+}
+
+function launchOnboarding(){
+  const done = get('ob_done', false);
+  if(!done){
+    document.getElementById('ob-overlay').classList.add('open');
+    obShowStep(1);
+  }
+}
+
+function restartOnboarding(){
+  set('ob_done', false);
+  document.getElementById('ob-overlay').classList.add('open');
+  obShowStep(1);
+}
 </script>
 
 <!-- AI CHAT WIDGET -->
