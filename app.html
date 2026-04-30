@@ -1153,6 +1153,7 @@ Client: ${c.firstName} ${c.lastName}
 Matter Type: ${c.matterType||'Not specified'}
 Urgency: ${c.urgency||'Standard'}
 Description: ${c.description||'Not provided'}
+PI Context: ${[c.accidentDate?'Accident '+new Date(c.accidentDate).toLocaleDateString():null,c.accidentType,c.jurisdiction?'Jurisdiction '+c.jurisdiction:null,c.opposingParty?'Opposing '+c.opposingParty:null,c.policeReportNumber?'Police Report '+c.policeReportNumber:null,c.insuranceCarrier?'Insurer '+c.insuranceCarrier:null,c.injuriesDescription?'Injuries: '+c.injuriesDescription:null].filter(Boolean).join(' | ')||'no PI fields populated'}
 Location: ${[c.city,c.state].filter(Boolean).join(', ')||'Not provided'}
 Submitted: ${fmtDate(c.submittedAt)}
 Law Firm: ${s.firmName||'the firm'}
@@ -1229,7 +1230,7 @@ Write a complete, professional engagement letter that includes:
 6. Termination clause
 7. Electronic signature acknowledgment
 
-Use a professional but approachable tone. Make it specific to the client's matter. Format it as a proper legal letter ready to send.`;
+Use a professional but approachable tone. Make it specific to the client's matter. Format it as a proper legal letter ready to send. If the matter is a personal-injury / accident case (auto, slip & fall, MVA, wrongful death, premises, med mal, product liability), structure the fee section as a CONTINGENCY FEE AGREEMENT (typical 33⅓% pre-suit, 40% if suit is filed), reference the accident date and jurisdiction, and include language that the client owes nothing if no recovery is obtained. For non-PI matters, use a standard hourly + retainer fee structure.`;
 
   const result = await callClaude(prompt);
   btn.disabled=false; btn.textContent='✨ Generate Letter';
