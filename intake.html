@@ -301,7 +301,7 @@
     <div class="form-group">
       <label>Opposing Party (if applicable)</label>
       <input type="text" id="opposingParty" placeholder="Name of the other person, company, or party (if any)" />
-      <div class="field-hint">Leave blank if there is no opposing party or if you don't know.</div>
+      <div class="field-hint">Leave blank if there is no opposing party or if you don't know.</div><div class="form-group" id="pi-fields-block" style="margin-top:8px"><label style="font-weight:700;color:#0f172a;font-size:.95rem">Accident / Incident Details (if applicable)</label><div class="field-hint" style="margin-bottom:12px">Filling these out helps us track your statute-of-limitations deadline and prepare a faster case strategy.</div><div class="form-row"><div class="form-group"><label>Date of Accident / Incident</label><input type="date" id="accidentDate" /></div><div class="form-group"><label>Type of Accident</label><select id="accidentType"><option value="">— Select —</option><option>Auto / Motor Vehicle</option><option>Slip &amp; Fall / Premises</option><option>Wrongful Death</option><option>Medical Malpractice</option><option>Product Liability</option><option>Workplace / On-the-Job</option><option>Pedestrian / Bicycle</option><option>Dog Bite / Animal Attack</option><option>Other / Not PI-related</option></select></div></div><div class="form-row"><div class="form-group"><label>Police Report Number (if any)</label><input type="text" id="policeReportNumber" placeholder="e.g. 2025-12345" /></div><div class="form-group"><label>Insurance Carrier of Other Party</label><input type="text" id="insuranceCarrier" placeholder="e.g. State Farm, Geico, Allstate" /></div></div><div class="form-group"><label>Description of Injuries</label><textarea id="injuriesDescription" placeholder="Briefly describe injuries, treatments received, hospitals or doctors seen, ongoing symptoms..."></textarea></div></div>
     </div>
 
     <div class="form-group">
@@ -626,7 +626,7 @@ async function submitForm() {
     urgency: document.getElementById('urgency').value,
     description: document.getElementById('description').value.trim(),
     priorAttorney: document.getElementById('priorAttorney').value,
-    opposingParty: document.getElementById('opposingParty').value.trim(),
+    opposingParty: document.getElementById('opposingParty').value.trim(),accidentDate:document.getElementById('accidentDate')?.value||null,accidentType:document.getElementById('accidentType')?.value||'',policeReportNumber:document.getElementById('policeReportNumber')?.value?.trim()||'',insuranceCarrier:document.getElementById('insuranceCarrier')?.value?.trim()||'',injuriesDescription:document.getElementById('injuriesDescription')?.value?.trim()||'',jurisdiction:(document.getElementById('state')?.value||'').toUpperCase(),
     signature: canvas.toDataURL('image/png'),
     signedAt: new Date().toISOString(),
     retainerAmount: retainerAmt,
