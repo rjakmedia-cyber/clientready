@@ -685,7 +685,7 @@ input:checked+.slider:before{transform:translateX(18px)}
         </select>
       </div>
     </div>
-    <div class="form-group"><label>Case Description</label><textarea id="ac-desc" placeholder="Brief description of the matter..."></textarea></div>
+    <div class="form-row"><div class="form-group"><label>Accident Date</label><input type="date" id="ac-accident-date"/></div><div class="form-group"><label>Accident Type</label><select id="ac-accident-type"><option value="">— Select —</option><option>Auto / MVA</option><option>Slip &amp; Fall / Premises</option><option>Wrongful Death</option><option>Medical Malpractice</option><option>Product Liability</option><option>Other PI</option></select></div></div><div class="form-row"><div class="form-group"><label>Jurisdiction (State)</label><input type="text" id="ac-jurisdiction" placeholder="TX, CA, NY..." maxlength="3" style="text-transform:uppercase"/></div><div class="form-group"><label>Opposing Party / Insurer</label><input type="text" id="ac-opposing" placeholder="State Farm / John Driver"/></div></div><div id="ac-conflict-warn" style="display:none;background:#fef2f2;border:1px solid #fecaca;color:#991b1b;border-radius:8px;padding:10px 14px;font-size:.85rem;margin-bottom:12px"></div>    <div class="form-group"><label>Case Description</label><textarea id="ac-desc" placeholder="Brief description of the matter..."></textarea></div>
   </div>
   <div class="modal-foot">
     <button class="btn btn-outline" onclick="closeModal('add-client-modal')">Cancel</button>
@@ -1080,12 +1080,12 @@ function updateClientStatus(){
 function addClientManual(){
   const first = document.getElementById('ac-first').value.trim();
   const last  = document.getElementById('ac-last').value.trim();
-  if(!first||!last){ showToast('Please enter first and last name'); return; }
+  if(!first||!last){ showToast('Please enter first and last name'); return; }var __opp=((document.getElementById('ac-opposing')||{}).value||'').toLowerCase().trim();var __existing=(getClients()||[]).filter(function(x){var fn=(x.firstName||'').toLowerCase(),ln=(x.lastName||'').toLowerCase(),op=(x.opposingParty||'').toLowerCase();return (fn===first.toLowerCase()&&ln===last.toLowerCase())||(__opp&&op===__opp);});if(__existing.length){var w=document.getElementById('ac-conflict-warn');if(w){w.style.display='block';w.innerHTML='⚠️ Conflict check: '+__existing.length+' existing matter(s) match this name or opposing party. Review before saving.';}if(!confirm('⚠️ Conflict check found '+__existing.length+' potential conflict(s) with existing matters. ABA Rule 1.7 requires resolving conflicts before representation. Continue anyway?'))return;}
   addClientObj({
     firstName:first, lastName:last,
     email:document.getElementById('ac-email').value.trim(),
     phone:document.getElementById('ac-phone').value.trim(),
-    matterType:document.getElementById('ac-matter').value,
+    matterType:document.getElementById('ac-matter').value,accidentDate:(document.getElementById('ac-accident-date')||{}).value||null,accidentType:(document.getElementById('ac-accident-type')||{}).value||'',jurisdiction:((document.getElementById('ac-jurisdiction')||{}).value||'').toUpperCase(),opposingParty:(document.getElementById('ac-opposing')||{}).value||'',
     urgency:document.getElementById('ac-urgency').value,
     description:document.getElementById('ac-desc').value.trim(),
     status:'new', submittedAt:new Date().toISOString()
