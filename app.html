@@ -1093,7 +1093,7 @@ function addClientManual(){
   closeModal('add-client-modal');
   document.getElementById('add-client-modal').querySelectorAll('input,select,textarea').forEach(el=>el.value='');
   renderClients(); renderDashboard();
-  showToast('Client added ✓');
+  showToast('Client added ✓');autoDraftLetter(getClients()[0]);
 }
 
 function deleteCurrentClient(){
@@ -1260,7 +1260,20 @@ function copyLetter(){
   navigator.clipboard.writeText(text).then(()=>showToast('Letter copied!'));
 }
 
-function saveLetter(){
+async function autoDraftLetter(client){if(!client)return;var s=getSettings();if(s.autoDraftLetter===false)return;try{var matter=client.matterType||client.matter||'Personal Injury';var piExtras=[client.accidentDate?'Accident '+new Date(client.accidentDate).toLocaleDateString():null,client.accidentType,client.jurisdiction?'Jurisdiction '+client.jurisdiction:null,client.opposingParty?'Opposing '+client.opposingParty:null,client.policeReportNumber?'Police Report '+client.policeReportNumber:null,client.insuranceCarrier?'Insurer '+client.insuranceCarrier:null,client.injuriesDescription?'Injuries: '+client.injuriesDescription:null].filter(Boolean).join(' | ');var clientInfo='Client: '+(client.firstName||'')+' '+(client.lastName||'')+'
+Email: '+(client.email||'N/A')+'
+Phone: '+(client.phone||'N/A')+'
+Matter: '+matter+'
+Description: '+(client.description||'N/A')+(piExtras?'
+PI Context: '+piExtras:'');var prompt='You are a skilled legal document writer at '+(s.firmName||'a law firm')+'. Draft a professional engagement letter.
+
+Firm: '+(s.firmName||'[FIRM NAME]')+'
+Attorney: '+(s.attorney||'[ATTORNEY NAME]')+'
+'+clientInfo+'
+Retainer Amount: $'+(s.retainer||1500)+'
+Todays Date: '+new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'
+
+Write a complete, professional engagement letter ready to send. If the matter is a personal-injury / accident case (auto, MVA, slip & fall, premises, wrongful death, med mal, product liability), structure the fee section as a CONTINGENCY FEE AGREEMENT (typical 33% pre-suit, 40% if suit filed) referencing the accident date and jurisdiction, with language that the client owes nothing if no recovery is obtained. Otherwise use a standard hourly + retainer fee structure. Use a professional but approachable tone.';var result=await callClaude(prompt,{model:'claude-haiku-4-5-20251001',maxTokens:1500});if(!result)return;var letters=getLetters();letters.unshift({id:'ltr_'+Date.now(),clientName:((client.firstName||'')+' '+(client.lastName||'')).trim()||client.email||'New Client',clientIdx:0,matter:matter,retainer:s.retainer||1500,text:result,status:'draft',autoDrafted:true,createdAt:new Date().toISOString()});setLetters(letters);if(typeof renderLetters==='function')renderLetters();if(typeof renderDashboard==='function')renderDashboard();showToast('✍️ AI auto-drafted letter for '+(client.firstName||'new client'));}catch(e){console.warn('Auto-draft failed:',e);}}function saveLetter(){
   if(!window._lastLetter) return;
   const clients = getClients();
   const clientIdx = parseInt(window._lastLetter.clientIdx);
@@ -1782,7 +1795,7 @@ try{
     if(e.data?.type==='new_intake' && FIRM_KEY){
       addClientObj({...e.data.client, status:'new', submittedAt:new Date().toISOString()});
       renderClients(); renderDashboard();
-      showToast('📨 New client: '+e.data.client.firstName+' '+e.data.client.lastName);
+      showToast('📨 New client: '+e.data.client.firstName+' '+e.data.client.lastName);autoDraftLetter(e.data.client);
     }
   };
 }catch(err){}
