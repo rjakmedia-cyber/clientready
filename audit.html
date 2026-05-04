@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Solo PI Intake Audit — Free Scorecard | clientReady</title>
+<meta name="description" content="2-minute audit. Find out how much revenue your solo PI firm is losing to broken intake — and exactly what to fix. Free."/>
+<meta property="og:title" content="How much is your firm losing to broken intake?"/>
+<meta property="og:description" content="Free 2-minute audit for solo PI attorneys. See your firm's intake score and estimated annual revenue leak."/>
+<meta property="og:url" content="https://clientready.agency/audit"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<style>
+:root{color-scheme:light;--blue:#2563EB;--ink:#0F172A;--mute:#64748B;--bg:#F8FAFC;--red:#DC2626;--amber:#D97706;--green:#16A34A;--card:#FFFFFF;--line:#E2E8F0}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Arial,sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.6;min-height:100vh}
+.wrap{max-width:680px;margin:0 auto;padding:48px 24px 80px}
+.brand{font-weight:900;letter-spacing:-0.02em;font-size:1.2rem;margin-bottom:32px}
+.brand .b1{color:#000}.brand .b2{color:var(--blue)}
+h1{font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin:0 0 12px}
+.lede{color:var(--mute);font-size:1.08rem;margin:0 0 28px;max-width:560px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.progress{height:6px;background:#EFF6FF;border-radius:99px;overflow:hidden;margin-bottom:24px}
+.progress .bar{height:100%;background:var(--blue);transition:width .3s ease}
+.qnum{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--blue);margin-bottom:8px}
+.q{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin-bottom:18px;line-height:1.35}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{padding:14px 18px;border:1.5px solid var(--line);border-radius:10px;cursor:pointer;font-size:.98rem;background:#fff;font-family:inherit;text-align:left;width:100%;transition:all .15s}
+.opt:hover{border-color:var(--blue);background:#EFF6FF}
+.opt.selected{border-color:var(--blue);background:#EFF6FF;font-weight:600}
+.nav{display:flex;justify-content:space-between;margin-top:24px;gap:12px}
+.btn{padding:12px 22px;border:none;border-radius:9px;font-size:.98rem;font-weight:700;cursor:pointer;font-family:inherit;letter-spacing:-.01em}
+.btn.primary{background:var(--blue);color:#fff}
+.btn.primary:hover{background:#1D4ED8}
+.btn.primary:disabled{background:#94A3B8;cursor:not-allowed}
+.btn.ghost{background:none;color:var(--mute)}
+.btn.ghost:hover{color:var(--ink)}
+.result{display:none}
+.result.show{display:block;animation:in .3s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.score-hero{text-align:center;padding:32px 24px;border-radius:14px;margin-bottom:24px;color:#fff}
+.score-hero.red{background:linear-gradient(135deg,#DC2626,#991B1B)}
+.score-hero.amber{background:linear-gradient(135deg,#D97706,#92400E)}
+.score-hero.green{background:linear-gradient(135deg,#16A34A,#166534)}
+.score-hero .label{font-size:.85rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;opacity:.9;margin-bottom:8px}
+.score-hero .score-num{font-size:5rem;font-weight:900;line-height:1;letter-spacing:-.04em;margin:6px 0}
+.score-hero .grade{font-size:1.4rem;font-weight:700;margin-bottom:8px}
+.leak{background:#FEF2F2;border:1px solid #FECACA;border-radius:12px;padding:24px;margin-bottom:24px;text-align:center}
+.leak .label{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:#991B1B;margin-bottom:6px}
+.leak .num{font-size:2.6rem;font-weight:900;color:#7F1D1D;letter-spacing:-.02em;line-height:1;margin-bottom:6px}
+.leak .sub{font-size:.92rem;color:#991B1B;opacity:.85}
+.fixes{margin-top:24px}
+.fix{padding:18px 0;border-bottom:1px solid var(--line)}
+.fix:last-child{border-bottom:none}
+.fix .ftit{font-weight:700;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.fix .ftit .icon{width:22px;height:22px;border-radius:50%;background:#FEE2E2;color:#991B1B;display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:900;flex-shrink:0}
+.fix.ok .ftit .icon{background:#DCFCE7;color:#166534}
+.fix .desc{color:var(--mute);font-size:.92rem;margin-left:30px}
+.cta-final{margin-top:32px;background:#0F172A;color:#fff;border-radius:14px;padding:32px;text-align:center}
+.cta-final h3{margin:0 0 10px;font-size:1.4rem;color:#fff}
+.cta-final p{margin:0 0 18px;opacity:.85}
+.cta-final a{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;padding:14px 26px;border-radius:9px;font-size:1.02rem}
+.share{margin-top:24px;text-align:center}
+.share .stitle{font-size:.85rem;color:var(--mute);margin-bottom:10px;font-weight:600}
+.share-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.sbtn{padding:10px 16px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font-weight:600;font-size:.88rem;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:6px}
+.sbtn:hover{background:#F1F5F9}
+.foot{margin-top:48px;text-align:center;color:var(--mute);font-size:.85rem}
+.foot a{color:var(--blue);text-decoration:none;font-weight:600}
+.tag{display:inline-block;background:#EFF6FF;color:var(--blue);font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:99px;margin-bottom:14px}
+@media(max-width:560px){h1{font-size:1.7rem}.card{padding:22px 18px}.score-hero .score-num{font-size:3.6rem}.leak .num{font-size:1.9rem}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="b1">CLIENT</span><span class="b2">READY</span></div>
+
+  <div id="intro">
+    <span class="tag">Free · 2 minutes · No signup</span>
+    <h1>How much is your solo PI firm losing to broken intake?</h1>
+    <p class="lede">8 questions. Score your firm's intake setup, find out how much revenue you're leaking every year, and get a personalized fix list.</p>
+    <button class="btn primary" id="start">Start the audit →</button>
+  </div>
+
+  <div id="quiz" class="card" style="display:none">
+    <div class="progress"><div class="bar" id="bar" style="width:0%"></div></div>
+    <div class="qnum" id="qnum">Question 1 of 8</div>
+    <div class="q" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+    <div class="nav">
+      <button class="btn ghost" id="back">← Back</button>
+      <button class="btn primary" id="next" disabled>Next →</button>
+    </div>
+  </div>
+
+  <div id="result" class="result">
+    <div id="hero" class="score-hero">
+      <div class="label">Your Intake Score</div>
+      <div class="score-num" id="scoreNum">0</div>
+      <div class="grade" id="grade">—</div>
+      <div id="gradeDesc"></div>
+    </div>
+
+    <div class="leak">
+      <div class="label">Estimated Annual Revenue Leak</div>
+      <div class="num" id="leakNum">$0</div>
+      <div class="sub" id="leakSub">Based on industry-average solo PI metrics applied to your answers.</div>
+    </div>
+
+    <div class="card">
+      <h2 style="margin:0 0 4px;font-size:1.3rem">Your fix list</h2>
+      <p style="color:var(--mute);margin:0 0 8px;font-size:.92rem">Prioritized — start at the top.</p>
+      <div class="fixes" id="fixes"></div>
+    </div>
+
+    <div id="capture" class="card" style="margin-top:18px;padding:24px">
+      <h3 style="margin:0 0 6px;font-size:1.15rem">Want this run automatically on every new lead?</h3>
+      <p style="margin:0 0 14px;color:var(--mute);font-size:.92rem">Drop your work email below. We'll send you a personalized PDF version of these fixes plus a 14-day free trial of clientReady (no card required).</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
+        <input id="cap-email" type="email" placeholder="you@yourfirm.com" style="padding:12px 14px;border:1.5px solid var(--line);border-radius:9px;font-size:.95rem;font-family:inherit;background:#fff" required/>
+        <input id="cap-firm" type="text" placeholder="Firm name" style="padding:12px 14px;border:1.5px solid var(--line);border-radius:9px;font-size:.95rem;font-family:inherit;background:#fff"/>
+      </div>
+      <button class="btn primary" id="cap-submit" style="width:100%">Send me the fix list and trial access →</button>
+      <p id="cap-msg" style="font-size:.82rem;color:var(--mute);text-align:center;margin-top:10px">No card. ABA Rule 1.6 compliant. We delete your data on request.</p>
+    </div>
+
+    <div id="cta-thanks" class="cta-final" style="display:none">
+      <h3>You're in.</h3>
+      <p>Check your inbox. Your trial access link will arrive within 30 seconds.</p>
+      <a href="https://clientready.agency">Open clientReady →</a>
+    </div>
+
+    <div class="share">
+      <div class="stitle">Share your score</div>
+      <div class="share-btns">
+        <a class="sbtn" id="shareTwitter" target="_blank" rel="noopener">𝕏 Tweet score</a>
+        <a class="sbtn" id="shareLinkedIn" target="_blank" rel="noopener">in Share on LinkedIn</a>
+        <button class="sbtn" id="copyLink">Copy link</button>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:24px">
+      <button class="btn ghost" id="restart">Take audit again</button>
+    </div>
+  </div>
+
+  <p class="foot">Built by <a href="https://clientready.agency">clientReady.agency</a> · AI intake for solo PI attorneys</p>
+</div>
+
+<script>
+var QUESTIONS = [
+  {
+    q: "How fast does your firm reply to a new PI inquiry on average?",
+    opts: [
+      {label:"Under 5 minutes — every time", pts:10, fix:null, leak:0},
+      {label:"15–30 minutes during business hours", pts:6, fix:"Get response time under 5 minutes. Velocify shows 21x lift in qualification rate vs. 30 min.", leak:60000},
+      {label:"1–4 hours", pts:3, fix:"Auto-responder on every form submission. Even a templated SMS within 60 seconds beats a perfect call 4 hours later.", leak:120000},
+      {label:"Same day, sometimes next day", pts:1, fix:"You're losing the lead before you call them. Industry data: 60% of solo PI leads sign with another firm within 14 minutes of submission.", leak:200000},
+      {label:"Honestly? Whenever I get to it", pts:0, fix:"Critical. Set up an instant auto-response today, even if it's a templated 'we got your message, calling within the hour'.", leak:300000}
+    ]
+  },
+  {
+    q: "Who answers after-hours / weekend PI calls?",
+    opts: [
+      {label:"24/7 intake VA or service", pts:9, fix:null, leak:0},
+      {label:"Forwarded to my cell — I answer", pts:7, fix:"You'll burn out in 18 months. Layer in AI auto-screening so you only get called for the ones worth answering.", leak:30000},
+      {label:"Voicemail, callback Monday", pts:2, fix:"Saturday 9am is the highest-volume PI inquiry window. Monday callbacks lose ~80% of weekend leads.", leak:180000},
+      {label:"It just rings — no setup", pts:0, fix:"Critical. Even a free Twilio + auto-text setup will save you cases this month.", leak:240000}
+    ]
+  },
+  {
+    q: "How are you tracking statute-of-limitations deadlines?",
+    opts: [
+      {label:"Software calculates and flags automatically", pts:10, fix:null, leak:0},
+      {label:"Spreadsheet I update manually", pts:4, fix:"This is how SOLs get missed. Spreadsheets don't ping you when the date is approaching.", leak:0},
+      {label:"My case management has reminders", pts:7, fix:"Make sure the reminder fires 90 days, 30 days, and 7 days out. Many CMS defaults are too late.", leak:0},
+      {label:"In my head / paper calendar", pts:1, fix:"Highest malpractice risk in your firm. Move SOL tracking to software this week.", leak:0},
+      {label:"Honestly not sure", pts:0, fix:"Stop everything and audit your open files for SOL deadlines today. This is malpractice carrier territory.", leak:0}
+    ]
+  },
+  {
+    q: "How does your firm run conflict checks?",
+    opts: [
+      {label:"Automated — runs on every new lead before engagement", pts:10, fix:null, leak:0},
+      {label:"I check our case list manually before signing", pts:6, fix:"Works at low volume but breaks past ~10 cases/month. Conflicts with opposing parties get missed.", leak:0},
+      {label:"Only when something feels off", pts:2, fix:"ABA Model Rule 1.7 violation risk. Conflict checks are not optional.", leak:0},
+      {label:"Don't have a process", pts:0, fix:"Critical. Build a conflict check into your intake form today. Take any name + opposing party + insurer at minimum.", leak:0}
+    ]
+  },
+  {
+    q: "Engagement letters — how do you draft them?",
+    opts: [
+      {label:"Auto-generated from intake data, ready to send", pts:10, fix:null, leak:0},
+      {label:"Template I edit manually for each new client", pts:6, fix:"You're spending 20-30 minutes per case on something that should take 30 seconds.", leak:0},
+      {label:"From scratch each time", pts:2, fix:"This is the highest-leverage automation in your firm. Move to a template at minimum, AI auto-draft ideally.", leak:0},
+      {label:"Honestly, I send them late or not at all", pts:0, fix:"You're losing fees from unsigned retainers and creating malpractice exposure on undocumented representation.", leak:80000}
+    ]
+  },
+  {
+    q: "How many PI inquiries does your firm get per month?",
+    opts: [
+      {label:"Under 5", pts:5, fix:"Need more lead volume. Allocate 10 hours/week to lead gen — Google Business Profile, content, partnerships.", leak:0, mult:0.5},
+      {label:"5–15", pts:6, fix:null, leak:0, mult:1.0},
+      {label:"15–30", pts:7, fix:null, leak:0, mult:1.5},
+      {label:"30–60", pts:8, fix:null, leak:0, mult:2.0},
+      {label:"60+", pts:9, fix:null, leak:0, mult:3.0}
+    ]
+  },
+  {
+    q: "When was the last time you analyzed your intake-to-signed-retainer conversion rate?",
+    opts: [
+      {label:"I review monthly — I know our number", pts:10, fix:null, leak:0},
+      {label:"Looked at it once or twice this year", pts:5, fix:"You can't optimize what you don't measure. Set a monthly review of intake conversion.", leak:0},
+      {label:"Never tracked it", pts:0, fix:"You're flying blind. Most solo PI firms convert 8-15%. Anything under 25% is a fixable problem.", leak:60000}
+    ]
+  },
+  {
+    q: "Average case value at your firm?",
+    opts: [
+      {label:"Under $10K", pts:5, fix:null, leak:0, mult:0.5},
+      {label:"$10K–$25K", pts:6, fix:null, leak:0, mult:1.0},
+      {label:"$25K–$75K", pts:7, fix:null, leak:0, mult:2.0},
+      {label:"$75K+", pts:8, fix:null, leak:0, mult:3.5},
+      {label:"Mix — varies wildly", pts:6, fix:null, leak:0, mult:1.5}
+    ]
+  }
+];
+
+var state = {idx: 0, answers: [], started: false};
+var $ = function(id){return document.getElementById(id);};
+
+$("start").addEventListener("click", function(){
+  state.started = true;
+  $("intro").style.display = "none";
+  $("quiz").style.display = "block";
+  render();
+});
+
+function render() {
+  var q = QUESTIONS[state.idx];
+  $("qnum").textContent = "Question " + (state.idx+1) + " of " + QUESTIONS.length;
+  $("qtext").textContent = q.q;
+  $("bar").style.width = ((state.idx) / QUESTIONS.length * 100) + "%";
+  var opts = $("opts");
+  opts.innerHTML = "";
+  q.opts.forEach(function(opt, i){
+    var b = document.createElement("button");
+    b.className = "opt" + (state.answers[state.idx] === i ? " selected" : "");
+    b.textContent = opt.label;
+    b.addEventListener("click", function(){
+      state.answers[state.idx] = i;
+      Array.prototype.forEach.call(opts.children, function(c){c.classList.remove("selected");});
+      b.classList.add("selected");
+      $("next").disabled = false;
+    });
+    opts.appendChild(b);
+  });
+  $("next").disabled = state.answers[state.idx] === undefined;
+  $("back").style.visibility = state.idx === 0 ? "hidden" : "visible";
+  $("next").textContent = state.idx === QUESTIONS.length - 1 ? "See my score →" : "Next →";
+}
+
+$("next").addEventListener("click", function(){
+  if (state.idx < QUESTIONS.length - 1) { state.idx++; render(); } else { finish(); }
+});
+
+$("back").addEventListener("click", function(){
+  if (state.idx > 0) { state.idx--; render(); }
+});
+
+function finish() {
+  var totalPts = 0, maxPts = 0, leak = 0, fixes = [];
+  var mult = 1;
+  state.answers.forEach(function(answerIdx, qIdx){
+    var opt = QUESTIONS[qIdx].opts[answerIdx];
+    totalPts += opt.pts;
+    maxPts += Math.max.apply(null, QUESTIONS[qIdx].opts.map(function(o){return o.pts;}));
+    if (opt.leak) leak += opt.leak;
+    if (opt.mult !== undefined) mult *= opt.mult;
+    if (opt.fix) fixes.push({title: QUESTIONS[qIdx].q, fix: opt.fix, ok: false});
+  });
+  state.answers.forEach(function(answerIdx, qIdx){
+    var opt = QUESTIONS[qIdx].opts[answerIdx];
+    if (!opt.fix) fixes.push({title: QUESTIONS[qIdx].q, fix: "Already solid here. Keep doing this.", ok: true});
+  });
+  fixes.sort(function(a,b){
+    if (a.ok && !b.ok) return 1;
+    if (!a.ok && b.ok) return -1;
+    return 0;
+  });
+
+  var scorePct = Math.round((totalPts / maxPts) * 100);
+  var leakAdjusted = Math.round(leak * mult);
+
+  $("quiz").style.display = "none";
+  $("result").classList.add("show");
+  $("scoreNum").textContent = scorePct;
+  var grade, gradeDesc, heroClass;
+  if (scorePct >= 80) {
+    grade = "A — Locked in";
+    gradeDesc = "Your intake setup is in the top 10% of solo PI firms.";
+    heroClass = "green";
+  } else if (scorePct >= 60) {
+    grade = "B — Mostly working";
+    gradeDesc = "Solid foundation. A few high-leverage fixes will move the needle.";
+    heroClass = "amber";
+  } else if (scorePct >= 40) {
+    grade = "C — Leaking revenue";
+    gradeDesc = "Several gaps causing real lost revenue. Most are fixable in a week.";
+    heroClass = "amber";
+  } else {
+    grade = "D — Critical gaps";
+    gradeDesc = "Your firm is losing significant revenue and creating malpractice exposure. Address the red items this week.";
+    heroClass = "red";
+  }
+  $("hero").className = "score-hero " + heroClass;
+  $("grade").textContent = grade;
+  $("gradeDesc").textContent = gradeDesc;
+  $("leakNum").textContent = "$" + leakAdjusted.toLocaleString();
+  $("leakSub").textContent = "Estimate based on your inquiry volume, case value, and the gaps above. Industry-average solo PI metrics applied.";
+
+  var fbox = $("fixes"); fbox.innerHTML = "";
+  fixes.forEach(function(f){
+    var div = document.createElement("div");
+    div.className = "fix" + (f.ok ? " ok" : "");
+    div.innerHTML = '<div class="ftit"><span class="icon">' + (f.ok ? '✓' : '!') + '</span>' + f.title + '</div><div class="desc">' + f.fix + '</div>';
+    fbox.appendChild(div);
+  });
+
+  var shareText = encodeURIComponent("My solo PI firm scored " + scorePct + "/100 on the clientReady intake audit. Estimated revenue leak: $" + leakAdjusted.toLocaleString() + "/yr. Take it free:");
+  var shareUrl = "https://clientready.agency/audit";
+  $("shareTwitter").href = "https://twitter.com/intent/tweet?text=" + shareText + "&url=" + encodeURIComponent(shareUrl);
+  $("shareLinkedIn").href = "https://www.linkedin.com/sharing/share-offsite/?url=" + encodeURIComponent(shareUrl);
+  $("copyLink").addEventListener("click", function(){
+    navigator.clipboard.writeText(shareUrl).then(function(){
+      $("copyLink").textContent = "Copied ✓";
+      setTimeout(function(){ $("copyLink").textContent = "Copy link"; }, 2000);
+    });
+  });
+
+  if (typeof gtag === "function") gtag("event", "audit_completed", {score: scorePct, leak: leakAdjusted});
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+$("cap-submit").addEventListener("click", async function(){
+  var email = $("cap-email").value.trim();
+  var firm = $("cap-firm").value.trim();
+  var btn = this, msg = $("cap-msg");
+  if (!email || email.indexOf("@") < 0) {
+    msg.textContent = "Please enter a valid work email.";
+    msg.style.color = "var(--red)";
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = "Sending...";
+  msg.textContent = "Saving your audit...";
+  msg.style.color = "var(--mute)";
+
+  var payload = {
+    email: email,
+    firm: firm,
+    source: "intake-audit",
+    score: parseInt($("scoreNum").textContent, 10) || null,
+    grade: $("grade").textContent || "",
+    leak: parseInt(String($("leakNum").textContent).replace(/[^0-9]/g, ""), 10) || null,
+    answers: state.answers.map(function(idx, qIdx){
+      var q = QUESTIONS[qIdx];
+      return { q: q.q, answer: q.opts[idx].label, points: q.opts[idx].pts };
+    }),
+    fixes: Array.prototype.slice.call(document.querySelectorAll("#fixes .fix")).map(function(f){
+      return { title: (f.querySelector(".ftit") || {}).textContent || "", desc: (f.querySelector(".desc") || {}).textContent || "", ok: f.classList.contains("ok") };
+    }),
+    referrer: document.referrer || "",
+    url: location.href
+  };
+
+  try {
+    var r = await fetch("/api/lead-capture", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+    if (r.ok) {
+      $("capture").style.display = "none";
+      $("cta-thanks").style.display = "block";
+      window.scrollTo({ top: $("cta-thanks").offsetTop - 24, behavior: "smooth" });
+      if (typeof gtag === "function") gtag("event", "audit_lead_captured", {score: payload.score, leak: payload.leak});
+    } else {
+      var data = await r.json().catch(function(){ return {}; });
+      msg.textContent = "Couldn't save — " + (data.error || "try again in a moment.");
+      msg.style.color = "var(--red)";
+      btn.disabled = false;
+      btn.textContent = "Send me the fix list and trial access →";
+    }
+  } catch (e) {
+    msg.textContent = "Network error — please try again.";
+    msg.style.color = "var(--red)";
+    btn.disabled = false;
+    btn.textContent = "Send me the fix list and trial access →";
+  }
+});
+
+$("restart").addEventListener("click", function(){
+  state = {idx:0, answers:[], started:true};
+  $("result").classList.remove("show");
+  $("quiz").style.display = "block";
+  $("capture").style.display = "block";
+  $("cta-thanks").style.display = "none";
+  render();
+  window.scrollTo({top:0, behavior:"smooth"});
+});
+</script>
+</body>
+</html>
