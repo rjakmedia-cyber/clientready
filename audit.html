@@ -34,6 +34,8 @@ h1{font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;line-height:1.1;margi
 .btn.primary:disabled{background:#94A3B8;cursor:not-allowed}
 .btn.ghost{background:none;color:var(--mute)}
 .btn.ghost:hover{color:var(--ink)}
+
+/* Result page */
 .result{display:none}
 .result.show{display:block;animation:in .3s ease}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -114,19 +116,19 @@ h1{font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;line-height:1.1;margi
 
     <div id="capture" class="card" style="margin-top:18px;padding:24px">
       <h3 style="margin:0 0 6px;font-size:1.15rem">Want this run automatically on every new lead?</h3>
-      <p style="margin:0 0 14px;color:var(--mute);font-size:.92rem">Drop your work email below. We'll send you a personalized PDF version of these fixes plus a 14-day free trial of clientReady (no card required).</p>
+      <p style="margin:0 0 14px;color:var(--mute);font-size:.92rem">Drop your work email so we can follow up with firm-specific recommendations on how to plug the leak.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px">
         <input id="cap-email" type="email" placeholder="you@yourfirm.com" style="padding:12px 14px;border:1.5px solid var(--line);border-radius:9px;font-size:.95rem;font-family:inherit;background:#fff" required/>
         <input id="cap-firm" type="text" placeholder="Firm name" style="padding:12px 14px;border:1.5px solid var(--line);border-radius:9px;font-size:.95rem;font-family:inherit;background:#fff"/>
       </div>
-      <button class="btn primary" id="cap-submit" style="width:100%">Send me the fix list and trial access →</button>
+      <button class="btn primary" id="cap-submit" style="width:100%">Save my results →</button>
       <p id="cap-msg" style="font-size:.82rem;color:var(--mute);text-align:center;margin-top:10px">No card. ABA Rule 1.6 compliant. We delete your data on request.</p>
     </div>
 
     <div id="cta-thanks" class="cta-final" style="display:none">
-      <h3>You're in.</h3>
-      <p>Check your inbox. Your trial access link will arrive within 30 seconds.</p>
-      <a href="https://clientready.agency">Open clientReady →</a>
+      <h3>Saved.</h3>
+      <p>Your fix list is above. When you're ready to plug the leak, tap below to learn more about clientReady.</p>
+      <a href="https://clientready.agency">Open clientReady.agency →</a>
     </div>
 
     <div class="share">
@@ -147,85 +149,88 @@ h1{font-size:2.2rem;font-weight:800;letter-spacing:-0.02em;line-height:1.1;margi
 </div>
 
 <script>
+// 8 questions. Each option has a points value (0-10) and a "fix" string for the result page.
+// Negative-pointing answers contribute to revenue leak calculation.
 var QUESTIONS = [
   {
     q: "How fast does your firm reply to a new PI inquiry on average?",
     opts: [
-      {label:"Under 5 minutes — every time", pts:10, fix:null, leak:0},
-      {label:"15–30 minutes during business hours", pts:6, fix:"Get response time under 5 minutes. Velocify shows 21x lift in qualification rate vs. 30 min.", leak:60000},
-      {label:"1–4 hours", pts:3, fix:"Auto-responder on every form submission. Even a templated SMS within 60 seconds beats a perfect call 4 hours later.", leak:120000},
-      {label:"Same day, sometimes next day", pts:1, fix:"You're losing the lead before you call them. Industry data: 60% of solo PI leads sign with another firm within 14 minutes of submission.", leak:200000},
-      {label:"Honestly? Whenever I get to it", pts:0, fix:"Critical. Set up an instant auto-response today, even if it's a templated 'we got your message, calling within the hour'.", leak:300000}
+      {label:"Under 5 minutes — every time",     pts:10, fix:null,                                                                        leak:0},
+      {label:"15–30 minutes during business hours", pts:6,  fix:"Get response time under 5 minutes. Velocify shows 21x lift in qualification rate vs. 30 min.", leak:60000},
+      {label:"1–4 hours",                         pts:3,  fix:"Auto-responder on every form submission. Even a templated SMS within 60 seconds beats a perfect call 4 hours later.", leak:120000},
+      {label:"Same day, sometimes next day",      pts:1,  fix:"You're losing the lead before you call them. Industry data: 60% of solo PI leads sign with another firm within 14 minutes of submission.", leak:200000},
+      {label:"Honestly? Whenever I get to it",    pts:0,  fix:"Critical. Set up an instant auto-response today, even if it's a templated 'we got your message, calling within the hour'.", leak:300000}
     ]
   },
   {
     q: "Who answers after-hours / weekend PI calls?",
     opts: [
-      {label:"24/7 intake VA or service", pts:9, fix:null, leak:0},
-      {label:"Forwarded to my cell — I answer", pts:7, fix:"You'll burn out in 18 months. Layer in AI auto-screening so you only get called for the ones worth answering.", leak:30000},
-      {label:"Voicemail, callback Monday", pts:2, fix:"Saturday 9am is the highest-volume PI inquiry window. Monday callbacks lose ~80% of weekend leads.", leak:180000},
-      {label:"It just rings — no setup", pts:0, fix:"Critical. Even a free Twilio + auto-text setup will save you cases this month.", leak:240000}
+      {label:"24/7 intake VA or service",         pts:9, fix:null, leak:0},
+      {label:"Forwarded to my cell — I answer",   pts:7, fix:"You'll burn out in 18 months. Layer in AI auto-screening so you only get called for the ones worth answering.", leak:30000},
+      {label:"Voicemail, callback Monday",        pts:2, fix:"Saturday 9am is the highest-volume PI inquiry window. Monday callbacks lose ~80% of weekend leads.", leak:180000},
+      {label:"It just rings — no setup",          pts:0, fix:"Critical. Even a free Twilio + auto-text setup will save you cases this month.", leak:240000}
     ]
   },
   {
     q: "How are you tracking statute-of-limitations deadlines?",
     opts: [
       {label:"Software calculates and flags automatically", pts:10, fix:null, leak:0},
-      {label:"Spreadsheet I update manually", pts:4, fix:"This is how SOLs get missed. Spreadsheets don't ping you when the date is approaching.", leak:0},
-      {label:"My case management has reminders", pts:7, fix:"Make sure the reminder fires 90 days, 30 days, and 7 days out. Many CMS defaults are too late.", leak:0},
-      {label:"In my head / paper calendar", pts:1, fix:"Highest malpractice risk in your firm. Move SOL tracking to software this week.", leak:0},
-      {label:"Honestly not sure", pts:0, fix:"Stop everything and audit your open files for SOL deadlines today. This is malpractice carrier territory.", leak:0}
+      {label:"Spreadsheet I update manually",      pts:4, fix:"This is how SOLs get missed. Spreadsheets don't ping you when the date is approaching.", leak:0},
+      {label:"My case management has reminders",   pts:7, fix:"Make sure the reminder fires 90 days, 30 days, and 7 days out. Many CMS defaults are too late.", leak:0},
+      {label:"In my head / paper calendar",        pts:1, fix:"Highest malpractice risk in your firm. Move SOL tracking to software this week.", leak:0},
+      {label:"Honestly not sure",                  pts:0, fix:"Stop everything and audit your open files for SOL deadlines today. This is malpractice carrier territory.", leak:0}
     ]
   },
   {
     q: "How does your firm run conflict checks?",
     opts: [
       {label:"Automated — runs on every new lead before engagement", pts:10, fix:null, leak:0},
-      {label:"I check our case list manually before signing", pts:6, fix:"Works at low volume but breaks past ~10 cases/month. Conflicts with opposing parties get missed.", leak:0},
-      {label:"Only when something feels off", pts:2, fix:"ABA Model Rule 1.7 violation risk. Conflict checks are not optional.", leak:0},
-      {label:"Don't have a process", pts:0, fix:"Critical. Build a conflict check into your intake form today. Take any name + opposing party + insurer at minimum.", leak:0}
+      {label:"I check our case list manually before signing",        pts:6, fix:"Works at low volume but breaks past ~10 cases/month. Conflicts with opposing parties get missed.", leak:0},
+      {label:"Only when something feels off",                        pts:2, fix:"ABA Model Rule 1.7 violation risk. Conflict checks are not optional.", leak:0},
+      {label:"Don't have a process",                                 pts:0, fix:"Critical. Build a conflict check into your intake form today. Take any name + opposing party + insurer at minimum.", leak:0}
     ]
   },
   {
     q: "Engagement letters — how do you draft them?",
     opts: [
       {label:"Auto-generated from intake data, ready to send", pts:10, fix:null, leak:0},
-      {label:"Template I edit manually for each new client", pts:6, fix:"You're spending 20-30 minutes per case on something that should take 30 seconds.", leak:0},
-      {label:"From scratch each time", pts:2, fix:"This is the highest-leverage automation in your firm. Move to a template at minimum, AI auto-draft ideally.", leak:0},
-      {label:"Honestly, I send them late or not at all", pts:0, fix:"You're losing fees from unsigned retainers and creating malpractice exposure on undocumented representation.", leak:80000}
+      {label:"Template I edit manually for each new client",   pts:6, fix:"You're spending 20-30 minutes per case on something that should take 30 seconds.", leak:0},
+      {label:"From scratch each time",                         pts:2, fix:"This is the highest-leverage automation in your firm. Move to a template at minimum, AI auto-draft ideally.", leak:0},
+      {label:"Honestly, I send them late or not at all",       pts:0, fix:"You're losing fees from unsigned retainers and creating malpractice exposure on undocumented representation.", leak:80000}
     ]
   },
   {
     q: "How many PI inquiries does your firm get per month?",
     opts: [
-      {label:"Under 5", pts:5, fix:"Need more lead volume. Allocate 10 hours/week to lead gen — Google Business Profile, content, partnerships.", leak:0, mult:0.5},
-      {label:"5–15", pts:6, fix:null, leak:0, mult:1.0},
-      {label:"15–30", pts:7, fix:null, leak:0, mult:1.5},
-      {label:"30–60", pts:8, fix:null, leak:0, mult:2.0},
-      {label:"60+", pts:9, fix:null, leak:0, mult:3.0}
+      {label:"Under 5",     pts:5, fix:"Need more lead volume. Allocate 10 hours/week to lead gen — Google Business Profile, content, partnerships.", leak:0, mult:0.5},
+      {label:"5–15",        pts:6, fix:null, leak:0, mult:1.0},
+      {label:"15–30",       pts:7, fix:null, leak:0, mult:1.5},
+      {label:"30–60",       pts:8, fix:null, leak:0, mult:2.0},
+      {label:"60+",         pts:9, fix:null, leak:0, mult:3.0}
     ]
   },
   {
     q: "When was the last time you analyzed your intake-to-signed-retainer conversion rate?",
     opts: [
-      {label:"I review monthly — I know our number", pts:10, fix:null, leak:0},
-      {label:"Looked at it once or twice this year", pts:5, fix:"You can't optimize what you don't measure. Set a monthly review of intake conversion.", leak:0},
-      {label:"Never tracked it", pts:0, fix:"You're flying blind. Most solo PI firms convert 8-15%. Anything under 25% is a fixable problem.", leak:60000}
+      {label:"I review monthly — I know our number",   pts:10, fix:null, leak:0},
+      {label:"Looked at it once or twice this year",    pts:5, fix:"You can't optimize what you don't measure. Set a monthly review of intake conversion.", leak:0},
+      {label:"Never tracked it",                        pts:0, fix:"You're flying blind. Most solo PI firms convert 8-15%. Anything under 25% is a fixable problem.", leak:60000}
     ]
   },
   {
     q: "Average case value at your firm?",
     opts: [
-      {label:"Under $10K", pts:5, fix:null, leak:0, mult:0.5},
-      {label:"$10K–$25K", pts:6, fix:null, leak:0, mult:1.0},
-      {label:"$25K–$75K", pts:7, fix:null, leak:0, mult:2.0},
-      {label:"$75K+", pts:8, fix:null, leak:0, mult:3.5},
+      {label:"Under $10K",       pts:5, fix:null, leak:0, mult:0.5},
+      {label:"$10K–$25K",        pts:6, fix:null, leak:0, mult:1.0},
+      {label:"$25K–$75K",        pts:7, fix:null, leak:0, mult:2.0},
+      {label:"$75K+",            pts:8, fix:null, leak:0, mult:3.5},
       {label:"Mix — varies wildly", pts:6, fix:null, leak:0, mult:1.5}
     ]
   }
 ];
 
 var state = {idx: 0, answers: [], started: false};
+
 var $ = function(id){return document.getElementById(id);};
 
 $("start").addEventListener("click", function(){
@@ -260,7 +265,12 @@ function render() {
 }
 
 $("next").addEventListener("click", function(){
-  if (state.idx < QUESTIONS.length - 1) { state.idx++; render(); } else { finish(); }
+  if (state.idx < QUESTIONS.length - 1) {
+    state.idx++;
+    render();
+  } else {
+    finish();
+  }
 });
 
 $("back").addEventListener("click", function(){
@@ -268,7 +278,9 @@ $("back").addEventListener("click", function(){
 });
 
 function finish() {
-  var totalPts = 0, maxPts = 0, leak = 0, fixes = [];
+  // Calculate score
+  var totalPts = 0, maxPts = 0, leak = 0, multSum = 0, fixes = [];
+  // Default multiplier (volume × value) is 1
   var mult = 1;
   state.answers.forEach(function(answerIdx, qIdx){
     var opt = QUESTIONS[qIdx].opts[answerIdx];
@@ -278,10 +290,14 @@ function finish() {
     if (opt.mult !== undefined) mult *= opt.mult;
     if (opt.fix) fixes.push({title: QUESTIONS[qIdx].q, fix: opt.fix, ok: false});
   });
+  // Add ok answers (no fix needed) for psychology — show what they're doing right
   state.answers.forEach(function(answerIdx, qIdx){
     var opt = QUESTIONS[qIdx].opts[answerIdx];
-    if (!opt.fix) fixes.push({title: QUESTIONS[qIdx].q, fix: "Already solid here. Keep doing this.", ok: true});
+    if (!opt.fix) {
+      fixes.push({title: QUESTIONS[qIdx].q, fix: "Already solid here. Keep doing this.", ok: true});
+    }
   });
+  // Sort: fixes first (worst first), then ok items
   fixes.sort(function(a,b){
     if (a.ok && !b.ok) return 1;
     if (!a.ok && b.ok) return -1;
@@ -291,6 +307,7 @@ function finish() {
   var scorePct = Math.round((totalPts / maxPts) * 100);
   var leakAdjusted = Math.round(leak * mult);
 
+  // Render result
   $("quiz").style.display = "none";
   $("result").classList.add("show");
   $("scoreNum").textContent = scorePct;
@@ -326,6 +343,7 @@ function finish() {
     fbox.appendChild(div);
   });
 
+  // Wire share buttons
   var shareText = encodeURIComponent("My solo PI firm scored " + scorePct + "/100 on the clientReady intake audit. Estimated revenue leak: $" + leakAdjusted.toLocaleString() + "/yr. Take it free:");
   var shareUrl = "https://clientready.agency/audit";
   $("shareTwitter").href = "https://twitter.com/intent/tweet?text=" + shareText + "&url=" + encodeURIComponent(shareUrl);
@@ -337,10 +355,14 @@ function finish() {
     });
   });
 
-  if (typeof gtag === "function") gtag("event", "audit_completed", {score: scorePct, leak: leakAdjusted});
+  if (typeof gtag === "function") {
+    gtag("event", "audit_completed", {score: scorePct, leak: leakAdjusted});
+  }
+
   window.scrollTo({top:0, behavior:"smooth"});
 }
 
+// Email capture submission — POSTs to /api/lead-capture
 $("cap-submit").addEventListener("click", async function(){
   var email = $("cap-email").value.trim();
   var firm = $("cap-firm").value.trim();
@@ -355,6 +377,7 @@ $("cap-submit").addEventListener("click", async function(){
   msg.textContent = "Saving your audit...";
   msg.style.color = "var(--mute)";
 
+  // Compose payload with full audit context for the CRM
   var payload = {
     email: email,
     firm: firm,
@@ -389,13 +412,13 @@ $("cap-submit").addEventListener("click", async function(){
       msg.textContent = "Couldn't save — " + (data.error || "try again in a moment.");
       msg.style.color = "var(--red)";
       btn.disabled = false;
-      btn.textContent = "Send me the fix list and trial access →";
+      btn.textContent = "Save my results →";
     }
   } catch (e) {
     msg.textContent = "Network error — please try again.";
     msg.style.color = "var(--red)";
     btn.disabled = false;
-    btn.textContent = "Send me the fix list and trial access →";
+    btn.textContent = "Save my results →";
   }
 });
 
