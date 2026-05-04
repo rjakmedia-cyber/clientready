@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Audit Leads · clientReady Admin</title>
+<style>
+:root{color-scheme:light;--blue:#2563EB;--ink:#0F172A;--mute:#64748B;--bg:#F8FAFC;--card:#FFFFFF;--line:#E2E8F0;--red:#DC2626;--amber:#D97706;--green:#16A34A}
+*{box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,"Inter",Arial,sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.5}
+.wrap{max-width:1280px;margin:0 auto;padding:32px 24px 80px}
+.head{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:16px}
+.brand{font-weight:900;letter-spacing:-0.02em;font-size:1.2rem}.brand .b1{color:#000}.brand .b2{color:var(--blue)}
+h1{font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin:0}
+.sub{color:var(--mute);font-size:.95rem;margin-top:4px}
+.gate{max-width:420px;margin:120px auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:32px}
+.gate h2{margin:0 0 8px;font-size:1.3rem}
+.gate p{color:var(--mute);font-size:.9rem;margin:0 0 18px}
+input{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;font-size:.95rem;font-family:inherit}
+input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+button{padding:12px 22px;border:none;border-radius:9px;font-size:.95rem;font-weight:700;cursor:pointer;font-family:inherit;background:var(--blue);color:#fff;width:100%;margin-top:12px}
+button:hover{background:#1D4ED8}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px}
+.stat .l{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;color:var(--mute);margin-bottom:6px}
+.stat .v{font-size:1.6rem;font-weight:800;letter-spacing:-0.02em}
+.stat.ok .v{color:var(--green)}.stat.warn .v{color:var(--amber)}.stat.bad .v{color:var(--red)}
+.controls{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.controls input{flex:1;min-width:200px}
+.controls select{padding:10px 14px;border:1px solid var(--line);border-radius:9px;font-size:.92rem;font-family:inherit;background:#fff}
+table{width:100%;background:var(--card);border:1px solid var(--line);border-radius:12px;border-collapse:separate;border-spacing:0;overflow:hidden;font-size:.9rem}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+th{background:#F1F5F9;font-weight:700;text-transform:uppercase;font-size:.72rem;letter-spacing:.06em;color:var(--mute);cursor:pointer;user-select:none}
+th:hover{color:var(--ink)}
+tr:last-child td{border-bottom:none}
+tr:hover{background:#F8FAFC}
+.score{font-weight:800;display:inline-flex;align-items:center;justify-content:center;width:48px;height:32px;border-radius:6px;font-size:.85rem}
+.s-green{background:#DCFCE7;color:#166534}
+.s-amber{background:#FEF3C7;color:#92400E}
+.s-red{background:#FEE2E2;color:#991B1B}
+.leak{font-weight:700;color:var(--red)}
+.email{color:var(--blue);text-decoration:none}.email:hover{text-decoration:underline}
+.empty{text-align:center;padding:60px 20px;color:var(--mute)}
+.refresh{background:none;border:1px solid var(--line);color:var(--ink);width:auto;padding:8px 16px;font-size:.85rem}
+.refresh:hover{background:#F1F5F9}
+.note{background:#FEF3C7;border:1px solid #FDE68A;color:#78350F;padding:14px 18px;border-radius:10px;margin-bottom:24px;font-size:.88rem}
+.expand{cursor:pointer;color:var(--blue);font-size:.82rem;font-weight:600}
+.detail{background:#F8FAFC;padding:14px;border-radius:8px;margin-top:8px;font-size:.85rem;white-space:pre-wrap}
+</style>
+</head>
+<body>
+
+<div id="gate" class="gate">
+  <div class="brand"><span class="b1">CLIENT</span><span class="b2">READY</span> Admin</div>
+  <h2 style="margin-top:18px">Enter admin key</h2>
+  <p>This dashboard is gated by the ADMIN_KEY environment variable on Vercel.</p>
+  <input id="key-input" type="password" placeholder="Admin key" autofocus/>
+  <button id="enter-btn">Open dashboard</button>
+  <p id="gate-err" style="color:var(--red);margin-top:12px;display:none"></p>
+</div>
+
+<div id="app" class="wrap" style="display:none">
+  <div class="head">
+    <div>
+      <div class="brand"><span class="b1">CLIENT</span><span class="b2">READY</span> Admin</div>
+      <h1>Audit Leads</h1>
+      <div class="sub">Submissions from the intake audit at <code>clientready.agency/audit</code></div>
+    </div>
+    <button class="refresh" id="refresh-btn">Refresh</button>
+  </div>
+
+  <div id="setup-note" class="note" style="display:none"></div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input id="filter" type="text" placeholder="Filter by email or firm..."/>
+    <select id="grade-filter">
+      <option value="">All grades</option>
+      <option value="A">A — Locked in</option>
+      <option value="B">B — Mostly working</option>
+      <option value="C">C — Leaking revenue</option>
+      <option value="D">D — Critical gaps</option>
+    </select>
+  </div>
+
+  <table id="leads-table">
+    <thead>
+      <tr>
+        <th data-sort="createdAt">Date</th>
+        <th data-sort="firm">Firm</th>
+        <th data-sort="email">Email</th>
+        <th data-sort="score">Score</th>
+        <th data-sort="grade">Grade</th>
+        <th data-sort="leak">Est. Leak</th>
+        <th data-sort="source">Source</th>
+        <th>Details</th>
+      </tr>
+    </thead>
+    <tbody id="leads-body"></tbody>
+  </table>
+
+  <div id="empty" class="empty" style="display:none">No leads yet. The first audit submission will appear here within seconds.</div>
+</div>
+
+TEST
+LINE2
+LINE3<script>
+var $ = function(id){return document.getElementById(id);};
+var ADMIN_KEY = "";
+var ALL_LEADS = [];
+var SORT_BY = "createdAt";
+var SORT_DESC = true;
+
+var saved = localStorage.getItem("cr_admin_key");
+if (saved) { $("key-input").value = saved; }
+
+$("enter-btn").addEventListener("click", function(){ tryAuth(); });
+$("key-input").addEventListener("keydown", function(e){ if(e.key==="Enter") tryAuth(); });
+$("refresh-btn").addEventListener("click", function(){ load(); });
+$("filter").addEventListener("input", render);
+$("grade-filter").addEventListener("change", render);
+
+document.querySelectorAll("th[data-sort]").forEach(function(th){
+  th.addEventListener("click", function(){
+    var k = th.getAttribute("data-sort");
+    if (SORT_BY === k) SORT_DESC = !SORT_DESC;
+    else { SORT_BY = k; SORT_DESC = true; }
+    render();
+  });
+});
+
+function tryAuth(){
+  ADMIN_KEY = $("key-input").value.trim();
+  if (!ADMIN_KEY) return;
+  load(true);
+}
+
+function load(firstAuth){
+  fetch("/api/leads?key=" + encodeURIComponent(ADMIN_KEY))
+    .then(function(r){ return r.json().then(function(d){ return {ok: r.ok, status: r.status, data: d}; }); })
+    .then(function(res){
+      if (res.status === 403) {
+        if (firstAuth) {
+          $("gate-err").textContent = "Invalid key.";
+          $("gate-err").style.display = "block";
+        }
+        return;
+      }
+      localStorage.setItem("cr_admin_key", ADMIN_KEY);
+      $("gate").style.display = "none";
+      $("app").style.display = "block";
+      ALL_LEADS = res.data.leads || [];
+      if (res.data.note) {
+        $("setup-note").style.display = "block";
+        $("setup-note").innerHTML = "<strong>Heads up:</strong> " + res.data.note;
+      } else {
+        $("setup-note").style.display = "none";
+      }
+      render();
+    })
+    .catch(function(e){
+      $("gate-err").textContent = "Error: " + e.message;
+      $("gate-err").style.display = "block";
+    });
+}
+
+function render(){
+  var q = $("filter").value.trim().toLowerCase();
+  var grade = $("grade-filter").value;
+  var rows = ALL_LEADS.filter(function(l){
+    if (q) {
+      var hay = ((l.email||"")+" "+(l.firm||"")).toLowerCase();
+      if (hay.indexOf(q) < 0) return false;
+    }
+    if (grade) {
+      var g = (l.grade||"").charAt(0);
+      if (g !== grade) return false;
+    }
+    return true;
+  });
+  rows.sort(function(a,b){
+    var av = a[SORT_BY], bv = b[SORT_BY];
+    if (av == null) av = "";
+    if (bv == null) bv = "";
+    if (typeof av === "number" && typeof bv === "number") return SORT_DESC ? bv-av : av-bv;
+    return SORT_DESC ? String(bv).localeCompare(String(av)) : String(av).localeCompare(String(bv));
+  });
+
+  var totalLeak = rows.reduce(function(s,l){ return s + (l.leak||0); }, 0);
+  var avgScore = rows.length ? Math.round(rows.reduce(function(s,l){ return s + (l.score||0); }, 0) / rows.length) : 0;
+  var dGrades = rows.filter(function(l){ return (l.grade||"").charAt(0) === "D"; }).length;
+  var statsHTML = "";
+  statsHTML += '<div class="stat"><div class="l">Total Leads</div><div class="v">'+rows.length+'</div></div>';
+  statsHTML += '<div class="stat ok"><div class="l">Avg Score</div><div class="v">'+avgScore+'/100</div></div>';
+  statsHTML += '<div class="stat bad"><div class="l">Total Est. Leak</div><div class="v">$'+totalLeak.toLocaleString()+'</div></div>';
+  statsHTML += '<div class="stat warn"><div class="l">Critical (D)</div><div class="v">'+dGrades+'</div></div>';
+  $("stats").innerHTML = statsHTML;
+
+  var html = "";
+  rows.forEach(function(l, i){
+    var d = l.createdAt ? new Date(l.createdAt).toLocaleString() : "—";
+    var sCls = "s-amber";
+    if (l.score >= 80) sCls = "s-green";
+    else if (l.score < 40) sCls = "s-red";
+    html += '<tr>';
+    html += '<td>'+d+'</td>';
+    html += '<td>'+(l.firm||'—')+'</td>';
+    html += '<td><a class="email" href="mailto:'+l.email+'">'+l.email+'</a></td>';
+    html += '<td><span class="score '+sCls+'">'+(l.score!=null?l.score:'—')+'</span></td>';
+    html += '<td>'+(l.grade||'—')+'</td>';
+    html += '<td class="leak">'+(l.leak?'$'+l.leak.toLocaleString():'—')+'</td>';
+    html += '<td>'+(l.source||'audit')+'</td>';
+    html += '<td><span class="expand" data-i="'+i+'">View</span></td>';
+    html += '</tr>';
+    html += '<tr id="d-'+i+'" style="display:none"><td colspan="8"><div class="detail">'+escapeHtml(JSON.stringify(l, null, 2))+'</div></td></tr>';
+  });
+  $("leads-body").innerHTML = html;
+  $("empty").style.display = rows.length ? "none" : "block";
+
+  document.querySelectorAll(".expand").forEach(function(s){
+    s.addEventListener("click", function(){
+      var i = s.getAttribute("data-i");
+      var row = $("d-"+i);
+      row.style.display = row.style.display === "none" ? "table-row" : "none";
+    });
+  });
+}
+
+function escapeHtml(s){
+  return s.replace(/[&<>"']/g, function(m){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m];
+  });
+}
+
+if (saved) tryAuth();
+</script>
+</body>
+</html>
