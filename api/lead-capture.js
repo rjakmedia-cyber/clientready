@@ -1,9 +1,22 @@
-// Vercel serverless function — captures audit submissions into Vercel KV
+// Vercel serverless function — captures audit submissions into Redis (Vercel Marketplace)
 // File path in repo: /api/lead-capture.js
-// Setup: Vercel Dashboard → Storage → Create KV → Connect to clientready project
+// Requires REDIS_URL env var (auto-injected by the Vercel Marketplace Redis integration)
 
-export default async function handler(req, res) {
-  // CORS for safety
+const Redis = require('ioredis');
+
+let redis = null;
+function getRedis() {
+  if (!redis && process.env.REDIS_URL) {
+    redis = new Redis(process.env.REDIS_URL, {
+      maxRetriesPerRequest: 3,
+      enableReadyCheck: false,
+      lazyConnect: false
+    });
+  }
+  return redis;
+}
+
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -32,14 +45,18 @@ export default async function handler(req, res) {
     createdAt: new Date().toISOString()
   };
 
-  // Try Vercel KV
+  // Persist to Redis
   try {
-    const { kv } = await import('@vercel/kv');
-    await kv.lpush('audit_leads', JSON.stringify(lead));
-    await kv.incr('audit_leads_count');
+    const r = getRedis();
+    if (r) {
+      await r.lpush('audit_leads', JSON.stringify(lead));
+      await r.incr('audit_leads_count');
+    } else {
+      console.log('AUDIT_LEAD (no Redis):', JSON.stringify(lead));
+    }
   } catch (e) {
-    // Fallback: log to Vercel Function logs so the lead is at least captured
-    console.log('AUDIT_LEAD:', JSON.stringify(lead));
+    console.error('Redis write failed:', e.message);
+    console.log('AUDIT_LEAD (fallback):', JSON.stringify(lead));
   }
 
   // Optional: send notification email via Resend if RESEND_API_KEY is set
@@ -69,4 +86,4 @@ export default async function handler(req, res) {
   }
 
   return res.status(200).json({ success: true, id: lead.id });
-}
+};
