@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Live Workshop — How B2B Companies Are Booking 10+ Qualified Meetings/Month Without SDRs</title>
+<meta name="description" content="Free 60-min live workshop. I'll mystery-shop 3 attendee businesses live, show you their actual pipeline gap, and walk through the system that fixes it.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0A0F;--card:rgba(255,255,255,0.03);--card-border:rgba(255,255,255,0.08);--text:#F5F5F7;--text-mute:#8B8B98;--text-dim:#5C5C6E;--accent:#6366F1;--accent-2:#8B5CF6;--accent-3:#EC4899;--green:#10B981}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.bg-grid{position:fixed;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.15), transparent),radial-gradient(ellipse 60% 50% at 80% 20%, rgba(236,72,153,0.08), transparent),radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);background-size:100% 100%, 100% 100%, 32px 32px;pointer-events:none;z-index:0}
+.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(10,10,15,0.7);border-bottom:1px solid rgba(255,255,255,0.06);padding:18px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:800;font-size:1.15rem;letter-spacing:-0.02em;display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent-3));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;color:#fff}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{color:var(--text-mute);text-decoration:none;font-size:.92rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;border-radius:10px;font-size:.95rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
+.btn-large{padding:16px 32px;font-size:1rem}
+.btn-arrow::after{content:"→";transition:transform .2s}
+.btn-arrow:hover::after{transform:translateX(3px)}
+
+.hero{padding:80px 0 60px;text-align:center}
+.live-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.3);border-radius:99px;font-size:.85rem;font-weight:600;color:#F472B6;margin-bottom:28px;text-transform:uppercase;letter-spacing:.06em}
+.live-tag .dot{width:8px;height:8px;border-radius:50%;background:#EC4899;box-shadow:0 0 14px #EC4899;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(0.85)}}
+h1{font-size:clamp(2.2rem,5.5vw,4rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:24px;background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+h1 .accent{background:linear-gradient(135deg,var(--accent) 0%,var(--accent-3) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lede{font-size:clamp(1.05rem,2vw,1.25rem);color:var(--text-mute);max-width:720px;margin:0 auto 40px;line-height:1.55}
+
+.event-card{background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(236,72,153,0.06));border:1px solid rgba(99,102,241,0.25);border-radius:18px;padding:28px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;text-align:left;max-width:760px;margin:0 auto 40px}
+.event-cell .label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:#A5A5F1;font-weight:700;margin-bottom:6px}
+.event-cell .val{font-size:1rem;color:var(--text);font-weight:600;line-height:1.4}
+@media(max-width:640px){.event-card{grid-template-columns:1fr;text-align:center}}
+
+.signup-section{padding:0 0 100px}
+.signup-form{max-width:520px;margin:0 auto;background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:36px}
+.signup-form h3{font-size:1.3rem;font-weight:700;text-align:center;margin-bottom:8px}
+.signup-form p{font-size:.92rem;color:var(--text-mute);text-align:center;margin-bottom:24px}
+.signup-form input{width:100%;padding:13px 16px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-size:.95rem;font-family:inherit;margin-bottom:12px;transition:border-color .2s}
+.signup-form input:focus{outline:none;border-color:var(--accent)}
+.signup-form button{width:100%;margin-top:6px}
+.signup-form .small{font-size:.78rem;color:var(--text-dim);text-align:center;margin-top:14px;margin-bottom:0}
+
+section{padding:80px 0;position:relative;z-index:1}
+.section-tag{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600;color:var(--accent);margin-bottom:14px;text-align:center}
+.section-title{font-size:clamp(1.6rem,3.5vw,2.6rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:18px;line-height:1.15;text-align:center}
+.section-subtitle{font-size:1.02rem;color:var(--text-mute);max-width:620px;margin:0 auto 56px;line-height:1.55;text-align:center}
+
+.agenda{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:880px;margin:0 auto}
+.agenda-item{display:flex;gap:18px;padding:22px;background:var(--card);border:1px solid var(--card-border);border-radius:14px;align-items:flex-start}
+.agenda-time{font-family:monospace;font-size:.85rem;color:var(--accent);font-weight:600;background:rgba(99,102,241,0.1);padding:5px 10px;border-radius:6px;flex-shrink:0;align-self:flex-start;white-space:nowrap}
+.agenda-content h4{font-size:1rem;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em}
+.agenda-content p{font-size:.9rem;color:var(--text-mute);line-height:1.55}
+@media(max-width:768px){.agenda{grid-template-columns:1fr}}
+
+.fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:880px;margin:0 auto}
+.fit-card{padding:28px;border-radius:14px}
+.fit-card.yes{background:rgba(16,185,129,0.06);border:1px solid rgba(16,185,129,0.2)}
+.fit-card.no{background:rgba(255,255,255,0.02);border:1px solid var(--card-border)}
+.fit-card h4{font-size:.9rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+.fit-card.yes h4{color:#34D399}
+.fit-card.no h4{color:var(--text-dim)}
+.fit-card ul{list-style:none;padding:0}
+.fit-card li{font-size:.95rem;padding:8px 0 8px 26px;position:relative;line-height:1.5}
+.fit-card.yes li{color:var(--text)}
+.fit-card.no li{color:var(--text-mute)}
+.fit-card.yes li::before{content:"✓";position:absolute;left:0;color:#34D399;font-weight:700}
+.fit-card.no li::before{content:"✕";position:absolute;left:0;color:var(--text-dim);font-weight:700}
+@media(max-width:768px){.fit-grid{grid-template-columns:1fr}}
+
+.cta-final{padding:80px 0;text-align:center}
+.cta-final h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:18px;max-width:620px;margin-left:auto;margin-right:auto;line-height:1.2}
+.cta-final p{color:var(--text-mute);font-size:1rem;margin-bottom:32px;max-width:540px;margin-left:auto;margin-right:auto}
+.spots-bar{display:inline-flex;align-items:center;gap:10px;padding:8px 18px;background:rgba(236,72,153,0.08);border:1px solid rgba(236,72,153,0.2);border-radius:99px;font-size:.82rem;color:#F472B6;font-weight:600;margin-bottom:24px}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:32px 0;text-align:center;font-size:.85rem;color:var(--text-dim)}
+@media(max-width:768px){.nav-links a:not(.btn){display:none}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-mark">cR</span>
+      <span>clientReady</span>
+    </a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/workshop.html">Workshop</a>
+      <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Call</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="live-tag">
+      <span class="dot"></span>
+      <span>Live · Free · 60 minutes</span>
+    </div>
+    <h1>How B2B Companies Are Booking <span class="accent">10+ Qualified Meetings</span> Without SDRs.</h1>
+    <p class="lede">In 60 minutes, I'll mystery-shop 3 attendee businesses live on the call. You'll see exactly where their pipeline is leaking, what the fix looks like, and the system we use to book qualified meetings every month — without hiring SDRs or spending on ads.</p>
+
+    <div class="event-card">
+      <div class="event-cell">
+        <div class="label">When</div>
+        <div class="val">Friday<br>1:00 PM ET</div>
+      </div>
+      <div class="event-cell">
+        <div class="label">Where</div>
+        <div class="val">Live on Zoom<br><span style="color:var(--text-mute);font-size:.88rem;font-weight:500">Link sent on signup</span></div>
+      </div>
+      <div class="event-cell">
+        <div class="label">Cost</div>
+        <div class="val">Free<br><span style="color:var(--text-mute);font-size:.88rem;font-weight:500">No upsell, no funnel BS</span></div>
+      </div>
+    </div>
+
+    <a href="#signup" class="btn btn-primary btn-arrow btn-large">Reserve Your Seat</a>
+  </div>
+</header>
+
+<section id="agenda">
+  <div class="container">
+    <div class="section-tag">What we'll cover</div>
+    <h2 class="section-title">60 minutes. No fluff. Real systems.</h2>
+    <p class="section-subtitle">If you're running a B2B SaaS, agency, or professional service and your pipeline currently depends on referrals + ads + hope, this is for you.</p>
+
+    <div class="agenda">
+      <div class="agenda-item">
+        <div class="agenda-time">0:00–10:00</div>
+        <div class="agenda-content">
+          <h4>The 3 reasons your outbound isn't working</h4>
+          <p>Bad lists, bad copy, bad infrastructure. We'll dig into which one is killing your numbers and how to diagnose it in 5 minutes.</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-time">10:00–25:00</div>
+        <div class="agenda-content">
+          <h4>Live mystery shop: 3 attendee businesses</h4>
+          <p>Sign up + pre-submit your domain. I pick 3 at random. We'll dissect their pipeline funnel live on the call. You'll see the exact gap.</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-time">25:00–40:00</div>
+        <div class="agenda-content">
+          <h4>The 6-pillar pipeline infrastructure</h4>
+          <p>Targeting, AI personalization, deliverability, dashboard, multichannel, founder-led strategy. How each piece works and how they stack.</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="agenda-time">40:00–55:00</div>
+        <div class="agenda-content">
+          <h4>Live Q&A</h4>
+          <p>Bring your hardest question. I'll answer in real time. No script.</p>
+        </div>
+      </div>
+      <div class="agenda-item" style="grid-column:span 2">
+        <div class="agenda-time">55:00–60:00</div>
+        <div class="agenda-content">
+          <h4>Optional: cohort offer (only if relevant for you)</h4>
+          <p>For attendees who want to bring this in-house — I'll share the cohort details. First 10 spots only. 4 already taken. If you're not ready, skip it. The workshop's the workshop either way.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="for">
+  <div class="container">
+    <div class="section-tag">Who this is for</div>
+    <h2 class="section-title">Built for operators with real revenue.</h2>
+    <p class="section-subtitle">This isn't an "intro to outbound" workshop. We assume you've sent cold emails before — and you want to know why your version isn't working.</p>
+
+    <div class="fit-grid">
+      <div class="fit-card yes">
+        <h4>You should attend if</h4>
+        <ul>
+          <li>You run a B2B SaaS, agency, or professional service</li>
+          <li>You're doing $500k+ annual revenue</li>
+          <li>You've tried cold outreach and it didn't scale</li>
+          <li>You currently spend on lead gen / ads / SDRs</li>
+          <li>You want predictable pipeline, not luck</li>
+        </ul>
+      </div>
+      <div class="fit-card no">
+        <h4>Skip this if</h4>
+        <ul>
+          <li>You sell B2C / consumer products</li>
+          <li>Your average customer LTV is under $5k</li>
+          <li>You're pre-revenue / pre-product</li>
+          <li>You want a free template to copy</li>
+          <li>You're a competitor "doing research"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="signup" class="signup-section">
+  <div class="container">
+    <div class="signup-form">
+      <h3>Reserve Your Seat</h3>
+      <p>Recording sent only to attendees. No spam, ever.</p>
+      <form id="form-signup" action="/api/lead-capture" method="POST">
+        <input type="hidden" name="source" value="workshop">
+        <input type="text" name="firm" placeholder="Your company" required>
+        <input type="text" name="name" placeholder="Your name" required>
+        <input type="email" name="email" placeholder="Work email" required>
+        <input type="text" name="domain" placeholder="Your website (so we can mystery-shop you)">
+        <button type="submit" class="btn btn-primary btn-arrow btn-large" style="width:100%">Reserve My Seat</button>
+        <p class="small">By signing up you agree to receive the Zoom link + 1 reminder.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final">
+  <div class="container">
+    <div class="spots-bar">
+      <span style="width:6px;height:6px;border-radius:50%;background:#EC4899;display:inline-block;animation:pulse 2s infinite"></span>
+      Limited to 50 attendees · seats fill fast
+    </div>
+    <h2>Stop guessing. Start building.</h2>
+    <p>If your pipeline currently depends on luck, you're one workshop away from making it depend on a system instead.</p>
+    <a href="#signup" class="btn btn-primary btn-arrow btn-large">Reserve Your Seat</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 clientReady · <a href="mailto:rich@clientready.agency" style="color:var(--text-mute)">rich@clientready.agency</a> · <a href="/" style="color:var(--text-mute)">Home</a></p>
+  </div>
+</footer>
+
+<script>
+// Signup form: hits the existing /api/lead-capture (already wired to Redis)
+document.getElementById('form-signup').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const data = {
+    email: form.email.value,
+    firm: form.firm.value,
+    name: form.name.value,
+    domain: form.domain.value,
+    source: 'workshop'
+  };
+  const btn = form.querySelector('button');
+  btn.disabled = true;
+  btn.textContent = 'Reserving...';
+
+  try {
+    const r = await fetch('/api/lead-capture', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(data)
+    });
+    if (r.ok) {
+      form.innerHTML = `
+        <div style="text-align:center;padding:32px 0">
+          <div style="width:64px;height:64px;border-radius:50%;background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:1.8rem">✓</div>
+          <h3 style="font-size:1.3rem;margin-bottom:10px">You're in.</h3>
+          <p style="color:var(--text-mute);margin-bottom:20px">Zoom link sent to ${data.email}. Check your inbox.</p>
+          <p style="font-size:.85rem;color:var(--text-dim)">Add to calendar — Friday 1pm ET. See you there.</p>
+        </div>
+      `;
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Reserve My Seat';
+      alert('Hmm, something glitched. Try again or email rich@clientready.agency directly.');
+    }
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Reserve My Seat';
+    alert('Network error — try again.');
+  }
+});
+</script>
+</body>
+</html>
