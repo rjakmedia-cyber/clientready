@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — clientReady Outbound Sales Engine</title>
+<meta name="description" content="The 6 pillars of our done-for-you outbound system. Targeting, AI personalization, deliverability infrastructure, dashboards, multichannel, founder-led strategy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0A0F;--card:rgba(255,255,255,0.03);--card-border:rgba(255,255,255,0.08);--text:#F5F5F7;--text-mute:#8B8B98;--text-dim:#5C5C6E;--accent:#6366F1;--accent-2:#8B5CF6;--accent-3:#EC4899;--green:#10B981}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.bg-grid{position:fixed;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.15), transparent),radial-gradient(ellipse 60% 50% at 80% 20%, rgba(236,72,153,0.08), transparent),radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);background-size:100% 100%, 100% 100%, 32px 32px;pointer-events:none;z-index:0}
+.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(10,10,15,0.7);border-bottom:1px solid rgba(255,255,255,0.06);padding:18px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:800;font-size:1.15rem;letter-spacing:-0.02em;display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent-3));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;color:#fff}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{color:var(--text-mute);text-decoration:none;font-size:.92rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:10px;font-size:.92rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
+.btn-arrow::after{content:"→";transition:transform .2s}
+.btn-arrow:hover::after{transform:translateX(3px)}
+
+.hero{padding:80px 0 40px;text-align:center}
+.section-tag{font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600;color:var(--accent);margin-bottom:14px}
+h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:20px;background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.lede{font-size:clamp(1.05rem,2vw,1.2rem);color:var(--text-mute);max-width:680px;margin:0 auto;line-height:1.55}
+
+.pillar{padding:64px 0;border-top:1px solid rgba(255,255,255,0.05)}
+.pillar:first-of-type{border-top:none}
+.pillar-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.pillar:nth-child(even) .pillar-grid{direction:rtl}
+.pillar:nth-child(even) .pillar-grid > *{direction:ltr}
+.pillar-num{display:inline-flex;align-items:center;gap:10px;font-size:.85rem;color:var(--accent);font-weight:600;margin-bottom:14px;letter-spacing:.04em;text-transform:uppercase}
+.pillar-num span{font-family:monospace;color:var(--text-dim)}
+.pillar h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.02em;line-height:1.2;margin-bottom:16px}
+.pillar p{color:var(--text-mute);font-size:1rem;line-height:1.65;margin-bottom:18px}
+.pillar ul{list-style:none;padding:0;margin-bottom:0}
+.pillar ul li{font-size:.95rem;color:var(--text);padding:8px 0 8px 24px;position:relative}
+.pillar ul li::before{content:"";position:absolute;left:0;top:16px;width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-3))}
+
+.visual{background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:32px;min-height:300px;position:relative;overflow:hidden}
+.visual::before{content:"";position:absolute;top:-50%;right:-30%;width:150%;height:200%;background:radial-gradient(ellipse at center, rgba(99,102,241,0.12), transparent 50%);pointer-events:none}
+.visual-content{position:relative;z-index:1}
+.viz-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.12em;color:var(--text-dim);margin-bottom:12px;font-weight:600}
+
+/* Visual: Targeting */
+.target-list{display:flex;flex-direction:column;gap:8px}
+.target-row{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;font-size:.85rem}
+.target-row .name{color:var(--text);flex:1;font-weight:500}
+.target-row .meta{color:var(--text-dim);font-size:.78rem}
+.target-row .badge{padding:2px 8px;background:rgba(16,185,129,0.15);color:#34D399;border-radius:4px;font-size:.7rem;font-weight:600}
+
+/* Visual: AI */
+.email-preview{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:18px;font-size:.85rem;line-height:1.55}
+.email-preview .subj{color:var(--text);font-weight:600;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,0.06)}
+.email-preview .body{color:var(--text-mute)}
+.email-preview .body .highlight{background:rgba(99,102,241,0.18);color:var(--text);padding:1px 4px;border-radius:3px}
+
+/* Visual: Deliverability */
+.health-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.health-cell{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;padding:14px;text-align:center}
+.health-cell .label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text-dim);margin-bottom:6px}
+.health-cell .val{font-size:1.4rem;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent-3));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.health-cell .sub{font-size:.7rem;color:#34D399;margin-top:4px;font-weight:600}
+
+/* Visual: Dashboard */
+.dash{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:18px}
+.dash-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:.85rem}
+.dash-row:last-child{border-bottom:none}
+.dash-row .left{color:var(--text-mute)}
+.dash-row .right{color:var(--text);font-weight:600}
+.dash-row .pos{color:#34D399}
+
+/* Visual: Multichannel */
+.flow{display:flex;flex-direction:column;gap:8px}
+.flow-step{display:flex;align-items:center;gap:12px;padding:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;font-size:.85rem}
+.flow-icon{width:32px;height:32px;background:rgba(99,102,241,0.12);border:1px solid rgba(99,102,241,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.flow-step .label{flex:1;color:var(--text);font-weight:500}
+.flow-step .day{color:var(--text-dim);font-size:.75rem;font-family:monospace}
+
+/* Visual: Founder */
+.contact-card{background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:20px;display:flex;align-items:center;gap:16px}
+.contact-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-3));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem;color:#fff;flex-shrink:0}
+.contact-info{flex:1}
+.contact-info .nm{font-size:1rem;font-weight:700}
+.contact-info .ttl{font-size:.85rem;color:var(--text-mute);margin-bottom:4px}
+.contact-info .stat{font-size:.78rem;color:#34D399;font-weight:600}
+.contact-info .stat .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#34D399;box-shadow:0 0 8px #34D399;margin-right:6px;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+.cta-section{padding:100px 0;text-align:center}
+.cta-box{background:linear-gradient(135deg,#1a1a26 0%,#0f0f1a 100%);border:1px solid rgba(99,102,241,0.2);border-radius:24px;padding:64px 40px;position:relative;overflow:hidden}
+.cta-box::before{content:"";position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent-3),transparent)}
+.cta-box::after{content:"";position:absolute;bottom:-50%;right:-20%;width:60%;height:200%;background:radial-gradient(ellipse at center, rgba(236,72,153,0.15), transparent 50%);pointer-events:none}
+.cta-content{position:relative;z-index:1;max-width:680px;margin:0 auto}
+.cta-box h2{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:18px;line-height:1.15}
+.cta-box p{color:var(--text-mute);font-size:1.05rem;margin-bottom:32px}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:32px 0;text-align:center;font-size:.85rem;color:var(--text-dim)}
+
+@media(max-width:900px){.pillar-grid{grid-template-columns:1fr;gap:24px}.pillar:nth-child(even) .pillar-grid{direction:ltr}.nav-links a:not(.btn){display:none}}
+@media(max-width:520px){.cta-box{padding:48px 24px}}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="container nav-inner">
+    <a href="/" class="logo">
+      <span class="logo-mark">cR</span>
+      <span>clientReady</span>
+    </a>
+    <div class="nav-links">
+      <a href="/services.html">Services</a>
+      <a href="/workshop.html">Workshop</a>
+      <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Strategy Call</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="container">
+    <div class="section-tag">Our system</div>
+    <h1>Six pillars. One pipeline.</h1>
+    <p class="lede">Each piece of the outbound stack is engineered, tested, and operated by us. You don't have to understand cold email infrastructure — you just take the meetings.</p>
+  </div>
+</header>
+
+<!-- PILLAR 1 -->
+<section class="pillar">
+  <div class="container">
+    <div class="pillar-grid">
+      <div>
+        <div class="pillar-num"><span>01</span> Precision Targeting</div>
+        <h2>Every prospect is researched, verified, and scored before a single send.</h2>
+        <p>Generic lead lists waste your domain reputation and produce trash leads. We build custom lists from your ICP — verified emails, fresh data, signal-enriched. Every contact passes 4 qualification gates before they enter your pipeline.</p>
+        <ul>
+          <li>Custom ICP definition (industry, role, headcount, revenue, tech stack)</li>
+          <li>Email verification (zero hard bounces — protects sender reputation)</li>
+          <li>Intent + signal enrichment (recent funding, hiring, tool changes)</li>
+          <li>Continuous list refinement based on reply patterns</li>
+        </ul>
+      </div>
+      <div class="visual">
+        <div class="visual-content">
+          <div class="viz-label">Live prospect list</div>
+          <div class="target-list">
+            <div class="target-row"><div class="name">Jordan M.</div><div class="meta">VP Sales · 47-person SaaS</div><div class="badge">Verified</div></div>
+            <div class="target-row"><div class="name">Sarah K.</div><div class="meta">CEO · Marketing agency</div><div class="badge">Verified</div></div>
+            <div class="target-row"><div class="name">Marcus L.</div><div class="meta">Founder · Series A B2B</div><div class="badge">Verified</div></div>
+            <div class="target-row"><div class="name">Priya R.</div><div class="meta">Head of Growth · 23-person</div><div class="badge">Verified</div></div>
+            <div class="target-row"><div class="name">David C.</div><div class="meta">Sales Director · SaaS</div><div class="badge">Verified</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLAR 2 -->
+<section class="pillar">
+  <div class="container">
+    <div class="pillar-grid">
+      <div>
+        <div class="pillar-num"><span>02</span> AI-Personalized Outreach</div>
+        <h2>Each email written individually. No templates with first names swapped in.</h2>
+        <p>Generic templates get 1–3% reply rates. Real personalization gets 8–15%. Our AI researches each prospect — recent posts, funding events, hiring signals, tech stack — and writes the opening line specifically for them. You'd think a human wrote it. (Sometimes one did.)</p>
+        <ul>
+          <li>Per-prospect research at scale (LinkedIn, news, funding, signals)</li>
+          <li>GPT-4 + Claude personalization layer with human review</li>
+          <li>Context-aware messaging (industry-specific, role-specific, situation-specific)</li>
+          <li>Continuous A/B testing on subject lines, openers, CTAs</li>
+        </ul>
+      </div>
+      <div class="visual">
+        <div class="visual-content">
+          <div class="viz-label">Sample personalized email</div>
+          <div class="email-preview">
+            <div class="subj">Saw your Series A — congrats Sarah</div>
+            <div class="body">Hey Sarah,<br><br>Caught the <span class="highlight">$8M Series A from Insight</span> last week. With <span class="highlight">14 new sales hires planned</span>, the bottleneck isn't going to be ad spend — it'll be feeding qualified pipeline to those reps fast enough.<br><br>I run an outbound system that books 10–50 qualified meetings/month for B2B SaaS at your stage. Worth a 15-min look?</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLAR 3 -->
+<section class="pillar">
+  <div class="container">
+    <div class="pillar-grid">
+      <div>
+        <div class="pillar-num"><span>03</span> Deliverability Infrastructure</div>
+        <h2>10+ warmed sender domains. Your emails land in the inbox.</h2>
+        <p>Deliverability is invisible until it isn't. Most agencies use one domain, send 200 emails, get flagged, and tank your reputation. We run 10+ warmed domains in rotation, full DNS auth, dedicated IP monitoring. Zero blowback to your main domain.</p>
+        <ul>
+          <li>10+ burner sender domains (clientready-ops.com style, never your primary)</li>
+          <li>SPF / DKIM / DMARC fully configured</li>
+          <li>14-day automated warmup before any campaign</li>
+          <li>24/7 reputation monitoring + auto-pause on degradation</li>
+        </ul>
+      </div>
+      <div class="visual">
+        <div class="visual-content">
+          <div class="viz-label">Domain health · live</div>
+          <div class="health-grid">
+            <div class="health-cell"><div class="label">Warmed Domains</div><div class="val">12</div><div class="sub">↑ 100% healthy</div></div>
+            <div class="health-cell"><div class="label">Inbox Rate</div><div class="val">94%</div><div class="sub">Industry: 65%</div></div>
+            <div class="health-cell"><div class="label">Spam Score</div><div class="val">0.4</div><div class="sub">Below 1.0 = clean</div></div>
+            <div class="health-cell"><div class="label">Bounce Rate</div><div class="val">0.8%</div><div class="sub">Below 2% = healthy</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLAR 4 -->
+<section class="pillar">
+  <div class="container">
+    <div class="pillar-grid">
+      <div>
+        <div class="pillar-num"><span>04</span> Real-Time Pipeline Dashboard</div>
+        <h2>We built our own. Not a screenshot dumped in a slide.</h2>
+        <p>Most agencies send weekly PDFs you stop reading after week 2. We give you a live dashboard. Every prospect we've contacted, every reply, every booked meeting. Open it any time. Export anything.</p>
+        <ul>
+          <li>Real-time campaign metrics (sends, opens, replies, bookings)</li>
+          <li>Per-prospect history (every touch, every response)</li>
+          <li>Booked-meeting analytics (source, ICP fit, conversion)</li>
+          <li>Full data export — your data is your data</li>
+        </ul>
+      </div>
+      <div class="visual">
+        <div class="visual-content">
+          <div class="viz-label">Pipeline this month</div>
+          <div class="dash">
+            <div class="dash-row"><span class="left">Prospects contacted</span><span class="right">2,847</span></div>
+            <div class="dash-row"><span class="left">Open rate</span><span class="right">52% <span class="pos">+12% vs avg</span></span></div>
+            <div class="dash-row"><span class="left">Reply rate</span><span class="right">9.2% <span class="pos">+6.2% vs industry</span></span></div>
+            <div class="dash-row"><span class="left">Positive replies</span><span class="right">68</span></div>
+            <div class="dash-row"><span class="left">Meetings booked</span><span class="right">23 <span class="pos">↑</span></span></div>
+            <div class="dash-row"><span class="left">Pipeline value</span><span class="right">$487,000</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLAR 5 -->
+<section class="pillar">
+  <div class="container">
+    <div class="pillar-grid">
+      <div>
+        <div class="pillar-num"><span>05</span> Multichannel Follow-Up</div>
+        <h2>Email is the entry. We follow them across every channel that matters.</h2>
+        <p>Most cold leads need 5–9 touches before they reply. Single-channel agencies send 3 emails and give up. We follow engaged prospects across email, LinkedIn, SMS, and retargeting ads — so you stay top-of-mind until they convert.</p>
+        <ul>
+          <li>Email sequencing (4 touches over 14 days)</li>
+          <li>LinkedIn DM after engagement signal</li>
+          <li>SMS for warm + booked meetings</li>
+          <li>Retargeting ad layer for opens that don't convert</li>
+        </ul>
+      </div>
+      <div class="visual">
+        <div class="visual-content">
+          <div class="viz-label">Sequence flow</div>
+          <div class="flow">
+            <div class="flow-step"><div class="flow-icon">✉</div><div class="label">Email Touch 1</div><div class="day">Day 0</div></div>
+            <div class="flow-step"><div class="flow-icon">✉</div><div class="label">Email Touch 2</div><div class="day">Day 3</div></div>
+            <div class="flow-step"><div class="flow-icon">in</div><div class="label">LinkedIn DM (if opened)</div><div class="day">Day 5</div></div>
+            <div class="flow-step"><div class="flow-icon">✉</div><div class="label">Email Touch 3</div><div class="day">Day 8</div></div>
+            <div class="flow-step"><div class="flow-icon">⌕</div><div class="label">Retargeting ads</div><div class="day">Day 7+</div></div>
+            <div class="flow-step"><div class="flow-icon">⊕</div><div class="label">SMS for warm leads</div><div class="day">On reply</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILLAR 6 -->
+<section class="pillar">
+  <div class="container">
+    <div class="pillar-grid">
+      <div>
+        <div class="pillar-num"><span>06</span> Founder-Led Strategy</div>
+        <h2>Direct line to me, the founder. Not a junior account manager.</h2>
+        <p>Most agencies put you on the phone with whoever has the lowest hourly cost. We don't. The founder is your point of contact for the entire 90-day buildout. Weekly KPI reviews, real-time Slack access, no handoffs. After 90 days you can stay on retainer or graduate to month-to-month — your call.</p>
+        <ul>
+          <li>Weekly 30-min KPI review calls (founder-led)</li>
+          <li>Direct WhatsApp / Slack — answered within 2 hours business</li>
+          <li>Quarterly strategic pivots based on what's working</li>
+          <li>Cancel-anytime retainer after the buildout</li>
+        </ul>
+      </div>
+      <div class="visual">
+        <div class="visual-content">
+          <div class="viz-label">Your point of contact</div>
+          <div class="contact-card">
+            <div class="contact-avatar">R</div>
+            <div class="contact-info">
+              <div class="nm">Rich</div>
+              <div class="ttl">Founder, clientReady</div>
+              <div class="stat"><span class="dot"></span>Online · responds in &lt; 2 hours</div>
+            </div>
+          </div>
+          <div style="margin-top:14px;font-size:.82rem;color:var(--text-dim);line-height:1.55">
+            No account managers. No client success reps. No tickets. Just direct access during your buildout.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <div class="cta-content">
+        <h2>Ready to stop relying on luck for pipeline?</h2>
+        <p>30 minutes. Founder-led. We'll show you exactly how this would work for your business — using your numbers.</p>
+        <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Strategy Call</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 clientReady · <a href="mailto:rich@clientready.agency" style="color:var(--text-mute)">rich@clientready.agency</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
