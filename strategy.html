@@ -142,11 +142,12 @@ footer a{color:var(--text-mute);text-decoration:none}
         <div class="progress-step" id="p3"></div>
         <div class="progress-step" id="p4"></div>
         <div class="progress-step" id="p5"></div>
+        <div class="progress-step" id="p6"></div>
       </div>
 
       <!-- STEP 1: Who are you -->
       <div class="step active" data-step="1">
-        <div class="step-label">Step 1 of 5</div>
+        <div class="step-label">Step 1 of 6</div>
         <h2>Who's running this?</h2>
         <p class="sub">We work with founders, CEOs, and revenue leaders. The strategy call is founder-to-founder.</p>
 
@@ -178,7 +179,7 @@ footer a{color:var(--text-mute);text-decoration:none}
 
       <!-- STEP 2: Company profile -->
       <div class="step" data-step="2">
-        <div class="step-label">Step 2 of 5</div>
+        <div class="step-label">Step 2 of 6</div>
         <h2>About your company.</h2>
         <p class="sub">Helps us figure out if our system fits your sales motion.</p>
 
@@ -210,7 +211,7 @@ footer a{color:var(--text-mute);text-decoration:none}
 
       <!-- STEP 3: Revenue + ACV -->
       <div class="step" data-step="3">
-        <div class="step-label">Step 3 of 5</div>
+        <div class="step-label">Step 3 of 6</div>
         <h2>Show me the money.</h2>
         <p class="sub">No exact numbers needed &mdash; just a range. We can't make the math work below certain thresholds and won't waste your time if so.</p>
 
@@ -246,7 +247,7 @@ footer a{color:var(--text-mute);text-decoration:none}
 
       <!-- STEP 4: Pipeline reality -->
       <div class="step" data-step="4">
-        <div class="step-label">Step 4 of 5</div>
+        <div class="step-label">Step 4 of 6</div>
         <h2>Your current pipeline.</h2>
         <p class="sub">Pick whichever feels most true. Honest answers help us prep your audit.</p>
 
@@ -279,7 +280,7 @@ footer a{color:var(--text-mute);text-decoration:none}
 
       <!-- STEP 5: Compelling event -->
       <div class="step" data-step="5">
-        <div class="step-label">Step 5 of 5</div>
+        <div class="step-label">Step 5 of 6</div>
         <h2>One last thing &mdash; why now?</h2>
         <p class="sub">The "why now" is the single biggest predictor of whether outbound will work for you. Pick the one closest to your truth.</p>
 
@@ -302,7 +303,43 @@ footer a{color:var(--text-mute);text-decoration:none}
 
         <div class="step-actions">
           <button class="back-btn" onclick="prevStep()">&larr; Back</button>
-          <button class="next-btn" onclick="submitFunnel()" disabled id="btn-5">See if I'm a fit</button>
+          <button class="next-btn" onclick="nextStep()" disabled id="btn-5">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 6: Diagnostic — pain + success vision -->
+      <div class="step" data-step="6">
+        <div class="step-label">Step 6 of 6</div>
+        <h2>Let's diagnose this properly.</h2>
+        <p class="sub">Last two questions. These are the ones that actually determine whether outbound is the right move &mdash; and how we'd run it for you specifically.</p>
+
+        <div class="field">
+          <label>What's the single biggest thing stopping you from getting more leads?</label>
+          <div class="options options-single">
+            <div class="option" data-q="blocker" data-val="no-time">We don't have time to do outreach ourselves</div>
+            <div class="option" data-q="blocker" data-val="tried-failed">We've tried cold email and it didn't work</div>
+            <div class="option" data-q="blocker" data-val="no-list">We don't know who exactly to target / no list</div>
+            <div class="option" data-q="blocker" data-val="deliverability">Our domain reputation is shot / emails go to spam</div>
+            <div class="option" data-q="blocker" data-val="copy">We don't know what to say in cold outreach</div>
+            <div class="option" data-q="blocker" data-val="bad-leads">We get leads but they don't convert</div>
+            <div class="option" data-q="blocker" data-val="capacity">No one on the team to handle replies / book calls</div>
+            <div class="option" data-q="blocker" data-val="other-blocker">Something else (tell us below)</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>If you could wave a wand and fix one thing in 90 days, what does success look like?</label>
+          <textarea id="q-success-vision" placeholder="e.g. &quot;20 qualified demos per month on our team's calendar&quot; or &quot;$200k of new ARR closed by end of Q2&quot; or &quot;Replace the rainmaker partner's pipeline before he goes on sabbatical&quot;"></textarea>
+        </div>
+
+        <div class="field">
+          <label>Anything we should know? (optional)</label>
+          <textarea id="q-notes" placeholder="Past agency experiences, specific competitors, target ICP details&hellip;"></textarea>
+        </div>
+
+        <div class="step-actions">
+          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+          <button class="next-btn" onclick="submitFunnel()" disabled id="btn-6">See if I'm a fit</button>
         </div>
       </div>
 
@@ -371,7 +408,7 @@ const CALENDLY_URL = "https://calendly.com/richard-clientready/30min";
 
 const answers = {};
 let currentStep = 1;
-const totalSteps = 5;
+const totalSteps = 6;
 
 // Wire up option buttons
 document.querySelectorAll('.option').forEach(opt => {
@@ -387,7 +424,7 @@ document.querySelectorAll('.option').forEach(opt => {
 });
 
 // Wire up text inputs
-['q-name','q-email','q-company','q-domain','q-notes'].forEach(id => {
+['q-name','q-email','q-company','q-domain','q-notes','q-success-vision'].forEach(id => {
   const el = document.getElementById(id);
   if (el) el.addEventListener('input', () => {
     answers[id.replace('q-','')] = el.value.trim();
@@ -401,7 +438,8 @@ function checkStepComplete() {
     2: () => answers.company && answers.domain && answers.industry,
     3: () => answers.arr && answers.acv,
     4: () => answers.channels && answers.meetings,
-    5: () => answers['why-now']
+    5: () => answers['why-now'],
+    6: () => answers.blocker && answers['success-vision']
   };
   const btn = document.getElementById('btn-' + currentStep);
   if (btn) btn.disabled = !requiredByStep[currentStep]();
@@ -477,6 +515,7 @@ async function submitFunnel() {
       body: JSON.stringify({
         ...answers,
         firm: answers.company,
+        successVision: answers['success-vision'],
         source: 'strategy-funnel',
         submitted_at: new Date().toISOString()
       })
