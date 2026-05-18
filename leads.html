@@ -45,6 +45,12 @@ tr:hover{background:#F8FAFC}
 .note{background:#FEF3C7;border:1px solid #FDE68A;color:#78350F;padding:14px 18px;border-radius:10px;margin-bottom:24px;font-size:.88rem}
 .expand{cursor:pointer;color:var(--blue);font-size:.82rem;font-weight:600}
 .detail{background:#F8FAFC;padding:14px;border-radius:8px;margin-top:8px;font-size:.85rem;white-space:pre-wrap}
+.fit-badge{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:30px;padding:0 10px;border-radius:6px;font-size:.85rem;font-weight:800;letter-spacing:.02em}
+.fit-a{background:#DCFCE7;color:#166534;border:1px solid #BBF7D0}
+.fit-b{background:#DBEAFE;color:#1E40AF;border:1px solid #BFDBFE}
+.fit-c{background:#FEF3C7;color:#92400E;border:1px solid #FDE68A}
+.fit-d{background:#FEE2E2;color:#991B1B;border:1px solid #FECACA}
+.lead-card{background:#fff;border-radius:10px;margin:8px 0}
 </style>
 </head>
 <body>
@@ -229,17 +235,19 @@ function render(){
     var sCls = "s-amber";
     if (l.score >= 80) sCls = "s-green";
     else if (l.score < 40) sCls = "s-red";
+    var fit = computeFit(l);
     html += '<tr>';
+    html += '<td><span class="fit-badge fit-'+fit.toLowerCase()+'">'+fit+'</span></td>';
     html += '<td>'+d+'</td>';
-    html += '<td>'+(l.firm||'—')+'</td>';
+    html += '<td><b>'+(l.name||'—')+'</b><br><span style="color:var(--mute);font-size:.82rem">'+(l.firm||'—')+'</span></td>';
     html += '<td><a class="email" href="mailto:'+l.email+'">'+l.email+'</a></td>';
-    html += '<td><span class="score '+sCls+'">'+(l.score!=null?l.score:'—')+'</span></td>';
-    html += '<td>'+(l.grade||'—')+'</td>';
-    html += '<td class="leak">'+(l.leak?'$'+l.leak.toLocaleString():'—')+'</td>';
+    html += '<td>'+formatLabel(l.arr)+'</td>';
+    html += '<td>'+formatLabel(l.acv)+'</td>';
+    html += '<td>'+formatLabel(l.role)+'</td>';
     html += '<td>'+(l.source||'audit')+'</td>';
-    html += '<td><span class="expand" data-i="'+i+'">View</span></td>';
+    html += '<td><span class="expand" data-i="'+i+'">View details</span></td>';
     html += '</tr>';
-    html += '<tr id="d-'+i+'" style="display:none"><td colspan="8"><div class="detail">'+escapeHtml(JSON.stringify(l, null, 2))+'</div></td></tr>';
+    html += '<tr id="d-'+i+'" style="display:none"><td colspan="9"><div class="lead-card">'+renderLeadDetail(l)+'</div></td></tr>';
   });
   $("leads-body").innerHTML = html;
   $("empty").style.display = rows.length ? "none" : "block";
@@ -251,6 +259,159 @@ function render(){
       row.style.display = row.style.display === "none" ? "table-row" : "none";
     });
   });
+}
+
+function formatLabel(v){
+  if (!v) return '—';
+  var labels = {
+    'founder':'Founder/CEO', 'vp-sales':'VP Sales', 'head-growth':'Head of Growth',
+    'director':'Director', 'operator':'Operator', 'other':'Other',
+    'b2b-saas':'B2B SaaS','agency':'Agency','consulting':'Consulting','other-b2b':'Other B2B','b2c':'B2C','freelance':'Freelance',
+    '30k-250k':'$30k–$250k','250k-1m':'$250k–$1M','1m-5m':'$1M–$5M','5m-25m':'$5M–$25M','25m+':'$25M+','under-30k':'Under $30k','pre-revenue':'Pre-revenue',
+    '5k-15k':'$5k–$15k','15k-50k':'$15k–$50k','50k-150k':'$50k–$150k','150k+':'$150k+','under-5k':'Under $5k','unknown':'Unknown',
+    'inbound-only':'Inbound only','referral-only':'Referrals only','paid-ads':'Paid ads','sdrs':'In-house SDRs','mix':'Channel mix','failed-outbound':'Tried outbound, gave up',
+    '0-5':'0–5','5-15':'5–15','15-30':'15–30','30+':'30+',
+    'growth-pressure':'Growth pressure / plateau','lost-client':'Lost a big client','hired-sales':'Hired sales team','board-pressure':'Board pressure','new-market':'Expanding markets','exploring':'Just exploring',
+    'no-time':'No time for outreach','tried-failed':'Tried & failed','no-list':'No target list','deliverability':'Domain reputation shot','copy':'Don\'t know what to say','bad-leads':'Leads don\'t convert','capacity':'No team to handle replies','other-blocker':'Other'
+  };
+  return labels[v] || v;
+}
+
+function computeFit(l){
+  if (!l) return 'D';
+  // Disqualifiers — automatic D
+  if (['b2c','freelance'].indexOf(l.industry) >= 0) return 'D';
+  if (['pre-revenue','under-30k'].indexOf(l.arr) >= 0) return 'D';
+  if (l.acv === 'under-5k') return 'D';
+  if (l.meetings === '30+') return 'D';
+  
+  // Scoring for A/B/C
+  var score = 0;
+  // Role: decision-maker = +3, manager = +1
+  if (['founder','vp-sales','head-growth'].indexOf(l.role) >= 0) score += 3;
+  else if (l.role === 'director') score += 2;
+  else if (l.role === 'operator') score += 1;
+  // Revenue: higher = more points
+  if (l.arr === '1m-5m' || l.arr === '5m-25m') score += 3;
+  else if (l.arr === '25m+') score += 2;
+  else if (l.arr === '250k-1m') score += 2;
+  else if (l.arr === '30k-250k') score += 1;
+  // ACV: higher = more points
+  if (l.acv === '50k-150k' || l.acv === '150k+') score += 3;
+  else if (l.acv === '15k-50k') score += 2;
+  else if (l.acv === '5k-15k') score += 1;
+  // Compelling event
+  if (['lost-client','hired-sales','board-pressure','new-market','growth-pressure'].indexOf(l.whyNow) >= 0) score += 2;
+  else if (l.whyNow === 'exploring') score += 0;
+  // Industry fit
+  if (['b2b-saas','agency','consulting'].indexOf(l.industry) >= 0) score += 2;
+  
+  if (score >= 11) return 'A';
+  if (score >= 8) return 'B';
+  if (score >= 5) return 'C';
+  return 'D';
+}
+
+function generateBrief(l){
+  if (!l) return '';
+  var parts = [];
+  var who = (l.name ? l.name : 'This lead') + ' is ' + (l.role === 'founder' ? 'a founder/CEO' : 'in a ' + (formatLabel(l.role) || 'unknown') + ' role');
+  var company = l.firm ? ' at ' + l.firm : '';
+  var biz = l.industry ? ', a ' + formatLabel(l.industry).toLowerCase() : '';
+  var rev = l.arr ? ' doing ' + formatLabel(l.arr) + ' in revenue' : '';
+  var acv = l.acv ? ' with ' + formatLabel(l.acv) + ' average ACV' : '';
+  parts.push(who + company + biz + rev + acv + '.');
+  
+  if (l.meetings && l.channels) {
+    parts.push('Currently booking ' + formatLabel(l.meetings) + ' meetings/month, primarily through ' + formatLabel(l.channels).toLowerCase() + '.');
+  }
+  
+  if (l.whyNow) {
+    var whyNowMap = {
+      'growth-pressure':'their growth has plateaued and they need to accelerate',
+      'lost-client':'they just lost a major client and need to rebuild',
+      'hired-sales':'they hired sales reps who now need leads',
+      'board-pressure':'the board is pressuring them for predictable pipeline',
+      'new-market':'they\'re expanding into a new market or vertical',
+      'exploring':'they\'re just exploring (no urgent event — softer urgency)'
+    };
+    parts.push('The compelling event: ' + (whyNowMap[l.whyNow] || l.whyNow) + '.');
+  }
+  
+  if (l.blocker) {
+    var blockerMap = {
+      'no-time':'They\'re too busy to do outbound themselves — talk DFY value',
+      'tried-failed':'They\'ve tried cold email and failed before — they\'ll be skeptical, lead with our deliverability story',
+      'no-list':'They lack a target list — sell Apollo + Clay enrichment',
+      'deliverability':'Their domain reputation is shot — lead with burner-domain rebuild',
+      'copy':'They don\'t know what to say — emphasize per-prospect AI personalization',
+      'bad-leads':'Their leads don\'t convert — caution: this may be a positioning problem, not a pipeline problem',
+      'capacity':'They have no one to handle replies — IMPORTANT: qualify if they can take 20 calls/mo before pitching',
+      'other-blocker':'Their blocker is custom — read their notes carefully'
+    };
+    parts.push('Biggest blocker: ' + (blockerMap[l.blocker] || l.blocker) + '.');
+  }
+  
+  if (l.successVision) {
+    parts.push('Their 90-day vision (their words): "' + l.successVision + '"');
+  }
+  
+  return parts.join(' ');
+}
+
+function renderLeadDetail(l){
+  var fit = computeFit(l);
+  var fitNotes = {
+    'A':'STRONG FIT — Decision-maker, healthy revenue + ACV, clear pain. Lead with the price tier and the cohort scarcity.',
+    'B':'GOOD FIT — Has most fit signals. Be thorough on discovery; they may be early in buying process.',
+    'C':'WEAK FIT — Some signals missing. Diagnose hard. Consider declining if sales-capacity is unclear.',
+    'D':'NOT A FIT — Disqualified by ICP, revenue, or ACV. Refer them out or move to nurture.'
+  };
+  
+  return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:18px">' +
+    '<div style="grid-column:span 2;display:flex;justify-content:space-between;align-items:start;border-bottom:1px solid var(--line);padding-bottom:14px">' +
+      '<div>' +
+        '<div style="font-size:1.25rem;font-weight:800;letter-spacing:-0.01em">'+(l.name||'—')+(l.firm?' <span style="color:var(--mute);font-weight:500">@ '+l.firm+'</span>':'')+'</div>' +
+        '<div style="color:var(--mute);font-size:.88rem;margin-top:4px">'+formatLabel(l.role)+' &middot; '+formatLabel(l.industry)+' &middot; <a href="mailto:'+l.email+'" style="color:var(--blue);text-decoration:none">'+l.email+'</a>'+(l.domain?' &middot; <a href="https://'+l.domain+'" target="_blank" style="color:var(--blue);text-decoration:none">'+l.domain+'</a>':'')+'</div>' +
+      '</div>' +
+      '<div class="fit-badge fit-'+fit.toLowerCase()+'" style="font-size:1rem;padding:8px 16px">'+fit+' FIT</div>' +
+    '</div>' +
+    
+    '<div>' +
+      '<div style="font-size:.74rem;color:var(--mute);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:10px">The Profile</div>' +
+      '<table style="width:100%;font-size:.88rem;border-collapse:collapse">' +
+        '<tr><td style="color:var(--mute);padding:4px 0;width:40%">Revenue</td><td style="font-weight:600;padding:4px 0">'+formatLabel(l.arr)+'</td></tr>' +
+        '<tr><td style="color:var(--mute);padding:4px 0">Average ACV</td><td style="font-weight:600;padding:4px 0">'+formatLabel(l.acv)+'</td></tr>' +
+        '<tr><td style="color:var(--mute);padding:4px 0">Channels today</td><td style="font-weight:600;padding:4px 0">'+formatLabel(l.channels)+'</td></tr>' +
+        '<tr><td style="color:var(--mute);padding:4px 0">Meetings/month</td><td style="font-weight:600;padding:4px 0">'+formatLabel(l.meetings)+'</td></tr>' +
+      '</table>' +
+    '</div>' +
+    
+    '<div>' +
+      '<div style="font-size:.74rem;color:var(--mute);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:10px">The Pain</div>' +
+      '<div style="font-size:.88rem;line-height:1.6">' +
+        '<div style="margin-bottom:8px"><span style="color:var(--mute)">Why now:</span> <b>'+formatLabel(l.whyNow)+'</b></div>' +
+        '<div style="margin-bottom:8px"><span style="color:var(--mute)">Biggest blocker:</span> <b>'+formatLabel(l.blocker)+'</b></div>' +
+        (l.successVision ? '<div style="margin-top:12px;padding:12px;background:#FEF3C7;border-radius:8px;border-left:3px solid #D97706"><div style="font-size:.74rem;color:#78350F;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:.08em">90-day success</div>"<i>'+escapeHtml(l.successVision)+'</i>"</div>' : '') +
+      '</div>' +
+    '</div>' +
+    
+    '<div style="grid-column:span 2;background:linear-gradient(135deg,#EFF6FF,#F0F9FF);border:1px solid #BFDBFE;border-radius:10px;padding:18px">' +
+      '<div style="font-size:.74rem;color:#1E40AF;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:10px">📝 Pre-Call Brief (auto-generated)</div>' +
+      '<div style="font-size:.94rem;line-height:1.65;color:#0F172A">'+generateBrief(l)+'</div>' +
+      '<div style="margin-top:12px;padding-top:12px;border-top:1px solid #BFDBFE;font-size:.84rem;color:#1E40AF;font-weight:600">🎯 STRATEGY: '+(fitNotes[fit]||'')+'</div>' +
+    '</div>' +
+    
+    (l.notes ? '<div style="grid-column:span 2;background:#F8FAFC;padding:14px 16px;border-radius:8px;border-left:3px solid var(--mute)">' +
+      '<div style="font-size:.74rem;color:var(--mute);text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-bottom:6px">Their notes</div>' +
+      '<div style="font-size:.9rem;line-height:1.55">'+escapeHtml(l.notes)+'</div>' +
+    '</div>' : '') +
+    
+    '<div style="grid-column:span 2;display:flex;gap:10px;justify-content:flex-end;padding-top:8px">' +
+      '<a href="mailto:'+l.email+'" style="padding:10px 18px;background:var(--blue);color:#fff;border-radius:8px;text-decoration:none;font-weight:600;font-size:.88rem">Email '+(l.name?l.name.split(" ")[0]:'them')+'</a>' +
+      (l.domain ? '<a href="https://'+l.domain+'" target="_blank" style="padding:10px 18px;border:1px solid var(--line);color:var(--ink);border-radius:8px;text-decoration:none;font-weight:600;font-size:.88rem">Visit '+l.domain+'</a>' : '') +
+    '</div>' +
+  '</div>';
 }
 
 function escapeHtml(s){
