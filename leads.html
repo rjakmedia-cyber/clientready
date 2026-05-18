@@ -63,9 +63,9 @@ tr:hover{background:#F8FAFC}
     <div>
       <div class="brand"><span class="b1">CLIENT</span><span class="b2">READY</span> Admin</div>
       <h1>Audit Leads</h1>
-      <div class="sub">Submissions from the intake audit at <code>clientready.agency/audit</code></div>
+      <div class="sub">All submissions: strategy-funnel applications, audit leads, workshop signups. Click "Export CSV" to pull into Google Sheets.</div>
     </div>
-    <button class="refresh" id="refresh-btn">Refresh</button>
+    <div style="display:flex;gap:8px"><button class="refresh" id="export-csv-btn" style="background:#16A34A;color:#fff;border-color:#16A34A">📥 Export CSV</button><button class="refresh" id="refresh-btn">Refresh</button></div>
   </div>
 
   <div id="setup-note" class="note" style="display:none"></div>
@@ -117,6 +117,33 @@ if (saved) { $("key-input").value = saved; }
 $("enter-btn").addEventListener("click", function(){ tryAuth(); });
 $("key-input").addEventListener("keydown", function(e){ if(e.key==="Enter") tryAuth(); });
 $("refresh-btn").addEventListener("click", function(){ load(); });
+$("export-csv-btn").addEventListener("click", function(){ exportCSV(); });
+
+function exportCSV(){
+  if (!ALL_LEADS || !ALL_LEADS.length) { alert("No leads to export yet."); return; }
+  var cols = ["createdAt","source","name","email","firm","domain","role","industry","arr","acv","channels","meetings","whyNow","notes","score","grade","leak","ip","referrer","id"];
+  var head = cols.join(",");
+  var lines = ALL_LEADS.map(function(l){
+    return cols.map(function(c){
+      var v = l[c];
+      if (v == null) return "";
+      if (typeof v === "object") v = JSON.stringify(v);
+      v = String(v).replace(/"/g, '""');
+      if (v.indexOf(",") >= 0 || v.indexOf('"') >= 0 || v.indexOf("\n") >= 0) v = '"' + v + '"';
+      return v;
+    }).join(",");
+  });
+  var csv = head + "\n" + lines.join("\n");
+  var blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url;
+  a.download = "clientready-leads-" + new Date().toISOString().slice(0,10) + ".csv";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+}
 $("filter").addEventListener("input", render);
 $("grade-filter").addEventListener("change", render);
 
