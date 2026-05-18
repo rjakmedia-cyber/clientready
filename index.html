@@ -440,6 +440,101 @@ footer{
   </div>
 </section>
 
+
+<!-- ROI CALCULATOR -->
+<section id="roi-calculator" style="padding:100px 0 60px;border-top:1px solid rgba(255,255,255,0.06);position:relative;z-index:1">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:50px">
+      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(236,72,153,0.10);border:1px solid rgba(236,72,153,0.22);border-radius:99px;font-size:.78rem;font-weight:600;color:#F4A8C8;margin-bottom:20px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace">The Math</div>
+      <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-0.035em;line-height:1.05;margin-bottom:18px;background:linear-gradient(180deg,#FFF 0%,#B5B5CA 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Plug in your numbers.<br>Watch the math do the closing.</h2>
+      <p style="font-size:1.1rem;color:#8B8B98;max-width:640px;margin:0 auto;line-height:1.55">Most founders don't book the call because they think outbound costs more than it earns. Then they see the math.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;max-width:1100px;margin:0 auto" class="roi-grid">
+      <div style="padding:40px;border-radius:20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08)">
+        <h3 style="font-size:1.1rem;font-weight:700;color:#F5F5F7;margin-bottom:6px;letter-spacing:-0.01em">Your business, your numbers.</h3>
+        <p style="font-size:.88rem;color:#8B8B98;margin-bottom:32px">Drag sliders. Math updates live.</p>
+        <div style="margin-bottom:26px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+            <label style="font-size:.82rem;color:#8B8B98;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600">Average ACV</label>
+            <span id="roi-acv-val" style="font-size:1.3rem;font-weight:800;color:#F5F5F7;font-family:'JetBrains Mono',monospace">$20,000</span>
+          </div>
+          <input type="range" id="roi-acv" min="5000" max="150000" step="1000" value="20000" style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none;accent-color:#6366F1">
+        </div>
+        <div style="margin-bottom:26px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+            <label style="font-size:.82rem;color:#8B8B98;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600">Meetings / mo (today)</label>
+            <span id="roi-meet-val" style="font-size:1.3rem;font-weight:800;color:#F5F5F7;font-family:'JetBrains Mono',monospace">5</span>
+          </div>
+          <input type="range" id="roi-meet" min="0" max="40" step="1" value="5" style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none;accent-color:#6366F1">
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
+            <label style="font-size:.82rem;color:#8B8B98;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600">Close rate</label>
+            <span id="roi-close-val" style="font-size:1.3rem;font-weight:800;color:#F5F5F7;font-family:'JetBrains Mono',monospace">25%</span>
+          </div>
+          <input type="range" id="roi-close" min="5" max="60" step="1" value="25" style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none;accent-color:#6366F1">
+        </div>
+      </div>
+      <div style="padding:40px;border-radius:20px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(236,72,153,0.08));border:1px solid rgba(99,102,241,0.22);position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(99,102,241,0.18),transparent);pointer-events:none"></div>
+        <div style="position:relative">
+          <div style="font-size:.74rem;color:#A5A5F1;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;font-weight:600">Year 1 with clientReady</div>
+          <div id="roi-revenue" style="font-size:clamp(2.8rem,6vw,4rem);font-weight:900;letter-spacing:-0.045em;line-height:1;background:linear-gradient(135deg,#6366F1,#EC4899);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px">+$1.2M</div>
+          <div style="font-size:.92rem;color:#8B8B98;margin-bottom:28px">in new annual revenue added</div>
+          <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:22px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px">
+              <div>
+                <div style="font-size:.68rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Your cost</div>
+                <div style="font-size:1.4rem;font-weight:800;color:#F5F5F7;letter-spacing:-0.02em">$56,000</div>
+                <div style="font-size:.74rem;color:#5C5C6E;margin-top:3px">$20k buildout + $36k retainer</div>
+              </div>
+              <div>
+                <div style="font-size:.68rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Return on investment</div>
+                <div id="roi-multiple" style="font-size:1.4rem;font-weight:800;color:#10B981;letter-spacing:-0.02em">21x</div>
+                <div style="font-size:.74rem;color:#5C5C6E;margin-top:3px">year 1</div>
+              </div>
+            </div>
+            <div style="padding:14px 16px;background:rgba(0,0,0,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#8B8B98;line-height:1.55">
+              <div>25 meetings/mo &times; 12 &times; <span id="roi-close-display">25</span>% &times; $<span id="roi-acv-display">20,000</span></div>
+              <div style="margin-top:3px;color:#5C5C6E">= <span id="roi-revenue-display">$1,500,000</span> &minus; current <span id="roi-current-display">$300,000</span> = <span id="roi-net-display" style="color:#10B981">+$1,200,000</span></div>
+            </div>
+          </div>
+          <a href="/strategy.html" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 28px;border-radius:11px;font-size:1rem;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;box-shadow:0 12px 32px rgba(99,102,241,0.35);margin-top:28px;letter-spacing:-0.01em">Book the call &mdash; verify this math for your business &rarr;</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:50px;padding:32px 40px;border-radius:18px;background:rgba(236,72,153,0.04);border:1px solid rgba(236,72,153,0.18);text-align:center;max-width:880px;margin-left:auto;margin-right:auto">
+      <div style="font-size:.76rem;color:#F4A8C8;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-weight:600">Every month you wait</div>
+      <div style="font-size:clamp(1.3rem,3.2vw,2rem);font-weight:800;letter-spacing:-0.025em;line-height:1.25;color:#F5F5F7;margin-bottom:6px">You're leaving <span id="roi-monthly-loss" style="color:#EC4899">$100,000</span> in pipeline on the table.</div>
+      <div style="font-size:.92rem;color:#8B8B98">The math doesn't pause for "we'll think about it." It just keeps accruing.</div>
+    </div>
+  </div>
+</section>
+<style>@media(max-width:900px){.roi-grid{grid-template-columns:1fr !important}}</style>
+<script>
+(function(){
+  var acv = document.getElementById('roi-acv'), meet = document.getElementById('roi-meet'), close_ = document.getElementById('roi-close');
+  function fmt(n){return n>=1000000?'$'+(n/1000000).toFixed(1)+'M':n>=1000?'$'+Math.round(n/1000)+'k':'$'+n;}
+  function recalc(){
+    var a=+acv.value, m=+meet.value, c=+close_.value;
+    var withUs=25*12*(c/100)*a, cur=m*12*(c/100)*a, added=withUs-cur;
+    document.getElementById('roi-acv-val').textContent='$'+a.toLocaleString();
+    document.getElementById('roi-meet-val').textContent=m;
+    document.getElementById('roi-close-val').textContent=c+'%';
+    document.getElementById('roi-revenue').textContent='+'+fmt(added);
+    document.getElementById('roi-multiple').textContent=(added/56000).toFixed(1)+'x';
+    document.getElementById('roi-acv-display').textContent=a.toLocaleString();
+    document.getElementById('roi-close-display').textContent=c;
+    document.getElementById('roi-revenue-display').textContent='$'+Math.round(withUs).toLocaleString();
+    document.getElementById('roi-current-display').textContent='$'+Math.round(cur).toLocaleString();
+    document.getElementById('roi-net-display').textContent='+$'+Math.round(added).toLocaleString();
+    document.getElementById('roi-monthly-loss').textContent='$'+Math.round(added/12).toLocaleString();
+  }
+  acv.addEventListener('input',recalc); meet.addEventListener('input',recalc); close_.addEventListener('input',recalc);
+  recalc();
+})();
+</script>
+
 <section id="methodology-callout" style="padding:80px 0;text-align:center;position:relative;z-index:1">
   <div class="container">
     <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(99,102,241,0.10);border:1px solid rgba(99,102,241,0.22);border-radius:99px;font-size:.78rem;font-weight:600;color:#A5A5F1;margin-bottom:24px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace">A Proprietary System</div>
