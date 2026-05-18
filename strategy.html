@@ -218,8 +218,9 @@ footer a{color:var(--text-mute);text-decoration:none}
           <label>Annual revenue (current)</label>
           <div class="options">
             <div class="option disqualify" data-q="arr" data-val="pre-revenue">Pre-revenue</div>
-            <div class="option disqualify" data-q="arr" data-val="under-500k">Under $500k</div>
-            <div class="option" data-q="arr" data-val="500k-1m">$500k &ndash; $1M</div>
+            <div class="option disqualify" data-q="arr" data-val="under-30k">Under $30k</div>
+            <div class="option" data-q="arr" data-val="30k-250k">$30k &ndash; $250k</div>
+            <div class="option" data-q="arr" data-val="250k-1m">$250k &ndash; $1M</div>
             <div class="option" data-q="arr" data-val="1m-5m">$1M &ndash; $5M</div>
             <div class="option" data-q="arr" data-val="5m-25m">$5M &ndash; $25M</div>
             <div class="option" data-q="arr" data-val="25m+">$25M+</div>
@@ -441,10 +442,10 @@ function evaluateFit() {
       suggestion: "For B2C: focus on paid social (Meta, TikTok) + influencer partnerships. For freelance: a single niche LinkedIn presence + word-of-mouth scales better than cold outbound at your stage."
     });
   }
-  if (['pre-revenue','under-500k'].includes(answers.arr)) {
+  if (['pre-revenue','under-30k'].includes(answers.arr)) {
     disqualifiers.push({
-      reason: "Our system is engineered for companies with $500k+ in annual revenue. Below that, the buildout cost ($7,500 deposit) is a higher % of your revenue than makes sense &mdash; and you typically don't have the sales capacity yet to handle 20 qualified meetings/month.",
-      suggestion: "Focus on getting to $500k ARR through founder-led sales and warm intros. Once you're there, come back &mdash; you'll have the foundation to make outbound 10x your revenue."
+      reason: "Our system needs at least one paying customer relationship to model the outbound from. Pre-revenue and very-early-stage companies (under $30k annual) are better served by founder-led sales and warm intros first &mdash; you need product-market fit signal before you can scale outbound on top of it.",
+      suggestion: "Land your first 3&ndash;5 customers through founder-led sales, LinkedIn DMs, and warm intros. Once you're at $30k+ ARR with a working product, come back &mdash; you'll have the foundation to make outbound 10x your revenue."
     });
   }
   if (answers.acv === 'under-5k') {
@@ -496,7 +497,8 @@ async function submitFunnel() {
     document.querySelector('.step[data-step="result-fit"]').classList.add('active');
     document.getElementById('audit-domain').textContent = answers.domain || 'your domain';
     const arrLabels = {
-      '500k-1m':'$500k&ndash;$1M revenue',
+      '30k-250k':'$30k&ndash;$250k revenue',
+      '250k-1m':'$250k&ndash;$1M revenue',
       '1m-5m':'$1M&ndash;$5M revenue',
       '5m-25m':'$5M&ndash;$25M revenue',
       '25m+':'$25M+ revenue'
