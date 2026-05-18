@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book a Strategy Call — clientReady</title>
-<meta name="description" content="30-min strategy call. We'll show you exactly how our outbound system would book meetings for your B2B company.">
+<title>Apply for a Strategy Call — clientReady</title>
+<meta name="description" content="Founding 5 cohort: $7,500 deposit, 20 qualified meetings in 60 days or refund. Apply for a strategy call.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0A0A0F;--card:rgba(255,255,255,0.03);--card-border:rgba(255,255,255,0.08);--text:#F5F5F7;--text-mute:#8B8B98;--text-dim:#5C5C6E;--accent:#6366F1;--accent-2:#8B5CF6;--accent-3:#EC4899;--green:#10B981}
+:root{--bg:#0A0A0F;--card:rgba(255,255,255,0.03);--card-border:rgba(255,255,255,0.08);--text:#F5F5F7;--text-mute:#8B8B98;--text-dim:#5C5C6E;--accent:#6366F1;--accent-2:#8B5CF6;--accent-3:#EC4899;--green:#10B981;--red:#EF4444}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-.bg-grid{position:fixed;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.15), transparent),radial-gradient(ellipse 60% 50% at 80% 20%, rgba(236,72,153,0.08), transparent),radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);background-size:100% 100%, 100% 100%, 32px 32px;pointer-events:none;z-index:0}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
+.bg-grid{position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(99,102,241,0.15),transparent),radial-gradient(ellipse 60% 50% at 80% 20%,rgba(236,72,153,0.08),transparent),radial-gradient(circle at 1px 1px,rgba(255,255,255,0.04) 1px,transparent 0);background-size:100% 100%,100% 100%,32px 32px;pointer-events:none;z-index:0}
 .container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
 nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(10,10,15,0.7);border-bottom:1px solid rgba(255,255,255,0.06);padding:18px 0}
 .nav-inner{display:flex;align-items:center;justify-content:space-between}
@@ -26,47 +26,82 @@ nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(
 .btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
 .btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
 
-.hero-strategy{padding:80px 0 40px;text-align:center}
-.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(99,102,241,0.1);border:1px solid rgba(99,102,241,0.2);border-radius:99px;font-size:.82rem;font-weight:500;color:#A5A5F1;margin-bottom:24px}
+.hero-funnel{padding:60px 0 30px;text-align:center}
+.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(99,102,241,0.10);border:1px solid rgba(99,102,241,0.22);border-radius:99px;font-size:.78rem;font-weight:600;color:#A5A5F1;margin-bottom:20px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
 .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-h1{font-size:clamp(2rem,5vw,3.6rem);font-weight:800;letter-spacing:-0.04em;line-height:1.05;margin-bottom:20px;background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.lede{font-size:clamp(1.05rem,2vw,1.2rem);color:var(--text-mute);max-width:680px;margin:0 auto;line-height:1.55}
+h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-0.035em;line-height:1.05;margin-bottom:18px;background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;max-width:780px;margin-left:auto;margin-right:auto}
+.lede{font-size:clamp(1rem,1.6vw,1.15rem);color:var(--text-mute);max-width:640px;margin:0 auto 40px;line-height:1.55}
 
-.split{display:grid;grid-template-columns:1fr 1fr;gap:48px;padding:40px 0 100px;align-items:start}
-.left-pane{position:sticky;top:100px}
-.left-pane h2{font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:18px}
-.left-pane > p{color:var(--text-mute);margin-bottom:24px;font-size:.98rem}
-.expectation{background:var(--card);border:1px solid var(--card-border);border-radius:14px;padding:24px;margin-bottom:14px}
-.expectation h4{font-size:.92rem;font-weight:700;color:var(--accent);margin-bottom:6px}
-.expectation p{font-size:.92rem;color:var(--text);line-height:1.55}
-.fit{background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(236,72,153,0.04));border:1px solid rgba(99,102,241,0.15);border-radius:14px;padding:24px;margin-top:24px}
-.fit h4{font-size:.92rem;font-weight:700;color:#A5A5F1;margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em}
-.fit ul{list-style:none;padding:0}
-.fit li{font-size:.92rem;color:var(--text);padding:6px 0 6px 22px;position:relative}
-.fit li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
-.not-fit{background:rgba(255,255,255,0.02);border:1px solid var(--card-border);border-radius:14px;padding:24px;margin-top:14px}
-.not-fit h4{font-size:.85rem;font-weight:700;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em}
-.not-fit ul{list-style:none;padding:0}
-.not-fit li{font-size:.88rem;color:var(--text-mute);padding:5px 0 5px 22px;position:relative}
-.not-fit li::before{content:"✕";position:absolute;left:0;color:var(--text-dim);font-weight:700}
+.funnel{max-width:680px;margin:0 auto 80px;padding:8px;border-radius:24px;background:linear-gradient(135deg,rgba(99,102,241,0.10),rgba(236,72,153,0.05));border:1px solid rgba(99,102,241,0.18);position:relative}
+.funnel-inner{background:rgba(10,10,15,0.6);border-radius:20px;padding:40px;min-height:520px;display:flex;flex-direction:column}
 
-.right-pane{background:var(--card);border:1px solid var(--card-border);border-radius:18px;padding:8px;min-height:680px}
-.calendly-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;height:680px;text-align:center;padding:40px;color:var(--text-mute);background:rgba(0,0,0,0.2);border-radius:14px}
-.calendly-placeholder h3{font-size:1.2rem;color:var(--text);margin-bottom:14px}
-.calendly-placeholder p{font-size:.95rem;line-height:1.55;margin-bottom:18px;max-width:320px}
-.calendly-placeholder code{background:rgba(255,255,255,0.05);padding:6px 10px;border-radius:6px;font-size:.85rem;color:var(--accent);font-family:monospace}
+.progress{display:flex;gap:6px;margin-bottom:32px}
+.progress-step{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.08);transition:background .3s}
+.progress-step.done{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
+.progress-step.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 16px rgba(99,102,241,0.4)}
 
-iframe{width:100%;border:none;border-radius:14px}
+.step{display:none;flex:1;flex-direction:column;animation:fadeIn .4s ease}
+.step.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.alt-cta{padding:60px 0 100px;text-align:center}
-.alt-cta p{color:var(--text-mute);margin-bottom:14px;font-size:.95rem}
-.alt-cta a{color:var(--accent);text-decoration:none;font-weight:600;font-size:.95rem}
-.alt-cta a:hover{text-decoration:underline}
+.step-label{font-size:.74rem;color:var(--accent);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-weight:700}
+.step h2{font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;line-height:1.2;margin-bottom:8px;color:var(--text)}
+.step .sub{font-size:.95rem;color:var(--text-mute);margin-bottom:24px;line-height:1.5}
 
-@media(max-width:900px){
-  .split{grid-template-columns:1fr;gap:24px}
-  .left-pane{position:static}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.82rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600;margin-bottom:8px}
+.field input,.field textarea,.field select{width:100%;padding:14px 16px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-size:.98rem;font-family:inherit;transition:border-color .2s}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent);background:rgba(0,0,0,0.4)}
+.field textarea{min-height:80px;resize:vertical}
+.field input::placeholder,.field textarea::placeholder{color:var(--text-dim)}
+
+.options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.option{padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-size:.92rem;cursor:pointer;transition:all .15s;text-align:left}
+.option:hover{border-color:rgba(99,102,241,0.4);background:rgba(99,102,241,0.05)}
+.option.selected{border-color:var(--accent);background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(99,102,241,0.04));color:var(--text);font-weight:600;box-shadow:0 0 0 1px var(--accent) inset}
+.option.disqualify.selected{border-color:var(--red);background:rgba(239,68,68,0.06);box-shadow:0 0 0 1px var(--red) inset}
+
+.options-single{grid-template-columns:1fr}
+
+.step-actions{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:28px}
+.back-btn{background:transparent;color:var(--text-mute);border:none;cursor:pointer;font-size:.92rem;padding:8px 0;font-family:inherit}
+.back-btn:hover{color:var(--text)}
+.next-btn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border:none;cursor:pointer;font-size:.98rem;font-weight:700;padding:14px 32px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(99,102,241,0.3);font-family:inherit;transition:all .2s}
+.next-btn:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
+.next-btn:disabled{background:rgba(255,255,255,0.05);color:var(--text-dim);box-shadow:none;cursor:not-allowed;transform:none}
+.next-btn::after{content:"→"}
+
+/* RESULT screens */
+.result-fit{text-align:center}
+.result-fit .check{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(99,102,241,0.2));border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2.2rem;color:var(--green);font-weight:900}
+.result-fit h2{font-size:1.8rem;font-weight:800;margin-bottom:14px;background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.025em;line-height:1.15}
+.result-fit .sub{font-size:1.02rem;color:var(--text);margin-bottom:24px;line-height:1.55}
+.result-fit .audit-preview{background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.18);border-radius:14px;padding:24px;text-align:left;margin-bottom:24px}
+.result-fit .audit-preview h4{font-size:.78rem;color:#A5A5F1;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:12px;font-weight:600}
+.result-fit .audit-preview p{font-size:.92rem;color:var(--text);line-height:1.6}
+.result-fit .audit-preview strong{color:var(--accent-3)}
+
+.result-nofit{text-align:center}
+.result-nofit .x{width:80px;height:80px;border-radius:50%;background:rgba(239,68,68,0.1);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2rem;color:var(--red);font-weight:700}
+.result-nofit h2{font-size:1.5rem;font-weight:800;margin-bottom:14px;color:var(--text);letter-spacing:-0.02em;line-height:1.2}
+.result-nofit .sub{font-size:.98rem;color:var(--text-mute);margin-bottom:24px;line-height:1.55}
+.result-nofit a{color:var(--accent);text-decoration:none;font-weight:600}
+.result-nofit a:hover{text-decoration:underline}
+
+.calendly-shell{background:rgba(0,0,0,0.2);border-radius:14px;padding:8px;margin-top:8px;min-height:580px}
+.calendly-shell iframe{width:100%;height:600px;border:none;border-radius:10px}
+.calendly-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;min-height:560px;background:rgba(0,0,0,0.3);border-radius:10px}
+.calendly-placeholder h3{font-size:1.1rem;color:var(--text);margin-bottom:10px}
+.calendly-placeholder p{font-size:.88rem;color:var(--text-mute);line-height:1.5;max-width:380px;margin-bottom:14px}
+.calendly-placeholder code{background:rgba(99,102,241,0.1);padding:6px 10px;border-radius:6px;font-size:.82rem;color:#A5A5F1;font-family:'JetBrains Mono',monospace}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:32px 0;text-align:center;font-size:.85rem;color:var(--text-dim);margin-top:60px}
+footer a{color:var(--text-mute);text-decoration:none}
+
+@media(max-width:700px){
+  .options{grid-template-columns:1fr}
+  .funnel-inner{padding:28px}
   .nav-links a:not(.btn){display:none}
 }
 </style>
@@ -81,6 +116,8 @@ iframe{width:100%;border:none;border-radius:14px}
       <span>clientReady</span>
     </a>
     <div class="nav-links">
+      <a href="/method.html">The Method</a>
+      <a href="/case-studies.html">Case Studies</a>
       <a href="/services.html">Services</a>
       <a href="/workshop.html">Watch</a>
       <a href="/" class="btn btn-primary">Home</a>
@@ -88,84 +125,401 @@ iframe{width:100%;border:none;border-radius:14px}
   </div>
 </nav>
 
-<header class="hero-strategy">
+<header class="hero-funnel">
   <div class="container">
-    <div class="tag">
-      <span class="dot"></span>
-      <span>4 of 10 cohort spots filled — closing soon</span>
-    </div>
-    <h1>Book a 30-min Strategy Call</h1>
-    <p class="lede">We'll walk through your ICP, your offer, and your current pipeline. By the end, you'll know whether this would work for your business — and whether you're a fit for the cohort.</p>
+    <div class="tag"><span class="dot"></span><span>Founding 5 &middot; 3 spots left</span></div>
+    <h1>Apply for a 30-min strategy call.</h1>
+    <p class="lede">5 quick questions so we both know if we're a fit before we get on the call. If yes, you book directly. If not, we'll tell you why and point you somewhere useful.</p>
   </div>
 </header>
 
 <div class="container">
-  <div class="split">
-    <div class="left-pane">
-      <h2>What to expect on this call</h2>
-      <p>30 minutes. Founder-led. No generic deck, no junior salesperson. We dig into the specifics of your business and either propose how we'd build pipeline for you, or tell you straight that you're not a fit.</p>
-
-      <div class="expectation">
-        <h4>0–5 min · Your business</h4>
-        <p>Quick context: who you sell to, current pipeline sources, what's working, what isn't.</p>
-      </div>
-      <div class="expectation">
-        <h4>5–15 min · Diagnose</h4>
-        <p>We map your funnel: lead source → response → meeting → close. Identify where it's leaking revenue.</p>
-      </div>
-      <div class="expectation">
-        <h4>15–25 min · The build</h4>
-        <p>If we're a fit, we walk through what your specific outbound engine would look like. Numbers, timelines, deliverables.</p>
-      </div>
-      <div class="expectation">
-        <h4>25–30 min · Decision</h4>
-        <p>You'll know if you want to join the cohort. We'll know if we want to take you on. No pressure — clean yes/no.</p>
+  <div class="funnel">
+    <div class="funnel-inner">
+      <div class="progress">
+        <div class="progress-step active" id="p1"></div>
+        <div class="progress-step" id="p2"></div>
+        <div class="progress-step" id="p3"></div>
+        <div class="progress-step" id="p4"></div>
+        <div class="progress-step" id="p5"></div>
       </div>
 
-      <div class="fit">
-        <h4>You're a fit if</h4>
-        <ul>
-          <li>You're a B2B SaaS, agency, or professional service</li>
-          <li>You're doing $500k+ in annual revenue</li>
-          <li>You're spending $3k+/mo on lead gen, marketing, or SDRs</li>
-          <li>You can take 5+ qualified meetings/week if we deliver them</li>
-          <li>You're the decision-maker (founder, CEO, VP Sales)</li>
-        </ul>
+      <!-- STEP 1: Who are you -->
+      <div class="step active" data-step="1">
+        <div class="step-label">Step 1 of 5</div>
+        <h2>Who's running this?</h2>
+        <p class="sub">We work with founders, CEOs, and revenue leaders. The strategy call is founder-to-founder.</p>
+
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" id="q-name" placeholder="Sarah Chen" autocomplete="name">
+        </div>
+        <div class="field">
+          <label>Work email</label>
+          <input type="email" id="q-email" placeholder="sarah@yourcompany.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label>Your role</label>
+          <div class="options">
+            <div class="option" data-q="role" data-val="founder">Founder / CEO</div>
+            <div class="option" data-q="role" data-val="vp-sales">VP Sales / Revenue</div>
+            <div class="option" data-q="role" data-val="head-growth">Head of Growth</div>
+            <div class="option" data-q="role" data-val="director">Director-level</div>
+            <div class="option" data-q="role" data-val="operator">Operator / Manager</div>
+            <div class="option" data-q="role" data-val="other">Other</div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <span></span>
+          <button class="next-btn" onclick="nextStep()" disabled id="btn-1">Continue</button>
+        </div>
       </div>
 
-      <div class="not-fit">
-        <h4>You're not a fit if</h4>
-        <ul>
-          <li>You sell B2C / consumer products</li>
-          <li>Average customer LTV is under $5k</li>
-          <li>You're pre-revenue / pre-product</li>
-          <li>You want a cheap retainer, not a system</li>
-        </ul>
-      </div>
-    </div>
+      <!-- STEP 2: Company profile -->
+      <div class="step" data-step="2">
+        <div class="step-label">Step 2 of 5</div>
+        <h2>About your company.</h2>
+        <p class="sub">Helps us figure out if our system fits your sales motion.</p>
 
-    <div class="right-pane" id="calendly-container">
-      <div class="calendly-placeholder">
-        <h3>Calendly embed loads here</h3>
-        <p>Replace the iframe URL below with your Calendly link. Default placeholder shown.</p>
-        <code>cal.com/clientready/strategy</code>
+        <div class="field">
+          <label>Company name</label>
+          <input type="text" id="q-company" placeholder="Acme Inc">
+        </div>
+        <div class="field">
+          <label>Website / domain</label>
+          <input type="text" id="q-domain" placeholder="acme.com">
+        </div>
+        <div class="field">
+          <label>What you sell</label>
+          <div class="options">
+            <div class="option" data-q="industry" data-val="b2b-saas">B2B SaaS</div>
+            <div class="option" data-q="industry" data-val="agency">B2B Agency</div>
+            <div class="option" data-q="industry" data-val="consulting">Professional Services / Consulting</div>
+            <div class="option" data-q="industry" data-val="other-b2b">Other B2B</div>
+            <div class="option disqualify" data-q="industry" data-val="b2c">B2C / Consumer</div>
+            <div class="option disqualify" data-q="industry" data-val="freelance">Freelance / Solo</div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+          <button class="next-btn" onclick="nextStep()" disabled id="btn-2">Continue</button>
+        </div>
       </div>
+
+      <!-- STEP 3: Revenue + ACV -->
+      <div class="step" data-step="3">
+        <div class="step-label">Step 3 of 5</div>
+        <h2>Show me the money.</h2>
+        <p class="sub">No exact numbers needed &mdash; just a range. We can't make the math work below certain thresholds and won't waste your time if so.</p>
+
+        <div class="field">
+          <label>Annual revenue (current)</label>
+          <div class="options">
+            <div class="option disqualify" data-q="arr" data-val="pre-revenue">Pre-revenue</div>
+            <div class="option disqualify" data-q="arr" data-val="under-500k">Under $500k</div>
+            <div class="option" data-q="arr" data-val="500k-1m">$500k &ndash; $1M</div>
+            <div class="option" data-q="arr" data-val="1m-5m">$1M &ndash; $5M</div>
+            <div class="option" data-q="arr" data-val="5m-25m">$5M &ndash; $25M</div>
+            <div class="option" data-q="arr" data-val="25m+">$25M+</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Average customer LTV / ACV</label>
+          <div class="options">
+            <div class="option disqualify" data-q="acv" data-val="under-5k">Under $5k</div>
+            <div class="option" data-q="acv" data-val="5k-15k">$5k &ndash; $15k</div>
+            <div class="option" data-q="acv" data-val="15k-50k">$15k &ndash; $50k</div>
+            <div class="option" data-q="acv" data-val="50k-150k">$50k &ndash; $150k</div>
+            <div class="option" data-q="acv" data-val="150k+">$150k+</div>
+            <div class="option" data-q="acv" data-val="unknown">Not sure</div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+          <button class="next-btn" onclick="nextStep()" disabled id="btn-3">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: Pipeline reality -->
+      <div class="step" data-step="4">
+        <div class="step-label">Step 4 of 5</div>
+        <h2>Your current pipeline.</h2>
+        <p class="sub">Pick whichever feels most true. Honest answers help us prep your audit.</p>
+
+        <div class="field">
+          <label>How you get customers today</label>
+          <div class="options options-single">
+            <div class="option" data-q="channels" data-val="inbound-only">Inbound + content only</div>
+            <div class="option" data-q="channels" data-val="referral-only">100% referrals / word of mouth</div>
+            <div class="option" data-q="channels" data-val="paid-ads">Paid ads (Meta, Google, LinkedIn)</div>
+            <div class="option" data-q="channels" data-val="sdrs">In-house SDRs doing outbound</div>
+            <div class="option" data-q="channels" data-val="mix">A mix of channels, nothing dominant</div>
+            <div class="option" data-q="channels" data-val="failed-outbound">Tried outbound, gave up on it</div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Qualified meetings booked per month</label>
+          <div class="options">
+            <div class="option" data-q="meetings" data-val="0-5">0 &ndash; 5</div>
+            <div class="option" data-q="meetings" data-val="5-15">5 &ndash; 15</div>
+            <div class="option" data-q="meetings" data-val="15-30">15 &ndash; 30</div>
+            <div class="option" data-q="meetings" data-val="30+">30+ (we're fine)</div>
+          </div>
+        </div>
+
+        <div class="step-actions">
+          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+          <button class="next-btn" onclick="nextStep()" disabled id="btn-4">Continue</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: Compelling event -->
+      <div class="step" data-step="5">
+        <div class="step-label">Step 5 of 5</div>
+        <h2>One last thing &mdash; why now?</h2>
+        <p class="sub">The "why now" is the single biggest predictor of whether outbound will work for you. Pick the one closest to your truth.</p>
+
+        <div class="field">
+          <label>What's driving you to look at outbound now?</label>
+          <div class="options options-single">
+            <div class="option" data-q="why-now" data-val="growth-pressure">Need to grow faster &mdash; current channels plateaued</div>
+            <div class="option" data-q="why-now" data-val="lost-client">Lost a big client / revenue concentration risk</div>
+            <div class="option" data-q="why-now" data-val="hired-sales">Hired a sales team that needs leads to close</div>
+            <div class="option" data-q="why-now" data-val="board-pressure">Board / investor pressure for predictable pipeline</div>
+            <div class="option" data-q="why-now" data-val="new-market">Expanding into a new market / vertical</div>
+            <div class="option" data-q="why-now" data-val="exploring">Just exploring &mdash; no specific event</div>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Anything we should know before the call? (optional)</label>
+          <textarea id="q-notes" placeholder="Specific competitors, target ICP, past agency experiences&hellip;"></textarea>
+        </div>
+
+        <div class="step-actions">
+          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+          <button class="next-btn" onclick="submitFunnel()" disabled id="btn-5">See if I'm a fit</button>
+        </div>
+      </div>
+
+      <!-- RESULT: FIT -->
+      <div class="step" data-step="result-fit">
+        <div class="result-fit">
+          <div class="check">&check;</div>
+          <h2 id="fit-headline">You're a fit. Let's book the call.</h2>
+          <p class="sub" id="fit-subline">Based on your answers, you check every box for the founding-5 cohort. Below is the calendar.</p>
+
+          <div class="audit-preview">
+            <h4>Pre-call audit (auto-generated)</h4>
+            <p id="audit-text">We'll mystery-shop <strong id="audit-domain">your domain</strong> live on the call. Expect us to dig into: response time on your demo flow, domain reputation and inbox placement, LinkedIn ICP reach, and the pipeline gap math against your <span id="audit-arr">current revenue</span>.</p>
+          </div>
+
+          <div class="calendly-shell" id="calendly-container">
+            <div class="calendly-placeholder">
+              <h3>Calendar loads here</h3>
+              <p>Paste your Calendly URL into the script at the bottom of this file. We'll send you a personalized confirmation + pre-call audit the moment you book.</p>
+              <code id="cal-url-display">CALENDLY_URL = ""</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- RESULT: NOT A FIT -->
+      <div class="step" data-step="result-nofit">
+        <div class="result-nofit">
+          <div class="x">&times;</div>
+          <h2 id="nofit-headline">We're not the right fit &mdash; and that's a good thing to know upfront.</h2>
+          <p class="sub" id="nofit-subline">Based on your answers, our system isn't the right move for you right now. Here's why and where to go instead.</p>
+
+          <div style="text-align:left;background:rgba(255,255,255,0.02);border:1px solid var(--card-border);border-radius:12px;padding:24px;margin-bottom:24px">
+            <div style="font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">Why we're saying no</div>
+            <p id="nofit-reason" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
+          </div>
+
+          <div style="text-align:left;background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.18);border-radius:12px;padding:24px">
+            <div style="font-size:.78rem;color:#A5A5F1;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">What we'd do in your shoes</div>
+            <p id="nofit-suggestion" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
+          </div>
+
+          <p style="margin-top:32px;color:var(--text-mute);font-size:.9rem">
+            Still want to chat? Email <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> directly.
+          </p>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
 
-<div class="alt-cta">
+<footer>
   <div class="container">
-    <p>Not ready for a call?</p>
-    <a href="/workshop.html">Watch the live breakdown video instead →</a>
+    <p>&copy; 2026 clientReady &middot; <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> &middot; <a href="/">Home</a></p>
   </div>
-</div>
+</footer>
 
 <script>
+// ============================================================
+// PASTE YOUR CALENDLY URL HERE
+// Example: "https://calendly.com/richardmarro/strategy-call"
+// Leave empty until you have it; the placeholder will show.
+// ============================================================
 const CALENDLY_URL = "";
-const container = document.getElementById('calendly-container');
-if (CALENDLY_URL) {
-  container.innerHTML = `<iframe src="${CALENDLY_URL}?hide_gdpr_banner=1&background_color=0a0a0f&text_color=f5f5f7&primary_color=6366f1" style="width:100%;height:680px"></iframe>`;
+
+const answers = {};
+let currentStep = 1;
+const totalSteps = 5;
+
+// Wire up option buttons
+document.querySelectorAll('.option').forEach(opt => {
+  opt.addEventListener('click', () => {
+    const q = opt.dataset.q;
+    const v = opt.dataset.val;
+    // Deselect siblings with same q
+    document.querySelectorAll(`.option[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
+    opt.classList.add('selected');
+    answers[q] = v;
+    checkStepComplete();
+  });
+});
+
+// Wire up text inputs
+['q-name','q-email','q-company','q-domain','q-notes'].forEach(id => {
+  const el = document.getElementById(id);
+  if (el) el.addEventListener('input', () => {
+    answers[id.replace('q-','')] = el.value.trim();
+    checkStepComplete();
+  });
+});
+
+function checkStepComplete() {
+  const requiredByStep = {
+    1: () => answers.name && answers.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(answers.email) && answers.role,
+    2: () => answers.company && answers.domain && answers.industry,
+    3: () => answers.arr && answers.acv,
+    4: () => answers.channels && answers.meetings,
+    5: () => answers['why-now']
+  };
+  const btn = document.getElementById('btn-' + currentStep);
+  if (btn) btn.disabled = !requiredByStep[currentStep]();
+}
+
+function nextStep() {
+  if (currentStep < totalSteps) {
+    document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+    document.getElementById('p' + currentStep).classList.remove('active');
+    document.getElementById('p' + currentStep).classList.add('done');
+    currentStep++;
+    document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+    document.getElementById('p' + currentStep).classList.add('active');
+    checkStepComplete();
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+}
+
+function prevStep() {
+  if (currentStep > 1) {
+    document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+    document.getElementById('p' + currentStep).classList.remove('active');
+    currentStep--;
+    document.getElementById('p' + currentStep).classList.remove('done');
+    document.getElementById('p' + currentStep).classList.add('active');
+    document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+}
+
+function evaluateFit() {
+  // Disqualifying criteria
+  const disqualifiers = [];
+
+  if (['b2c','freelance'].includes(answers.industry)) {
+    disqualifiers.push({
+      reason: "We build outbound infrastructure for B2B companies selling to other businesses. B2C and freelance/solo operators have fundamentally different growth dynamics &mdash; our system would underperform for you.",
+      suggestion: "For B2C: focus on paid social (Meta, TikTok) + influencer partnerships. For freelance: a single niche LinkedIn presence + word-of-mouth scales better than cold outbound at your stage."
+    });
+  }
+  if (['pre-revenue','under-500k'].includes(answers.arr)) {
+    disqualifiers.push({
+      reason: "Our system is engineered for companies with $500k+ in annual revenue. Below that, the buildout cost ($7,500 deposit) is a higher % of your revenue than makes sense &mdash; and you typically don't have the sales capacity yet to handle 20 qualified meetings/month.",
+      suggestion: "Focus on getting to $500k ARR through founder-led sales and warm intros. Once you're there, come back &mdash; you'll have the foundation to make outbound 10x your revenue."
+    });
+  }
+  if (answers.acv === 'under-5k') {
+    disqualifiers.push({
+      reason: "Our economic model needs an average customer LTV of $5k+. With sub-$5k ACV, the cost-per-meeting math doesn't work &mdash; you'd need 4&ndash;5x the volume to make the unit economics stable.",
+      suggestion: "Either raise prices (most companies are undercharging anyway) or focus on inbound + product-led growth instead of high-touch outbound. We can refer you to a PLG specialist if useful."
+    });
+  }
+  if (answers.meetings === '30+') {
+    disqualifiers.push({
+      reason: "You're already booking 30+ qualified meetings per month. Honestly, you probably don't need us &mdash; the constraint isn't pipeline volume, it's something else (close rate, retention, expansion).",
+      suggestion: "Look at the &ldquo;after the meeting&rdquo; layer: sales coaching, demo optimization, pricing experiments. If you do want more pipeline volume despite this, email us anyway &mdash; we can scope a smaller engagement."
+    });
+  }
+
+  return disqualifiers;
+}
+
+async function submitFunnel() {
+  const btn = document.getElementById('btn-5');
+  btn.disabled = true;
+  btn.textContent = 'Checking...';
+
+  // POST to lead capture endpoint
+  try {
+    await fetch('/api/lead-capture', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({
+        ...answers,
+        firm: answers.company,
+        source: 'strategy-funnel',
+        submitted_at: new Date().toISOString()
+      })
+    });
+  } catch (e) {
+    // Non-blocking — show result regardless
+    console.warn('Lead capture failed:', e);
+  }
+
+  const disqualifiers = evaluateFit();
+
+  // Hide all steps + progress bar
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
+
+  if (disqualifiers.length === 0) {
+    // FIT — show calendar
+    document.querySelector('.step[data-step="result-fit"]').classList.add('active');
+    document.getElementById('audit-domain').textContent = answers.domain || 'your domain';
+    const arrLabels = {
+      '500k-1m':'$500k&ndash;$1M revenue',
+      '1m-5m':'$1M&ndash;$5M revenue',
+      '5m-25m':'$5M&ndash;$25M revenue',
+      '25m+':'$25M+ revenue'
+    };
+    document.getElementById('audit-arr').innerHTML = arrLabels[answers.arr] || 'current revenue';
+
+    if (CALENDLY_URL) {
+      const url = CALENDLY_URL +
+        '?hide_gdpr_banner=1&background_color=0a0a0f&text_color=f5f5f7&primary_color=6366f1' +
+        '&name=' + encodeURIComponent(answers.name || '') +
+        '&email=' + encodeURIComponent(answers.email || '');
+      document.getElementById('calendly-container').innerHTML =
+        '<iframe src="' + url + '" allow="camera; microphone; fullscreen"></iframe>';
+    }
+  } else {
+    // NOT A FIT — show why
+    document.querySelector('.step[data-step="result-nofit"]').classList.add('active');
+    const primary = disqualifiers[0];
+    document.getElementById('nofit-reason').innerHTML = primary.reason;
+    document.getElementById('nofit-suggestion').innerHTML = primary.suggestion;
+  }
+
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 </script>
 </body>
