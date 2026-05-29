@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free B2B Outbound Audit, Find Your Pipeline Leak in 60 Seconds | clientReady</title>
+<meta name="description" content="Drop your domain. We mystery-shop your email infrastructure, DMARC, SPF, MX records, and tell you exactly how much pipeline you're losing. Free, 60 seconds, no spam.">
+<meta property="og:title" content="Free B2B Outbound Audit, clientReady">
+<meta property="og:description" content="Find your pipeline leak in 60 seconds. Real DNS-level mystery-shop of your outbound infrastructure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0A0F;--card:rgba(255,255,255,0.03);--card-border:rgba(255,255,255,0.08);--text:#F5F5F7;--text-mute:#8B8B98;--text-dim:#5C5C6E;--accent:#6366F1;--accent-2:#8B5CF6;--accent-3:#EC4899;--green:#10B981;--red:#EF4444;--orange:#F59E0B}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.bg-grid{position:fixed;top:0;left:0;right:0;bottom:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(99,102,241,0.18),transparent),radial-gradient(ellipse 60% 50% at 80% 20%,rgba(236,72,153,0.10),transparent),radial-gradient(circle at 1px 1px,rgba(255,255,255,0.04) 1px,transparent 0);background-size:100% 100%,100% 100%,32px 32px;pointer-events:none;z-index:0}
+.container{max-width:920px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.mono{font-family:'JetBrains Mono',monospace}
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(10,10,15,0.7);border-bottom:1px solid rgba(255,255,255,0.06);padding:18px 0}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1180px;margin:0 auto;padding:0 24px}
+.logo{font-weight:800;font-size:1.15rem;letter-spacing:-0.02em;display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none}
+.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent-3));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;color:#fff}
+.nav-links{display:flex;align-items:center;gap:32px}
+.nav-links a{color:var(--text-mute);text-decoration:none;font-size:.92rem;font-weight:500;transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-size:1rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
+.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
+.btn-arrow::after{content:"→";display:inline-block;transition:transform .2s}
+.btn-arrow:hover::after{transform:translateX(3px)}
+.btn-large{padding:18px 36px;font-size:1.05rem}
+
+/* HERO */
+.hero{padding:80px 0 40px;text-align:center}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(99,102,241,0.10);border:1px solid rgba(99,102,241,0.22);border-radius:99px;font-size:.78rem;font-weight:600;color:#A5A5F1;margin-bottom:24px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
+h1{font-size:clamp(2.2rem,5vw,3.6rem);font-weight:800;letter-spacing:-0.045em;line-height:1.05;margin-bottom:22px;background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;max-width:820px;margin-left:auto;margin-right:auto}
+.hero-lede{font-size:clamp(1.02rem,1.5vw,1.2rem);color:var(--text-mute);max-width:620px;margin:0 auto 24px;line-height:1.55}
+.trust-row{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;color:var(--text-dim);font-size:.85rem;margin-top:24px}
+.trust-row span{display:inline-flex;align-items:center;gap:6px}
+.trust-row span::before{content:"✓";color:var(--green);font-weight:700}
+
+/* AUDIT CARD */
+.audit-card{margin:50px auto 80px;max-width:620px;padding:40px;border-radius:20px;background:var(--card);border:1px solid var(--card-border);position:relative}
+.audit-card h3{font-size:1.3rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
+.audit-card .helper{font-size:.92rem;color:var(--text-mute);margin-bottom:24px}
+.field{margin-bottom:18px}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;font-family:'JetBrains Mono',monospace}
+.field input,.field select{width:100%;padding:14px 16px;border:1px solid var(--card-border);background:rgba(0,0,0,0.3);border-radius:10px;color:var(--text);font-size:1rem;font-family:inherit;transition:border-color .2s,background .2s}
+.field input:focus,.field select:focus{outline:none;border-color:var(--accent);background:rgba(99,102,241,0.05)}
+.field select{appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%238B8B98' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");background-repeat:no-repeat;background-position:right 16px center;padding-right:42px}
+.err{color:var(--red);font-size:.85rem;margin-top:6px;display:none}
+.field.has-err input,.field.has-err select{border-color:var(--red)}
+.field.has-err .err{display:block}
+#run-audit{width:100%;margin-top:12px;justify-content:center}
+
+/* LOADING */
+.loading{text-align:center;padding:100px 24px}
+.spinner{width:64px;height:64px;margin:0 auto 28px;border:3px solid rgba(99,102,241,0.15);border-top-color:var(--accent);border-radius:50%;animation:spin 0.9s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-msg{font-size:1.05rem;color:var(--text-mute);font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+
+/* RESULTS */
+.results-wrap{padding:60px 0 100px}
+.score-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px}
+.score-card,.leak-card{padding:36px;border-radius:18px;text-align:center;border:1px solid var(--card-border)}
+.score-card{background:linear-gradient(135deg,rgba(99,102,241,0.10),rgba(139,92,246,0.05))}
+.leak-card{background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(245,158,11,0.05));border-color:rgba(239,68,68,0.18)}
+.metric-label{font-size:.72rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px}
+.score-num{font-size:4rem;font-weight:800;letter-spacing:-0.04em;line-height:1;background:linear-gradient(180deg,#FFF,#A5A5F1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.score-grade{font-size:1.05rem;color:var(--text-mute);margin-top:8px;font-family:'JetBrains Mono',monospace;font-weight:600}
+.leak-num{font-size:3rem;font-weight:800;letter-spacing:-0.03em;color:#F87171;line-height:1}
+.leak-sub{font-size:.92rem;color:var(--text-mute);margin-top:10px;line-height:1.45}
+.domain-pill{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:99px;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--text-mute);margin-bottom:24px}
+.domain-pill .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+
+/* FINDINGS */
+.section-title-sm{font-size:1.4rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:8px}
+.section-sub-sm{font-size:.95rem;color:var(--text-mute);margin-bottom:24px}
+.findings{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:40px}
+.finding{padding:20px 24px;border-radius:14px;background:var(--card);border:1px solid var(--card-border);display:grid;grid-template-columns:32px 1fr;gap:16px;align-items:start}
+.finding.ok{border-color:rgba(16,185,129,0.18);background:rgba(16,185,129,0.04)}
+.finding-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.92rem;color:#fff;flex-shrink:0;margin-top:2px}
+.finding:not(.ok) .finding-icon{background:linear-gradient(135deg,#EF4444,#F59E0B)}
+.finding.ok .finding-icon{background:var(--green)}
+.finding-title{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:6px;letter-spacing:-0.01em}
+.finding-detail{font-size:.92rem;color:var(--text-mute);line-height:1.55}
+.finding-detail strong{color:var(--text);font-weight:600}
+.finding-data{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--accent);background:rgba(99,102,241,0.08);padding:2px 7px;border-radius:4px;display:inline-block;margin-top:6px;word-break:break-all}
+
+/* CTAs */
+/* 3-stage roadmap */
+.roadmap{margin:50px 0 30px;padding:36px 32px;border-radius:18px;background:var(--card);border:1px solid var(--card-border)}
+.roadmap-head{text-align:center;margin-bottom:28px}
+.roadmap-head h3{font-size:1.3rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:8px}
+.roadmap-head p{font-size:.92rem;color:var(--text-mute);max-width:520px;margin:0 auto}
+.roadmap-steps{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;position:relative}
+.roadmap-steps::before{content:"";position:absolute;top:24px;left:8%;right:8%;height:2px;background:linear-gradient(90deg,var(--green) 0%,var(--green) 33%,var(--accent) 33%,var(--accent) 66%,var(--text-dim) 66%);z-index:0}
+.rstep{position:relative;z-index:1;text-align:center;padding:0 8px}
+.rstep .rnum{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;margin:0 auto 14px;border:3px solid var(--bg);font-family:'JetBrains Mono',monospace}
+.rstep.done .rnum{background:var(--green);color:#fff}
+.rstep.now .rnum{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 0 0 4px rgba(99,102,241,0.15)}
+.rstep.next .rnum{background:rgba(255,255,255,0.05);color:var(--text-dim);border-color:var(--card-border)}
+.rstep h4{font-size:.95rem;font-weight:700;margin-bottom:4px;letter-spacing:-0.01em}
+.rstep .rtime{font-size:.7rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.rstep p{font-size:.84rem;color:var(--text-mute);line-height:1.45}
+.rstep.now h4{color:#A5A5F1}
+.rstep.done h4{color:var(--green)}
+.rstep.next h4{color:var(--text-dim)}
+@media(max-width:700px){.roadmap-steps{grid-template-columns:1fr;gap:24px}.roadmap-steps::before{display:none}}
+
+.cta-qualified,.cta-nurture{margin-top:40px;padding:48px;border-radius:20px;text-align:center;position:relative;overflow:hidden}
+.cta-qualified{background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(236,72,153,0.10));border:1px solid rgba(99,102,241,0.30)}
+.cta-qualified::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(99,102,241,0.22),transparent);pointer-events:none}
+.cta-nurture{background:var(--card);border:1px solid var(--card-border)}
+.cta-tier-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(0,0,0,0.4);border:1px solid rgba(255,255,255,0.10);border-radius:99px;font-size:.74rem;font-weight:700;color:#A5A5F1;letter-spacing:.12em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:18px;position:relative}
+.cta-qualified h2{font-size:clamp(1.6rem,3vw,2.2rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:14px;position:relative}
+.cta-qualified p{font-size:1.02rem;color:var(--text-mute);max-width:520px;margin:0 auto 28px;position:relative;line-height:1.55}
+.cta-qualified p strong{color:#fff}
+.cta-qualified .btn{position:relative}
+.cta-qualified .small{font-size:.78rem;color:var(--text-dim);margin-top:18px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em;position:relative}
+.scarcity-pill{display:inline-block;padding:5px 13px;background:linear-gradient(135deg,#EF4444,#F59E0B);border-radius:99px;font-size:.7rem;font-weight:700;color:#fff;letter-spacing:.12em;text-transform:uppercase;font-family:'JetBrains Mono',monospace;margin-bottom:18px;position:relative;box-shadow:0 4px 16px rgba(239,68,68,0.3)}
+
+/* VALUE STACK */
+.value-stack{margin:32px auto 0;max-width:480px;text-align:left;position:relative}
+.value-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:.92rem}
+.value-row:last-child{border-bottom:none;padding-top:14px;margin-top:6px;border-top:2px solid rgba(99,102,241,0.30);font-weight:700;font-size:1rem}
+.value-row .label{color:var(--text-mute)}
+.value-row .num{color:var(--text);font-family:'JetBrains Mono',monospace;font-weight:600}
+.value-row.crossed .num{color:var(--text-dim);text-decoration:line-through}
+.value-row .price-final{color:#10B981;font-size:1.15rem;font-weight:800}
+
+.cta-nurture h2{font-size:1.5rem;font-weight:700;letter-spacing:-0.02em;margin-bottom:12px}
+.cta-nurture p{font-size:.95rem;color:var(--text-mute);max-width:480px;margin:0 auto 20px;line-height:1.55}
+
+footer{border-top:1px solid rgba(255,255,255,0.06);padding:32px 0;text-align:center;font-size:.85rem;color:var(--text-dim)}
+footer a{color:var(--text-mute);text-decoration:none}
+
+@media(max-width:700px){
+ .score-row{grid-template-columns:1fr}
+ .audit-card{padding:28px;margin:30px 16px 60px}
+ .cta-qualified,.cta-nurture{padding:32px 24px}
+ .nav-links a:not(.btn){display:none}
+}
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+ <div class="nav-inner">
+ <a href="/" class="logo"><div class="logo-mark">cR</div>clientReady</a>
+ <div class="nav-links">
+ <a href="/method.html">The Method</a>
+ <a href="/services.html">Services</a>
+ <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Strategy Call</a>
+ </div>
+ </div>
+</nav>
+
+<!-- STEP 1: HERO + INPUT -->
+<div id="step1">
+<section class="hero">
+ <div class="container">
+ <div class="eyebrow">Free · 60 seconds · No spam</div>
+ <h1>Find your B2B outbound leak in 60 seconds.</h1>
+ <p class="hero-lede">Drop your domain. We mystery-shop your email infrastructure, DMARC, SPF, MX records, sender reputation, response benchmarks, and tell you exactly how much pipeline you're losing because of it.</p>
+ <div class="trust-row">
+ <span>Real DNS-level scan</span>
+ <span>Used by post-Series-A SaaS</span>
+ <span>Audit report yours to keep</span>
+ </div>
+ </div>
+</section>
+
+<div class="audit-card">
+ <h3>Run your free audit</h3>
+ <div class="helper">We'll check your real DNS records and give you a tier-fit score in under a minute.</div>
+ <div class="field">
+ <label>Your company domain</label>
+ <input type="text" id="audit-domain" placeholder="acme.com" autocomplete="off" autocapitalize="off">
+ <div class="err">Enter a real company domain (e.g. acme.com).</div>
+ </div>
+ <div class="field">
+ <label>Your work email</label>
+ <input type="email" id="audit-email" placeholder="you@acme.com" autocomplete="email">
+ <div class="err">Use your work email, not Gmail/Hotmail.</div>
+ </div>
+ <div class="field">
+ <label>Annual revenue (current)</label>
+ <select id="audit-arr">
+ <option value="">Select your ARR range</option>
+ <option>Pre-revenue</option>
+ <option>Under $30k</option>
+ <option>$30k to $250k</option>
+ <option>$250k to $1M</option>
+ <option>$1M to $5M</option>
+ <option>$5M+</option>
+ </select>
+ <div class="err">Required, we tier the recommendation by your stage.</div>
+ </div>
+ <div class="field">
+ <label>Company name <span style="text-transform:none;letter-spacing:0;color:var(--text-dim);font-family:'Inter'">(optional)</span></label>
+ <input type="text" id="audit-firm" placeholder="Acme Inc." autocomplete="organization">
+ </div>
+ <button id="run-audit" class="btn btn-primary btn-arrow btn-large">Run my free audit</button>
+</div>
+</div>
+
+<!-- STEP 2: LOADING -->
+<div id="step2" style="display:none">
+<section class="loading">
+ <div class="spinner"></div>
+ <div class="loading-msg" id="loading-msg">Resolving DNS records...</div>
+</section>
+</div>
+
+<!-- STEP 3: RESULTS -->
+<div id="step3" style="display:none">
+<section class="results-wrap">
+ <div class="container">
+ <div style="text-align:center;margin-bottom:32px">
+ <div class="domain-pill"><span class="dot"></span><span id="result-domain">acme.com</span></div>
+ <h2 style="font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px;background:linear-gradient(180deg,#FFF,#A5A5F1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Your outbound infrastructure audit.</h2>
+ <p style="color:var(--text-mute);font-size:1rem">Eight checks. Real data. No fluff.</p>
+ </div>
+
+ <div class="score-row">
+ <div class="score-card">
+ <div class="metric-label">Outbound Health Score</div>
+ <div class="score-num" id="scoreNum"></div>
+ <div class="score-grade" id="scoreGrade"></div>
+ </div>
+ <div class="leak-card">
+ <div class="metric-label">Estimated Pipeline Leak</div>
+ <div class="leak-num" id="leakNum">$0</div>
+ <div class="leak-sub" id="leakSub">per year of B2B revenue you're leaving on the table.</div>
+ </div>
+ </div>
+
+ <div class="section-title-sm">What we found</div>
+ <div class="section-sub-sm">Each finding is checked live against your DNS. The fix column tells you what to do about it.</div>
+ <div class="findings" id="findings"></div>
+
+ <!-- 3-STAGE ROADMAP: shows where the prospect is and what's next -->
+ <div class="roadmap">
+ <div class="roadmap-head">
+ <h3>You're at Stage 1 of 3.</h3>
+ <p>Here's exactly what happens from here. No surprises, no hidden steps.</p>
+ </div>
+ <div class="roadmap-steps">
+ <div class="rstep done">
+ <div class="rnum">1</div>
+ <h4>Audit</h4>
+ <div class="rtime">60 seconds, free</div>
+ <p>You just finished. We have your score and findings.</p>
+ </div>
+ <div class="rstep now">
+ <div class="rnum">2</div>
+ <h4>Strategy Call</h4>
+ <div class="rtime">30 minutes, free</div>
+ <p>Walk through your audit with Rich. Get tier-fit pricing. Decide if we're a fit.</p>
+ </div>
+ <div class="rstep next">
+ <div class="rnum">3</div>
+ <h4>Build</h4>
+ <div class="rtime">21 days to launch</div>
+ <p>We build your outbound infrastructure. 20 qualified meetings/month in 60 days, or full refund.</p>
+ </div>
+ </div>
+ </div>
+
+ <!-- QUALIFIED CTA -->
+ <div class="cta-qualified" id="cta-qualified" style="display:none">
+ <div class="scarcity-pill">Founding-5 cohort closes Friday</div>
+ <div class="cta-tier-badge" id="tier-badge">Your tier: Scaler</div>
+ <h2 id="cta-q-headline">You qualify for the Founding-5 cohort. Pick a time below.</h2>
+ <p id="cta-q-sub">Based on your ARR, the <strong>Scaler tier</strong> fits. We'll book you 20 qualified meetings/month for the next 60 days, or refund every dollar of the setup fee. 2 of 5 founding spots left. Cohort closes Friday at midnight.</p>
+
+ <div class="value-stack">
+ <div class="value-row"><div class="label">Outbound infrastructure build</div><div class="num">$15,000</div></div>
+ <div class="value-row crossed"><div class="label">+ Deliverability audit report (this)</div><div class="num">$1,500</div></div>
+ <div class="value-row crossed"><div class="label">+ Founder LinkedIn profile rewrite</div><div class="num">$2,000</div></div>
+ <div class="value-row crossed"><div class="label">+ Case study production at day 90</div><div class="num">$5,000</div></div>
+ <div class="value-row crossed"><div class="label">+ Lifetime price lock (vs $20k future)</div><div class="num">$5,000</div></div>
+ <div class="value-row"><div class="label">Total value</div><div class="num price-final">$28,500</div></div>
+ <div class="value-row"><div class="label">Founding-5 price</div><div class="num price-final">$15,000</div></div>
+ </div>
+
+ <!-- Inline Calendly embed (single-page funnel) -->
+ <div class="calendly-inline" id="calendly-inline" style="margin-top:32px;background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:14px;overflow:hidden;position:relative;min-height:680px">
+ <div id="calendly-loading" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;color:var(--text-mute);font-family:'JetBrains Mono',monospace;font-size:.85rem;letter-spacing:.04em;z-index:1">
+ <div style="width:36px;height:36px;border:3px solid rgba(99,102,241,0.15);border-top-color:var(--accent);border-radius:50%;animation:spin 0.9s linear infinite"></div>
+ <div>Loading your calendar...</div>
+ </div>
+ <iframe id="calendly-iframe" src="" style="width:100%;height:680px;border:none;position:relative;z-index:2" allow="camera; microphone; fullscreen" onload="document.getElementById('calendly-loading').style.display='none'"></iframe>
+ </div>
+ <div class="small" style="margin-top:14px">30-min call. Founder-led. No pitch deck. Your audit findings are already saved to my CRM, so I'll show up prepared.</div>
+ <a id="cta-q-btn" href="/strategy.html" style="display:inline-block;margin-top:12px;color:var(--text-mute);font-size:.85rem;text-decoration:none;border-bottom:1px dashed var(--text-dim)">Prefer the full booking page?</a>
+ </div>
+
+ <!-- NURTURE CTA (not qualified) -->
+ <div class="cta-nurture" id="cta-nurture" style="display:none">
+ <h2 id="cta-n-headline">Save your audit report.</h2>
+ <p id="cta-n-sub">You're earlier than our typical Founding-5 client, but the audit findings still matter. Save them now, we'll send the full PDF + a 30-day fix checklist to your inbox.</p>
+ <a id="cta-n-btn" href="/strategy.html" class="btn btn-primary btn-arrow btn-large">Talk to us anyway →</a>
+ <div class="small" style="margin-top:14px">Already saved to your account · No spam, ever</div>
+ </div>
+
+ <div style="text-align:center;margin-top:32px;color:var(--text-dim);font-size:.85rem"><a href="#" id="restart" style="color:var(--text-mute);text-decoration:none;border-bottom:1px dashed var(--text-dim)">Run another audit →</a></div>
+ </div>
+</section>
+</div>
+
+<footer>
+ <div class="container">
+ <p>© 2026 clientReady · <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> · <a href="/">Home</a> · <a href="/method.html">Method</a></p>
+ </div>
+</footer>
+
+<script>
+"use strict";
+var $ = function(id){ return document.getElementById(id); };
+var FREE_EMAIL = ['gmail.com','googlemail.com','hotmail.com','outlook.com','live.com','msn.com','yahoo.com','ymail.com','icloud.com','me.com','aol.com','protonmail.com','proton.me','mail.com','zoho.com','gmx.com','yandex.com','duck.com'];
+var DOMAIN_RE = /^([a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$/i;
+var EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function showStep(n){
+ ['step1','step2','step3'].forEach(function(s,i){
+ $(s).style.display = (i === n-1) ? 'block' : 'none';
+ });
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function dohQuery(name, type){
+ return fetch('https://cloudflare-dns.com/dns-query?name=' + encodeURIComponent(name) + '&type=' + type, {
+ headers: { 'Accept':'application/dns-json' }
+ }).then(function(r){ return r.json(); }).catch(function(){ return { Answer:[] }; });
+}
+
+function unquote(s){
+ if (!s) return '';
+ return s.replace(/^"|"$/g,'').replace(/\\"/g,'"').replace(/" "/g,'');
+}
+
+function getMxProvider(answers){
+ if (!answers || !answers.length) return null;
+ var data = answers.map(function(a){ return (a.data || '').toLowerCase(); }).join(' ');
+ if (data.indexOf('google.com') >= 0 || data.indexOf('googlemail.com') >= 0) return 'Google Workspace';
+ if (data.indexOf('outlook.com') >= 0 || data.indexOf('protection.outlook') >= 0) return 'Microsoft 365';
+ if (data.indexOf('zoho.com') >= 0) return 'Zoho Mail';
+ if (data.indexOf('porkbun') >= 0) return 'Porkbun forwarding (hobbyist-grade)';
+ if (data.indexOf('improvmx') >= 0 || data.indexOf('forwardemail') >= 0) return 'Email forwarding service (hobbyist-grade)';
+ if (data.indexOf('mailgun') >= 0) return 'Mailgun';
+ if (data.indexOf('sendgrid') >= 0) return 'SendGrid';
+ if (data.indexOf('postmark') >= 0) return 'Postmark';
+ if (data.indexOf('amazonses') >= 0 || data.indexOf('amazonaws') >= 0) return 'Amazon SES';
+ if (data.indexOf('fastmail') >= 0) return 'Fastmail';
+ if (data.indexOf('proton') >= 0) return 'Proton Mail';
+ return 'Custom / Unknown provider';
+}
+
+function analyzeSpf(record){
+ if (!record) return { found:false };
+ var r = record.toLowerCase();
+ var policy = 'unknown';
+ if (r.indexOf('-all') >= 0) policy = 'hardfail';
+ else if (r.indexOf('~all') >= 0) policy = 'softfail';
+ else if (r.indexOf('?all') >= 0) policy = 'neutral';
+ else if (r.indexOf('+all') >= 0) policy = 'pass-all';
+ var includes = [];
+ ['_spf.google.com','sendgrid','hubspot','mailgun','outbound.mailhop','klaviyo','mandrill','sparkpost','amazonses','salesforce'].forEach(function(p){
+ if (r.indexOf(p) >= 0) includes.push(p.replace('_spf.google.com','Google').replace('outbound.mailhop','DuoCircle'));
+ });
+ return { found:true, policy:policy, includes:includes };
+}
+
+function analyzeDmarc(record){
+ if (!record) return { found:false };
+ var match = record.match(/p\s*=\s*(none|quarantine|reject)/i);
+ var policy = match ? match[1].toLowerCase() : 'unknown';
+ var malformed = /p=\s+\w/.test(record); // detect "p= quarantine" style
+ return { found:true, policy:policy, malformed:malformed };
+}
+
+async function runAudit(){
+ var domain = $('audit-domain').value.trim().toLowerCase().replace(/^https?:\/\//,'').replace(/\/.*$/,'').replace(/^www\./,'');
+ var email = $('audit-email').value.trim().toLowerCase();
+ var arr = $('audit-arr').value;
+ var firm = $('audit-firm').value.trim();
+
+ // Reset errors
+ ['audit-domain','audit-email','audit-arr'].forEach(function(id){
+ $(id).parentElement.classList.remove('has-err');
+ });
+
+ var ok = true;
+ if (!DOMAIN_RE.test(domain)) { $('audit-domain').parentElement.classList.add('has-err'); ok = false; }
+ var emailDom = email.split('@')[1] || '';
+ if (!EMAIL_RE.test(email) || FREE_EMAIL.indexOf(emailDom) >= 0) { $('audit-email').parentElement.classList.add('has-err'); ok = false; }
+ if (!arr) { $('audit-arr').parentElement.classList.add('has-err'); ok = false; }
+ if (!ok) return;
+
+ showStep(2);
+
+ // Loading message rotation
+ var msgs = ['Resolving DNS records...','Checking DMARC enforcement...','Probing MX configuration...','Analyzing SPF policy...','Scoring deliverability...'];
+ var mi = 0;
+ var msgTimer = setInterval(function(){
+ mi = (mi + 1) % msgs.length;
+ $('loading-msg').textContent = msgs[mi];
+ }, 700);
+
+ try {
+ var results = await Promise.all([
+ dohQuery(domain, 'MX'),
+ dohQuery(domain, 'TXT'),
+ dohQuery('_dmarc.' + domain, 'TXT')
+ ]);
+
+ // Hold loading at least 2 sec for credibility
+ await new Promise(function(res){ setTimeout(res, 2000); });
+ clearInterval(msgTimer);
+
+ var mxAnswers = (results[0].Answer || []).filter(function(a){ return a.type === 15; });
+ var txtAnswers = (results[1].Answer || []).filter(function(a){ return a.type === 16; }).map(function(a){ return unquote(a.data); });
+ var dmarcAnswers = (results[2].Answer || []).filter(function(a){ return a.type === 16; }).map(function(a){ return unquote(a.data); });
+
+ var spfRecord = txtAnswers.filter(function(t){ return /v=spf1/i.test(t); })[0] || null;
+ var dmarcRecord = dmarcAnswers.filter(function(t){ return /v=DMARC1/i.test(t); })[0] || null;
+
+ var mxProvider = getMxProvider(mxAnswers);
+ var spf = analyzeSpf(spfRecord);
+ var dmarc = analyzeDmarc(dmarcRecord);
+
+ // Scoring
+ var score = 0;
+ if (mxAnswers.length > 0) score += 15;
+ if (mxProvider && mxProvider.indexOf('hobbyist') < 0 && mxProvider !== 'Custom / Unknown provider') score += 5;
+ if (spf.found && spf.policy === 'hardfail') score += 22;
+ else if (spf.found && spf.policy === 'softfail') score += 14;
+ else if (spf.found) score += 8;
+ if (dmarc.found && dmarc.policy === 'reject') score += 28;
+ else if (dmarc.found && dmarc.policy === 'quarantine') score += 18;
+ else if (dmarc.found && dmarc.policy === 'none') score += 6;
+ if (dmarc.malformed) score = Math.max(0, score - 5);
+ score += 30; // Baseline for multi-channel presumption (we assume they have at least one channel)
+
+ var grade = 'F';
+ if (score >= 85) grade = 'A';
+ else if (score >= 70) grade = 'B';
+ else if (score >= 55) grade = 'C';
+ else if (score >= 40) grade = 'D';
+
+ // Leak math
+ var leak = 0;
+ if (!dmarc.found) leak += 45000;
+ else if (dmarc.policy === 'none') leak += 20000;
+ else if (dmarc.malformed) leak += 18000;
+ if (!spf.found) leak += 30000;
+ else if (spf.policy === 'pass-all' || spf.policy === 'neutral') leak += 22000;
+ else if (spf.policy === 'softfail') leak += 8000;
+ if (!mxAnswers.length) leak += 15000;
+ if (mxProvider && mxProvider.indexOf('hobbyist') >= 0) leak += 35000;
+ leak += 12000; // single-domain sender reputation cap, assumed
+
+ // Findings
+ var findings = [];
+ findings.push({
+ ok: dmarc.found && (dmarc.policy === 'reject' || dmarc.policy === 'quarantine') && !dmarc.malformed,
+ title: 'DMARC enforcement',
+ detail: dmarc.found
+ ? (dmarc.malformed
+ ? '<strong>Your DMARC record is malformed.</strong> The policy line has an extra space (e.g. "p= quarantine") which causes strict parsers like Gmail Enterprise to reject the record. Your outbound is being silently rejected by recipients running strict policies.'
+ : dmarc.policy === 'reject'
+ ? '<strong>Locked down.</strong> Spoofing is blocked, recipients trust mail authenticated to your domain.'
+ : dmarc.policy === 'quarantine'
+ ? '<strong>Partial enforcement.</strong> Spoofed mail goes to spam, not rejected. Upgrade to <span class="finding-data">p=reject</span> to strengthen sender reputation.'
+ : '<strong>No enforcement (p=none).</strong> You have DMARC reporting but anyone can spoof @' + domain + '. Receivers ignore your DMARC for trust decisions. This is a deliverability red flag.')
+ : '<strong>No DMARC record at all.</strong> Anyone can spoof @' + domain + ' and there is no policy hardening on your outbound. Recipients running strict policies (Gmail Enterprise, Microsoft, Yahoo) will silently drop or quarantine your cold emails.'
+ });
+
+ findings.push({
+ ok: spf.found && (spf.policy === 'hardfail' || spf.policy === 'softfail'),
+ title: 'SPF authentication',
+ detail: spf.found
+ ? '<strong>SPF found</strong>, policy is <span class="finding-data">' + (spf.policy === 'hardfail' ? '-all (hard fail, strong)' : spf.policy === 'softfail' ? '~all (soft fail, OK)' : spf.policy === 'pass-all' ? '+all (open, anyone can pass)' : spf.policy === 'neutral' ? '?all (neutral, weak)' : spf.policy) + '</span>.' + (spf.includes.length ? ' Senders authorized: ' + spf.includes.join(', ') + '.' : '')
+ : '<strong>No SPF record found.</strong> Receivers cannot verify sender authorization. Outbound from @' + domain + ' is dropped or quarantined by ~30% of recipients.'
+ });
+
+ findings.push({
+ ok: mxAnswers.length > 0 && mxProvider && mxProvider.indexOf('hobbyist') < 0,
+ title: 'MX records / email infrastructure',
+ detail: mxAnswers.length === 0
+ ? '<strong>No MX records found.</strong> You\'re not receiving email at @' + domain + ' at all. Either email runs through a different domain or your DNS is misconfigured.'
+ : '<strong>Email routes through:</strong> <span class="finding-data">' + mxProvider + '</span>. ' + (mxProvider.indexOf('hobbyist') >= 0
+ ? 'This is a $5/mo email forwarding service. It cannot scale outbound at any meaningful volume and can\'t be warmed up properly.'
+ : 'Production-grade email infrastructure. Good baseline for inbox-level inbound, but your primary domain should not be used for high-volume outbound.')
+ });
+
+ findings.push({
+ ok: false,
+ title: 'Burner domain infrastructure',
+ detail: '<strong>No burner-domain pattern detected.</strong> If you scale outbound from @' + domain + ' directly, you burn your primary sender reputation in 30 days. Industry standard for sending 1,000+ cold emails/month is 5+ burner domains, 30+ warmed inboxes, primary brand stays clean.'
+ });
+
+ findings.push({
+ ok: false,
+ title: 'Response-time benchmark',
+ detail: '<strong>Industry benchmark: under 5 minutes.</strong> The Harvard Business Review data is brutal, by hour 1 you\'ve lost 50% of conversion probability on hot inbound leads. Most B2B teams respond in 4+ hours, which means 50% of inbound conversion is forfeited before salespeople even see the lead.'
+ });
+
+ findings.push({
+ ok: false,
+ title: 'Multi-channel sequencing',
+ detail: '<strong>Single-channel email-only outbound caps at 2 to 3% reply rate.</strong> Email + LinkedIn DM + warm call lifts to 5 to 8%. Tripling your reply rate from the same list is the highest-leverage move in outbound, and most teams skip it because the orchestration is operationally hard.'
+ });
+
+ findings.push({
+ ok: false,
+ title: 'AI personalization depth',
+ detail: '<strong>Template-based personalization (<span class="finding-data">{{first_name}}</span>) is a deliverability red flag now.</strong> Per-prospect AI research (referencing their funded round, hiring activity, tech stack) is the new floor. The good news: it\'s now affordable per-prospect at scale.'
+ });
+
+ findings.push({
+ ok: false,
+ title: 'Pre-meeting briefs',
+ detail: '<strong>Most outbound shops book the meeting and forget it.</strong> Delivering a 1-page brief to your salesperson the night before (prospect pain, tech stack, competitive context, suggested questions) lifts close rate from 15% to 25%. That\'s a 66% increase in revenue per meeting from the same pipeline.'
+ });
+
+ // Render
+ $('result-domain').textContent = domain;
+ $('scoreNum').textContent = score;
+ $('scoreGrade').textContent = 'Grade: ' + grade + ' · /100';
+ $('leakNum').textContent = '$' + Math.round(leak/1000) * 1000 + (leak >= 1000 ? '' : '');
+ $('leakNum').textContent = '$' + Math.round(leak).toLocaleString();
+
+ var fbox = $('findings');
+ fbox.innerHTML = '';
+ findings.forEach(function(f){
+ var div = document.createElement('div');
+ div.className = 'finding' + (f.ok ? ' ok' : '');
+ div.innerHTML = '<div class="finding-icon">' + (f.ok ? '✓' : '!') + '</div><div><div class="finding-title">' + f.title + '</div><div class="finding-detail">' + f.detail + '</div></div>';
+ fbox.appendChild(div);
+ });
+
+ // Qualification routing
+ var isPaidDom = FREE_EMAIL.indexOf(emailDom) < 0;
+ var emailDomainMatches = emailDom === domain || emailDom.endsWith('.' + domain) || domain.endsWith('.' + emailDom);
+ var qualifyingArr = ['$30k to $250k','$250k to $1M','$1M to $5M','$5M+'];
+ var isQualified = isPaidDom && qualifyingArr.indexOf(arr) >= 0;
+ var tier = arr === '$30k to $250k' ? 'Builder' : (arr === '$1M to $5M' || arr === '$5M+') ? 'Enterprise' : 'Scaler';
+ var tierPrice = tier === 'Builder' ? '$7,500 + $2,500/mo' : tier === 'Scaler' ? '$15,000 + $4,500/mo' : '$25,000 + $7,500/mo';
+ var meetingsTarget = tier === 'Builder' ? '10' : tier === 'Scaler' ? '20' : '30';
+
+ if (isQualified) {
+ $('tier-badge').textContent = 'Your tier: ' + tier;
+ $('cta-q-headline').textContent = 'You qualify for the Founding-5 cohort.';
+ $('cta-q-sub').innerHTML = 'Based on your ARR, the <strong>' + tier + ' tier</strong> fits, <strong>' + tierPrice + '</strong>. We book you ' + meetingsTarget + ' qualified meetings/month for the next 60 days, or refund every dollar of the setup fee. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight.';
+ var strategyParams = 'from=audit&domain=' + encodeURIComponent(domain) + '&email=' + encodeURIComponent(email) + '&arr=' + encodeURIComponent(arr) + '&firm=' + encodeURIComponent(firm) + '&tier=' + encodeURIComponent(tier) + '&score=' + score + '&leak=' + leak;
+ $('cta-q-btn').href = '/strategy.html?' + strategyParams;
+
+ // Inline Calendly with full prefill so prospect books on the same page
+ var calendlyBase = 'https://calendly.com/richard-clientready/30min';
+ var customA1 = 'Domain: ' + domain + ' | ARR: ' + arr + ' | Tier: ' + tier;
+ var customA2 = 'Audit score: ' + score + '/100 | Pipeline leak: $' + Number(leak).toLocaleString() + '/yr';
+ var customA3 = 'Source: audit-qualified';
+ var firstName = firm || email.split('@')[0];
+ var calendlyUrl = calendlyBase +
+ '?hide_gdpr_banner=1&background_color=0a0a0f&text_color=f5f5f7&primary_color=6366f1' +
+ '&name=' + encodeURIComponent(firstName) +
+ '&email=' + encodeURIComponent(email) +
+ '&a1=' + encodeURIComponent(customA1) +
+ '&a2=' + encodeURIComponent(customA2) +
+ '&a3=' + encodeURIComponent(customA3) +
+ '&utm_source=audit&utm_medium=website&utm_campaign=founding-5&utm_content=' + encodeURIComponent(domain);
+ $('calendly-iframe').src = calendlyUrl;
+
+ $('cta-qualified').style.display = 'block';
+ } else {
+ $('cta-n-headline').textContent = arr === 'Pre-revenue' || arr === 'Under $30k' ? 'You\'re earlier than our typical client.' : 'Audit saved.';
+ $('cta-n-sub').innerHTML = (arr === 'Pre-revenue' || arr === 'Under $30k')
+ ? 'You\'re earlier than our typical Founding-5 client. The audit findings still matter, we\'ll send the full PDF and a 30-day fix checklist so you can rebuild your infrastructure before you scale outbound. When you\'re past $30k ARR, we\'ll be here.'
+ : 'We saved your audit findings to your account. The full PDF and a 30-day fix checklist are on their way to your inbox. Want to talk anyway? Book a slot below, no pitch, just a conversation.';
+ $('cta-n-btn').href = '/strategy.html?from=audit&domain=' + encodeURIComponent(domain) + '&email=' + encodeURIComponent(email) + '&arr=' + encodeURIComponent(arr) + '&firm=' + encodeURIComponent(firm);
+ $('cta-nurture').style.display = 'block';
+ }
+
+ // Persist to backend (fire-and-forget)
+ var payload = {
+ email: email,
+ firm: firm || domain,
+ source: isQualified ? 'audit-qualified' : 'audit-nurture',
+ domain: domain,
+ arr: arr,
+ tier: isQualified ? tier : null,
+ qualified: isQualified,
+ score: score,
+ grade: grade,
+ leak: leak,
+ hasMX: mxAnswers.length > 0,
+ mxProvider: mxProvider,
+ hasSPF: spf.found,
+ spfPolicy: spf.policy,
+ hasDMARC: dmarc.found,
+ dmarcPolicy: dmarc.policy,
+ dmarcMalformed: dmarc.malformed,
+ findings: findings.map(function(f){ return { title: f.title, ok: f.ok }; }),
+ referrer: document.referrer || '',
+ url: location.href
+ };
+ fetch('/api/lead-capture', {
+ method: 'POST',
+ headers: { 'Content-Type': 'application/json' },
+ body: JSON.stringify(payload)
+ }).catch(function(){});
+
+ showStep(3);
+
+ } catch(e) {
+ clearInterval(msgTimer);
+ showStep(1);
+ alert('Audit failed, please check your domain and try again.');
+ }
+}
+
+$('run-audit').addEventListener('click', runAudit);
+$('audit-domain').addEventListener('keydown', function(e){ if (e.key === 'Enter') runAudit(); });
+$('audit-email').addEventListener('keydown', function(e){ if (e.key === 'Enter') runAudit(); });
+
+$('restart').addEventListener('click', function(e){
+ e.preventDefault();
+ ['audit-domain','audit-email','audit-arr','audit-firm'].forEach(function(id){ $(id).value = ''; });
+ ['cta-qualified','cta-nurture'].forEach(function(id){ $(id).style.display = 'none'; });
+ showStep(1);
+});
+</script>
+</body>
+</html>

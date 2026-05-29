@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Free SOL Calculator for PI Attorneys, clientReady</title>
+<meta name="description" content="Instant statute-of-limitations deadline calculator for personal-injury matters in all 50 states + DC. Free for solo PI attorneys."/>
+<meta property="og:title" content="Free SOL Calculator for Personal-Injury Attorneys"/>
+<meta property="og:description" content="Enter the accident date and state. Get your filing deadline, days remaining, and a red/yellow/green urgency flag in seconds."/>
+<meta property="og:url" content="https://clientready.agency/sol-tool"/>
+<style>
+:root{--blue:#2563EB;--ink:#0F172A;--mute:#64748B;--bg:#F8FAFC;--red:#DC2626;--amber:#D97706;--green:#16A34A;--card:#FFFFFF;--line:#E2E8F0;}
+*{box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,"Inter","Helvetica Neue",Arial,sans-serif;margin:0;background:var(--bg);color:var(--ink);line-height:1.55}
+.wrap{max-width:780px;margin:0 auto;padding:48px 24px 80px}
+.brand{display:flex;align-items:center;gap:8px;font-weight:900;letter-spacing:-0.02em;font-size:1.25rem;margin-bottom:36px}
+.brand .b1{color:#000}.brand .b2{color:var(--blue)}
+h1{font-size:2.4rem;font-weight:800;letter-spacing:-0.02em;line-height:1.1;margin:0 0 12px}
+.lede{color:var(--mute);font-size:1.1rem;margin:0 0 28px;max-width:620px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:28px;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+@media(max-width:560px){.row{grid-template-columns:1fr}}
+label{display:block;font-size:.82rem;font-weight:600;color:var(--ink);margin-bottom:6px}
+input,select{width:100%;padding:12px 14px;border:1px solid var(--line);border-radius:9px;font-size:1rem;font-family:inherit;background:#fff;color:var(--ink)}
+input:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+button{background:var(--blue);color:#fff;border:none;padding:14px 22px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;font-family:inherit;letter-spacing:-.01em}
+button:hover{background:#1D4ED8}
+button:disabled{background:#94A3B8;cursor:wait}
+.result{margin-top:24px;padding:24px;border-radius:12px;display:none}
+.result.show{display:block;animation:in .25s ease}
+@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.result .sub{font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-bottom:8px;opacity:.85}
+.result .deadline{font-size:1.7rem;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.result .days{font-size:1rem;opacity:.9}
+.red{background:#FEF2F2;color:#7F1D1D;border:1px solid #FECACA}
+.amber{background:#FFFBEB;color:#78350F;border:1px solid #FDE68A}
+.green{background:#F0FDF4;color:#166534;border:1px solid #BBF7D0}
+.gate{margin-top:20px;padding-top:20px;border-top:1px dashed var(--line);display:none}
+.gate.show{display:block}
+.gate .pitch{color:var(--mute);font-size:.92rem;margin:0 0 12px}
+.note{margin-top:18px;font-size:.82rem;color:var(--mute);text-align:center}
+.foot{margin-top:48px;text-align:center;color:var(--mute);font-size:.85rem}
+.foot a{color:var(--blue);text-decoration:none;font-weight:600}
+.cta-strip{margin-top:32px;background:#0F172A;color:#fff;border-radius:14px;padding:28px;text-align:center}
+.cta-strip h3{margin:0 0 8px;font-size:1.35rem;letter-spacing:-.01em}
+.cta-strip p{margin:0 0 18px;opacity:.85}
+.cta-strip a{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;font-weight:700;padding:13px 26px;border-radius:9px}
+.tag{display:inline-block;background:#EFF6FF;color:var(--blue);font-weight:700;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;padding:4px 10px;border-radius:99px;margin-bottom:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div class="brand"><span class="b1">CLIENT</span><span class="b2">READY</span></div>
+ <span class="tag">Free Tool · No signup required</span>
+ <h1>SOL Deadline Calculator</h1>
+ <p class="lede">Enter the accident date and the jurisdiction. We'll show you the personal-injury statute-of-limitations deadline, the days remaining, and an urgency flag, instantly.</p>
+
+ <div class="card">
+ <div class="row">
+ <div>
+ <label for="acc">Accident Date</label>
+ <input type="date" id="acc" />
+ </div>
+ <div>
+ <label for="state">Jurisdiction</label>
+ <select id="state">
+ <option value=""> Select state ,</option>
+ </select>
+ </div>
+ </div>
+ <button id="go">Calculate Deadline</button>
+
+ <div id="result" class="result"></div>
+
+ <div id="gate" class="gate">
+ <p class="pitch"><strong>Want this calculated automatically</strong> for every new lead, plus the demand-letter outline auto-drafted? Drop your email, we'll send you a 14-day free trial of clientReady (no card needed).</p>
+ <div class="row">
+ <div>
+ <label for="em">Work email</label>
+ <input type="email" id="em" placeholder="you@yourfirm.com"/>
+ </div>
+ <div>
+ <label for="firm">Firm name</label>
+ <input type="text" id="firm" placeholder="Smith Law"/>
+ </div>
+ </div>
+ <button id="send">Get Free Trial Access →</button>
+ <p class="note">No credit card. ABA Rule 1.6 compliant. Built by a PI-only team.</p>
+ </div>
+ </div>
+
+ <div class="cta-strip">
+ <h3>Stop losing the 9:00am lead at 9:14am.</h3>
+ <p>clientReady auto-screens every PI inquiry, runs a conflict check, calculates SOL, and drafts the engagement letter, before you finish your coffee.</p>
+ <a href="https://clientready.agency">See it in action →</a>
+ </div>
+
+ <p class="foot">Built by <a href="https://clientready.agency">clientReady.agency</a> · AI intake for solo PI attorneys</p>
+</div>
+
+<script>
+// State SOL years for personal injury (general PI; consult local rules for medical malpractice, gov claims)
+var SOL = {"AL":2,"AK":2,"AZ":2,"AR":3,"CA":2,"CO":2,"CT":2,"DE":2,"DC":3,"FL":4,"GA":2,"HI":2,"ID":2,"IL":2,"IN":2,"IA":2,"KS":2,"KY":1,"LA":1,"ME":6,"MD":3,"MA":3,"MI":3,"MN":6,"MS":3,"MO":5,"MT":3,"NE":4,"NV":2,"NH":3,"NJ":2,"NM":3,"NY":3,"NC":3,"ND":6,"OH":2,"OK":2,"OR":2,"PA":2,"RI":3,"SC":3,"SD":3,"TN":1,"TX":2,"UT":4,"VT":3,"VA":2,"WA":3,"WV":2,"WI":3,"WY":4};
+var STATE_NAMES = {"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","DC":"District of Columbia","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming"};
+
+var sel = document.getElementById('state');
+Object.keys(STATE_NAMES).sort(function(a,b){return STATE_NAMES[a].localeCompare(STATE_NAMES[b]);}).forEach(function(k){
+ var o = document.createElement('option');
+ o.value = k; o.textContent = STATE_NAMES[k] + ' (' + SOL[k] + ' yr)';
+ sel.appendChild(o);
+});
+
+document.getElementById('go').addEventListener('click', function(){
+ var acc = document.getElementById('acc').value;
+ var st = document.getElementById('state').value;
+ var r = document.getElementById('result');
+ var g = document.getElementById('gate');
+ if(!acc || !st){ r.className='result show red'; r.innerHTML='<div class="sub">Missing input</div><div class="deadline">Enter accident date and state.</div>'; return; }
+ var yrs = SOL[st];
+ var d = new Date(acc);
+ var deadline = new Date(d); deadline.setFullYear(deadline.getFullYear()+yrs);
+ var now = new Date(); now.setHours(0,0,0,0);
+ var daysLeft = Math.floor((deadline - now)/(1000*60*60*24));
+ var urgency = daysLeft < 0 ? 'red' : (daysLeft < 90 ? 'red' : (daysLeft < 365 ? 'amber' : 'green'));
+ var label = daysLeft < 0 ? 'EXPIRED' : (daysLeft < 90 ? 'RED ZONE, file now' : (daysLeft < 365 ? 'WARNING, under one year' : 'On track'));
+ r.className = 'result show ' + urgency;
+ r.innerHTML = '<div class="sub">'+label+'</div><div class="deadline">Deadline: '+deadline.toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'})+'</div><div class="days">'+ (daysLeft < 0 ? Math.abs(daysLeft)+' days past SOL ('+STATE_NAMES[st]+', '+yrs+' yr rule)' : daysLeft+' days remaining ('+STATE_NAMES[st]+', '+yrs+' yr rule)') +'</div>';
+ g.className = 'gate show';
+ if(typeof gtag === 'function'){ gtag('event','sol_calculated',{state:st,days_left:daysLeft}); }
+});
+
+document.getElementById('send').addEventListener('click', async function(){
+ var em = document.getElementById('em').value.trim();
+ var firm = document.getElementById('firm').value.trim();
+ var btn = this;
+ if(!em || em.indexOf('@')<0){ alert('Please enter a valid work email.'); return; }
+ btn.disabled = true; btn.textContent = 'Sending...';
+ try {
+ // POST to your capture endpoint, wire to ConvertKit / Mailchimp / Resend / etc.
+ await fetch('/api/lead-capture', {
+ method:'POST',
+ headers:{'Content-Type':'application/json'},
+ body: JSON.stringify({email:em, firm:firm, source:'sol-calculator', state:document.getElementById('state').value, accidentDate:document.getElementById('acc').value})
+ }).catch(function(){});
+ btn.textContent = '✓ Check your inbox';
+ setTimeout(function(){ window.location.href = 'https://clientready.agency?ref=sol-tool&email='+encodeURIComponent(em); }, 1200);
+ } catch(e){
+ btn.disabled = false; btn.textContent = 'Try again';
+ }
+});
+</script>
+</body>
+</html>

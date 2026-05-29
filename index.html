@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>clientReady — Outbound Sales Engine for B2B Companies</title>
-<meta name="description" content="We build outbound sales systems that book 10–50 qualified meetings per month for B2B SaaS, agencies, and professional services. Done-for-you. Zero SDRs.">
-<meta property="og:title" content="clientReady — Outbound Sales Engine for B2B">
-<meta property="og:description" content="Done-for-you outbound infrastructure that books 10–50 qualified meetings per month. No SDRs. No ads. No guesswork.">
+<title>clientReady, Outbound Sales Engine for B2B Companies</title>
+<meta name="description" content="We build outbound sales systems that book 10 to 50 qualified meetings per month for B2B SaaS, agencies, and professional services. Done-for-you. Zero SDRs.">
+<meta property="og:title" content="clientReady, Outbound Sales Engine for B2B">
+<meta property="og:description" content="Done-for-you outbound infrastructure that books 10 to 50 qualified meetings per month. No SDRs. No ads. No guesswork.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://clientready.agency">
 <meta name="twitter:card" content="summary_large_image">
@@ -17,40 +17,40 @@
 
 <style>
 :root {
-  --bg: #0A0A0F;
-  --bg-2: #12121A;
-  --card: rgba(255,255,255,0.03);
-  --card-border: rgba(255,255,255,0.08);
-  --text: #F5F5F7;
-  --text-mute: #8B8B98;
-  --text-dim: #5C5C6E;
-  --accent: #6366F1;
-  --accent-2: #8B5CF6;
-  --accent-3: #EC4899;
-  --green: #10B981;
+ --bg: #0A0A0F;
+ --bg-2: #12121A;
+ --card: rgba(255,255,255,0.03);
+ --card-border: rgba(255,255,255,0.08);
+ --text: #F5F5F7;
+ --text-mute: #8B8B98;
+ --text-dim: #5C5C6E;
+ --accent: #6366F1;
+ --accent-2: #8B5CF6;
+ --accent-3: #EC4899;
+ --green: #10B981;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+ font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+ line-height:1.6;
+ -webkit-font-smoothing:antialiased;
+ overflow-x:hidden;
 }
 
 /* === Background gradient === */
 .bg-grid{
-  position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  background-image:
-    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.15), transparent),
-    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(236,72,153,0.08), transparent),
-    radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
-  background-size:100% 100%, 100% 100%, 32px 32px;
-  pointer-events:none;
-  z-index:0;
+ position:fixed;
+ top:0;left:0;right:0;bottom:0;
+ background-image:
+ radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99,102,241,0.15), transparent),
+ radial-gradient(ellipse 60% 50% at 80% 20%, rgba(236,72,153,0.08), transparent),
+ radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+ background-size:100% 100%, 100% 100%, 32px 32px;
+ pointer-events:none;
+ z-index:0;
 }
 
 /* === Layout === */
@@ -58,48 +58,48 @@ body{
 
 /* === Nav === */
 nav{
-  position:sticky;top:0;z-index:50;
-  backdrop-filter:blur(16px);
-  background:rgba(10,10,15,0.7);
-  border-bottom:1px solid rgba(255,255,255,0.06);
-  padding:18px 0;
+ position:sticky;top:0;z-index:50;
+ backdrop-filter:blur(16px);
+ background:rgba(10,10,15,0.7);
+ border-bottom:1px solid rgba(255,255,255,0.06);
+ padding:18px 0;
 }
 .nav-inner{display:flex;align-items:center;justify-content:space-between}
 .logo{
-  font-weight:800;font-size:1.15rem;letter-spacing:-0.02em;
-  display:flex;align-items:center;gap:8px;
-  color:var(--text);text-decoration:none;
+ font-weight:800;font-size:1.15rem;letter-spacing:-0.02em;
+ display:flex;align-items:center;gap:8px;
+ color:var(--text);text-decoration:none;
 }
 .logo-mark{
-  width:28px;height:28px;
-  background:linear-gradient(135deg,var(--accent),var(--accent-3));
-  border-radius:8px;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:900;font-size:.9rem;color:#fff;
+ width:28px;height:28px;
+ background:linear-gradient(135deg,var(--accent),var(--accent-3));
+ border-radius:8px;
+ display:flex;align-items:center;justify-content:center;
+ font-weight:900;font-size:.9rem;color:#fff;
 }
 .nav-links{display:flex;align-items:center;gap:32px}
 .nav-links a{
-  color:var(--text-mute);text-decoration:none;font-size:.92rem;font-weight:500;
-  transition:color .2s;
+ color:var(--text-mute);text-decoration:none;font-size:.92rem;font-weight:500;
+ transition:color .2s;
 }
 .nav-links a:hover{color:var(--text)}
 .btn{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:11px 22px;border-radius:10px;
-  font-size:.92rem;font-weight:600;
-  text-decoration:none;cursor:pointer;border:none;
-  transition:all .2s;
-  font-family:inherit;
+ display:inline-flex;align-items:center;gap:8px;
+ padding:11px 22px;border-radius:10px;
+ font-size:.92rem;font-weight:600;
+ text-decoration:none;cursor:pointer;border:none;
+ transition:all .2s;
+ font-family:inherit;
 }
 .btn-primary{
-  background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  color:#fff;
-  box-shadow:0 8px 24px rgba(99,102,241,0.3);
+ background:linear-gradient(135deg,var(--accent),var(--accent-2));
+ color:#fff;
+ box-shadow:0 8px 24px rgba(99,102,241,0.3);
 }
 .btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
 .btn-ghost{
-  background:transparent;color:var(--text);
-  border:1px solid rgba(255,255,255,0.12);
+ background:transparent;color:var(--text);
+ border:1px solid rgba(255,255,255,0.12);
 }
 .btn-ghost:hover{border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.04)}
 .btn-arrow::after{content:"→";transition:transform .2s}
@@ -108,46 +108,46 @@ nav{
 /* === Hero === */
 .hero{padding:120px 0 100px;text-align:center;position:relative}
 .hero .tag{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:6px 14px;
-  background:rgba(99,102,241,0.1);
-  border:1px solid rgba(99,102,241,0.2);
-  border-radius:99px;
-  font-size:.82rem;font-weight:500;
-  color:#A5A5F1;
-  margin-bottom:24px;
+ display:inline-flex;align-items:center;gap:8px;
+ padding:6px 14px;
+ background:rgba(99,102,241,0.1);
+ border:1px solid rgba(99,102,241,0.2);
+ border-radius:99px;
+ font-size:.82rem;font-weight:500;
+ color:#A5A5F1;
+ margin-bottom:24px;
 }
 .hero .tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 .hero h1{
-  font-size:clamp(2.4rem,6vw,4.6rem);
-  font-weight:800;
-  letter-spacing:-0.04em;
-  line-height:1.05;
-  margin-bottom:24px;
-  background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+ font-size:clamp(2.4rem,6vw,4.6rem);
+ font-weight:800;
+ letter-spacing:-0.04em;
+ line-height:1.05;
+ margin-bottom:24px;
+ background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);
+ -webkit-background-clip:text;
+ background-clip:text;
+ -webkit-text-fill-color:transparent;
 }
 .hero h1 .accent{
-  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-3) 100%);
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
+ background:linear-gradient(135deg,var(--accent) 0%,var(--accent-3) 100%);
+ -webkit-background-clip:text;
+ background-clip:text;
+ -webkit-text-fill-color:transparent;
 }
 .hero .lede{
-  font-size:clamp(1.05rem,2vw,1.25rem);
-  color:var(--text-mute);
-  max-width:680px;margin:0 auto 40px;
-  line-height:1.55;
+ font-size:clamp(1.05rem,2vw,1.25rem);
+ color:var(--text-mute);
+ max-width:680px;margin:0 auto 40px;
+ line-height:1.55;
 }
 .hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
 .hero-trust{
-  margin-top:64px;
-  display:flex;align-items:center;justify-content:center;gap:32px;
-  font-size:.82rem;color:var(--text-dim);
-  flex-wrap:wrap;
+ margin-top:64px;
+ display:flex;align-items:center;justify-content:center;gap:32px;
+ font-size:.82rem;color:var(--text-dim);
+ flex-wrap:wrap;
 }
 .hero-trust .stars{color:#F59E0B;letter-spacing:2px}
 
@@ -156,14 +156,14 @@ nav{
 .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:32px}
 .stat{text-align:center}
 .stat-num{
-  font-size:clamp(2rem,4vw,3.2rem);
-  font-weight:800;
-  letter-spacing:-0.03em;
-  background:linear-gradient(135deg,var(--accent),var(--accent-3));
-  -webkit-background-clip:text;
-  background-clip:text;
-  -webkit-text-fill-color:transparent;
-  line-height:1;margin-bottom:8px;
+ font-size:clamp(2rem,4vw,3.2rem);
+ font-weight:800;
+ letter-spacing:-0.03em;
+ background:linear-gradient(135deg,var(--accent),var(--accent-3));
+ -webkit-background-clip:text;
+ background-clip:text;
+ -webkit-text-fill-color:transparent;
+ line-height:1;margin-bottom:8px;
 }
 .stat-label{font-size:.85rem;color:var(--text-mute);font-weight:500}
 @media(max-width:768px){.stats-grid{grid-template-columns:repeat(2,1fr);gap:32px 16px}}
@@ -171,59 +171,59 @@ nav{
 /* === Section === */
 section{padding:100px 0;position:relative;z-index:1}
 .section-tag{
-  font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600;
-  color:var(--accent);margin-bottom:14px;
+ font-size:.78rem;text-transform:uppercase;letter-spacing:.12em;font-weight:600;
+ color:var(--accent);margin-bottom:14px;
 }
 .section-title{
-  font-size:clamp(1.8rem,4vw,3rem);
-  font-weight:800;
-  letter-spacing:-0.03em;
-  margin-bottom:18px;line-height:1.1;
+ font-size:clamp(1.8rem,4vw,3rem);
+ font-weight:800;
+ letter-spacing:-0.03em;
+ margin-bottom:18px;line-height:1.1;
 }
 .section-subtitle{font-size:1.05rem;color:var(--text-mute);max-width:640px;margin-bottom:56px;line-height:1.55}
 
 /* === Services === */
 .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .service-card{
-  background:var(--card);
-  border:1px solid var(--card-border);
-  border-radius:16px;
-  padding:32px 28px;
-  transition:all .3s;
-  position:relative;
-  overflow:hidden;
+ background:var(--card);
+ border:1px solid var(--card-border);
+ border-radius:16px;
+ padding:32px 28px;
+ transition:all .3s;
+ position:relative;
+ overflow:hidden;
 }
 .service-card::before{
-  content:"";
-  position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(99,102,241,0.4),transparent);
-  opacity:0;transition:opacity .3s;
+ content:"";
+ position:absolute;
+ top:0;left:0;right:0;height:1px;
+ background:linear-gradient(90deg,transparent,rgba(99,102,241,0.4),transparent);
+ opacity:0;transition:opacity .3s;
 }
 .service-card:hover{
-  background:rgba(255,255,255,0.05);
-  border-color:rgba(99,102,241,0.3);
-  transform:translateY(-4px);
+ background:rgba(255,255,255,0.05);
+ border-color:rgba(99,102,241,0.3);
+ transform:translateY(-4px);
 }
 .service-card:hover::before{opacity:1}
 .service-icon{
-  width:44px;height:44px;
-  background:rgba(99,102,241,0.1);
-  border:1px solid rgba(99,102,241,0.2);
-  border-radius:11px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.3rem;
-  margin-bottom:20px;
+ width:44px;height:44px;
+ background:rgba(99,102,241,0.1);
+ border:1px solid rgba(99,102,241,0.2);
+ border-radius:11px;
+ display:flex;align-items:center;justify-content:center;
+ font-size:1.3rem;
+ margin-bottom:20px;
 }
 .service-card h3{font-size:1.18rem;font-weight:700;margin-bottom:10px;letter-spacing:-0.01em}
 .service-card p{color:var(--text-mute);font-size:.93rem;line-height:1.55;margin-bottom:14px}
 .service-card ul{list-style:none;padding:0}
 .service-card ul li{
-  font-size:.85rem;color:var(--text-dim);padding:5px 0 5px 18px;position:relative;
+ font-size:.85rem;color:var(--text-dim);padding:5px 0 5px 18px;position:relative;
 }
 .service-card ul li::before{
-  content:"";position:absolute;left:0;top:11px;
-  width:5px;height:5px;border-radius:50%;background:var(--accent);
+ content:"";position:absolute;left:0;top:11px;
+ width:5px;height:5px;border-radius:50%;background:var(--accent);
 }
 @media(max-width:1000px){.services-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:640px){.services-grid{grid-template-columns:1fr}}
@@ -231,20 +231,20 @@ section{padding:100px 0;position:relative;z-index:1}
 /* === How it works === */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;position:relative}
 .step{
-  background:var(--card);
-  border:1px solid var(--card-border);
-  border-radius:16px;
-  padding:28px 24px;
-  position:relative;
+ background:var(--card);
+ border:1px solid var(--card-border);
+ border-radius:16px;
+ padding:28px 24px;
+ position:relative;
 }
 .step-num{
-  position:absolute;top:-12px;left:24px;
-  width:32px;height:32px;
-  background:linear-gradient(135deg,var(--accent),var(--accent-2));
-  border-radius:9px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:.85rem;font-weight:700;color:#fff;
-  box-shadow:0 6px 20px rgba(99,102,241,0.4);
+ position:absolute;top:-12px;left:24px;
+ width:32px;height:32px;
+ background:linear-gradient(135deg,var(--accent),var(--accent-2));
+ border-radius:9px;
+ display:flex;align-items:center;justify-content:center;
+ font-size:.85rem;font-weight:700;color:#fff;
+ box-shadow:0 6px 20px rgba(99,102,241,0.4);
 }
 .step h4{font-size:1.05rem;font-weight:700;margin:18px 0 8px;letter-spacing:-0.01em}
 .step p{font-size:.9rem;color:var(--text-mute);line-height:1.55}
@@ -254,23 +254,23 @@ section{padding:100px 0;position:relative;z-index:1}
 /* === Testimonials === */
 .testimonials{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .testimonial{
-  background:var(--card);
-  border:1px solid var(--card-border);
-  border-radius:16px;
-  padding:28px;
+ background:var(--card);
+ border:1px solid var(--card-border);
+ border-radius:16px;
+ padding:28px;
 }
 .testimonial p{
-  font-size:.98rem;line-height:1.6;color:var(--text);
-  margin-bottom:20px;font-weight:400;
+ font-size:.98rem;line-height:1.6;color:var(--text);
+ margin-bottom:20px;font-weight:400;
 }
 .testimonial p::before{content:'"';color:var(--accent);font-size:1.2rem;font-weight:600;margin-right:2px}
 .testimonial p::after{content:'"';color:var(--accent);font-size:1.2rem;font-weight:600;margin-left:2px}
 .testimonial-author{display:flex;align-items:center;gap:12px}
 .author-avatar{
-  width:40px;height:40px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--accent-3));
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;color:#fff;font-size:.95rem;
+ width:40px;height:40px;border-radius:50%;
+ background:linear-gradient(135deg,var(--accent),var(--accent-3));
+ display:flex;align-items:center;justify-content:center;
+ font-weight:700;color:#fff;font-size:.95rem;
 }
 .author-info .name{font-size:.92rem;font-weight:600}
 .author-info .role{font-size:.8rem;color:var(--text-dim)}
@@ -278,19 +278,19 @@ section{padding:100px 0;position:relative;z-index:1}
 
 /* === Why us === */
 .why-us{
-  background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(236,72,153,0.04));
-  border:1px solid rgba(99,102,241,0.15);
-  border-radius:24px;
-  padding:64px;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
+ background:linear-gradient(135deg,rgba(99,102,241,0.08),rgba(236,72,153,0.04));
+ border:1px solid rgba(99,102,241,0.15);
+ border-radius:24px;
+ padding:64px;
+ text-align:center;
+ position:relative;
+ overflow:hidden;
 }
 .why-us::before{
-  content:"";position:absolute;
-  top:-50%;left:-20%;right:-20%;height:200%;
-  background:radial-gradient(ellipse at center, rgba(99,102,241,0.15), transparent 50%);
-  pointer-events:none;
+ content:"";position:absolute;
+ top:-50%;left:-20%;right:-20%;height:200%;
+ background:radial-gradient(ellipse at center, rgba(99,102,241,0.15), transparent 50%);
+ pointer-events:none;
 }
 .why-us-content{position:relative;z-index:1;max-width:760px;margin:0 auto}
 .why-us h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:20px;line-height:1.2}
@@ -300,40 +300,40 @@ section{padding:100px 0;position:relative;z-index:1}
 /* === CTA === */
 .cta-section{padding:120px 0;text-align:center}
 .cta-box{
-  background:linear-gradient(135deg,#1a1a26 0%,#0f0f1a 100%);
-  border:1px solid rgba(99,102,241,0.2);
-  border-radius:24px;
-  padding:64px 40px;
-  position:relative;
-  overflow:hidden;
+ background:linear-gradient(135deg,#1a1a26 0%,#0f0f1a 100%);
+ border:1px solid rgba(99,102,241,0.2);
+ border-radius:24px;
+ padding:64px 40px;
+ position:relative;
+ overflow:hidden;
 }
 .cta-box::before{
-  content:"";position:absolute;
-  top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--accent),var(--accent-3),transparent);
+ content:"";position:absolute;
+ top:0;left:0;right:0;height:1px;
+ background:linear-gradient(90deg,transparent,var(--accent),var(--accent-3),transparent);
 }
 .cta-box::after{
-  content:"";position:absolute;
-  bottom:-50%;right:-20%;width:60%;height:200%;
-  background:radial-gradient(ellipse at center, rgba(236,72,153,0.15), transparent 50%);
-  pointer-events:none;
+ content:"";position:absolute;
+ bottom:-50%;right:-20%;width:60%;height:200%;
+ background:radial-gradient(ellipse at center, rgba(236,72,153,0.15), transparent 50%);
+ pointer-events:none;
 }
 .cta-content{position:relative;z-index:1;max-width:680px;margin:0 auto}
 .cta-box h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-0.03em;margin-bottom:18px;line-height:1.15}
 .cta-box p{color:var(--text-mute);font-size:1.05rem;margin-bottom:32px}
 .cta-cohort{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:8px 16px;background:rgba(16,185,129,0.1);
-  border:1px solid rgba(16,185,129,0.25);
-  border-radius:99px;
-  font-size:.82rem;color:#34D399;font-weight:500;
-  margin-bottom:24px;
+ display:inline-flex;align-items:center;gap:10px;
+ padding:8px 16px;background:rgba(16,185,129,0.1);
+ border:1px solid rgba(16,185,129,0.25);
+ border-radius:99px;
+ font-size:.82rem;color:#34D399;font-weight:500;
+ margin-bottom:24px;
 }
 
 /* === Footer === */
 footer{
-  border-top:1px solid rgba(255,255,255,0.06);
-  padding:48px 0 32px;
+ border-top:1px solid rgba(255,255,255,0.06);
+ padding:48px 0 32px;
 }
 .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:40px}
 .footer-brand p{color:var(--text-mute);font-size:.9rem;line-height:1.55;margin-top:14px;max-width:320px}
@@ -341,11 +341,11 @@ footer{
 .footer-col a{display:block;color:var(--text-mute);text-decoration:none;font-size:.88rem;padding:5px 0;transition:color .2s}
 .footer-col a:hover{color:var(--text)}
 .footer-bottom{
-  border-top:1px solid rgba(255,255,255,0.06);
-  padding-top:24px;
-  display:flex;justify-content:space-between;align-items:center;
-  font-size:.82rem;color:var(--text-dim);
-  flex-wrap:wrap;gap:14px;
+ border-top:1px solid rgba(255,255,255,0.06);
+ padding-top:24px;
+ display:flex;justify-content:space-between;align-items:center;
+ font-size:.82rem;color:var(--text-dim);
+ flex-wrap:wrap;gap:14px;
 }
 @media(max-width:768px){.footer-grid{grid-template-columns:1fr 1fr;gap:32px}}
 @media(max-width:520px){.footer-grid{grid-template-columns:1fr}}
@@ -353,12 +353,12 @@ footer{
 /* === Mobile nav === */
 .mobile-toggle{display:none;background:none;border:none;color:var(--text);cursor:pointer;padding:8px;font-size:1.4rem}
 @media(max-width:768px){
-  .nav-links{display:none}
-  .mobile-toggle{display:block}
-  .hero{padding:80px 0 60px}
-  section{padding:70px 0}
-  .why-us{padding:48px 24px}
-  .cta-box{padding:48px 24px}
+ .nav-links{display:none}
+ .mobile-toggle{display:block}
+ .hero{padding:80px 0 60px}
+ section{padding:70px 0}
+ .why-us{padding:48px 24px}
+ .cta-box{padding:48px 24px}
 }
 
 /* === Animations === */
@@ -370,451 +370,314 @@ footer{
 <div class="bg-grid"></div>
 
 <nav>
-  <div class="container nav-inner">
-    <a href="/" class="logo">
-      <span class="logo-mark">cR</span>
-      <span>clientReady</span>
-    </a>
-    <div class="nav-links">
-      <a href="/method.html">The Method</a>
-      <a href="/case-studies.html">Case Studies</a>
-      <a href="/services.html">Services</a>
-      <a href="/workshop.html">Watch</a>
-      <a href="#why">Why Us</a>
-      <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Strategy Call</a>
-    </div>
-    <button class="mobile-toggle" aria-label="Menu">☰</button>
-  </div>
+ <div class="container nav-inner">
+ <a href="/" class="logo">
+ <span class="logo-mark">cR</span>
+ <span>clientReady</span>
+ </a>
+ <div class="nav-links">
+ <a href="/intake-audit.html">Free Audit</a>
+ <a href="/services.html">Services</a>
+ <a href="/method.html#investment">Pricing</a>
+ <a href="#why">Why Us</a>
+ <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Strategy Call</a>
+ </div>
+ <button class="mobile-toggle" aria-label="Menu">☰</button>
+ </div>
 </nav>
 
 <header class="hero">
-  <div class="container">
-    <div class="tag">
-      <span class="dot"></span>
-      <span>Now accepting cohort #1 — 4 of 10 spots filled</span>
-    </div>
-    <h1>
-      Outbound systems<br>
-      that book <span class="accent">qualified meetings</span><br>
-      on autopilot.
-    </h1>
-    <p class="lede">
-      Most B2B companies rely on referrals, ads, and guesswork for pipeline. We replace all of it with a done-for-you outbound engine that books 10–50+ qualified meetings every month. No SDRs. No long contracts. Pay only when meetings hit your calendar.
-    </p>
-    <div class="hero-cta">
-      <a href="/strategy.html" class="btn btn-primary btn-arrow">Book a Strategy Call</a>
-      <a href="#how" class="btn btn-ghost">See how it works</a>
-    </div>
-    <div class="hero-trust">
-      <span class="stars">★★★★★</span>
-      <span>Trusted by B2B SaaS, agencies & professional services</span>
-    </div>
-  </div>
+ <div class="container">
+ <div class="tag">
+ <span class="dot"></span>
+ <span>Now accepting cohort #1 to 4 of 10 spots filled</span>
+ </div>
+ <h1>
+ Outbound systems<br>
+ that book <span class="accent">qualified meetings</span><br>
+ on autopilot.
+ </h1>
+ <p class="lede">
+ Most B2B companies rely on referrals, ads, and guesswork for pipeline. We replace all of it with a done-for-you outbound engine that books 10-50+ qualified meetings every month. No SDRs. No long contracts. Pay only when meetings hit your calendar.
+ </p>
+ <div class="hero-cta">
+ <a href="/strategy.html" class="btn btn-primary btn-arrow">Book a Strategy Call</a>
+ <a href="#how" class="btn btn-ghost">See how it works</a>
+ </div>
+ <div class="hero-trust">
+ <span class="stars">★★★★★</span>
+ <span>Trusted by B2B SaaS, agencies & professional services</span>
+ </div>
+ </div>
 </header>
 
-<!-- BILLION-DOLLAR STATS BANNER + METHODOLOGY CALLOUT -->
-<section id="clientReady-stats-banner" style="padding:60px 0 40px;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);background:linear-gradient(180deg,rgba(99,102,241,0.04),transparent);position:relative;z-index:1">
-  <div class="container">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:left">
-      <div>
-        <div style="font-size:.72rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Pipeline Generated</div>
-        <div style="font-size:2.4rem;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,#FFF,#A5A5F1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05;margin-bottom:6px">$12.4M</div>
-        <div style="font-size:.85rem;color:#8B8B98">across active client deployments</div>
-      </div>
-      <div>
-        <div style="font-size:.72rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Meetings Booked</div>
-        <div style="font-size:2.4rem;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,#FFF,#A5A5F1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05;margin-bottom:6px">1,247</div>
-        <div style="font-size:.85rem;color:#8B8B98">SQLs delivered since Q1 2024</div>
-      </div>
-      <div>
-        <div style="font-size:.72rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Avg. Reply Rate</div>
-        <div style="font-size:2.4rem;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,#FFF,#A5A5F1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05;margin-bottom:6px">8.2%</div>
-        <div style="font-size:.85rem;color:#8B8B98">vs. 1.4% B2B industry standard</div>
-      </div>
-      <div>
-        <div style="font-size:.72rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Client Retention</div>
-        <div style="font-size:2.4rem;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,#FFF,#A5A5F1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;line-height:1.05;margin-bottom:6px">94%</div>
-        <div style="font-size:.85rem;color:#8B8B98">renew or expand at 12 months</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ROI CALCULATOR -->
-<section id="roi-calculator" style="padding:100px 0 60px;border-top:1px solid rgba(255,255,255,0.06);position:relative;z-index:1">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:50px">
-      <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(236,72,153,0.10);border:1px solid rgba(236,72,153,0.22);border-radius:99px;font-size:.78rem;font-weight:600;color:#F4A8C8;margin-bottom:20px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace">The Math</div>
-      <h2 style="font-size:clamp(2rem,5vw,3.5rem);font-weight:800;letter-spacing:-0.035em;line-height:1.05;margin-bottom:18px;background:linear-gradient(180deg,#FFF 0%,#B5B5CA 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent">Plug in your numbers.<br>Watch the math do the closing.</h2>
-      <p style="font-size:1.1rem;color:#8B8B98;max-width:640px;margin:0 auto;line-height:1.55">Most founders don't book the call because they think outbound costs more than it earns. Then they see the math.</p>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;max-width:1100px;margin:0 auto" class="roi-grid">
-      <div style="padding:40px;border-radius:20px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.08)">
-        <h3 style="font-size:1.1rem;font-weight:700;color:#F5F5F7;margin-bottom:6px;letter-spacing:-0.01em">Your business, your numbers.</h3>
-        <p style="font-size:.88rem;color:#8B8B98;margin-bottom:32px">Drag sliders. Math updates live.</p>
-        <div style="margin-bottom:26px">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
-            <label style="font-size:.82rem;color:#8B8B98;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600">Average ACV</label>
-            <span id="roi-acv-val" style="font-size:1.3rem;font-weight:800;color:#F5F5F7;font-family:'JetBrains Mono',monospace">$20,000</span>
-          </div>
-          <input type="range" id="roi-acv" min="5000" max="150000" step="1000" value="20000" style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none;accent-color:#6366F1">
-        </div>
-        <div style="margin-bottom:26px">
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
-            <label style="font-size:.82rem;color:#8B8B98;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600">Meetings / mo (today)</label>
-            <span id="roi-meet-val" style="font-size:1.3rem;font-weight:800;color:#F5F5F7;font-family:'JetBrains Mono',monospace">5</span>
-          </div>
-          <input type="range" id="roi-meet" min="0" max="40" step="1" value="5" style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none;accent-color:#6366F1">
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px">
-            <label style="font-size:.82rem;color:#8B8B98;text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600">Close rate</label>
-            <span id="roi-close-val" style="font-size:1.3rem;font-weight:800;color:#F5F5F7;font-family:'JetBrains Mono',monospace">25%</span>
-          </div>
-          <input type="range" id="roi-close" min="5" max="60" step="1" value="25" style="width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,0.1);outline:none;accent-color:#6366F1">
-        </div>
-      </div>
-      <div style="padding:40px;border-radius:20px;background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(236,72,153,0.08));border:1px solid rgba(99,102,241,0.22);position:relative;overflow:hidden">
-        <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(99,102,241,0.18),transparent);pointer-events:none"></div>
-        <div style="position:relative">
-          <div style="font-size:.74rem;color:#A5A5F1;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:12px;font-weight:600">Year 1 with clientReady</div>
-          <div id="roi-revenue" style="font-size:clamp(2.8rem,6vw,4rem);font-weight:900;letter-spacing:-0.045em;line-height:1;background:linear-gradient(135deg,#6366F1,#EC4899);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px">+$1.2M</div>
-          <div style="font-size:.92rem;color:#8B8B98;margin-bottom:28px">in new annual revenue added</div>
-          <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:22px">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:20px">
-              <div>
-                <div style="font-size:.68rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Your cost</div>
-                <div style="font-size:1.4rem;font-weight:800;color:#F5F5F7;letter-spacing:-0.02em">$56,000</div>
-                <div style="font-size:.74rem;color:#5C5C6E;margin-top:3px">$20k buildout + $36k retainer</div>
-              </div>
-              <div>
-                <div style="font-size:.68rem;color:#5C5C6E;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:5px">Return on investment</div>
-                <div id="roi-multiple" style="font-size:1.4rem;font-weight:800;color:#10B981;letter-spacing:-0.02em">21x</div>
-                <div style="font-size:.74rem;color:#5C5C6E;margin-top:3px">year 1</div>
-              </div>
-            </div>
-            <div style="padding:14px 16px;background:rgba(0,0,0,0.3);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:.72rem;color:#8B8B98;line-height:1.55">
-              <div>25 meetings/mo &times; 12 &times; <span id="roi-close-display">25</span>% &times; $<span id="roi-acv-display">20,000</span></div>
-              <div style="margin-top:3px;color:#5C5C6E">= <span id="roi-revenue-display">$1,500,000</span> &minus; current <span id="roi-current-display">$300,000</span> = <span id="roi-net-display" style="color:#10B981">+$1,200,000</span></div>
-            </div>
-          </div>
-          <a href="/strategy.html" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:16px 28px;border-radius:11px;font-size:1rem;font-weight:700;text-decoration:none;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;box-shadow:0 12px 32px rgba(99,102,241,0.35);margin-top:28px;letter-spacing:-0.01em">Book the call &mdash; verify this math for your business &rarr;</a>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:50px;padding:32px 40px;border-radius:18px;background:rgba(236,72,153,0.04);border:1px solid rgba(236,72,153,0.18);text-align:center;max-width:880px;margin-left:auto;margin-right:auto">
-      <div style="font-size:.76rem;color:#F4A8C8;font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-weight:600">Every month you wait</div>
-      <div style="font-size:clamp(1.3rem,3.2vw,2rem);font-weight:800;letter-spacing:-0.025em;line-height:1.25;color:#F5F5F7;margin-bottom:6px">You're leaving <span id="roi-monthly-loss" style="color:#EC4899">$100,000</span> in pipeline on the table.</div>
-      <div style="font-size:.92rem;color:#8B8B98">The math doesn't pause for "we'll think about it." It just keeps accruing.</div>
-    </div>
-  </div>
-</section>
-<style>@media(max-width:900px){.roi-grid{grid-template-columns:1fr !important}}</style>
-<script>
-(function(){
-  var acv = document.getElementById('roi-acv'), meet = document.getElementById('roi-meet'), close_ = document.getElementById('roi-close');
-  function fmt(n){return n>=1000000?'$'+(n/1000000).toFixed(1)+'M':n>=1000?'$'+Math.round(n/1000)+'k':'$'+n;}
-  function recalc(){
-    var a=+acv.value, m=+meet.value, c=+close_.value;
-    var withUs=25*12*(c/100)*a, cur=m*12*(c/100)*a, added=withUs-cur;
-    document.getElementById('roi-acv-val').textContent='$'+a.toLocaleString();
-    document.getElementById('roi-meet-val').textContent=m;
-    document.getElementById('roi-close-val').textContent=c+'%';
-    document.getElementById('roi-revenue').textContent='+'+fmt(added);
-    document.getElementById('roi-multiple').textContent=(added/56000).toFixed(1)+'x';
-    document.getElementById('roi-acv-display').textContent=a.toLocaleString();
-    document.getElementById('roi-close-display').textContent=c;
-    document.getElementById('roi-revenue-display').textContent='$'+Math.round(withUs).toLocaleString();
-    document.getElementById('roi-current-display').textContent='$'+Math.round(cur).toLocaleString();
-    document.getElementById('roi-net-display').textContent='+$'+Math.round(added).toLocaleString();
-    document.getElementById('roi-monthly-loss').textContent='$'+Math.round(added/12).toLocaleString();
-  }
-  acv.addEventListener('input',recalc); meet.addEventListener('input',recalc); close_.addEventListener('input',recalc);
-  recalc();
-})();
-</script>
-
-<section id="methodology-callout" style="padding:80px 0;text-align:center;position:relative;z-index:1">
-  <div class="container">
-    <div style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(99,102,241,0.10);border:1px solid rgba(99,102,241,0.22);border-radius:99px;font-size:.78rem;font-weight:600;color:#A5A5F1;margin-bottom:24px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace">A Proprietary System</div>
-    <h2 style="font-size:clamp(1.8rem,4vw,3rem);font-weight:800;letter-spacing:-0.03em;line-height:1.05;margin-bottom:18px;background:linear-gradient(180deg,#FFF 0%,#B5B5CA 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;max-width:880px;margin-left:auto;margin-right:auto">Founding 5 cohort &mdash; $7,500 to start. 20 meetings or refund.</h2>
-    <p style="font-size:1.05rem;color:#8B8B98;text-align:center;max-width:760px;margin:0 auto 36px;line-height:1.55">First 5 B2B companies get split-pay: $7,500 deposit, $7,500 contingent on us delivering 20 qualified meetings in 60 days. <strong style="color:#F5F5F7;font-weight:600">Refund if we miss. You own everything we build &mdash; domains, lists, infrastructure. 2 spots filled. 3 remaining. After client 5, price jumps to $20k.</strong></p>
-    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap">
-      <a href="/method.html" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-size:1rem;font-weight:600;text-decoration:none;background:linear-gradient(135deg,#6366F1,#8B5CF6);color:#fff;box-shadow:0 8px 24px rgba(99,102,241,0.3)">Read The Method &rarr;</a>
-      <a href="/case-studies.html" style="display:inline-flex;align-items:center;gap:8px;padding:14px 28px;border-radius:10px;font-size:1rem;font-weight:600;text-decoration:none;background:transparent;color:#F5F5F7;border:1px solid rgba(255,255,255,0.08)">See Case Studies &rarr;</a>
-    </div>
-  </div>
-</section>
-
-
 <section class="stats" style="padding-top:0">
-  <div class="container">
-    <div class="stats-grid">
-      <div class="stat">
-        <div class="stat-num">10–50+</div>
-        <div class="stat-label">Qualified meetings booked / month</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">8%+</div>
-        <div class="stat-label">Avg reply rate (industry: 3%)</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">Zero</div>
-        <div class="stat-label">SDRs you have to hire</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">7 days</div>
-        <div class="stat-label">From signed contract to first meeting</div>
-      </div>
-    </div>
-  </div>
+ <div class="container">
+ <div class="stats-grid">
+ <div class="stat">
+ <div class="stat-num">10-50+</div>
+ <div class="stat-label">Qualified meetings booked / month</div>
+ </div>
+ <div class="stat">
+ <div class="stat-num">8%+</div>
+ <div class="stat-label">Avg reply rate (industry: 3%)</div>
+ </div>
+ <div class="stat">
+ <div class="stat-num">Zero</div>
+ <div class="stat-label">SDRs you have to hire</div>
+ </div>
+ <div class="stat">
+ <div class="stat-num">7 days</div>
+ <div class="stat-label">From signed contract to first meeting</div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section id="services">
-  <div class="container">
-    <div class="section-tag">What we do</div>
-    <h2 class="section-title">One system. Every layer engineered.</h2>
-    <p class="section-subtitle">We don't send blasts. We build pipeline infrastructure: targeting, AI personalization, deliverability, dashboards, multichannel handoff — all bundled, all owned by us, all transparent.</p>
+ <div class="container">
+ <div class="section-tag">What we do</div>
+ <h2 class="section-title">One system. Every layer engineered.</h2>
+ <p class="section-subtitle">We don't send blasts. We build pipeline infrastructure: targeting, AI personalization, deliverability, dashboards, multichannel handoff, all bundled, all owned by us, all transparent.</p>
 
-    <div class="services-grid">
-      <div class="service-card">
-        <div class="service-icon">◎</div>
-        <h3>Precision Targeting</h3>
-        <p>Custom prospect lists built around your ICP. Every contact researched, verified, and scored before a single send.</p>
-        <ul>
-          <li>Custom ICP-based targeting</li>
-          <li>Email + phone verification</li>
-          <li>Intent + signal enrichment</li>
-          <li>Continuous list refinement</li>
-        </ul>
-      </div>
+ <div class="services-grid">
+ <div class="service-card">
+ <div class="service-icon">◎</div>
+ <h3>Precision Targeting</h3>
+ <p>Custom prospect lists built around your ICP. Every contact researched, verified, and scored before a single send.</p>
+ <ul>
+ <li>Custom ICP-based targeting</li>
+ <li>Email + phone verification</li>
+ <li>Intent + signal enrichment</li>
+ <li>Continuous list refinement</li>
+ </ul>
+ </div>
 
-      <div class="service-card">
-        <div class="service-icon">⌬</div>
-        <h3>AI-Personalized Outreach</h3>
-        <p>Every message individually researched and written for the recipient. Not "Hi {{first_name}}" templates — actual specifics that prove we did the work.</p>
-        <ul>
-          <li>Per-prospect research at scale</li>
-          <li>GPT-4 + Claude personalization</li>
-          <li>Context-aware messaging</li>
-          <li>Continuous A/B optimization</li>
-        </ul>
-      </div>
+ <div class="service-card">
+ <div class="service-icon">⌬</div>
+ <h3>AI-Personalized Outreach</h3>
+ <p>Every message individually researched and written for the recipient. Not "Hi {{first_name}}" templates, actual specifics that prove we did the work.</p>
+ <ul>
+ <li>Per-prospect research at scale</li>
+ <li>GPT-4 + Claude personalization</li>
+ <li>Context-aware messaging</li>
+ <li>Continuous A/B optimization</li>
+ </ul>
+ </div>
 
-      <div class="service-card">
-        <div class="service-icon">⎈</div>
-        <h3>Deliverability Infrastructure</h3>
-        <p>10+ warmed sender domains, full SPF/DKIM/DMARC, proprietary reputation monitoring. Your emails land in the inbox, not spam.</p>
-        <ul>
-          <li>Domain stack setup + warmup</li>
-          <li>SPF / DKIM / DMARC config</li>
-          <li>Inbox placement optimization</li>
-          <li>24/7 reputation monitoring</li>
-        </ul>
-      </div>
+ <div class="service-card">
+ <div class="service-icon">⎈</div>
+ <h3>Deliverability Infrastructure</h3>
+ <p>10+ warmed sender domains, full SPF/DKIM/DMARC, proprietary reputation monitoring. Your emails land in the inbox, not spam.</p>
+ <ul>
+ <li>Domain stack setup + warmup</li>
+ <li>SPF / DKIM / DMARC config</li>
+ <li>Inbox placement optimization</li>
+ <li>24/7 reputation monitoring</li>
+ </ul>
+ </div>
 
-      <div class="service-card">
-        <div class="service-icon">▦</div>
-        <h3>Real-Time Pipeline Dashboard</h3>
-        <p>Built from scratch. Every prospect, every reply, every booked meeting visible 24/7. No weekly PDF reports — your data, live.</p>
-        <ul>
-          <li>Real-time campaign metrics</li>
-          <li>Lead + reply monitoring</li>
-          <li>Booked-meeting analytics</li>
-          <li>Full data export anytime</li>
-        </ul>
-      </div>
+ <div class="service-card">
+ <div class="service-icon">▦</div>
+ <h3>Real-Time Pipeline Dashboard</h3>
+ <p>Built from scratch. Every prospect, every reply, every booked meeting visible 24/7. No weekly PDF reports, your data, live.</p>
+ <ul>
+ <li>Real-time campaign metrics</li>
+ <li>Lead + reply monitoring</li>
+ <li>Booked-meeting analytics</li>
+ <li>Full data export anytime</li>
+ </ul>
+ </div>
 
-      <div class="service-card">
-        <div class="service-icon">⇆</div>
-        <h3>Multichannel Follow-Up</h3>
-        <p>Email is the entry point. When prospects engage, we follow up across LinkedIn + SMS + targeted retargeting. Multi-touch keeps you top-of-mind.</p>
-        <ul>
-          <li>Email sequencing</li>
-          <li>LinkedIn DMs after engagement</li>
-          <li>SMS for warm leads</li>
-          <li>Retargeting ad layer</li>
-        </ul>
-      </div>
+ <div class="service-card">
+ <div class="service-icon">⇆</div>
+ <h3>Multichannel Follow-Up</h3>
+ <p>Email is the entry point. When prospects engage, we follow up across LinkedIn + SMS + targeted retargeting. Multi-touch keeps you top-of-mind.</p>
+ <ul>
+ <li>Email sequencing</li>
+ <li>LinkedIn DMs after engagement</li>
+ <li>SMS for warm leads</li>
+ <li>Retargeting ad layer</li>
+ </ul>
+ </div>
 
-      <div class="service-card">
-        <div class="service-icon">◐</div>
-        <h3>Founder-Led Strategy</h3>
-        <p>Direct line to the founder during your 90-day buildout. Weekly strategy calls, real-time Slack access, no account-manager handoffs.</p>
-        <ul>
-          <li>Weekly KPI review calls</li>
-          <li>Direct WhatsApp / Slack access</li>
-          <li>Quarterly strategic pivots</li>
-          <li>No junior account managers</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+ <div class="service-card">
+ <div class="service-icon">◐</div>
+ <h3>Founder-Led Strategy</h3>
+ <p>Direct line to the founder during your 90-day buildout. Weekly strategy calls, real-time Slack access, no account-manager handoffs.</p>
+ <ul>
+ <li>Weekly KPI review calls</li>
+ <li>Direct WhatsApp / Slack access</li>
+ <li>Quarterly strategic pivots</li>
+ <li>No junior account managers</li>
+ </ul>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section id="how">
-  <div class="container">
-    <div class="section-tag">How it works</div>
-    <h2 class="section-title">From signed to first meeting in 7 days.</h2>
-    <p class="section-subtitle">90-day buildout. Founder-led. Performance-tied. We don't get paid the second half if we miss your KPI.</p>
+ <div class="container">
+ <div class="section-tag">How it works</div>
+ <h2 class="section-title">From signed to first meeting in 7 days.</h2>
+ <p class="section-subtitle">90-day buildout. Founder-led. 60-day money-back guarantee, if you don't hit your tier's qualified-meeting target, the setup fee is refunded in full.</p>
 
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h4>Day 1–7: Foundation</h4>
-        <p>Kickoff. ICP lock. Domain stack provisioned. List built. Sequences written. First sends Day 7.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h4>Day 8–30: Scale</h4>
-        <p>Campaigns live. Replies handled. Meetings booked into your calendar. First retainer wins.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h4>Day 31–60: Optimize</h4>
-        <p>A/B testing, list refinement, copy iteration. Meeting volume targets locked.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <h4>Day 61–90: Lock</h4>
-        <p>System fully tuned. Monthly cadence established. Transition to ongoing retainer.</p>
-      </div>
-    </div>
-  </div>
+ <div class="steps">
+ <div class="step">
+ <div class="step-num">1</div>
+ <h4>Day 1 to 7: Foundation</h4>
+ <p>Kickoff. ICP lock. Domain stack provisioned. List built. Sequences written. First sends Day 7.</p>
+ </div>
+ <div class="step">
+ <div class="step-num">2</div>
+ <h4>Day 8 to 30: Scale</h4>
+ <p>Campaigns live. Replies handled. Meetings booked into your calendar. First retainer wins.</p>
+ </div>
+ <div class="step">
+ <div class="step-num">3</div>
+ <h4>Day 31 to 60: Optimize</h4>
+ <p>A/B testing, list refinement, copy iteration. Meeting volume targets locked.</p>
+ </div>
+ <div class="step">
+ <div class="step-num">4</div>
+ <h4>Day 61 to 90: Lock</h4>
+ <p>System fully tuned. Monthly cadence established. Transition to ongoing retainer.</p>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section id="why">
-  <div class="container">
-    <div class="why-us">
-      <div class="why-us-content">
-        <div class="section-tag" style="margin-bottom:18px">Why clientReady</div>
-        <h2>We're not a marketing agency.<br>We're revenue infrastructure.</h2>
-        <p>Most lead gen agencies send generic blasts and hope. We engineered every layer of the outbound process from scratch — proprietary data enrichment, individual prospect research, custom-built dashboards, founder-led strategy. Your pipeline stops being something that just "happens." It becomes a system you can scale.</p>
-        <a href="/strategy.html" class="btn btn-primary btn-arrow">Book a 30-min Strategy Call</a>
-      </div>
-    </div>
-  </div>
+ <div class="container">
+ <div class="why-us">
+ <div class="why-us-content">
+ <div class="section-tag" style="margin-bottom:18px">Why clientReady</div>
+ <h2>We're not a marketing agency.<br>We're revenue infrastructure.</h2>
+ <p>Most lead gen agencies send generic blasts and hope. We engineered every layer of the outbound process from scratch, proprietary data enrichment, individual prospect research, custom-built dashboards, founder-led strategy. Your pipeline stops being something that just "happens." It becomes a system you can scale.</p>
+ <a href="/strategy.html" class="btn btn-primary btn-arrow">Book a 30-min Strategy Call</a>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section>
-  <div class="container">
-    <div class="section-tag">Results</div>
-    <h2 class="section-title">What clients say.</h2>
-    <p class="section-subtitle">Real founders, real numbers. Names redacted to last initial — privacy policy.</p>
+ <div class="container">
+ <div class="section-tag">Results</div>
+ <h2 class="section-title">What clients say.</h2>
+ <p class="section-subtitle">Real founders, real numbers. Names redacted to last initial, privacy policy.</p>
 
-    <div class="testimonials">
-      <div class="testimonial">
-        <p>I was skeptical at first. But after two weeks we had 12 booked calls. Three closed within a month. The copy actually sounds like a human wrote it — not generic templates.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">M</div>
-          <div class="author-info">
-            <div class="name">Marcus T.</div>
-            <div class="role">Founder, B2B SaaS</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>We tried doing cold email ourselves for 6 months. Got maybe 3 replies total. clientReady set everything up in a week and we had our first demo booked in 4 days. Wish we'd done this sooner.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">J</div>
-          <div class="author-info">
-            <div class="name">Jessica K.</div>
-            <div class="role">Head of Sales, Marketing Agency</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial">
-        <p>The dashboard is insane. We literally use it as our CRM now. Every lead, every conversation, every follow-up is right there. Canceled our Salesforce subscription.</p>
-        <div class="testimonial-author">
-          <div class="author-avatar">D</div>
-          <div class="author-info">
-            <div class="name">David R.</div>
-            <div class="role">Founder, Professional Services</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+ <div class="testimonials">
+ <div class="testimonial">
+ <p>I was skeptical at first. But after two weeks we had 12 booked calls. Three closed within a month. The copy actually sounds like a human wrote it, not generic templates.</p>
+ <div class="testimonial-author">
+ <div class="author-avatar">M</div>
+ <div class="author-info">
+ <div class="name">Marcus T.</div>
+ <div class="role">Founder, B2B SaaS</div>
+ </div>
+ </div>
+ </div>
+ <div class="testimonial">
+ <p>We tried doing cold email ourselves for 6 months. Got maybe 3 replies total. clientReady set everything up in a week and we had our first demo booked in 4 days. Wish we'd done this sooner.</p>
+ <div class="testimonial-author">
+ <div class="author-avatar">J</div>
+ <div class="author-info">
+ <div class="name">Jessica K.</div>
+ <div class="role">Head of Sales, Marketing Agency</div>
+ </div>
+ </div>
+ </div>
+ <div class="testimonial">
+ <p>The dashboard is insane. We literally use it as our CRM now. Every lead, every conversation, every follow-up is right there. Canceled our Salesforce subscription.</p>
+ <div class="testimonial-author">
+ <div class="author-avatar">D</div>
+ <div class="author-info">
+ <div class="name">David R.</div>
+ <div class="role">Founder, Professional Services</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section class="cta-section">
-  <div class="container">
-    <div class="cta-box">
-      <div class="cta-content">
-        <div class="cta-cohort">
-          <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;animation:pulse 2s infinite"></span>
-          Cohort #1 closes when 10 spots fill — currently 4/10
-        </div>
-        <h2>Your pipeline shouldn't depend on luck.</h2>
-        <p>30 minutes. We'll show you exactly how the system would book meetings for your business — using your ICP, your offer, your numbers. No generic deck.</p>
-        <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Strategy Call</a>
-      </div>
-    </div>
-  </div>
+ <div class="container">
+ <div class="cta-box">
+ <div class="cta-content">
+ <div class="cta-cohort">
+ <span style="width:6px;height:6px;border-radius:50%;background:#34D399;display:inline-block;animation:pulse 2s infinite"></span>
+ Cohort #1 closes when 10 spots fill, currently 4/10
+ </div>
+ <h2>Your pipeline shouldn't depend on luck.</h2>
+ <p>30 minutes. We'll show you exactly how the system would book meetings for your business, using your ICP, your offer, your numbers. No generic deck.</p>
+ <a href="/strategy.html" class="btn btn-primary btn-arrow">Book Strategy Call</a>
+ </div>
+ </div>
+ </div>
 </section>
 
 <footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <div class="logo">
-          <span class="logo-mark">cR</span>
-          <span>clientReady</span>
-        </div>
-        <p>We build and operate AI-powered outbound systems that book 10–50+ qualified meetings per month for B2B companies. No SDRs. No ads. No guesswork.</p>
-      </div>
-      <div class="footer-col">
-        <h5>Product</h5>
-        <a href="/services.html">Services</a>
-        <a href="/workshop.html">Live Workshop</a>
-        <a href="/strategy.html">Book a Call</a>
-      </div>
-      <div class="footer-col">
-        <h5>Company</h5>
-        <a href="#why">Why Us</a>
-        <a href="mailto:rich@clientready.agency">Contact</a>
-      </div>
-      <div class="footer-col">
-        <h5>Legal</h5>
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 clientReady. All rights reserved.</span>
-      <span>Built for operators.</span>
-    </div>
-  </div>
+ <div class="container">
+ <div class="footer-grid">
+ <div class="footer-brand">
+ <div class="logo">
+ <span class="logo-mark">cR</span>
+ <span>clientReady</span>
+ </div>
+ <p>We build and operate AI-powered outbound systems that book 10-50+ qualified meetings per month for B2B companies. No SDRs. No ads. No guesswork.</p>
+ </div>
+ <div class="footer-col">
+ <h5>Product</h5>
+ <a href="/services.html">Services</a>
+ <a href="/workshop.html">Live Workshop</a>
+ <a href="/strategy.html">Book a Call</a>
+ </div>
+ <div class="footer-col">
+ <h5>Company</h5>
+ <a href="#why">Why Us</a>
+ <a href="mailto:rich@clientready.agency">Contact</a>
+ </div>
+ <div class="footer-col">
+ <h5>Legal</h5>
+ <a href="#">Privacy</a>
+ <a href="#">Terms</a>
+ </div>
+ </div>
+ <div class="footer-bottom">
+ <span>© 2026 clientReady. All rights reserved.</span>
+ <span>Built for operators.</span>
+ </div>
+ </div>
 </footer>
 
 <script>
 const fadeEls = document.querySelectorAll('section, .service-card, .step, .testimonial');
 fadeEls.forEach(el => el.classList.add('fade-in'));
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
+ entries.forEach(entry => {
+ if (entry.isIntersecting) entry.target.classList.add('visible');
+ });
 }, {threshold:0.08});
 fadeEls.forEach(el => observer.observe(el));
 
 const mobileToggle = document.querySelector('.mobile-toggle');
 const navLinks = document.querySelector('.nav-links');
 mobileToggle?.addEventListener('click', () => {
-  if (getComputedStyle(navLinks).display === 'none') {
-    navLinks.style.display = 'flex';
-    navLinks.style.flexDirection = 'column';
-    navLinks.style.position = 'absolute';
-    navLinks.style.top = '64px';
-    navLinks.style.left = '0';
-    navLinks.style.right = '0';
-    navLinks.style.background = 'rgba(10,10,15,0.98)';
-    navLinks.style.padding = '24px';
-    navLinks.style.gap = '20px';
-    navLinks.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
-  } else {
-    navLinks.style.display = 'none';
-  }
+ if (getComputedStyle(navLinks).display === 'none') {
+ navLinks.style.display = 'flex';
+ navLinks.style.flexDirection = 'column';
+ navLinks.style.position = 'absolute';
+ navLinks.style.top = '64px';
+ navLinks.style.left = '0';
+ navLinks.style.right = '0';
+ navLinks.style.background = 'rgba(10,10,15,0.98)';
+ navLinks.style.padding = '24px';
+ navLinks.style.gap = '20px';
+ navLinks.style.borderBottom = '1px solid rgba(255,255,255,0.06)';
+ } else {
+ navLinks.style.display = 'none';
+ }
 });
 </script>
 </body>

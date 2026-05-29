@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>clientReady IG Carousel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+:root{
+ --brand-primary:#2563EB;
+ --brand-light:#60A5FA;
+ --brand-dark:#1E40AF;
+ --light-bg:#F8FAFC;
+ --light-border:#E2E8F0;
+ --dark-bg:#0F172A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#E5E7EB;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:32px 16px}
+.serif{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;letter-spacing:-0.5px}
+.sans{font-family:'Plus Jakarta Sans',sans-serif}
+.ig-frame{width:420px;background:#fff;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.12);overflow:hidden}
+.ig-header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid #EFEFEF}
+.ig-avatar{width:32px;height:32px;border-radius:50%;background:var(--brand-primary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:11px;letter-spacing:0;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.ig-handle{flex:1;display:flex;flex-direction:column;line-height:1.2}
+.ig-handle .h{font-size:13px;font-weight:600;color:#0F172A}
+.ig-handle .s{font-size:11px;color:#737373}
+.ig-more{color:#262626;font-size:18px;letter-spacing:1px}
+.carousel-viewport{position:relative;width:420px;height:525px;overflow:hidden;cursor:grab;user-select:none;background:#fff}
+.carousel-viewport:active{cursor:grabbing}
+.carousel-track{display:flex;height:100%;transition:transform .35s cubic-bezier(0.22, 1, 0.36, 1)}
+.slide{width:420px;height:525px;flex-shrink:0;position:relative;overflow:hidden;display:flex;flex-direction:column}
+
+/* Backgrounds */
+.bg-light{background:var(--light-bg)}
+.bg-dark{background:var(--dark-bg)}
+.bg-grad{background:linear-gradient(165deg, var(--brand-dark) 0%, var(--brand-primary) 50%, var(--brand-light) 100%)}
+
+/* Progress bar */
+.pbar{position:absolute;bottom:0;left:0;right:0;padding:16px 28px 20px;z-index:10;display:flex;align-items:center;gap:10px}
+.pbar .track{flex:1;height:3px;border-radius:2px;overflow:hidden}
+.pbar .track .fill{height:100%;border-radius:2px}
+.pbar .count{font-size:11px;font-weight:500;font-family:'Plus Jakarta Sans',sans-serif}
+.pbar.light .track{background:rgba(0,0,0,0.08)}
+.pbar.light .fill{background:var(--brand-primary)}
+.pbar.light .count{color:rgba(0,0,0,0.3)}
+.pbar.dark .track{background:rgba(255,255,255,0.12)}
+.pbar.dark .fill{background:#fff}
+.pbar.dark .count{color:rgba(255,255,255,0.4)}
+
+/* Swipe arrow */
+.arrow{position:absolute;right:0;top:0;bottom:0;width:48px;z-index:9;display:flex;align-items:center;justify-content:center}
+.arrow.light{background:linear-gradient(to right,transparent,rgba(0,0,0,0.06))}
+.arrow.dark{background:linear-gradient(to right,transparent,rgba(255,255,255,0.08))}
+
+/* Slide content */
+.content{padding:0 36px 60px;height:100%;display:flex;flex-direction:column;position:relative;z-index:2}
+.content.center{justify-content:center}
+.content.bottom{justify-content:flex-end;padding-top:48px}
+
+.tag{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif}
+.tag.on-light{color:var(--brand-primary)}
+.tag.on-dark{color:var(--brand-light)}
+.tag.on-grad{color:rgba(255,255,255,0.7)}
+
+h1.head{font-family:'Plus Jakarta Sans',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.5px;line-height:1.1}
+h1.head.dark{color:#0F172A}
+h1.head.light{color:#fff}
+h1.head.grad{color:#fff}
+h1.head.sm{font-size:28px;line-height:1.15}
+
+p.body{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:400;line-height:1.55;margin-top:14px}
+p.body.dark{color:rgba(15,23,42,0.7)}
+p.body.light{color:rgba(255,255,255,0.78)}
+p.body.grad{color:rgba(255,255,255,0.85)}
+
+.logo-lockup{display:flex;align-items:center;gap:10px;margin-bottom:24px}
+.logo-circle{width:38px;height:38px;border-radius:50%;background:var(--brand-primary);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:14px;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.logo-name{font-size:13px;font-weight:600;letter-spacing:0.5px}
+.logo-name.on-light{color:#0F172A}
+.logo-name.on-grad{color:#fff}
+.logo-name span{font-weight:800}
+.logo-name .b1{color:#000}
+.logo-name .b2{color:var(--brand-primary)}
+
+/* Stat highlights */
+.stat-num{font-family:'Plus Jakarta Sans',sans-serif;font-size:64px;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:8px}
+.stat-num.dark{color:#0F172A}
+.stat-num.light{color:#fff}
+.stat-num.grad{color:#fff}
+
+/* Quote/prompt box */
+.qbox{padding:18px;background:rgba(0,0,0,0.18);border-radius:12px;border:1px solid rgba(255,255,255,0.1);margin-top:20px}
+.qbox .lab{font-size:11px;font-weight:600;color:rgba(255,255,255,0.55);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.qbox .quote{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;color:#fff;font-style:italic;line-height:1.45;font-weight:500}
+
+/* Feature list */
+.flist{margin-top:18px}
+.frow{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-bottom:1px solid var(--light-border)}
+.frow:last-child{border-bottom:none}
+.fic{width:32px;height:32px;border-radius:8px;background:rgba(37,99,235,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--brand-primary);font-weight:800;font-size:14px;font-family:'Plus Jakarta Sans',sans-serif}
+.frow .fbody{flex:1}
+.frow .ftitle{font-size:13px;font-weight:700;color:#0F172A;line-height:1.3}
+.frow .fdesc{font-size:12px;color:rgba(15,23,42,0.6);margin-top:3px;line-height:1.4}
+
+/* Numbered steps */
+.steps{margin-top:18px}
+.srow{display:flex;align-items:flex-start;gap:16px;padding:13px 0;border-bottom:1px solid var(--light-border)}
+.srow:last-child{border-bottom:none}
+.snum{font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:300;color:var(--brand-primary);min-width:36px;line-height:1;letter-spacing:-1px}
+.srow .stitle{font-size:13px;font-weight:700;color:#0F172A;line-height:1.3}
+.srow .sdesc{font-size:12px;color:rgba(15,23,42,0.6);margin-top:3px;line-height:1.4}
+
+/* Strikethrough pills */
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.pill{font-size:12px;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.55);text-decoration:line-through;font-weight:500}
+
+/* Tag pills (no strikethrough) */
+.tpills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.tpill{font-size:11px;padding:6px 11px;border-radius:99px;background:rgba(96,165,250,0.18);color:var(--brand-light);font-weight:600;border:1px solid rgba(96,165,250,0.3)}
+
+/* CTA button */
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 26px;background:#fff;color:var(--brand-dark);font-weight:700;font-size:14px;border-radius:28px;font-family:'Plus Jakarta Sans',sans-serif;margin-top:24px;letter-spacing:-0.2px}
+
+/* Watermark */
+.watermark{position:absolute;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:200px;letter-spacing:-8px;line-height:1;pointer-events:none;user-select:none;z-index:0}
+.watermark.tl{top:-30px;left:-30px;color:rgba(37,99,235,0.06)}
+.watermark.br{bottom:-60px;right:-30px;color:rgba(255,255,255,0.05)}
+
+/* Big number callout */
+.bignum{font-family:'Plus Jakarta Sans',sans-serif;font-size:120px;font-weight:800;letter-spacing:-6px;line-height:0.9;margin-bottom:8px}
+.bignum.dark{color:#0F172A}
+.bignum.light{color:#fff}
+
+/* Inline highlight */
+.hl{color:var(--brand-primary);font-weight:800}
+.hl-l{color:var(--brand-light);font-weight:800}
+
+/* Dot indicators (IG frame) */
+.ig-dots{display:flex;justify-content:center;gap:5px;padding:10px 0;background:#fff}
+.ig-dots .dot{width:6px;height:6px;border-radius:50%;background:#C9C9C9}
+.ig-dots .dot.active{background:var(--brand-primary)}
+
+.ig-actions{display:flex;align-items:center;gap:14px;padding:8px 14px 6px}
+.ig-actions svg{cursor:pointer}
+.ig-actions .save{margin-left:auto}
+
+.ig-caption{padding:0 14px 14px;font-size:13px;line-height:1.4;color:#262626}
+.ig-caption .h{font-weight:600;margin-right:6px}
+.ig-caption .ts{font-size:10px;color:#737373;text-transform:uppercase;letter-spacing:0.5px;margin-top:6px;display:block}
+
+</style>
+</head>
+<body>
+
+<div class="ig-frame">
+ <!-- IG Header -->
+ <div class="ig-header">
+ <div class="ig-avatar">CR</div>
+ <div class="ig-handle">
+ <span class="h">clientready.agency</span>
+ <span class="s">AI intake for solo PI attorneys</span>
+ </div>
+ <div class="ig-more">⋯</div>
+ </div>
+
+ <!-- Carousel viewport -->
+ <div class="carousel-viewport">
+ <div class="carousel-track">
+
+ <!-- SLIDE 1, HERO (LIGHT) -->
+ <div class="slide bg-light">
+ <div class="watermark tl">CR</div>
+ <div class="content bottom">
+ <div class="logo-lockup">
+ <div class="logo-circle">CR</div>
+ <div class="logo-name on-light"><span class="b1">CLIENT</span><span class="b2">READY</span></div>
+ </div>
+ <span class="tag on-light">FOR SOLO PI ATTORNEYS</span>
+ <h1 class="head dark">The lead that called your firm at 9:00am signed with another firm by 9:14.</h1>
+ <p class="body dark">60% of inbound PI inquiries ghost in the first 14 minutes. Most solo firms don't even know it's happening.</p>
+ </div>
+ <div class="arrow light">
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+ <path d="M9 6l6 6-6 6" stroke="rgba(0,0,0,0.25)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+ </div>
+ <div class="pbar light">
+ <div class="track"><div class="fill" style="width:14.28%"></div></div>
+ <span class="count">1/7</span>
+ </div>
+ </div>
+
+ <!-- SLIDE 2, PROBLEM (DARK) -->
+ <div class="slide bg-dark">
+ <div class="content bottom">
+ <span class="tag on-dark">THE LEAK</span>
+ <div class="bignum light">$480K</div>
+ <p class="body light" style="margin-top:6px">leaks out of the average solo PI firm every year. 2 missed leads per month, $20K average case, 12 months. None of it shows up on your P&amp;L because the cases never become files.</p>
+ <div class="pills">
+ <span class="pill">callbacks within 24 hrs</span>
+ <span class="pill">voicemail tag</span>
+ <span class="pill">Monday morning queue</span>
+ </div>
+ </div>
+ <div class="arrow dark">
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+ <path d="M9 6l6 6-6 6" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+ </div>
+ <div class="pbar dark">
+ <div class="track"><div class="fill" style="width:28.57%"></div></div>
+ <span class="count">2/7</span>
+ </div>
+ </div>
+
+ <!-- SLIDE 3, SOLUTION (GRADIENT) -->
+ <div class="slide bg-grad">
+ <div class="watermark br">CR</div>
+ <div class="content bottom">
+ <span class="tag on-grad">THE FIX</span>
+ <h1 class="head grad sm">Take the human out of the first 60 seconds of intake.</h1>
+ <p class="body grad" style="margin-top:14px">By the time you call back, the deal is half-closed.</p>
+ <div class="qbox">
+ <div class="lab">Auto-text · 1s after form submit</div>
+ <p class="quote">"Hi Maria, got your message about the May 14 accident on I-35. An attorney will call within 15 minutes. Reply to this text if you need us sooner."</p>
+ </div>
+ </div>
+ <div class="arrow dark">
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+ <path d="M9 6l6 6-6 6" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+ </div>
+ <div class="pbar dark">
+ <div class="track"><div class="fill" style="width:42.86%"></div></div>
+ <span class="count">3/7</span>
+ </div>
+ </div>
+
+ <!-- SLIDE 4, FEATURES (LIGHT) -->
+ <div class="slide bg-light">
+ <div class="content bottom">
+ <span class="tag on-light">WHAT CLIENTREADY DOES</span>
+ <h1 class="head dark sm">Every PI lead, fully prepped before you call back.</h1>
+ <div class="flist">
+ <div class="frow">
+ <div class="fic">1</div>
+ <div class="fbody">
+ <div class="ftitle">Auto-text within 1 second</div>
+ <div class="fdesc">Personalized SMS confirms receipt and stops the lead from shopping competitors.</div>
+ </div>
+ </div>
+ <div class="frow">
+ <div class="fic">2</div>
+ <div class="fbody">
+ <div class="ftitle">Conflict check, automatic</div>
+ <div class="fdesc">Cross-references your client list, opposing parties, and insurer database. ABA 1.7 covered.</div>
+ </div>
+ </div>
+ <div class="frow">
+ <div class="fic">3</div>
+ <div class="fbody">
+ <div class="ftitle">SOL calculator, every state</div>
+ <div class="fdesc">Pulls accident date, runs against the right state SOL, flags red, amber, or green.</div>
+ </div>
+ </div>
+ <div class="frow">
+ <div class="fic">4</div>
+ <div class="fbody">
+ <div class="ftitle">Engagement letter drafted</div>
+ <div class="fdesc">Contingency-fee structure built in for PI. You review and send.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="arrow light">
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+ <path d="M9 6l6 6-6 6" stroke="rgba(0,0,0,0.25)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+ </div>
+ <div class="pbar light">
+ <div class="track"><div class="fill" style="width:57.14%"></div></div>
+ <span class="count">4/7</span>
+ </div>
+ </div>
+
+ <!-- SLIDE 5, DETAILS (DARK) -->
+ <div class="slide bg-dark">
+ <div class="content bottom">
+ <span class="tag on-dark">BUILT FOR PI ONLY</span>
+ <h1 class="head light sm">Not a generic legal CRM with a PI label.</h1>
+ <p class="body light" style="margin-top:14px">Every workflow assumes contingency fees, accident-date tracking, and the right SOL clock for the right state.</p>
+ <div class="tpills">
+ <span class="tpill">51 jurisdictions</span>
+ <span class="tpill">Auto / MVA</span>
+ <span class="tpill">Slip &amp; Fall</span>
+ <span class="tpill">Med Mal</span>
+ <span class="tpill">Wrongful Death</span>
+ <span class="tpill">Product Liability</span>
+ <span class="tpill">ABA 1.6 / 1.7</span>
+ </div>
+ </div>
+ <div class="arrow dark">
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+ <path d="M9 6l6 6-6 6" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+ </div>
+ <div class="pbar dark">
+ <div class="track"><div class="fill" style="width:71.43%"></div></div>
+ <span class="count">5/7</span>
+ </div>
+ </div>
+
+ <!-- SLIDE 6, HOW-TO (LIGHT) -->
+ <div class="slide bg-light">
+ <div class="content bottom">
+ <span class="tag on-light">12-MINUTE SETUP</span>
+ <h1 class="head dark sm">Live by lunch.</h1>
+ <div class="steps">
+ <div class="srow">
+ <div class="snum">01</div>
+ <div>
+ <div class="stitle">Connect your intake form</div>
+ <div class="sdesc">Webflow, WordPress, custom HTML. Drop in a snippet.</div>
+ </div>
+ </div>
+ <div class="srow">
+ <div class="snum">02</div>
+ <div>
+ <div class="stitle">Pick your state defaults</div>
+ <div class="sdesc">SOL rules and contingency-fee splits load automatically.</div>
+ </div>
+ </div>
+ <div class="srow">
+ <div class="snum">03</div>
+ <div>
+ <div class="stitle">Upload your engagement letter</div>
+ <div class="sdesc">We map fields to the intake form. Variables go in, signed letter comes out.</div>
+ </div>
+ </div>
+ <div class="srow">
+ <div class="snum">04</div>
+ <div>
+ <div class="stitle">Watch the dashboard</div>
+ <div class="sdesc">Every new lead, screened and queued, with a single click to send.</div>
+ </div>
+ </div>
+ </div>
+ </div>
+ <div class="arrow light">
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+ <path d="M9 6l6 6-6 6" stroke="rgba(0,0,0,0.25)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+ </svg>
+ </div>
+ <div class="pbar light">
+ <div class="track"><div class="fill" style="width:85.71%"></div></div>
+ <span class="count">6/7</span>
+ </div>
+ </div>
+
+ <!-- SLIDE 7, CTA (GRADIENT), NO ARROW -->
+ <div class="slide bg-grad">
+ <div class="watermark br">CR</div>
+ <div class="content center" style="text-align:center;align-items:center">
+ <div class="logo-lockup" style="margin-bottom:20px;justify-content:center">
+ <div class="logo-circle" style="background:#fff;color:var(--brand-primary)">CR</div>
+ <div class="logo-name on-grad" style="color:#fff"><span style="color:#fff">CLIENT</span><span style="color:#fff;opacity:0.8">READY</span></div>
+ </div>
+ <h1 class="head grad sm" style="text-align:center;max-width:320px">Save your first missed lead.</h1>
+ <p class="body grad" style="text-align:center;margin-top:14px;max-width:300px">14-day free trial. No credit card. Setup in 12 minutes.</p>
+ <div class="cta-btn">Start free → clientready.agency</div>
+ </div>
+ <div class="pbar dark">
+ <div class="track"><div class="fill" style="width:100%"></div></div>
+ <span class="count">7/7</span>
+ </div>
+ </div>
+
+ </div>
+ </div>
+
+ <!-- IG dots -->
+ <div class="ig-dots">
+ <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+ </div>
+
+ <!-- IG actions -->
+ <div class="ig-actions">
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+ <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+ <svg width="24" height="24" class="save" viewBox="0 0 24 24" fill="none" stroke="#262626" stroke-width="2"><polygon points="19 21 12 16 5 21 5 3 19 3 19 21"/></svg>
+ </div>
+
+ <!-- Caption -->
+ <div class="ig-caption">
+ <span class="h">clientready.agency</span>The 14-minute window is the most expensive thing in your firm. We built clientReady to fix that exact problem for solo PI. Free trial → clientready.agency
+ <span class="ts">2 hours ago</span>
+ </div>
+</div>
+
+<script>
+const track = document.querySelector('.carousel-track');
+const dots = document.querySelectorAll('.ig-dots .dot');
+const total = 7;
+let idx = 0;
+let startX = 0;
+let isDown = false;
+let dragX = 0;
+
+function go(i){
+ idx = Math.max(0, Math.min(total-1, i));
+ track.style.transition = 'transform .35s cubic-bezier(0.22, 1, 0.36, 1)';
+ track.style.transform = `translateX(${-idx * 420}px)`;
+ dots.forEach((d, j) => d.classList.toggle('active', j === idx));
+}
+
+const vp = document.querySelector('.carousel-viewport');
+vp.addEventListener('pointerdown', e => { isDown = true; startX = e.clientX; dragX = 0; track.style.transition='none'; });
+window.addEventListener('pointermove', e => {
+ if(!isDown) return;
+ dragX = e.clientX - startX;
+ track.style.transform = `translateX(${-idx * 420 + dragX}px)`;
+});
+window.addEventListener('pointerup', () => {
+ if(!isDown) return;
+ isDown = false;
+ if(dragX < -50) go(idx + 1);
+ else if(dragX > 50) go(idx - 1);
+ else go(idx);
+});
+</script>
+</body>
+</html>

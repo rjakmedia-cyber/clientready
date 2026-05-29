@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apply for a Strategy Call — clientReady</title>
+<title>Apply for a Strategy Call, clientReady</title>
 <meta name="description" content="Founding 5 cohort: $7,500 deposit, 20 qualified meetings in 60 days or refund. Apply for a strategy call.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -100,9 +100,9 @@ footer{border-top:1px solid rgba(255,255,255,0.06);padding:32px 0;text-align:cen
 footer a{color:var(--text-mute);text-decoration:none}
 
 @media(max-width:700px){
-  .options{grid-template-columns:1fr}
-  .funnel-inner{padding:28px}
-  .nav-links a:not(.btn){display:none}
+ .options{grid-template-columns:1fr}
+ .funnel-inner{padding:28px}
+ .nav-links a:not(.btn){display:none}
 }
 </style>
 </head>
@@ -110,457 +110,521 @@ footer a{color:var(--text-mute);text-decoration:none}
 <div class="bg-grid"></div>
 
 <nav>
-  <div class="container nav-inner">
-    <a href="/" class="logo">
-      <span class="logo-mark">cR</span>
-      <span>clientReady</span>
-    </a>
-    <div class="nav-links">
-      <a href="/method.html">The Method</a>
-      <a href="/case-studies.html">Case Studies</a>
-      <a href="/services.html">Services</a>
-      <a href="/workshop.html">Watch</a>
-      <a href="/" class="btn btn-primary">Home</a>
-    </div>
-  </div>
+ <div class="container nav-inner">
+ <a href="/" class="logo">
+ <span class="logo-mark">cR</span>
+ <span>clientReady</span>
+ </a>
+ <div class="nav-links">
+ <a href="/method.html">The Method</a>
+ <a href="/case-studies.html">Case Studies</a>
+ <a href="/services.html">Services</a>
+ <a href="/workshop.html">Watch</a>
+ <a href="/" class="btn btn-primary">Home</a>
+ </div>
+ </div>
 </nav>
 
 <header class="hero-funnel">
-  <div class="container">
-    <div class="tag"><span class="dot"></span><span>Founding 5 &middot; 3 spots left</span></div>
-    <h1>Apply for a 30-min strategy call.</h1>
-    <p class="lede">5 quick questions so we both know if we're a fit before we get on the call. If yes, you book directly. If not, we'll tell you why and point you somewhere useful.</p>
-  </div>
+ <div class="container">
+ <div class="tag"><span class="dot"></span><span>Founding 5 &middot; 3 spots left</span></div>
+ <h1>Apply for a 30-min strategy call.</h1>
+ <p class="lede">5 quick questions so we both know if we're a fit before we get on the call. If yes, you book directly. If not, we'll tell you why and point you somewhere useful.</p>
+ </div>
 </header>
 
 <div class="container">
-  <div class="funnel">
-    <div class="funnel-inner">
-      <div class="progress">
-        <div class="progress-step active" id="p1"></div>
-        <div class="progress-step" id="p2"></div>
-        <div class="progress-step" id="p3"></div>
-        <div class="progress-step" id="p4"></div>
-        <div class="progress-step" id="p5"></div>
-        <div class="progress-step" id="p6"></div>
-      </div>
+ <div class="funnel">
+ <div class="funnel-inner">
+ <div class="progress">
+ <div class="progress-step active" id="p1"></div>
+ <div class="progress-step" id="p2"></div>
+ <div class="progress-step" id="p3"></div>
+ <div class="progress-step" id="p4"></div>
+ <div class="progress-step" id="p5"></div>
+ </div>
 
-      <!-- STEP 1: Who are you -->
-      <div class="step active" data-step="1">
-        <div class="step-label">Step 1 of 6</div>
-        <h2>Who's running this?</h2>
-        <p class="sub">We work with founders, CEOs, and revenue leaders. The strategy call is founder-to-founder.</p>
+ <!-- STEP 1: Who are you -->
+ <div class="step active" data-step="1">
+ <div class="step-label">Step 1 of 5</div>
+ <h2>Who's running this?</h2>
+ <p class="sub">We work with founders, CEOs, and revenue leaders. The strategy call is founder-to-founder.</p>
 
-        <div class="field">
-          <label>Your name</label>
-          <input type="text" id="q-name" placeholder="Sarah Chen" autocomplete="name">
-        </div>
-        <div class="field">
-          <label>Work email</label>
-          <input type="email" id="q-email" placeholder="sarah@yourcompany.com" autocomplete="email">
-        </div>
-        <div class="field">
-          <label>Your role</label>
-          <div class="options">
-            <div class="option" data-q="role" data-val="founder">Founder / CEO</div>
-            <div class="option" data-q="role" data-val="vp-sales">VP Sales / Revenue</div>
-            <div class="option" data-q="role" data-val="head-growth">Head of Growth</div>
-            <div class="option" data-q="role" data-val="director">Director-level</div>
-            <div class="option" data-q="role" data-val="operator">Operator / Manager</div>
-            <div class="option" data-q="role" data-val="other">Other</div>
-          </div>
-        </div>
+ <div class="field">
+ <label>Your name</label>
+ <input type="text" id="q-name" placeholder="Sarah Chen" autocomplete="name">
+ </div>
+ <div class="field">
+ <label>Work email</label>
+ <input type="email" id="q-email" placeholder="sarah@yourcompany.com" autocomplete="email">
+ </div>
+ <div class="field">
+ <label>Your role</label>
+ <div class="options">
+ <div class="option" data-q="role" data-val="founder">Founder / CEO</div>
+ <div class="option" data-q="role" data-val="vp-sales">VP Sales / Revenue</div>
+ <div class="option" data-q="role" data-val="head-growth">Head of Growth</div>
+ <div class="option" data-q="role" data-val="director">Director-level</div>
+ <div class="option" data-q="role" data-val="operator">Operator / Manager</div>
+ <div class="option" data-q="role" data-val="other">Other</div>
+ </div>
+ </div>
 
-        <div class="step-actions">
-          <span></span>
-          <button class="next-btn" onclick="nextStep()" disabled id="btn-1">Continue</button>
-        </div>
-      </div>
+ <div class="step-actions">
+ <span></span>
+ <button class="next-btn" onclick="nextStep()" disabled id="btn-1">Continue</button>
+ </div>
+ </div>
 
-      <!-- STEP 2: Company profile -->
-      <div class="step" data-step="2">
-        <div class="step-label">Step 2 of 6</div>
-        <h2>About your company.</h2>
-        <p class="sub">Helps us figure out if our system fits your sales motion.</p>
+ <!-- STEP 2: Company profile -->
+ <div class="step" data-step="2">
+ <div class="step-label">Step 2 of 5</div>
+ <h2>About your company.</h2>
+ <p class="sub">Helps us figure out if our system fits your sales motion.</p>
 
-        <div class="field">
-          <label>Company name</label>
-          <input type="text" id="q-company" placeholder="Acme Inc">
-        </div>
-        <div class="field">
-          <label>Website / domain</label>
-          <input type="text" id="q-domain" placeholder="acme.com">
-        </div>
-        <div class="field">
-          <label>What you sell</label>
-          <div class="options">
-            <div class="option" data-q="industry" data-val="b2b-saas">B2B SaaS</div>
-            <div class="option" data-q="industry" data-val="agency">B2B Agency</div>
-            <div class="option" data-q="industry" data-val="consulting">Professional Services / Consulting</div>
-            <div class="option" data-q="industry" data-val="other-b2b">Other B2B</div>
-            <div class="option disqualify" data-q="industry" data-val="b2c">B2C / Consumer</div>
-            <div class="option disqualify" data-q="industry" data-val="freelance">Freelance / Solo</div>
-          </div>
-        </div>
+ <div class="field">
+ <label>Company name</label>
+ <input type="text" id="q-company" placeholder="Acme Inc">
+ </div>
+ <div class="field">
+ <label>Website / domain</label>
+ <input type="text" id="q-domain" placeholder="acme.com">
+ </div>
+ <div class="field">
+ <label>What you sell</label>
+ <div class="options">
+ <div class="option" data-q="industry" data-val="b2b-saas">B2B SaaS</div>
+ <div class="option" data-q="industry" data-val="agency">B2B Agency</div>
+ <div class="option" data-q="industry" data-val="consulting">Professional Services / Consulting</div>
+ <div class="option" data-q="industry" data-val="other-b2b">Other B2B</div>
+ <div class="option disqualify" data-q="industry" data-val="b2c">B2C / Consumer</div>
+ <div class="option disqualify" data-q="industry" data-val="freelance">Freelance / Solo</div>
+ </div>
+ </div>
 
-        <div class="step-actions">
-          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
-          <button class="next-btn" onclick="nextStep()" disabled id="btn-2">Continue</button>
-        </div>
-      </div>
+ <div class="step-actions">
+ <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+ <button class="next-btn" onclick="nextStep()" disabled id="btn-2">Continue</button>
+ </div>
+ </div>
 
-      <!-- STEP 3: Revenue + ACV -->
-      <div class="step" data-step="3">
-        <div class="step-label">Step 3 of 6</div>
-        <h2>Show me the money.</h2>
-        <p class="sub">No exact numbers needed &mdash; just a range. We can't make the math work below certain thresholds and won't waste your time if so.</p>
+ <!-- STEP 3: Revenue + ACV -->
+ <div class="step" data-step="3">
+ <div class="step-label">Step 3 of 5</div>
+ <h2>Show me the money.</h2>
+ <p class="sub">No exact numbers needed , just a range. We can't make the math work below certain thresholds and won't waste your time if so.</p>
 
-        <div class="field">
-          <label>Annual revenue (current)</label>
-          <div class="options">
-            <div class="option disqualify" data-q="arr" data-val="pre-revenue">Pre-revenue</div>
-            <div class="option disqualify" data-q="arr" data-val="under-30k">Under $30k</div>
-            <div class="option" data-q="arr" data-val="30k-250k">$30k &ndash; $250k</div>
-            <div class="option" data-q="arr" data-val="250k-1m">$250k &ndash; $1M</div>
-            <div class="option" data-q="arr" data-val="1m-5m">$1M &ndash; $5M</div>
-            <div class="option" data-q="arr" data-val="5m-25m">$5M &ndash; $25M</div>
-            <div class="option" data-q="arr" data-val="25m+">$25M+</div>
-          </div>
-        </div>
-        <div class="field">
-          <label>Average customer LTV / ACV</label>
-          <div class="options">
-            <div class="option disqualify" data-q="acv" data-val="under-5k">Under $5k</div>
-            <div class="option" data-q="acv" data-val="5k-15k">$5k &ndash; $15k</div>
-            <div class="option" data-q="acv" data-val="15k-50k">$15k &ndash; $50k</div>
-            <div class="option" data-q="acv" data-val="50k-150k">$50k &ndash; $150k</div>
-            <div class="option" data-q="acv" data-val="150k+">$150k+</div>
-            <div class="option" data-q="acv" data-val="unknown">Not sure</div>
-          </div>
-        </div>
+ <div class="field">
+ <label>Annual revenue (current)</label>
+ <div class="options">
+ <div class="option disqualify" data-q="arr" data-val="pre-revenue">Pre-revenue</div>
+ <div class="option disqualify" data-q="arr" data-val="under-30k">Under $30k</div>
+ <div class="option" data-q="arr" data-val="30k-250k">$30k to $250k (Builder tier)</div>
+ <div class="option" data-q="arr" data-val="250k-1m">$250k to $1M (Scaler tier)</div>
+ <div class="option" data-q="arr" data-val="1m-5m">$1M to $5M (Scaler / Enterprise)</div>
+ <div class="option" data-q="arr" data-val="5m+">$5M+ (Enterprise tier)</div>
+ </div>
+ </div>
+ <div class="field">
+ <label>Average customer LTV / ACV</label>
+ <div class="options">
+ <div class="option disqualify" data-q="acv" data-val="under-5k">Under $5k</div>
+ <div class="option" data-q="acv" data-val="5k-15k">$5k to $15k</div>
+ <div class="option" data-q="acv" data-val="15k-50k">$15k to $50k</div>
+ <div class="option" data-q="acv" data-val="50k-150k">$50k to $150k</div>
+ <div class="option" data-q="acv" data-val="150k+">$150k+</div>
+ <div class="option" data-q="acv" data-val="unknown">Not sure</div>
+ </div>
+ </div>
 
-        <div class="step-actions">
-          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
-          <button class="next-btn" onclick="nextStep()" disabled id="btn-3">Continue</button>
-        </div>
-      </div>
+ <div class="step-actions">
+ <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+ <button class="next-btn" onclick="nextStep()" disabled id="btn-3">Continue</button>
+ </div>
+ </div>
 
-      <!-- STEP 4: Pipeline reality -->
-      <div class="step" data-step="4">
-        <div class="step-label">Step 4 of 6</div>
-        <h2>Your current pipeline.</h2>
-        <p class="sub">Pick whichever feels most true. Honest answers help us prep your audit.</p>
+ <!-- STEP 4: Pipeline reality -->
+ <div class="step" data-step="4">
+ <div class="step-label">Step 4 of 5</div>
+ <h2>Your current pipeline.</h2>
+ <p class="sub">Pick whichever feels most true. Honest answers help us prep your audit.</p>
 
-        <div class="field">
-          <label>How you get customers today</label>
-          <div class="options options-single">
-            <div class="option" data-q="channels" data-val="inbound-only">Inbound + content only</div>
-            <div class="option" data-q="channels" data-val="referral-only">100% referrals / word of mouth</div>
-            <div class="option" data-q="channels" data-val="paid-ads">Paid ads (Meta, Google, LinkedIn)</div>
-            <div class="option" data-q="channels" data-val="sdrs">In-house SDRs doing outbound</div>
-            <div class="option" data-q="channels" data-val="mix">A mix of channels, nothing dominant</div>
-            <div class="option" data-q="channels" data-val="failed-outbound">Tried outbound, gave up on it</div>
-          </div>
-        </div>
-        <div class="field">
-          <label>Qualified meetings booked per month</label>
-          <div class="options">
-            <div class="option" data-q="meetings" data-val="0-5">0 &ndash; 5</div>
-            <div class="option" data-q="meetings" data-val="5-15">5 &ndash; 15</div>
-            <div class="option" data-q="meetings" data-val="15-30">15 &ndash; 30</div>
-            <div class="option" data-q="meetings" data-val="30+">30+ (we're fine)</div>
-          </div>
-        </div>
+ <div class="field">
+ <label>How you get customers today</label>
+ <div class="options options-single">
+ <div class="option" data-q="channels" data-val="inbound-only">Inbound + content only</div>
+ <div class="option" data-q="channels" data-val="referral-only">100% referrals / word of mouth</div>
+ <div class="option" data-q="channels" data-val="paid-ads">Paid ads (Meta, Google, LinkedIn)</div>
+ <div class="option" data-q="channels" data-val="sdrs">In-house SDRs doing outbound</div>
+ <div class="option" data-q="channels" data-val="mix">A mix of channels, nothing dominant</div>
+ <div class="option" data-q="channels" data-val="failed-outbound">Tried outbound, gave up on it</div>
+ </div>
+ </div>
+ <div class="field">
+ <label>Qualified meetings booked per month</label>
+ <div class="options">
+ <div class="option" data-q="meetings" data-val="0-5">0 to 5</div>
+ <div class="option" data-q="meetings" data-val="5-15">5 to 15</div>
+ <div class="option" data-q="meetings" data-val="15-30">15 to 30</div>
+ <div class="option" data-q="meetings" data-val="30+">30+ (we're fine)</div>
+ </div>
+ </div>
 
-        <div class="step-actions">
-          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
-          <button class="next-btn" onclick="nextStep()" disabled id="btn-4">Continue</button>
-        </div>
-      </div>
+ <div class="step-actions">
+ <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+ <button class="next-btn" onclick="nextStep()" disabled id="btn-4">Continue</button>
+ </div>
+ </div>
 
-      <!-- STEP 5: Compelling event -->
-      <div class="step" data-step="5">
-        <div class="step-label">Step 5 of 6</div>
-        <h2>One last thing &mdash; why now?</h2>
-        <p class="sub">The "why now" is the single biggest predictor of whether outbound will work for you. Pick the one closest to your truth.</p>
+ <!-- STEP 5: Compelling event -->
+ <div class="step" data-step="5">
+ <div class="step-label">Step 5 of 5</div>
+ <h2>One last thing , why now?</h2>
+ <p class="sub">The "why now" is the single biggest predictor of whether outbound will work for you. Pick the one closest to your truth.</p>
 
-        <div class="field">
-          <label>What's driving you to look at outbound now?</label>
-          <div class="options options-single">
-            <div class="option" data-q="why-now" data-val="growth-pressure">Need to grow faster &mdash; current channels plateaued</div>
-            <div class="option" data-q="why-now" data-val="lost-client">Lost a big client / revenue concentration risk</div>
-            <div class="option" data-q="why-now" data-val="hired-sales">Hired a sales team that needs leads to close</div>
-            <div class="option" data-q="why-now" data-val="board-pressure">Board / investor pressure for predictable pipeline</div>
-            <div class="option" data-q="why-now" data-val="new-market">Expanding into a new market / vertical</div>
-            <div class="option" data-q="why-now" data-val="exploring">Just exploring &mdash; no specific event</div>
-          </div>
-        </div>
+ <div class="field">
+ <label>What's driving you to look at outbound now?</label>
+ <div class="options options-single">
+ <div class="option" data-q="why-now" data-val="growth-pressure">Need to grow faster , current channels plateaued</div>
+ <div class="option" data-q="why-now" data-val="lost-client">Lost a big client / revenue concentration risk</div>
+ <div class="option" data-q="why-now" data-val="hired-sales">Hired a sales team that needs leads to close</div>
+ <div class="option" data-q="why-now" data-val="board-pressure">Board / investor pressure for predictable pipeline</div>
+ <div class="option" data-q="why-now" data-val="new-market">Expanding into a new market / vertical</div>
+ <div class="option" data-q="why-now" data-val="exploring">Just exploring , no specific event</div>
+ </div>
+ </div>
 
-        <div class="field">
-          <label>Anything we should know before the call? (optional)</label>
-          <textarea id="q-notes" placeholder="Specific competitors, target ICP, past agency experiences&hellip;"></textarea>
-        </div>
+ <div class="field">
+ <label>Anything we should know before the call? (optional)</label>
+ <textarea id="q-notes" placeholder="Specific competitors, target ICP, past agency experiences&hellip;"></textarea>
+ </div>
 
-        <div class="step-actions">
-          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
-          <button class="next-btn" onclick="nextStep()" disabled id="btn-5">Continue</button>
-        </div>
-      </div>
+ <div class="step-actions">
+ <button class="back-btn" onclick="prevStep()">&larr; Back</button>
+ <button class="next-btn" onclick="submitFunnel()" disabled id="btn-5">See if I'm a fit</button>
+ </div>
+ </div>
 
-      <!-- STEP 6: Diagnostic — pain + success vision -->
-      <div class="step" data-step="6">
-        <div class="step-label">Step 6 of 6</div>
-        <h2>Let's diagnose this properly.</h2>
-        <p class="sub">Last two questions. These are the ones that actually determine whether outbound is the right move &mdash; and how we'd run it for you specifically.</p>
+ <!-- RESULT: FIT -->
+ <div class="step" data-step="result-fit">
+ <div class="result-fit">
+ <div class="check">&check;</div>
+ <h2 id="fit-headline">You're a fit. Let's book the call.</h2>
+ <p class="sub" id="fit-subline">Based on your answers, you check every box for the founding-5 cohort. Below is the calendar.</p>
 
-        <div class="field">
-          <label>What's the single biggest thing stopping you from getting more leads?</label>
-          <div class="options options-single">
-            <div class="option" data-q="blocker" data-val="no-time">We don't have time to do outreach ourselves</div>
-            <div class="option" data-q="blocker" data-val="tried-failed">We've tried cold email and it didn't work</div>
-            <div class="option" data-q="blocker" data-val="no-list">We don't know who exactly to target / no list</div>
-            <div class="option" data-q="blocker" data-val="deliverability">Our domain reputation is shot / emails go to spam</div>
-            <div class="option" data-q="blocker" data-val="copy">We don't know what to say in cold outreach</div>
-            <div class="option" data-q="blocker" data-val="bad-leads">We get leads but they don't convert</div>
-            <div class="option" data-q="blocker" data-val="capacity">No one on the team to handle replies / book calls</div>
-            <div class="option" data-q="blocker" data-val="other-blocker">Something else (tell us below)</div>
-          </div>
-        </div>
+ <div class="audit-preview">
+ <h4>Pre-call audit (auto-generated)</h4>
+ <p id="audit-text">We'll mystery-shop <strong id="audit-domain">your domain</strong> live on the call. Expect us to dig into: response time on your demo flow, domain reputation and inbox placement, LinkedIn ICP reach, and the pipeline gap math against your <span id="audit-arr">current revenue</span>.</p>
+ </div>
 
-        <div class="field">
-          <label>If you could wave a wand and fix one thing in 90 days, what does success look like?</label>
-          <textarea id="q-success-vision" placeholder="e.g. &quot;20 qualified demos per month on our team's calendar&quot; or &quot;$200k of new ARR closed by end of Q2&quot; or &quot;Replace the rainmaker partner's pipeline before he goes on sabbatical&quot;"></textarea>
-        </div>
+ <div class="calendly-shell" id="calendly-container">
+ <div class="calendly-placeholder">
+ <h3>Calendar loads here</h3>
+ <p>Paste your Calendly URL into the script at the bottom of this file. We'll send you a personalized confirmation + pre-call audit the moment you book.</p>
+ <code id="cal-url-display">CALENDLY_URL = ""</code>
+ </div>
+ </div>
+ </div>
+ </div>
 
-        <div class="field">
-          <label>Anything we should know? (optional)</label>
-          <textarea id="q-notes" placeholder="Past agency experiences, specific competitors, target ICP details&hellip;"></textarea>
-        </div>
+ <!-- RESULT: NOT A FIT -->
+ <div class="step" data-step="result-nofit">
+ <div class="result-nofit">
+ <div class="x">&times;</div>
+ <h2 id="nofit-headline">We're not the right fit , and that's a good thing to know upfront.</h2>
+ <p class="sub" id="nofit-subline">Based on your answers, our system isn't the right move for you right now. Here's why and where to go instead.</p>
 
-        <div class="step-actions">
-          <button class="back-btn" onclick="prevStep()">&larr; Back</button>
-          <button class="next-btn" onclick="submitFunnel()" disabled id="btn-6">See if I'm a fit</button>
-        </div>
-      </div>
+ <div style="text-align:left;background:rgba(255,255,255,0.02);border:1px solid var(--card-border);border-radius:12px;padding:24px;margin-bottom:24px">
+ <div style="font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">Why we're saying no</div>
+ <p id="nofit-reason" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
+ </div>
 
-      <!-- RESULT: FIT -->
-      <div class="step" data-step="result-fit">
-        <div class="result-fit">
-          <div class="check">&check;</div>
-          <h2 id="fit-headline">You're a fit. Let's book the call.</h2>
-          <p class="sub" id="fit-subline">Based on your answers, you check every box for the founding-5 cohort. Below is the calendar.</p>
+ <div style="text-align:left;background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.18);border-radius:12px;padding:24px">
+ <div style="font-size:.78rem;color:#A5A5F1;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">What we'd do in your shoes</div>
+ <p id="nofit-suggestion" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
+ </div>
 
-          <div class="audit-preview">
-            <h4>Pre-call audit (auto-generated)</h4>
-            <p id="audit-text">We'll mystery-shop <strong id="audit-domain">your domain</strong> live on the call. Expect us to dig into: response time on your demo flow, domain reputation and inbox placement, LinkedIn ICP reach, and the pipeline gap math against your <span id="audit-arr">current revenue</span>.</p>
-          </div>
+ <p style="margin-top:32px;color:var(--text-mute);font-size:.9rem">
+ Still want to chat? Email <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> directly.
+ </p>
+ </div>
+ </div>
 
-          <div class="calendly-shell" id="calendly-container">
-            <div class="calendly-placeholder">
-              <h3>Calendar loads here</h3>
-              <p>Paste your Calendly URL into the script at the bottom of this file. We'll send you a personalized confirmation + pre-call audit the moment you book.</p>
-              <code id="cal-url-display">CALENDLY_URL = ""</code>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- RESULT: NOT A FIT -->
-      <div class="step" data-step="result-nofit">
-        <div class="result-nofit">
-          <div class="x">&times;</div>
-          <h2 id="nofit-headline">We're not the right fit &mdash; and that's a good thing to know upfront.</h2>
-          <p class="sub" id="nofit-subline">Based on your answers, our system isn't the right move for you right now. Here's why and where to go instead.</p>
-
-          <div style="text-align:left;background:rgba(255,255,255,0.02);border:1px solid var(--card-border);border-radius:12px;padding:24px;margin-bottom:24px">
-            <div style="font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">Why we're saying no</div>
-            <p id="nofit-reason" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
-          </div>
-
-          <div style="text-align:left;background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.18);border-radius:12px;padding:24px">
-            <div style="font-size:.78rem;color:#A5A5F1;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">What we'd do in your shoes</div>
-            <p id="nofit-suggestion" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
-          </div>
-
-          <p style="margin-top:32px;color:var(--text-mute);font-size:.9rem">
-            Still want to chat? Email <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> directly.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </div>
+ </div>
+ </div>
 </div>
 
 <footer>
-  <div class="container">
-    <p>&copy; 2026 clientReady &middot; <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> &middot; <a href="/">Home</a></p>
-  </div>
+ <div class="container">
+ <p>&copy; 2026 clientReady &middot; <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> &middot; <a href="/">Home</a></p>
+ </div>
 </footer>
 
 <script>
 // ============================================================
-// PASTE YOUR CALENDLY URL HERE
-// Example: "https://calendly.com/richardmarro/strategy-call"
-// Leave empty until you have it; the placeholder will show.
+// Calendly URL for Rich
 // ============================================================
 const CALENDLY_URL = "https://calendly.com/richard-clientready/30min";
 
+// Read URL params for audit prefill
+const params = new URLSearchParams(location.search);
+const fromAudit = params.get('from') === 'audit';
+const prefillEmail = params.get('email') || '';
+const prefillDomain = params.get('domain') || '';
+const prefillFirm = params.get('firm') || '';
+const prefillArr = params.get('arr') || '';
+const prefillTier = params.get('tier') || '';
+const prefillScore = params.get('score') || '';
+const prefillLeak = params.get('leak') || '';
+
 const answers = {};
 let currentStep = 1;
-const totalSteps = 6;
+const totalSteps = 5;
 
 // Wire up option buttons
 document.querySelectorAll('.option').forEach(opt => {
-  opt.addEventListener('click', () => {
-    const q = opt.dataset.q;
-    const v = opt.dataset.val;
-    // Deselect siblings with same q
-    document.querySelectorAll(`.option[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
-    opt.classList.add('selected');
-    answers[q] = v;
-    checkStepComplete();
-  });
+ opt.addEventListener('click', () => {
+ const q = opt.dataset.q;
+ const v = opt.dataset.val;
+ // Deselect siblings with same q
+ document.querySelectorAll(`.option[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
+ opt.classList.add('selected');
+ answers[q] = v;
+ checkStepComplete();
+ });
 });
 
 // Wire up text inputs
-['q-name','q-email','q-company','q-domain','q-notes','q-success-vision'].forEach(id => {
-  const el = document.getElementById(id);
-  if (el) el.addEventListener('input', () => {
-    answers[id.replace('q-','')] = el.value.trim();
-    checkStepComplete();
-  });
+['q-name','q-email','q-company','q-domain','q-notes'].forEach(id => {
+ const el = document.getElementById(id);
+ if (el) el.addEventListener('input', () => {
+ answers[id.replace('q-','')] = el.value.trim();
+ checkStepComplete();
+ });
 });
 
 function checkStepComplete() {
-  const requiredByStep = {
-    1: () => answers.name && answers.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(answers.email) && answers.role,
-    2: () => answers.company && answers.domain && answers.industry,
-    3: () => answers.arr && answers.acv,
-    4: () => answers.channels && answers.meetings,
-    5: () => answers['why-now'],
-    6: () => answers.blocker && answers['success-vision']
-  };
-  const btn = document.getElementById('btn-' + currentStep);
-  if (btn) btn.disabled = !requiredByStep[currentStep]();
+ const requiredByStep = {
+ 1: () => answers.name && answers.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(answers.email) && answers.role,
+ 2: () => answers.company && answers.domain && answers.industry,
+ 3: () => answers.arr && answers.acv,
+ 4: () => answers.channels && answers.meetings,
+ 5: () => answers['why-now']
+ };
+ const btn = document.getElementById('btn-' + currentStep);
+ if (btn) btn.disabled = !requiredByStep[currentStep]();
 }
 
 function nextStep() {
-  if (currentStep < totalSteps) {
-    document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
-    document.getElementById('p' + currentStep).classList.remove('active');
-    document.getElementById('p' + currentStep).classList.add('done');
-    currentStep++;
-    document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
-    document.getElementById('p' + currentStep).classList.add('active');
-    checkStepComplete();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
+ if (currentStep < totalSteps) {
+ document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+ document.getElementById('p' + currentStep).classList.remove('active');
+ document.getElementById('p' + currentStep).classList.add('done');
+ currentStep++;
+ document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+ document.getElementById('p' + currentStep).classList.add('active');
+ checkStepComplete();
+ window.scrollTo({top: 0, behavior: 'smooth'});
+ }
 }
 
 function prevStep() {
-  if (currentStep > 1) {
-    document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
-    document.getElementById('p' + currentStep).classList.remove('active');
-    currentStep--;
-    document.getElementById('p' + currentStep).classList.remove('done');
-    document.getElementById('p' + currentStep).classList.add('active');
-    document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  }
+ if (currentStep > 1) {
+ document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
+ document.getElementById('p' + currentStep).classList.remove('active');
+ currentStep--;
+ document.getElementById('p' + currentStep).classList.remove('done');
+ document.getElementById('p' + currentStep).classList.add('active');
+ document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
+ window.scrollTo({top: 0, behavior: 'smooth'});
+ }
 }
 
 function evaluateFit() {
-  // Disqualifying criteria
-  const disqualifiers = [];
+ // Disqualifying criteria
+ const disqualifiers = [];
 
-  if (['b2c','freelance'].includes(answers.industry)) {
-    disqualifiers.push({
-      reason: "We build outbound infrastructure for B2B companies selling to other businesses. B2C and freelance/solo operators have fundamentally different growth dynamics &mdash; our system would underperform for you.",
-      suggestion: "For B2C: focus on paid social (Meta, TikTok) + influencer partnerships. For freelance: a single niche LinkedIn presence + word-of-mouth scales better than cold outbound at your stage."
-    });
-  }
-  if (['pre-revenue','under-30k'].includes(answers.arr)) {
-    disqualifiers.push({
-      reason: "Our system needs at least one paying customer relationship to model the outbound from. Pre-revenue and very-early-stage companies (under $30k annual) are better served by founder-led sales and warm intros first &mdash; you need product-market fit signal before you can scale outbound on top of it.",
-      suggestion: "Land your first 3&ndash;5 customers through founder-led sales, LinkedIn DMs, and warm intros. Once you're at $30k+ ARR with a working product, come back &mdash; you'll have the foundation to make outbound 10x your revenue."
-    });
-  }
-  if (answers.acv === 'under-5k') {
-    disqualifiers.push({
-      reason: "Our economic model needs an average customer LTV of $5k+. With sub-$5k ACV, the cost-per-meeting math doesn't work &mdash; you'd need 4&ndash;5x the volume to make the unit economics stable.",
-      suggestion: "Either raise prices (most companies are undercharging anyway) or focus on inbound + product-led growth instead of high-touch outbound. We can refer you to a PLG specialist if useful."
-    });
-  }
-  if (answers.meetings === '30+') {
-    disqualifiers.push({
-      reason: "You're already booking 30+ qualified meetings per month. Honestly, you probably don't need us &mdash; the constraint isn't pipeline volume, it's something else (close rate, retention, expansion).",
-      suggestion: "Look at the &ldquo;after the meeting&rdquo; layer: sales coaching, demo optimization, pricing experiments. If you do want more pipeline volume despite this, email us anyway &mdash; we can scope a smaller engagement."
-    });
-  }
+ if (['b2c','freelance'].includes(answers.industry)) {
+ disqualifiers.push({
+ reason: "We build outbound infrastructure for B2B companies selling to other businesses. B2C and freelance/solo operators have fundamentally different growth dynamics, so our system would underperform for you.",
+ suggestion: "For B2C: focus on paid social (Meta, TikTok) plus influencer partnerships. For freelance: a single niche LinkedIn presence and word-of-mouth scales better than cold outbound at your stage."
+ });
+ }
+ if (['pre-revenue','under-30k'].includes(answers.arr)) {
+ disqualifiers.push({
+ reason: "Our system is engineered for companies with $30k+ in annual revenue. Below that, the Builder tier setup ($7,500) is a higher percentage of your revenue than makes sense, and you typically don't have the sales capacity yet to handle 10 qualified meetings per month.",
+ suggestion: "Focus on getting to $30k ARR through founder-led sales and warm intros. Once you're there, come back. You'll have the foundation to make outbound 10x your revenue."
+ });
+ }
+ if (answers.acv === 'under-5k') {
+ disqualifiers.push({
+ reason: "Our economic model needs an average customer LTV of $5k+. With sub-$5k ACV, the cost-per-meeting math doesn't work and you would need 4 to 5x the volume to make the unit economics stable.",
+ suggestion: "Either raise prices (most companies are undercharging anyway) or focus on inbound and product-led growth instead of high-touch outbound. We can refer you to a PLG specialist if useful."
+ });
+ }
+ if (answers.meetings === '30+') {
+ disqualifiers.push({
+ reason: "You're already booking 30+ qualified meetings per month. Honestly, you probably don't need us. The constraint isn't pipeline volume, it's something else (close rate, retention, expansion).",
+ suggestion: "Look at the &ldquo;after the meeting&rdquo; layer: sales coaching, demo optimization, pricing experiments. If you still want more pipeline volume, email us anyway and we can scope a smaller engagement."
+ });
+ }
 
-  return disqualifiers;
+ return disqualifiers;
+}
+
+// Determine tier from ARR value
+function tierFromArr(arr) {
+ if (arr === '30k-250k') return 'Builder';
+ if (arr === '250k-1m') return 'Scaler';
+ if (arr === '1m-5m') return 'Scaler';
+ if (arr === '5m+') return 'Enterprise';
+ return 'Scaler';
+}
+
+// Compose Calendly URL with full prefill so booking auto-populates + custom answers show on confirmation
+function composeCalendlyUrl(data) {
+ const customA1 = 'Domain: ' + (data.domain || 'n/a') + ' | ARR: ' + (data.arr || 'n/a') + ' | Tier: ' + (data.tier || 'n/a');
+ const customA2 = data.score ? ('Audit score: ' + data.score + '/100 | Pipeline leak: $' + (data.leak ? Number(data.leak).toLocaleString() : '0') + '/yr') : 'No audit run';
+ const customA3 = 'Source: ' + (data.source || 'strategy-funnel');
+ return CALENDLY_URL +
+ '?hide_gdpr_banner=1' +
+ '&background_color=0a0a0f' +
+ '&text_color=f5f5f7' +
+ '&primary_color=6366f1' +
+ '&name=' + encodeURIComponent(data.name || (data.email ? data.email.split('@')[0] : '')) +
+ '&email=' + encodeURIComponent(data.email || '') +
+ '&a1=' + encodeURIComponent(customA1) +
+ '&a2=' + encodeURIComponent(customA2) +
+ '&a3=' + encodeURIComponent(customA3) +
+ '&utm_source=' + encodeURIComponent(data.source || 'strategy') +
+ '&utm_medium=website' +
+ '&utm_campaign=founding-5' +
+ '&utm_content=' + encodeURIComponent(data.domain || '');
+}
+
+// Audit-referral shortcut: if from=audit, skip the funnel and go straight to Calendly with prefill
+async function handleAuditReferral() {
+ if (!fromAudit || !prefillEmail) return false;
+
+ const tier = prefillTier || tierFromArr(prefillArr);
+
+ // Save the referral as a "booking intent" lead so Rich can match it back when Calendly confirms
+ try {
+ await fetch('/api/lead-capture', {
+ method: 'POST',
+ headers: {'Content-Type': 'application/json'},
+ body: JSON.stringify({
+ email: prefillEmail,
+ firm: prefillFirm || prefillDomain,
+ domain: prefillDomain,
+ source: 'audit-booking-intent',
+ arr: prefillArr,
+ tier: tier,
+ score: prefillScore,
+ leak: prefillLeak,
+ referrer: document.referrer || '',
+ url: location.href,
+ submitted_at: new Date().toISOString()
+ })
+ });
+ } catch (e) { console.warn(e); }
+
+ // Hide the funnel UI
+ document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+ document.querySelectorAll('.progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
+ const progressBar = document.querySelector('.progress'); if (progressBar) progressBar.style.display = 'none';
+
+ // Show the FIT result with Calendly embed
+ document.querySelector('.step[data-step="result-fit"]').classList.add('active');
+ const fitHead = document.getElementById('fit-headline');
+ if (fitHead) fitHead.textContent = 'You qualified via the audit. Book your call below.';
+ const fitSub = document.getElementById('fit-subline');
+ if (fitSub) fitSub.innerHTML = 'Based on your audit (' + (prefillScore || '?') + '/100 outbound health, ~$' + (prefillLeak ? Number(prefillLeak).toLocaleString() : '0') + '/yr leak), the <strong>' + tier + ' tier</strong> is your fit. Pick a slot below. We have your audit findings on file already.';
+ const domEl = document.getElementById('audit-domain'); if (domEl) domEl.textContent = prefillDomain || 'your domain';
+ const arrEl = document.getElementById('audit-arr'); if (arrEl) arrEl.textContent = prefillArr;
+
+ const url = composeCalendlyUrl({
+ name: prefillFirm || (prefillEmail.split('@')[0]),
+ email: prefillEmail,
+ domain: prefillDomain,
+ arr: prefillArr,
+ tier: tier,
+ score: prefillScore,
+ leak: prefillLeak,
+ source: 'audit-qualified'
+ });
+ document.getElementById('calendly-container').innerHTML =
+ '<iframe src="' + url + '" allow="camera; microphone; fullscreen"></iframe>';
+
+ return true;
 }
 
 async function submitFunnel() {
-  const btn = document.getElementById('btn-5');
-  btn.disabled = true;
-  btn.textContent = 'Checking...';
+ const btn = document.getElementById('btn-5');
+ btn.disabled = true;
+ btn.textContent = 'Checking...';
 
-  // POST to lead capture endpoint
-  try {
-    await fetch('/api/lead-capture', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        ...answers,
-        firm: answers.company,
-        successVision: answers['success-vision'],
-        source: 'strategy-funnel',
-        submitted_at: new Date().toISOString()
-      })
-    });
-  } catch (e) {
-    // Non-blocking — show result regardless
-    console.warn('Lead capture failed:', e);
-  }
+ // POST to lead capture endpoint
+ try {
+ await fetch('/api/lead-capture', {
+ method: 'POST',
+ headers: {'Content-Type':'application/json'},
+ body: JSON.stringify({
+ ...answers,
+ firm: answers.company,
+ source: 'strategy-funnel',
+ submitted_at: new Date().toISOString()
+ })
+ });
+ } catch (e) {
+ // Non-blocking, show result regardless
+ console.warn('Lead capture failed:', e);
+ }
 
-  const disqualifiers = evaluateFit();
+ const disqualifiers = evaluateFit();
 
-  // Hide all steps + progress bar
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
+ // Hide all steps + progress bar
+ document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+ document.querySelectorAll('.progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
 
-  if (disqualifiers.length === 0) {
-    // FIT — show calendar
-    document.querySelector('.step[data-step="result-fit"]').classList.add('active');
-    document.getElementById('audit-domain').textContent = answers.domain || 'your domain';
-    const arrLabels = {
-      '30k-250k':'$30k&ndash;$250k revenue',
-      '250k-1m':'$250k&ndash;$1M revenue',
-      '1m-5m':'$1M&ndash;$5M revenue',
-      '5m-25m':'$5M&ndash;$25M revenue',
-      '25m+':'$25M+ revenue'
-    };
-    document.getElementById('audit-arr').innerHTML = arrLabels[answers.arr] || 'current revenue';
+ if (disqualifiers.length === 0) {
+ // FIT, show calendar
+ document.querySelector('.step[data-step="result-fit"]').classList.add('active');
+ document.getElementById('audit-domain').textContent = answers.domain || 'your domain';
+ const arrLabels = {
+ '30k-250k':'$30k to $250k revenue (Builder tier)',
+ '250k-1m':'$250k to $1M revenue (Scaler tier)',
+ '1m-5m':'$1M to $5M revenue',
+ '5m+':'$5M+ revenue (Enterprise tier)'
+ };
+ document.getElementById('audit-arr').innerHTML = arrLabels[answers.arr] || 'current revenue';
 
-    if (CALENDLY_URL) {
-      const url = CALENDLY_URL +
-        '?hide_gdpr_banner=1&background_color=0a0a0f&text_color=f5f5f7&primary_color=6366f1' +
-        '&name=' + encodeURIComponent(answers.name || '') +
-        '&email=' + encodeURIComponent(answers.email || '');
-      document.getElementById('calendly-container').innerHTML =
-        '<iframe src="' + url + '" allow="camera; microphone; fullscreen"></iframe>';
-    }
-  } else {
-    // NOT A FIT — show why
-    document.querySelector('.step[data-step="result-nofit"]').classList.add('active');
-    const primary = disqualifiers[0];
-    document.getElementById('nofit-reason').innerHTML = primary.reason;
-    document.getElementById('nofit-suggestion').innerHTML = primary.suggestion;
-  }
+ const tier = tierFromArr(answers.arr);
+ const url = composeCalendlyUrl({
+ name: answers.name,
+ email: answers.email,
+ domain: answers.domain,
+ arr: answers.arr,
+ tier: tier,
+ source: 'strategy-funnel'
+ });
+ document.getElementById('calendly-container').innerHTML =
+ '<iframe src="' + url + '" allow="camera; microphone; fullscreen"></iframe>';
+ } else {
+ // NOT A FIT, show why
+ document.querySelector('.step[data-step="result-nofit"]').classList.add('active');
+ const primary = disqualifiers[0];
+ document.getElementById('nofit-reason').innerHTML = primary.reason;
+ document.getElementById('nofit-suggestion').innerHTML = primary.suggestion;
+ }
 
-  window.scrollTo({top: 0, behavior: 'smooth'});
+ window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Trigger audit-referral shortcut on page load
+document.addEventListener('DOMContentLoaded', handleAuditReferral);
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+ handleAuditReferral();
 }
 </script>
 </body>

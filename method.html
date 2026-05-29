@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The clientReady Method — A System for Predictable B2B Pipeline</title>
-<meta name="description" content="The proprietary 6-pillar methodology used by clientReady to build outbound systems that book 10-50 qualified B2B meetings per month — without SDRs.">
+<title>The clientReady Method, A System for Predictable B2B Pipeline</title>
+<meta name="description" content="The proprietary 6-pillar methodology used by clientReady to build outbound systems that book 10-50 qualified B2B meetings per month, without SDRs.">
 <meta property="og:title" content="The clientReady Method™">
 <meta property="og:description" content="The 6-pillar system behind every clientReady client. Predictable B2B pipeline, no SDRs.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -75,7 +75,7 @@ section{padding:80px 0}
 .col.old li::before{content:"✕";position:absolute;left:0;top:13px;color:#666;font-weight:700;font-size:1.1rem}
 .col.new li::before{content:"✓";position:absolute;left:0;top:13px;color:var(--green);font-weight:700;font-size:1.1rem}
 
-/* PILLARS — DEEPER THAN SERVICES */
+/* PILLARS, DEEPER THAN SERVICES */
 .pillars{display:grid;grid-template-columns:1fr;gap:24px;margin-top:50px}
 .pillar{padding:48px;border-radius:20px;background:var(--card);border:1px solid var(--card-border);display:grid;grid-template-columns:80px 1fr 280px;gap:36px;align-items:start;transition:border-color .2s}
 .pillar:hover{border-color:rgba(99,102,241,0.25)}
@@ -100,7 +100,7 @@ section{padding:80px 0}
 .proof-card .quote{font-size:.88rem;color:var(--text);font-style:italic;line-height:1.55;border-top:1px solid rgba(255,255,255,0.06);padding-top:14px;margin-top:14px}
 .proof-card .quote-author{display:block;margin-top:10px;color:var(--text-dim);font-size:.78rem;font-style:normal}
 
-/* PRINCIPLES — WHAT WE BELIEVE */
+/* PRINCIPLES, WHAT WE BELIEVE */
 .principles{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;margin-top:50px}
 .principle{padding:32px;border-radius:16px;background:var(--card);border:1px solid var(--card-border)}
 .principle .num{font-size:.78rem;color:var(--accent);font-family:'JetBrains Mono',monospace;letter-spacing:.1em;margin-bottom:14px;font-weight:600}
@@ -118,14 +118,42 @@ section{padding:80px 0}
 footer{border-top:1px solid rgba(255,255,255,0.06);padding:32px 0;text-align:center;font-size:.85rem;color:var(--text-dim)}
 footer a{color:var(--text-mute);text-decoration:none}
 
+/* INVESTMENT TIERS */
+.investment{padding:80px 0 40px}
+.tier-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:50px;align-items:stretch}
+.tier-card{padding:36px 32px;border-radius:18px;background:var(--card);border:1px solid var(--card-border);display:flex;flex-direction:column;position:relative;transition:transform .2s,border-color .2s}
+.tier-card:hover{transform:translateY(-4px);border-color:rgba(99,102,241,0.25)}
+.tier-featured{background:linear-gradient(135deg,rgba(99,102,241,0.10),rgba(236,72,153,0.05));border-color:rgba(99,102,241,0.35);box-shadow:0 24px 48px rgba(99,102,241,0.12)}
+.tier-featured::before{content:"FOUNDING-5 OFFER";position:absolute;top:-12px;left:50%;transform:translateX(-50%);padding:5px 14px;background:linear-gradient(135deg,var(--accent),var(--accent-3));border-radius:99px;font-size:.7rem;font-weight:700;letter-spacing:.12em;color:#fff;font-family:'JetBrains Mono',monospace;white-space:nowrap}
+.tier-name{font-size:.78rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px}
+.tier-title{font-size:1.6rem;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px}
+.tier-icp{font-size:.85rem;color:var(--text-mute);margin-bottom:24px;line-height:1.5;min-height:60px}
+.tier-price{font-size:2.4rem;font-weight:800;letter-spacing:-0.03em;line-height:1;margin-bottom:4px;background:linear-gradient(180deg,#FFF,#A5A5F1);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.tier-price-sub{font-size:.92rem;color:var(--text-mute);margin-bottom:6px}
+.tier-price-note{font-size:.74rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-bottom:24px;text-transform:uppercase;letter-spacing:.08em}
+.tier-target{padding:14px 16px;border-radius:10px;background:rgba(0,0,0,0.25);border:1px solid var(--card-border);margin-bottom:24px}
+.tier-target .label{font-size:.7rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:4px}
+.tier-target .num{font-size:1.3rem;font-weight:700;color:var(--text);letter-spacing:-0.02em}
+.tier-includes{flex:1;margin-bottom:24px}
+.tier-includes h5{font-size:.72rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.1em;margin-bottom:14px;font-weight:600}
+.tier-includes ul{list-style:none;padding:0;margin:0}
+.tier-includes li{padding:10px 0 10px 28px;font-size:.9rem;color:var(--text-mute);position:relative;line-height:1.45;border-top:1px solid rgba(255,255,255,0.04)}
+.tier-includes li:first-child{border-top:none}
+.tier-includes li::before{content:"✓";position:absolute;left:0;top:10px;color:var(--green);font-weight:700;font-size:.95rem}
+.tier-cta{display:block;text-align:center;padding:14px;border-radius:10px;border:1px solid var(--card-border);background:transparent;color:var(--text);text-decoration:none;font-weight:600;font-size:.95rem;transition:all .2s}
+.tier-cta:hover{border-color:var(--accent);background:rgba(99,102,241,0.08)}
+.tier-featured .tier-cta{background:linear-gradient(135deg,var(--accent),var(--accent-2));border-color:transparent;color:#fff;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
+.tier-featured .tier-cta:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
+.tier-guarantee{font-size:.76rem;color:var(--text-dim);text-align:center;margin-top:14px;font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
+
 @media(max-width:900px){
-  .compare{grid-template-columns:1fr}
-  .pillar{grid-template-columns:1fr;gap:24px;padding:32px}
-  .proof-row{grid-template-columns:1fr}
-  .principles{grid-template-columns:1fr}
-  .nav-links a:not(.btn){display:none}
-  .manifesto{padding:40px 28px}
-  .cta-final{padding:48px 24px}
+ .compare{grid-template-columns:1fr}
+ .pillar{grid-template-columns:1fr;gap:24px;padding:32px}
+ .proof-row{grid-template-columns:1fr}
+ .principles{grid-template-columns:1fr}
+ .nav-links a:not(.btn){display:none}
+ .manifesto{padding:40px 28px}
+ .cta-final{padding:48px 24px}
 }
 </style>
 </head>
@@ -133,294 +161,389 @@ footer a{color:var(--text-mute);text-decoration:none}
 <div class="bg-grid"></div>
 
 <nav>
-  <div class="container nav-inner">
-    <a href="/" class="logo">
-      <span class="logo-mark">cR</span>
-      <span>clientReady</span>
-    </a>
-    <div class="nav-links">
-      <a href="/method.html">The Method</a>
-      <a href="/case-studies.html">Case Studies</a>
-      <a href="/services.html">Services</a>
-      <a href="/workshop.html">Watch</a>
-      <a href="/strategy.html" class="btn btn-primary">Book Strategy Call</a>
-    </div>
-  </div>
+ <div class="container nav-inner">
+ <a href="/" class="logo">
+ <span class="logo-mark">cR</span>
+ <span>clientReady</span>
+ </a>
+ <div class="nav-links">
+ <a href="/method.html">The Method</a>
+ <a href="/intake-audit.html">Free Audit</a>
+ <a href="/case-studies.html">Case Studies</a>
+ <a href="/services.html">Services</a>
+ <a href="/strategy.html" class="btn btn-primary">Book Strategy Call</a>
+ </div>
+ </div>
 </nav>
 
 <header class="hero">
-  <div class="container">
-    <div class="eyebrow">The clientReady Method™</div>
-    <h1>The 6-pillar system behind every predictable B2B pipeline.<span class="reg">™</span></h1>
-    <p class="hero-lede">It's not cold email. It's not "lead gen." It's the operating system that turns outbound from a guessing game into an engineered, measurable, repeatable revenue channel — used by every clientReady client, refined across 1,200+ qualified meetings booked.</p>
-  </div>
+ <div class="container">
+ <div class="eyebrow">The clientReady Method™</div>
+ <h1>The 6-pillar system behind every predictable B2B pipeline.<span class="reg">™</span></h1>
+ <p class="hero-lede">It's not cold email. It's not "lead gen." It's the operating system that turns outbound from a guessing game into an engineered, measurable, repeatable revenue channel, used by every clientReady client, refined across 1,200+ qualified meetings booked.</p>
+ </div>
 </header>
 
 <div class="container">
-  <div class="manifesto">
-    <div class="manifesto-tag">Manifesto</div>
-    <h2>We believe the SDR is dead and outbound is broken — and we have the data to prove both.</h2>
-    <p>Every B2B company under $50M ARR is told the same lie: <strong>"hire 3 SDRs and the pipeline will come."</strong> The reality? Average B2B SDR sets 4 qualified meetings per month, costs $87,000 fully loaded, and quits within 14 months. That's a $260,000 burn for fewer than 50 meetings — most of which never close.</p>
-    <p>The deeper problem isn't the SDR. It's that outbound has been treated as a labor problem, when it's actually an <strong>infrastructure problem</strong>. You don't fix bad pipeline by hiring more people — you fix it by engineering a system that consistently delivers qualified buyers into the calendars of your best closers.</p>
-    <p>That system has six pillars. Get one wrong, the whole machine drops 60% in performance. Get all six right, and you have what every B2B company actually wants: <strong>predictable, measurable, scalable pipeline</strong> that doesn't depend on the heroics of any one human.</p>
-    <p>This is the playbook we use. It's the playbook our clients use. It's the playbook we'll teach you for free — and execute for you when you're ready.</p>
-    <div class="manifesto-sig">
-      <div class="sig-avatar">RM</div>
-      <div class="sig-info">
-        <b>Richard Marro</b>
-        <span>Founder, clientReady · 12 years in B2B revenue infrastructure</span>
-      </div>
-    </div>
-  </div>
+ <div class="manifesto">
+ <div class="manifesto-tag">Manifesto</div>
+ <h2>We believe the SDR is dead and outbound is broken, and we have the data to prove both.</h2>
+ <p>Every B2B company under $50M ARR is told the same lie: <strong>"hire 3 SDRs and the pipeline will come."</strong> The reality? Average B2B SDR sets 4 qualified meetings per month, costs $87,000 fully loaded, and quits within 14 months. That's a $260,000 burn for fewer than 50 meetings, most of which never close.</p>
+ <p>The deeper problem isn't the SDR. It's that outbound has been treated as a labor problem, when it's actually an <strong>infrastructure problem</strong>. You don't fix bad pipeline by hiring more people, you fix it by engineering a system that consistently delivers qualified buyers into the calendars of your best closers.</p>
+ <p>That system has six pillars. Get one wrong, the whole machine drops 60% in performance. Get all six right, and you have what every B2B company actually wants: <strong>predictable, measurable, scalable pipeline</strong> that doesn't depend on the heroics of any one human.</p>
+ <p>This is the playbook we use. It's the playbook our clients use. It's the playbook we'll teach you for free, and execute for you when you're ready.</p>
+ <div class="manifesto-sig">
+ <div class="sig-avatar">R</div>
+ <div class="sig-info">
+ <b>Rich Hazy</b>
+ <span>Founder, clientReady · 12 years in B2B revenue infrastructure</span>
+ </div>
+ </div>
+ </div>
 </div>
 
 <section>
-  <div class="container">
-    <div class="section-eyebrow"><span class="line"></span><span class="label">The Old Way vs. The Method</span><span class="line"></span></div>
-    <h2 class="section-title">Why hiring SDRs is the most expensive mistake in B2B.</h2>
-    <p class="section-sub">A side-by-side of the legacy SDR-driven model and the clientReady Method. The math isn't subtle.</p>
+ <div class="container">
+ <div class="section-eyebrow"><span class="line"></span><span class="label">The Old Way vs. The Method</span><span class="line"></span></div>
+ <h2 class="section-title">Why hiring SDRs is the most expensive mistake in B2B.</h2>
+ <p class="section-sub">A side-by-side of the legacy SDR-driven model and the clientReady Method. The math isn't subtle.</p>
 
-    <div class="compare">
-      <div class="col old">
-        <h3>Legacy: The SDR Model</h3>
-        <div class="col-sub">2010–2022 · Now broken</div>
-        <ul>
-          <li>$87k/year fully loaded cost per SDR (salary + benefits + tools + management)</li>
-          <li>4 qualified meetings/month average per rep (per Bridge Group 2024 data)</li>
-          <li>14-month average tenure → constant ramp time, never compounding output</li>
-          <li>Hiring + training + firing eats 30% of sales-leadership time</li>
-          <li>Output is bound to one human; sick days = pipeline gaps</li>
-          <li>No system, no IP — when the SDR leaves, all institutional knowledge walks out</li>
-          <li>$5,400 cost per qualified meeting at the median</li>
-        </ul>
-      </div>
-      <div class="col new">
-        <h3>The clientReady Method</h3>
-        <div class="col-sub">2024 → · Built on infrastructure</div>
-        <ul>
-          <li>$3k/month fully loaded cost — no headcount, no benefits, no churn</li>
-          <li>10–50 qualified meetings/month — 2.5x to 12x SDR output, on day 30</li>
-          <li>System runs 24/7/365, doesn't quit, doesn't take PTO, doesn't have bad weeks</li>
-          <li>You keep the IP — the system, lists, and copy are yours forever</li>
-          <li>Every reply, open, and call is logged and attributable in real time</li>
-          <li>Scales linearly — double the spend, double the meetings (no hiring delay)</li>
-          <li>$210 cost per qualified meeting — a 25x improvement on the legacy model</li>
-        </ul>
-      </div>
-    </div>
-  </div>
+ <div class="compare">
+ <div class="col old">
+ <h3>Legacy: The SDR Model</h3>
+ <div class="col-sub">2010 to 2022 · Now broken</div>
+ <ul>
+ <li>$87k/year fully loaded cost per SDR (salary + benefits + tools + management)</li>
+ <li>4 qualified meetings/month average per rep (per Bridge Group 2024 data)</li>
+ <li>14-month average tenure → constant ramp time, never compounding output</li>
+ <li>Hiring + training + firing eats 30% of sales-leadership time</li>
+ <li>Output is bound to one human; sick days = pipeline gaps</li>
+ <li>No system, no IP, when the SDR leaves, all institutional knowledge walks out</li>
+ <li>$5,400 cost per qualified meeting at the median</li>
+ </ul>
+ </div>
+ <div class="col new">
+ <h3>The clientReady Method</h3>
+ <div class="col-sub">2024 → · Built on infrastructure</div>
+ <ul>
+ <li>$3k/month fully loaded cost, no headcount, no benefits, no churn</li>
+ <li>10 to 50 qualified meetings/month, 2.5x to 12x SDR output, on day 30</li>
+ <li>System runs 24/7/365, doesn't quit, doesn't take PTO, doesn't have bad weeks</li>
+ <li>You keep the IP, the system, lists, and copy are yours forever</li>
+ <li>Every reply, open, and call is logged and attributable in real time</li>
+ <li>Scales linearly, double the spend, double the meetings (no hiring delay)</li>
+ <li>$210 cost per qualified meeting, a 25x improvement on the legacy model</li>
+ </ul>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section>
-  <div class="container">
-    <div class="section-eyebrow"><span class="line"></span><span class="label">The 6 Pillars</span><span class="line"></span></div>
-    <h2 class="section-title">Every pillar is non-optional. Skip one and the system breaks.</h2>
-    <p class="section-sub">This is the architecture. Each pillar exists because we've measured what happens when it's missing — and the average loss in performance is documented below.</p>
+ <div class="container">
+ <div class="section-eyebrow"><span class="line"></span><span class="label">The 6 Pillars</span><span class="line"></span></div>
+ <h2 class="section-title">Every pillar is non-optional. Skip one and the system breaks.</h2>
+ <p class="section-sub">This is the architecture. Each pillar exists because we've measured what happens when it's missing, and the average loss in performance is documented below.</p>
 
-    <div class="pillars">
-      <div class="pillar">
-        <div class="pillar-num">01</div>
-        <div class="pillar-body">
-          <h3>Precision Targeting</h3>
-          <div class="pillar-sub">Pillar 01 · The List Is The Strategy</div>
-          <p><strong>The principle:</strong> Bad copy on a perfect list outperforms perfect copy on a bad list — every time. The list is 60% of the result. Most outbound fails here, before a single email is even written.</p>
-          <p><strong>How we operate:</strong> We don't buy lists. We build them. ICP filtering through Apollo's verified database, layered with intent signals from Clay (recent funding rounds, hiring spikes, technology stack changes, executive job changes), then manually scored and pruned. Every prospect is scored A–D before they enter the system.</p>
-          <p><strong>What you get:</strong> A living, refreshed prospect database that compounds in value every month — not a stale CSV someone downloaded once.</p>
-        </div>
-        <div class="pillar-stat">
-          <div class="label">Performance Drop If Missing</div>
-          <div class="num">−72%</div>
-          <div class="desc">Reply rate collapses when targeting is generic. Verified across 47 client deployments.</div>
-        </div>
-      </div>
+ <div class="pillars">
+ <div class="pillar">
+ <div class="pillar-num">01</div>
+ <div class="pillar-body">
+ <h3>Precision Targeting</h3>
+ <div class="pillar-sub">Pillar 01 · The List Is The Strategy</div>
+ <p><strong>The principle:</strong> Bad copy on a perfect list outperforms perfect copy on a bad list, every time. The list is 60% of the result. Most outbound fails here, before a single email is even written.</p>
+ <p><strong>How we operate:</strong> We don't buy lists. We build them. ICP filtering through Apollo's verified database, layered with intent signals from Clay (recent funding rounds, hiring spikes, technology stack changes, executive job changes), then manually scored and pruned. Every prospect is scored A-D before they enter the system.</p>
+ <p><strong>What you get:</strong> A living, refreshed prospect database that compounds in value every month, not a stale CSV someone downloaded once.</p>
+ </div>
+ <div class="pillar-stat">
+ <div class="label">Performance Drop If Missing</div>
+ <div class="num">−72%</div>
+ <div class="desc">Reply rate collapses when targeting is generic. Verified across 47 client deployments.</div>
+ </div>
+ </div>
 
-      <div class="pillar">
-        <div class="pillar-num">02</div>
-        <div class="pillar-body">
-          <h3>AI-Personalized Outreach</h3>
-          <div class="pillar-sub">Pillar 02 · 1:1 At Scale</div>
-          <p><strong>The principle:</strong> The recipient must believe the email was written specifically for them. Generic templates with <code>{{firstname}}</code> are immediately recognizable as outbound — and ignored. True personalization requires per-prospect research.</p>
-          <p><strong>How we operate:</strong> Clay enrichment loops pull each prospect's last 7 days of LinkedIn activity, recent company news, technology stack, and competitor signals. Claude generates a custom opening line for every individual prospect — no templates, no <code>{{variables}}</code>, no shortcuts.</p>
-          <p><strong>What you get:</strong> 8%+ reply rates on cold email — versus the 1–2% industry standard. The same lift you'd get from $10k/month of human SDRs, at a fraction of the cost.</p>
-        </div>
-        <div class="pillar-stat">
-          <div class="label">Lift Vs. Generic Templates</div>
-          <div class="num">4×</div>
-          <div class="desc">Median reply-rate uplift from per-prospect AI personalization vs. <code>{{first}}</code>-style templates.</div>
-        </div>
-      </div>
+ <div class="pillar">
+ <div class="pillar-num">02</div>
+ <div class="pillar-body">
+ <h3>AI-Personalized Outreach</h3>
+ <div class="pillar-sub">Pillar 02 · 1:1 At Scale</div>
+ <p><strong>The principle:</strong> The recipient must believe the email was written specifically for them. Generic templates with <code>{{firstname}}</code> are immediately recognizable as outbound, and ignored. True personalization requires per-prospect research.</p>
+ <p><strong>How we operate:</strong> Clay enrichment loops pull each prospect's last 7 days of LinkedIn activity, recent company news, technology stack, and competitor signals. Claude generates a custom opening line for every individual prospect, no templates, no <code>{{variables}}</code>, no shortcuts.</p>
+ <p><strong>What you get:</strong> 8%+ reply rates on cold email, versus the 1 to 2% industry standard. The same lift you'd get from $10k/month of human SDRs, at a fraction of the cost.</p>
+ </div>
+ <div class="pillar-stat">
+ <div class="label">Lift Vs. Generic Templates</div>
+ <div class="num">4×</div>
+ <div class="desc">Median reply-rate uplift from per-prospect AI personalization vs. <code>{{first}}</code>-style templates.</div>
+ </div>
+ </div>
 
-      <div class="pillar">
-        <div class="pillar-num">03</div>
-        <div class="pillar-body">
-          <h3>Deliverability Infrastructure</h3>
-          <div class="pillar-sub">Pillar 03 · The Invisible Foundation</div>
-          <p><strong>The principle:</strong> Email that lands in spam doesn't get opened, doesn't get replied to, doesn't exist. 80% of cold email programs fail here — not because the copy was bad, but because the infrastructure was wrong.</p>
-          <p><strong>How we operate:</strong> 8–12 burner domains on Cloudflare, 30–60 sending inboxes on Google Workspace, automated SPF/DKIM/DMARC configuration, 14-day Mailreach warmup, weekly inbox-rate audits. Inboxes scoring under 80% are rotated out.</p>
-          <p><strong>What you get:</strong> 90%+ inbox-placement rate (versus the 35% industry average), zero damage to your primary domain, and infrastructure that survives Google's 2024 sender policy enforcement.</p>
-        </div>
-        <div class="pillar-stat">
-          <div class="label">Inbox Placement Rate</div>
-          <div class="num">90%+</div>
-          <div class="desc">Industry standard for unmanaged cold email is 35%. The infrastructure is the difference.</div>
-        </div>
-      </div>
+ <div class="pillar">
+ <div class="pillar-num">03</div>
+ <div class="pillar-body">
+ <h3>Deliverability Infrastructure</h3>
+ <div class="pillar-sub">Pillar 03 · The Invisible Foundation</div>
+ <p><strong>The principle:</strong> Email that lands in spam doesn't get opened, doesn't get replied to, doesn't exist. 80% of cold email programs fail here, not because the copy was bad, but because the infrastructure was wrong.</p>
+ <p><strong>How we operate:</strong> 8 to 12 burner domains on Cloudflare, 30 to 60 sending inboxes on Google Workspace, automated SPF/DKIM/DMARC configuration, 14-day Mailreach warmup, weekly inbox-rate audits. Inboxes scoring under 80% are rotated out.</p>
+ <p><strong>What you get:</strong> 90%+ inbox-placement rate (versus the 35% industry average), zero damage to your primary domain, and infrastructure that survives Google's 2024 sender policy enforcement.</p>
+ </div>
+ <div class="pillar-stat">
+ <div class="label">Inbox Placement Rate</div>
+ <div class="num">90%+</div>
+ <div class="desc">Industry standard for unmanaged cold email is 35%. The infrastructure is the difference.</div>
+ </div>
+ </div>
 
-      <div class="pillar">
-        <div class="pillar-num">04</div>
-        <div class="pillar-body">
-          <h3>Real-Time Pipeline Dashboard</h3>
-          <div class="pillar-sub">Pillar 04 · Speed Is The Whole Game</div>
-          <p><strong>The principle:</strong> The first vendor to respond to a hot lead wins ~50% of the time. Every hour of delay costs ~10% conversion. The leak between "lead replies" and "lead gets called" is where most B2B revenue dies.</p>
-          <p><strong>How we operate:</strong> Smartlead → Slack → Notion pipeline routes every positive reply into your team's inbox within 60 seconds. Hot leads get a phone call within the hour. Cold leads get a tailored follow-up within 24. Nothing waits.</p>
-          <p><strong>What you get:</strong> A real-time view of your pipeline — every reply, open, call, and booking — with a 60-second response SLA on hot leads. Zero leakage between channel and CRM.</p>
-        </div>
-        <div class="pillar-stat">
-          <div class="label">Response-Time SLA</div>
-          <div class="num">&lt;60s</div>
-          <div class="desc">Industry average is 19 hours. The 14-minute rule says you've already lost the deal by then.</div>
-        </div>
-      </div>
+ <div class="pillar">
+ <div class="pillar-num">04</div>
+ <div class="pillar-body">
+ <h3>Real-Time Pipeline Dashboard</h3>
+ <div class="pillar-sub">Pillar 04 · Speed Is The Whole Game</div>
+ <p><strong>The principle:</strong> The first vendor to respond to a hot lead wins ~50% of the time. Every hour of delay costs ~10% conversion. The leak between "lead replies" and "lead gets called" is where most B2B revenue dies.</p>
+ <p><strong>How we operate:</strong> Smartlead → Slack → Notion pipeline routes every positive reply into your team's inbox within 60 seconds. Hot leads get a phone call within the hour. Cold leads get a tailored follow-up within 24. Nothing waits.</p>
+ <p><strong>What you get:</strong> A real-time view of your pipeline, every reply, open, call, and booking, with a 60-second response SLA on hot leads. Zero leakage between channel and CRM.</p>
+ </div>
+ <div class="pillar-stat">
+ <div class="label">Response-Time SLA</div>
+ <div class="num">&lt;60s</div>
+ <div class="desc">Industry average is 19 hours. The 14-minute rule says you've already lost the deal by then.</div>
+ </div>
+ </div>
 
-      <div class="pillar">
-        <div class="pillar-num">05</div>
-        <div class="pillar-body">
-          <h3>Multichannel Activation</h3>
-          <div class="pillar-sub">Pillar 05 · Email Is Necessary, Not Sufficient</div>
-          <p><strong>The principle:</strong> Email-only outbound caps your reply rate at the channel's natural ceiling. Layering LinkedIn, retargeting ads, and warm calls onto the same prospect raises every metric by 30–50%.</p>
-          <p><strong>How we operate:</strong> Touch 1 cold email → no reply, Touch 2 LinkedIn DM → no reply, Touch 3 warm call → no reply, Touch 4 retargeting display ad on the prospect's feed. Same prospect, four channels, one orchestrated sequence.</p>
-          <p><strong>What you get:</strong> 3–5x lift on overall reply rate vs. email-only outbound, and a brand presence on every channel where your buyer spends time. They can't ignore you when you're everywhere.</p>
-        </div>
-        <div class="pillar-stat">
-          <div class="label">Reply Rate Lift</div>
-          <div class="num">3.4×</div>
-          <div class="desc">Multichannel sequences vs. email-only — measured across 312 active campaigns.</div>
-        </div>
-      </div>
+ <div class="pillar">
+ <div class="pillar-num">05</div>
+ <div class="pillar-body">
+ <h3>Multichannel Activation</h3>
+ <div class="pillar-sub">Pillar 05 · Email Is Necessary, Not Sufficient</div>
+ <p><strong>The principle:</strong> Email-only outbound caps your reply rate at the channel's natural ceiling. Layering LinkedIn, retargeting ads, and warm calls onto the same prospect raises every metric by 30 to 50%.</p>
+ <p><strong>How we operate:</strong> Touch 1 cold email → no reply, Touch 2 LinkedIn DM → no reply, Touch 3 warm call → no reply, Touch 4 retargeting display ad on the prospect's feed. Same prospect, four channels, one orchestrated sequence.</p>
+ <p><strong>What you get:</strong> 3-5x lift on overall reply rate vs. email-only outbound, and a brand presence on every channel where your buyer spends time. They can't ignore you when you're everywhere.</p>
+ </div>
+ <div class="pillar-stat">
+ <div class="label">Reply Rate Lift</div>
+ <div class="num">3.4×</div>
+ <div class="desc">Multichannel sequences vs. email-only, measured across 312 active campaigns.</div>
+ </div>
+ </div>
 
-      <div class="pillar">
-        <div class="pillar-num">06</div>
-        <div class="pillar-body">
-          <h3>Founder-Led Strategy</h3>
-          <div class="pillar-sub">Pillar 06 · The System Needs A Brain</div>
-          <p><strong>The principle:</strong> Outbound systems aren't "set it and forget it." They drift, decay, and need weekly tuning. Most agencies hand you a Frankenstein on day 30 and disappear. The system fails by day 90.</p>
-          <p><strong>How we operate:</strong> Every clientReady deployment includes a weekly 30-minute strategic review with the founder — not a junior account manager. We tune copy, rotate domains, re-segment lists, and adapt the system to what's working in your specific market this week.</p>
-          <p><strong>What you get:</strong> A system that gets sharper every week instead of duller — with the founder personally accountable for the outcome. We don't outsource your revenue to interns.</p>
-        </div>
-        <div class="pillar-stat">
-          <div class="label">Performance At Day 90</div>
-          <div class="num">+38%</div>
-          <div class="desc">Average lift from week-1 baseline when founder-led tuning is applied. Decays without it.</div>
-        </div>
-      </div>
-    </div>
-  </div>
+ <div class="pillar">
+ <div class="pillar-num">06</div>
+ <div class="pillar-body">
+ <h3>Founder-Led Strategy</h3>
+ <div class="pillar-sub">Pillar 06 · The System Needs A Brain</div>
+ <p><strong>The principle:</strong> Outbound systems aren't "set it and forget it." They drift, decay, and need weekly tuning. Most agencies hand you a Frankenstein on day 30 and disappear. The system fails by day 90.</p>
+ <p><strong>How we operate:</strong> Every clientReady deployment includes a weekly 30-minute strategic review with the founder, not a junior account manager. We tune copy, rotate domains, re-segment lists, and adapt the system to what's working in your specific market this week.</p>
+ <p><strong>What you get:</strong> A system that gets sharper every week instead of duller, with the founder personally accountable for the outcome. We don't outsource your revenue to interns.</p>
+ </div>
+ <div class="pillar-stat">
+ <div class="label">Performance At Day 90</div>
+ <div class="num">+38%</div>
+ <div class="desc">Average lift from week-1 baseline when founder-led tuning is applied. Decays without it.</div>
+ </div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section style="padding-top:40px">
-  <div class="container">
-    <div class="section-eyebrow"><span class="line"></span><span class="label">Proof, Not Promises</span><span class="line"></span></div>
-    <h2 class="section-title">The Method, applied. Real outcomes.</h2>
-    <p class="section-sub">Three companies. Three industries. One system. Numbers verified through client dashboards over 90-day deployments.</p>
+ <div class="container">
+ <div class="section-eyebrow"><span class="line"></span><span class="label">Proof, Not Promises</span><span class="line"></span></div>
+ <h2 class="section-title">The Method, applied. Real outcomes.</h2>
+ <p class="section-sub">Three companies. Three industries. One system. Numbers verified through client dashboards over 90-day deployments.</p>
 
-    <div class="proof-row">
-      <div class="proof-card">
-        <div class="industry">B2B SaaS · $5M ARR</div>
-        <h4>From 14 demos/mo to 47 demos/mo in 90 days.</h4>
-        <div class="num">+236%</div>
-        <div class="num-desc">qualified demos booked</div>
-        <div class="quote">"We were planning to hire 2 SDRs at $87k each. Instead we hired clientReady. Three months in, we're at 3.5x the meeting volume of what those SDRs would have produced — at a third of the cost."
-          <span class="quote-author">— VP Sales, mid-market SaaS · 47-person company</span>
-        </div>
-      </div>
+ <div class="proof-row">
+ <div class="proof-card">
+ <div class="industry">B2B SaaS · $5M ARR</div>
+ <h4>From 14 demos/mo to 47 demos/mo in 90 days.</h4>
+ <div class="num">+236%</div>
+ <div class="num-desc">qualified demos booked</div>
+ <div class="quote">"We were planning to hire 2 SDRs at $87k each. Instead we hired clientReady. Three months in, we're at 3.5x the meeting volume of what those SDRs would have produced, at a third of the cost."
+ <span class="quote-author"> VP Sales, mid-market SaaS · 47-person company</span>
+ </div>
+ </div>
 
-      <div class="proof-card">
-        <div class="industry">Marketing Agency · 18-person</div>
-        <h4>$340k in new MRR contracted in Q1.</h4>
-        <div class="num">11.2×</div>
-        <div class="num-desc">return on system investment</div>
-        <div class="quote">"We've tried every SDR vendor in the market. None of them ran a system. clientReady didn't just send emails — they built infrastructure we now own. Best investment we've made in 5 years of running this agency."
-          <span class="quote-author">— Founder, B2B marketing agency · Toronto</span>
-        </div>
-      </div>
+ <div class="proof-card">
+ <div class="industry">Marketing Agency · 18-person</div>
+ <h4>$340k in new MRR contracted in Q1.</h4>
+ <div class="num">11.2×</div>
+ <div class="num-desc">return on system investment</div>
+ <div class="quote">"We've tried every SDR vendor in the market. None of them ran a system. clientReady didn't just send emails, they built infrastructure we now own. Best investment we've made in 5 years of running this agency."
+ <span class="quote-author"> Founder, B2B marketing agency · Toronto</span>
+ </div>
+ </div>
 
-      <div class="proof-card">
-        <div class="industry">Professional Services · IT Consulting</div>
-        <h4>From $0 outbound to 28% of all revenue in 6 months.</h4>
-        <div class="num">$1.4M</div>
-        <div class="num-desc">in attributable pipeline closed</div>
-        <div class="quote">"Outbound was a black box for us. We couldn't measure it, couldn't scale it, couldn't trust it. The Method made it the most predictable channel in our company. It now contributes more revenue than referrals did our first 7 years."
-          <span class="quote-author">— Managing Partner, IT consulting firm · 32 employees</span>
-        </div>
-      </div>
-    </div>
-  </div>
+ <div class="proof-card">
+ <div class="industry">Professional Services · IT Consulting</div>
+ <h4>From $0 outbound to 28% of all revenue in 6 months.</h4>
+ <div class="num">$1.4M</div>
+ <div class="num-desc">in attributable pipeline closed</div>
+ <div class="quote">"Outbound was a black box for us. We couldn't measure it, couldn't scale it, couldn't trust it. The Method made it the most predictable channel in our company. It now contributes more revenue than referrals did our first 7 years."
+ <span class="quote-author"> Managing Partner, IT consulting firm · 32 employees</span>
+ </div>
+ </div>
+ </div>
+ </div>
 </section>
 
 <section>
-  <div class="container">
-    <div class="section-eyebrow"><span class="line"></span><span class="label">Operating Principles</span><span class="line"></span></div>
-    <h2 class="section-title">Eight non-negotiables we operate by.</h2>
-    <p class="section-sub">If we won't follow these, we don't take the engagement. If a client won't follow these, we won't sign them.</p>
+ <div class="container">
+ <div class="section-eyebrow"><span class="line"></span><span class="label">Operating Principles</span><span class="line"></span></div>
+ <h2 class="section-title">Eight non-negotiables we operate by.</h2>
+ <p class="section-sub">If we won't follow these, we don't take the engagement. If a client won't follow these, we won't sign them.</p>
 
-    <div class="principles">
-      <div class="principle">
-        <div class="num">No. 01</div>
-        <h4>We don't sell promises. We sell systems.</h4>
-        <p>Promises depend on luck. Systems compound. Every clientReady engagement results in measurable, owned infrastructure — not a vague retainer.</p>
-      </div>
-      <div class="principle">
-        <div class="num">No. 02</div>
-        <h4>The list is the strategy. Always.</h4>
-        <p>Before a single line of copy is written, we spend 3–5 days building and scoring the prospect list. Skip this and the entire system underperforms by 60–80%.</p>
-      </div>
-      <div class="principle">
-        <div class="num">No. 03</div>
-        <h4>Speed is the most underpriced variable.</h4>
-        <p>The 60-second response SLA exists because the math is overwhelming: hot leads converted within 5 minutes close 21x more often than those contacted at 24 hours.</p>
-      </div>
-      <div class="principle">
-        <div class="num">No. 04</div>
-        <h4>If you can't measure it, you can't scale it.</h4>
-        <p>Every clientReady deployment ships with full attribution. You see exactly which list, which copy, which channel produced each meeting. No black boxes. Ever.</p>
-      </div>
-      <div class="principle">
-        <div class="num">No. 05</div>
-        <h4>The founder leads every account, always.</h4>
-        <p>If we can't personally serve you well, we won't take the engagement. We turn down deals that are wrong-fit. This keeps the work great and the bar high.</p>
-      </div>
-      <div class="principle">
-        <div class="num">No. 06</div>
-        <h4>We treat deliverability like an engineer.</h4>
-        <p>SPF, DKIM, DMARC, inbox health, sender reputation — these are engineered systems with documented protocols. Most agencies treat them like vibes. We don't.</p>
-      </div>
-      <div class="principle">
-        <div class="num">No. 07</div>
-        <h4>You own everything when we're done.</h4>
-        <p>The lists, the copy, the infrastructure, the dashboards — all of it is yours. We're not building dependency. We're building capability that survives our engagement.</p>
-      </div>
-      <div class="principle">
-        <div class="num">No. 08</div>
-        <h4>If The Method doesn't work for you, we refund.</h4>
-        <p>If, after 90 days of full-system deployment, you have not booked at least 30 qualified meetings, we refund the buildout fee in full. We have skin in the game.</p>
-      </div>
-    </div>
-  </div>
+ <div class="principles">
+ <div class="principle">
+ <div class="num">No. 01</div>
+ <h4>We don't sell promises. We sell systems.</h4>
+ <p>Promises depend on luck. Systems compound. Every clientReady engagement results in measurable, owned infrastructure, not a vague retainer.</p>
+ </div>
+ <div class="principle">
+ <div class="num">No. 02</div>
+ <h4>The list is the strategy. Always.</h4>
+ <p>Before a single line of copy is written, we spend 3 to 5 days building and scoring the prospect list. Skip this and the entire system underperforms by 60 to 80%.</p>
+ </div>
+ <div class="principle">
+ <div class="num">No. 03</div>
+ <h4>Speed is the most underpriced variable.</h4>
+ <p>The 60-second response SLA exists because the math is overwhelming: hot leads converted within 5 minutes close 21x more often than those contacted at 24 hours.</p>
+ </div>
+ <div class="principle">
+ <div class="num">No. 04</div>
+ <h4>If you can't measure it, you can't scale it.</h4>
+ <p>Every clientReady deployment ships with full attribution. You see exactly which list, which copy, which channel produced each meeting. No black boxes. Ever.</p>
+ </div>
+ <div class="principle">
+ <div class="num">No. 05</div>
+ <h4>The founder leads every account, always.</h4>
+ <p>If we can't personally serve you well, we won't take the engagement. We turn down deals that are wrong-fit. This keeps the work great and the bar high.</p>
+ </div>
+ <div class="principle">
+ <div class="num">No. 06</div>
+ <h4>We treat deliverability like an engineer.</h4>
+ <p>SPF, DKIM, DMARC, inbox health, sender reputation, these are engineered systems with documented protocols. Most agencies treat them like vibes. We don't.</p>
+ </div>
+ <div class="principle">
+ <div class="num">No. 07</div>
+ <h4>You own everything when we're done.</h4>
+ <p>The lists, the copy, the infrastructure, the dashboards, all of it is yours. We're not building dependency. We're building capability that survives our engagement.</p>
+ </div>
+ <div class="principle">
+ <div class="num">No. 08</div>
+ <h4>If The Method doesn't work for you, we refund.</h4>
+ <p>If, after 60 days of full-system deployment, you have not hit the qualified-meeting target for your tier, we refund the setup fee in full. We have skin in the game.</p>
+ </div>
+ </div>
+ </div>
+</section>
+
+<section class="investment" id="investment">
+ <div class="container">
+ <div class="section-eyebrow">
+ <div class="line"></div>
+ <div class="label">Investment</div>
+ <div class="line"></div>
+ </div>
+ <h2 class="section-title">Three engagements. One Method.</h2>
+ <p class="section-sub">The same proprietary 8-pillar system, sized to where your business actually is. Every tier ships with founder access, the same fulfillment SOP, and the same money-back guarantee.</p>
+
+ <div class="tier-grid">
+
+ <div class="tier-card">
+ <div class="tier-name">Tier 01</div>
+ <div class="tier-title">Builder</div>
+ <div class="tier-icp">For B2B SaaS doing $30k to $250k ARR. Pre-product-market-fit or early scaling.</div>
+ <div class="tier-price">$7,500</div>
+ <div class="tier-price-sub">setup + $2,500/mo retainer</div>
+ <div class="tier-price-note">12-mo retainer commit</div>
+ <div class="tier-target">
+ <div class="label">Meetings target</div>
+ <div class="num">10 / month</div>
+ </div>
+ <div class="tier-includes">
+ <h5>Included</h5>
+ <ul>
+ <li>2 burner domains, 10 sender inboxes</li>
+ <li>500-prospect list, refreshed monthly</li>
+ <li>Per-prospect AI personalization</li>
+ <li>Email + LinkedIn sequencing</li>
+ <li>Weekly Slack check-ins, founder-led</li>
+ </ul>
+ </div>
+ <a href="/strategy.html" class="tier-cta">Book a Strategy Call</a>
+ <div class="tier-guarantee">60-day money-back on setup</div>
+ </div>
+
+ <div class="tier-card tier-featured">
+ <div class="tier-name">Tier 02</div>
+ <div class="tier-title">Scaler</div>
+ <div class="tier-icp">For B2B SaaS doing $250k to $1M ARR. Post-funding, scaling outbound.</div>
+ <div class="tier-price">$15,000</div>
+ <div class="tier-price-sub">setup + $4,500/mo retainer</div>
+ <div class="tier-price-note">6-mo retainer commit</div>
+ <div class="tier-target">
+ <div class="label">Meetings target</div>
+ <div class="num">20 / month</div>
+ </div>
+ <div class="tier-includes">
+ <h5>Included</h5>
+ <ul>
+ <li>5 burner domains, 30 sender inboxes</li>
+ <li>1,000-prospect A-D scored list, refreshed weekly</li>
+ <li>Per-prospect AI personalization</li>
+ <li>60-second hot-reply alerts to your Slack</li>
+ <li>Multi-channel: email + LinkedIn + warm calls</li>
+ <li>Pre-meeting briefs on every booked call</li>
+ <li>Weekly founder-led strategy call</li>
+ </ul>
+ </div>
+ <a href="/strategy.html" class="tier-cta">Book a Strategy Call</a>
+ <div class="tier-guarantee">60-day money-back on setup</div>
+ </div>
+
+ <div class="tier-card">
+ <div class="tier-name">Tier 03</div>
+ <div class="tier-title">Enterprise</div>
+ <div class="tier-icp">For B2B SaaS doing $1M+ ARR. Established sales motion, scaling enterprise pipeline.</div>
+ <div class="tier-price">$25,000</div>
+ <div class="tier-price-sub">setup + $7,500/mo retainer</div>
+ <div class="tier-price-note">+ 3% of closed first-year ACV</div>
+ <div class="tier-target">
+ <div class="label">Meetings target</div>
+ <div class="num">30 / month</div>
+ </div>
+ <div class="tier-includes">
+ <h5>Included</h5>
+ <ul>
+ <li>10 burner domains, 60 sender inboxes</li>
+ <li>2,500-prospect ABM list with intent triggers</li>
+ <li>80% VP+/budget-holder guarantee</li>
+ <li>Dedicated VA for reply triage</li>
+ <li>Multi-channel + day-of showup management</li>
+ <li>Monthly C-suite report deck</li>
+ <li>Quarterly executive sponsor review</li>
+ </ul>
+ </div>
+ <a href="/strategy.html" class="tier-cta">Book a Strategy Call</a>
+ <div class="tier-guarantee">60-day money-back on setup</div>
+ </div>
+
+ </div>
+ </div>
 </section>
 
 <div class="container">
-  <div class="cta-final">
-    <h2>Founding 5 cohort.<br>$7,500 to start. Refund if we miss.</h2>
-    <p>The first 5 B2B companies get a 25% discount + split-pay. $7,500 deposit, $7,500 only if we book 20 qualified meetings in 60 days. 2 spots filled, 3 remaining. After client 5, price goes to $20k flat.</p>
-    <a href="/strategy.html" class="btn btn-primary btn-arrow btn-large">Book Your Strategy Call</a>
-    <div class="small">Founding 5: $7,500 deposit &middot; 20 meetings in 60 days or full refund &middot; You own everything</div>
-  </div>
+ <div class="cta-final">
+ <h2>The Method is the moat.<br>The cohort is the path.</h2>
+ <p>We're taking 5 B2B companies through the founding cohort this quarter. 3 spots filled. The 30-minute strategy call decides which tier fits and whether you're spot 4 or 5, or the next cohort, in Q3.</p>
+ <a href="/strategy.html" class="btn btn-primary btn-arrow btn-large">Book Your Strategy Call</a>
+ <div class="small">Founding-5 cohort closes Friday · 60-day money-back guarantee</div>
+ </div>
 </div>
 
 <footer>
-  <div class="container">
-    <p>© 2026 clientReady · The clientReady Method™ · <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> · <a href="/">Home</a></p>
-  </div>
+ <div class="container">
+ <p>© 2026 clientReady · The clientReady Method™ · <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> · <a href="/">Home</a></p>
+ </div>
 </footer>
 
 </body>
