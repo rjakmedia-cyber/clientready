@@ -276,16 +276,16 @@ footer a{color:var(--text-mute);text-decoration:none}
  <div class="scarcity-pill">Founding-5 cohort closes Friday</div>
  <div class="cta-tier-badge" id="tier-badge">Your tier: Scaler</div>
  <h2 id="cta-q-headline">You qualify for the Founding-5 cohort. Pick a time below.</h2>
- <p id="cta-q-sub">Based on your ARR, the <strong>Scaler tier</strong> fits. We'll book you 20 qualified meetings/month for the next 60 days, or refund every dollar of the setup fee. 2 of 5 founding spots left. Cohort closes Friday at midnight.</p>
+ <p id="cta-q-sub">Based on your ARR, the <strong>Scaler tier</strong> fits. We book you 20 qualified meetings/month within the first 60 days, or refund your full setup investment if we miss. 2 of 5 founding spots left. Cohort closes Friday at midnight. <strong>Pick a time below to lock your tier-fit pricing.</strong></p>
 
  <div class="value-stack">
- <div class="value-row"><div class="label">Outbound infrastructure build</div><div class="num">$15,000</div></div>
- <div class="value-row crossed"><div class="label">+ Deliverability audit report (this)</div><div class="num">$1,500</div></div>
- <div class="value-row crossed"><div class="label">+ Founder LinkedIn profile rewrite</div><div class="num">$2,000</div></div>
- <div class="value-row crossed"><div class="label">+ Case study production at day 90</div><div class="num">$5,000</div></div>
- <div class="value-row crossed"><div class="label">+ Lifetime price lock (vs $20k future)</div><div class="num">$5,000</div></div>
- <div class="value-row"><div class="label">Total value</div><div class="num price-final">$28,500</div></div>
- <div class="value-row"><div class="label">Founding-5 price</div><div class="num price-final">$15,000</div></div>
+ <div class="value-row"><div class="label">Outbound infrastructure build (5 burner domains, 30 inboxes, AI personalization, multi-channel sequencing)</div><div class="num">Included</div></div>
+ <div class="value-row"><div class="label">+ Deliverability audit and 30-day fix plan</div><div class="num">Included</div></div>
+ <div class="value-row"><div class="label">+ Founder LinkedIn profile rewrite</div><div class="num">Included</div></div>
+ <div class="value-row"><div class="label">+ Case study production at day 90</div><div class="num">Included</div></div>
+ <div class="value-row"><div class="label">+ Lifetime Founding-5 pricing lock</div><div class="num">Included</div></div>
+ <div class="value-row"><div class="label">+ Private Founding-5 Slack channel</div><div class="num">Included</div></div>
+ <div class="value-row"><div class="label">Investment</div><div class="num price-final">Revealed on call</div></div>
  </div>
 
  <!-- Inline Calendly embed (single-page funnel) -->
@@ -551,13 +551,12 @@ async function runAudit(){
  var qualifyingArr = ['$30k to $250k','$250k to $1M','$1M to $5M','$5M+'];
  var isQualified = isPaidDom && qualifyingArr.indexOf(arr) >= 0;
  var tier = arr === '$30k to $250k' ? 'Builder' : (arr === '$1M to $5M' || arr === '$5M+') ? 'Enterprise' : 'Scaler';
- var tierPrice = tier === 'Builder' ? '$7,500 + $2,500/mo' : tier === 'Scaler' ? '$15,000 + $4,500/mo' : '$25,000 + $7,500/mo';
  var meetingsTarget = tier === 'Builder' ? '10' : tier === 'Scaler' ? '20' : '30';
 
  if (isQualified) {
  $('tier-badge').textContent = 'Your tier: ' + tier;
  $('cta-q-headline').textContent = 'You qualify for the Founding-5 cohort.';
- $('cta-q-sub').innerHTML = 'Based on your ARR, the <strong>' + tier + ' tier</strong> fits, <strong>' + tierPrice + '</strong>. We book you ' + meetingsTarget + ' qualified meetings/month for the next 60 days, or refund every dollar of the setup fee. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight.';
+ $('cta-q-sub').innerHTML = 'Based on your ARR, the <strong>' + tier + ' tier</strong> fits. We book you ' + meetingsTarget + ' qualified meetings/month within the first 60 days, or refund your full setup investment if we miss. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. <strong>Pick a time below to lock your tier-fit pricing.</strong>';
  var strategyParams = 'from=audit&domain=' + encodeURIComponent(domain) + '&email=' + encodeURIComponent(email) + '&arr=' + encodeURIComponent(arr) + '&firm=' + encodeURIComponent(firm) + '&tier=' + encodeURIComponent(tier) + '&score=' + score + '&leak=' + leak;
  $('cta-q-btn').href = '/strategy.html?' + strategyParams;
 
