@@ -176,7 +176,7 @@ footer a{color:var(--text-mute);text-decoration:none}
 
 <div class="audit-card">
  <h3>Run your free audit</h3>
- <div class="helper">We'll check your real DNS records and give you a tier-fit score in under a minute.</div>
+ <div class="helper">We'll check your real DNS records and give you a score in under a minute.</div>
  <div class="field">
  <label>Your company domain</label>
  <input type="text" id="audit-domain" placeholder="acme.com" autocomplete="off" autocapitalize="off">
@@ -260,7 +260,7 @@ footer a{color:var(--text-mute);text-decoration:none}
  <div class="rnum">2</div>
  <h4>Strategy Call</h4>
  <div class="rtime">30 minutes, free</div>
- <p>Walk through your audit with Rich. Get tier-fit pricing. Decide if we're a fit.</p>
+ <p>Walk through your audit with Rich. See the full offer. Decide if we're a fit.</p>
  </div>
  <div class="rstep next">
  <div class="rnum">3</div>
@@ -274,9 +274,8 @@ footer a{color:var(--text-mute);text-decoration:none}
  <!-- QUALIFIED CTA -->
  <div class="cta-qualified" id="cta-qualified" style="display:none">
  <div class="scarcity-pill">Founding-5 cohort closes Friday</div>
- <div class="cta-tier-badge" id="tier-badge">Your tier: Scaler</div>
  <h2 id="cta-q-headline">You qualify for the Founding-5 cohort. Pick a time below.</h2>
- <p id="cta-q-sub">Based on your ARR, the <strong>Scaler tier</strong> fits. We book you 20 qualified meetings/month within the first 60 days, or refund your full setup investment if we miss. 2 of 5 founding spots left. Cohort closes Friday at midnight. <strong>Pick a time below to lock your tier-fit pricing.</strong></p>
+ <p id="cta-q-sub">We book qualified B2B meetings every month for the next 60 days, or refund your full setup investment if we miss. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. The 30-minute call covers exactly what's included, the meeting volume target for your stage, and what it costs.</p>
 
  <div class="value-stack">
  <div class="value-row"><div class="label">Outbound infrastructure build (5 burner domains, 30 inboxes, AI personalization, multi-channel sequencing)</div><div class="num">Included</div></div>
@@ -554,15 +553,14 @@ async function runAudit(){
  var meetingsTarget = tier === 'Builder' ? '10' : tier === 'Scaler' ? '20' : '30';
 
  if (isQualified) {
- $('tier-badge').textContent = 'Your tier: ' + tier;
- $('cta-q-headline').textContent = 'You qualify for the Founding-5 cohort.';
- $('cta-q-sub').innerHTML = 'Based on your ARR, the <strong>' + tier + ' tier</strong> fits. We book you ' + meetingsTarget + ' qualified meetings/month within the first 60 days, or refund your full setup investment if we miss. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. <strong>Pick a time below to lock your tier-fit pricing.</strong>';
+ $('cta-q-headline').textContent = 'You qualify for the Founding-5 cohort. Pick a time below.';
+ $('cta-q-sub').innerHTML = 'We book qualified B2B meetings every month for the next 60 days, or refund your full setup investment if we miss. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. The 30-minute call covers exactly what\'s included, the meeting volume target for your stage, and what it costs.';
  var strategyParams = 'from=audit&domain=' + encodeURIComponent(domain) + '&email=' + encodeURIComponent(email) + '&arr=' + encodeURIComponent(arr) + '&firm=' + encodeURIComponent(firm) + '&tier=' + encodeURIComponent(tier) + '&score=' + score + '&leak=' + leak;
  $('cta-q-btn').href = '/strategy.html?' + strategyParams;
 
  // Inline Calendly with full prefill so prospect books on the same page
  var calendlyBase = 'https://calendly.com/richard-clientready/30min';
- var customA1 = 'Domain: ' + domain + ' | ARR: ' + arr + ' | Tier: ' + tier;
+ var customA1 = 'Domain: ' + domain + ' | ARR: ' + arr;
  var customA2 = 'Audit score: ' + score + '/100 | Pipeline leak: $' + Number(leak).toLocaleString() + '/yr';
  var customA3 = 'Source: audit-qualified';
  var firstName = firm || email.split('@')[0];

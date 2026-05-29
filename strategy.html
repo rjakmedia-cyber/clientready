@@ -219,10 +219,10 @@ footer a{color:var(--text-mute);text-decoration:none}
  <div class="options">
  <div class="option disqualify" data-q="arr" data-val="pre-revenue">Pre-revenue</div>
  <div class="option disqualify" data-q="arr" data-val="under-30k">Under $30k</div>
- <div class="option" data-q="arr" data-val="30k-250k">$30k to $250k (Builder tier)</div>
- <div class="option" data-q="arr" data-val="250k-1m">$250k to $1M (Scaler tier)</div>
- <div class="option" data-q="arr" data-val="1m-5m">$1M to $5M (Scaler / Enterprise)</div>
- <div class="option" data-q="arr" data-val="5m+">$5M+ (Enterprise tier)</div>
+ <div class="option" data-q="arr" data-val="30k-250k">$30k to $250k</div>
+ <div class="option" data-q="arr" data-val="250k-1m">$250k to $1M</div>
+ <div class="option" data-q="arr" data-val="1m-5m">$1M to $5M</div>
+ <div class="option" data-q="arr" data-val="5m+">$5M+</div>
  </div>
  </div>
  <div class="field">
@@ -452,7 +452,7 @@ function evaluateFit() {
  }
  if (['pre-revenue','under-30k'].includes(answers.arr)) {
  disqualifiers.push({
- reason: "Our system is engineered for companies with $30k+ in annual revenue. Below that, the Builder tier investment is a higher percentage of your revenue than makes sense, and you typically don't have the sales capacity yet to handle 10 qualified meetings per month.",
+ reason: "Our system is engineered for companies with $30k+ in annual revenue. Below that, the engagement investment is a higher percentage of your revenue than makes sense, and you typically don't have the sales capacity yet to handle 10 qualified meetings per month.",
  suggestion: "Focus on getting to $30k ARR through founder-led sales and warm intros. Once you're there, come back. You'll have the foundation to make outbound 10x your revenue."
  });
  }
@@ -483,7 +483,7 @@ function tierFromArr(arr) {
 
 // Compose Calendly URL with full prefill so booking auto-populates + custom answers show on confirmation
 function composeCalendlyUrl(data) {
- const customA1 = 'Domain: ' + (data.domain || 'n/a') + ' | ARR: ' + (data.arr || 'n/a') + ' | Tier: ' + (data.tier || 'n/a');
+ const customA1 = 'Domain: ' + (data.domain || 'n/a') + ' | ARR: ' + (data.arr || 'n/a');
  const customA2 = data.score ? ('Audit score: ' + data.score + '/100 | Pipeline leak: $' + (data.leak ? Number(data.leak).toLocaleString() : '0') + '/yr') : 'No audit run';
  const customA3 = 'Source: ' + (data.source || 'strategy-funnel');
  return CALENDLY_URL +
@@ -539,7 +539,7 @@ async function handleAuditReferral() {
  const fitHead = document.getElementById('fit-headline');
  if (fitHead) fitHead.textContent = 'You qualified via the audit. Book your call below.';
  const fitSub = document.getElementById('fit-subline');
- if (fitSub) fitSub.innerHTML = 'Based on your audit (' + (prefillScore || '?') + '/100 outbound health, ~$' + (prefillLeak ? Number(prefillLeak).toLocaleString() : '0') + '/yr leak), the <strong>' + tier + ' tier</strong> is your fit. Pick a slot below. We have your audit findings on file already.';
+ if (fitSub) fitSub.innerHTML = 'Based on your audit (' + (prefillScore || '?') + '/100 outbound health, ~$' + (prefillLeak ? Number(prefillLeak).toLocaleString() : '0') + '/yr leak), you qualify for the Founding-5 cohort. Pick a slot below. We have your audit findings on file already.';
  const domEl = document.getElementById('audit-domain'); if (domEl) domEl.textContent = prefillDomain || 'your domain';
  const arrEl = document.getElementById('audit-arr'); if (arrEl) arrEl.textContent = prefillArr;
 
@@ -592,10 +592,10 @@ async function submitFunnel() {
  document.querySelector('.step[data-step="result-fit"]').classList.add('active');
  document.getElementById('audit-domain').textContent = answers.domain || 'your domain';
  const arrLabels = {
- '30k-250k':'$30k to $250k revenue (Builder tier)',
- '250k-1m':'$250k to $1M revenue (Scaler tier)',
+ '30k-250k':'$30k to $250k revenue',
+ '250k-1m':'$250k to $1M revenue',
  '1m-5m':'$1M to $5M revenue',
- '5m+':'$5M+ revenue (Enterprise tier)'
+ '5m+':'$5M+ revenue'
  };
  document.getElementById('audit-arr').innerHTML = arrLabels[answers.arr] || 'current revenue';
 
