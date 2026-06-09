@@ -266,7 +266,7 @@ footer a{color:var(--text-mute);text-decoration:none}
  <div class="rnum">3</div>
  <h4>Build</h4>
  <div class="rtime">21 days to launch</div>
- <p>We build your outbound infrastructure. 20 qualified meetings/month in 60 days, or we keep working free until we do.</p>
+ <p>We build your outbound infrastructure. 20 qualified meetings/month in 60 days, or we keep working until your calendar is full.</p>
  </div>
  </div>
  </div>
@@ -275,7 +275,7 @@ footer a{color:var(--text-mute);text-decoration:none}
  <div class="cta-qualified" id="cta-qualified" style="display:none">
  <div class="scarcity-pill">Founding-5 cohort closes Friday</div>
  <h2 id="cta-q-headline">You qualify for the Founding-5 cohort. Pick a time below.</h2>
- <p id="cta-q-sub">We book qualified B2B meetings every month for the next 60 days, or we keep running it free until we do. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. The 30-minute call covers exactly what's included, the meeting volume target for your stage, and what it costs.</p>
+ <p id="cta-q-sub">We book qualified B2B meetings every month for the next 60 days, or we keep running it until your calendar is full. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. The 30-minute call covers exactly what's included, the meeting volume target for your stage, and what it costs.</p>
 
  <div class="value-stack">
  <div class="value-row"><div class="label">Outbound infrastructure build (5 burner domains, 30 inboxes, AI personalization, multi-channel sequencing)</div><div class="num">Included</div></div>
@@ -554,7 +554,7 @@ async function runAudit(){
 
  if (isQualified) {
  $('cta-q-headline').textContent = 'You qualify for the Founding-5 cohort. Pick a time below.';
- $('cta-q-sub').innerHTML = 'We book qualified B2B meetings every month for the next 60 days, or we keep running it free until we do. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. The 30-minute call covers exactly what\'s included, the meeting volume target for your stage, and what it costs.';
+ $('cta-q-sub').innerHTML = 'We book qualified B2B meetings every month for the next 60 days, or we keep running it until your calendar is full. <strong>2 of 5 founding spots left.</strong> Cohort closes Friday at midnight. The 30-minute call covers exactly what\'s included, the meeting volume target for your stage, and what it costs.';
  var strategyParams = 'from=audit&domain=' + encodeURIComponent(domain) + '&email=' + encodeURIComponent(email) + '&arr=' + encodeURIComponent(arr) + '&firm=' + encodeURIComponent(firm) + '&tier=' + encodeURIComponent(tier) + '&score=' + score + '&leak=' + leak;
  $('cta-q-btn').href = '/strategy.html?' + strategyParams;
 
