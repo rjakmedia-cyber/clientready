@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Welcome to clientReady | Onboarding</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070b;--bg2:#0a0e15;--panel:#0e131c;--panel2:#121927;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#e9eef6;--muted:#8a95a8;--dim:#5d677a;--a1:#4fd1ff;--a2:#8a7dff;--ok:#3ee6a8;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:radial-gradient(900px 500px at 80% -10%,rgba(138,125,255,.18),transparent 70%),radial-gradient(700px 500px at 0% 30%,rgba(79,209,255,.10),transparent 70%),var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit}
+.wrap{max-width:880px;margin:0 auto;padding:0 24px}
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;text-decoration:none}
+.logo-mark{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--a1),var(--a2));display:grid;place-items:center;color:#04060a;font-weight:800;font-size:14px}
+.eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--a1)}
+h1{font-size:clamp(34px,5vw,54px);letter-spacing:-.03em;line-height:1.08;margin:14px 0 14px}
+.grad{background:linear-gradient(90deg,var(--a1),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--muted);font-size:18px;max-width:660px}
+.paid{display:inline-flex;flex-wrap:wrap;gap:4px 10px;align-items:center;padding:8px 14px;border-radius:999px;border:1px solid rgba(62,230,168,.35);background:rgba(62,230,168,.08);color:var(--ok);font-size:14px;margin-top:40px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:34px 0 46px}
+.st{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--panel);font-size:14px;color:var(--muted)}
+.st b{display:block;color:var(--text);font-size:15px;margin-bottom:2px}
+.st.on{border-color:rgba(79,209,255,.45);background:linear-gradient(180deg,rgba(79,209,255,.08),var(--panel))}
+.st .n{font-family:var(--mono);font-size:11px;color:var(--a1)}
+form{background:var(--panel);border:1px solid var(--line2);border-radius:22px;padding:34px;margin-bottom:60px}
+fieldset{border:0;margin-bottom:28px}
+legend{font-weight:700;font-size:19px;margin-bottom:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:14px}
+label span{display:block;margin-bottom:6px;color:var(--text);font-weight:500}
+input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line2);background:#0a0f17;color:var(--text);font:inherit;font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--a1);box-shadow:0 0 0 4px rgba(79,209,255,.12)}
+textarea{min-height:96px;resize:vertical}
+.hint{font-size:13px;color:var(--dim);margin-top:4px}
+button{width:100%;padding:17px;border:0;border-radius:999px;background:linear-gradient(90deg,var(--a1),var(--a2));color:#04060a;font-weight:700;font-size:16.5px;cursor:pointer;box-shadow:0 10px 30px -10px rgba(79,209,255,.6)}
+button:hover{filter:brightness(1.05)}
+.done{display:none;text-align:center;padding:60px 30px;background:var(--panel);border:1px solid rgba(62,230,168,.35);border-radius:22px;margin-bottom:60px}
+.done .ck{width:64px;height:64px;border-radius:50%;background:var(--ok);color:#04060a;display:grid;place-items:center;font-size:30px;font-weight:800;margin:0 auto 18px}
+footer{color:var(--dim);font-size:13px;padding:0 0 40px}
+@media(max-width:700px){.row,.steps{grid-template-columns:1fr 1fr}form{padding:24px}}
+@media(max-width:460px){.row,.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a class="logo" href="/"><span class="logo-mark">cR</span>clientReady</a><span style="color:var(--muted);font-size:14px">Onboarding</span></header>
+
+  <div class="paid" id="paid">✓ Payment received<span id="planTag"></span></div>
+  <span class="eyebrow" style="display:block;margin-top:26px">You're in</span>
+  <h1>Welcome to clientReady. <span class="grad">Let's build your system.</span></h1>
+  <p class="lead">This form takes about 10 minutes and tells us exactly who you want on your calendar and how you want to sound. The moment you send it, we get to work and reach out to schedule your kickoff call within 2 business days.</p>
+
+  <div class="steps">
+    <div class="st on"><span class="n">01 · NOW</span><b>Onboarding form</b>About 10 minutes</div>
+    <div class="st"><span class="n">02 · 2 DAYS</span><b>Kickoff call</b>Lock your targets</div>
+    <div class="st"><span class="n">03 · WEEKS 1 TO 3</span><b>We build</b>List, emails, sending network</div>
+    <div class="st"><span class="n">04 · WEEK 4</span><b>Sending starts</b>Meetings get booked</div>
+  </div>
+
+  <form id="onb" action="https://formsubmit.co/richard@clientready.agency" method="POST">
+    <input type="hidden" name="_subject" id="subj" value="New clientReady client: onboarding form">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" id="next" value="https://clientready.agency/welcome.html?done=1">
+    <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+    <input type="hidden" name="Stripe checkout session" id="sess" value="">
+
+    <fieldset>
+      <legend>1. You and your company</legend>
+      <div class="row">
+        <label><span>Your name</span><input name="Name" required></label>
+        <label><span>Work email</span><input type="email" name="Email" required></label>
+      </div>
+      <div class="row">
+        <label><span>Company name</span><input name="Company" required></label>
+        <label><span>Website</span><input name="Website" placeholder="https://" required></label>
+      </div>
+      <div class="row">
+        <label><span>Phone</span><input name="Phone" type="tel"></label>
+        <label><span>Plan you bought</span>
+          <select name="Plan" id="plan" required>
+            <option value="">Choose your plan</option>
+            <option value="Launch (5,000 emails/mo)">Launch (5,000 emails/mo)</option>
+            <option value="Growth (10,000 emails/mo)">Growth (10,000 emails/mo)</option>
+            <option value="Scale (20,000 emails/mo)">Scale (20,000 emails/mo)</option>
+            <option value="Dominate (40,000 emails/mo)">Dominate (40,000 emails/mo)</option>
+          </select></label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>2. What you sell</legend>
+      <label><span>What do you sell, and what result does it get your clients?</span><textarea name="Offer" required placeholder="Example: We handle bookkeeping and tax for dental practices so owners stop losing weekends to paperwork."></textarea></label>
+      <div class="row">
+        <label><span>Average first deal size</span>
+          <select name="Average deal size" required><option value="">Choose a range</option><option>Under $2,000</option><option>$2,000 to $5,000</option><option>$5,000 to $15,000</option><option>$15,000 to $50,000</option><option>$50,000+</option></select></label>
+        <label><span>Roughly how many of 10 sales calls do you close?</span><input name="Close rate" placeholder="Example: 2 or 3"></label>
+      </div>
+      <label><span>2 or more real results we can mention</span><textarea name="Results and case studies" required placeholder="Example: Cut month-end close from 12 days to 4 for a 30-person dental group."></textarea><div class="hint">We only ever mention true results. These help your emails get replies.</div></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>3. Who you want to reach</legend>
+      <div class="row">
+        <label><span>Industries</span><input name="Target industries" required placeholder="Example: dental practices, med spas"></label>
+        <label><span>Company size</span><input name="Target company size" placeholder="Example: 5 to 50 employees"></label>
+      </div>
+      <div class="row">
+        <label><span>Locations</span><input name="Target locations" required placeholder="Example: Pennsylvania, New Jersey"></label>
+        <label><span>Job titles</span><input name="Target job titles" required placeholder="Example: owner, practice manager"></label>
+      </div>
+      <label><span>Do-not-contact list</span><textarea name="Do not contact" placeholder="Current clients, partners or competitors we should skip. Company names or domains."></textarea></label>
+      <label><span>Any rules for your industry?</span><input name="Industry rules" placeholder="Example: state bar advertising rules, or none"></label>
+    </fieldset>
+
+    <fieldset>
+      <legend>4. Your calendar and voice</legend>
+      <div class="row">
+        <label><span>Calendar booking link</span><input name="Calendar link" required placeholder="Calendly, Google, Cal.com..."></label>
+        <label><span>Who takes the meetings?</span><input name="Meeting taker" required placeholder="Name and email"></label>
+      </div>
+      <div class="row">
+        <label><span>Your LinkedIn profile (Scale and Dominate)</span><input name="LinkedIn" placeholder="https://linkedin.com/in/..."></label>
+        <label><span>How should the emails sound?</span><select name="Tone"><option>Friendly and direct</option><option>Professional and formal</option><option>Casual, like a text from a peer</option></select></label>
+      </div>
+      <label><span>Anything else we should know?</span><textarea name="Notes"></textarea></label>
+    </fieldset>
+
+    <button type="submit">Send and start my build →</button>
+    <p class="hint" style="text-align:center;margin-top:12px">Questions? Email <a href="mailto:richard@clientready.agency">richard@clientready.agency</a></p>
+  </form>
+
+  <div class="done" id="done">
+    <div class="ck">✓</div>
+    <h1 style="font-size:36px">Got it. We're on it.</h1>
+    <p class="lead" style="margin:0 auto">Your onboarding details are with us. Expect an email within 2 business days to schedule your kickoff call. Building starts right after.</p>
+  </div>
+
+  <footer>© 2026 clientReady · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a></footer>
+</div>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search);
+  var names={launch:"Launch (5,000 emails/mo)",growth:"Growth (10,000 emails/mo)",scale:"Scale (20,000 emails/mo)",dominate:"Dominate (40,000 emails/mo)"};
+  var plan=q.get('plan');
+  if(plan&&names[plan]){document.getElementById('plan').value=names[plan];document.getElementById('planTag').textContent=' · '+names[plan];
+    document.getElementById('subj').value='New clientReady client: '+names[plan]}
+  if(!plan)document.getElementById('paid').style.display='none';
+  if(q.get('session_id'))document.getElementById('sess').value=q.get('session_id');
+  if(q.get('done')){document.getElementById('onb').style.display='none';document.getElementById('done').style.display='block';document.querySelector('.steps').style.display='none'}
+  document.getElementById('onb').addEventListener('submit',function(){
+    var co=document.querySelector('[name=Company]').value;var pl=document.getElementById('plan').value;
+    document.getElementById('subj').value='New clientReady client: '+co+' bought '+pl});
+})();
+</script>
+</body>
+</html>
