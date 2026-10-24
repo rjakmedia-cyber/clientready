@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Welcome to clientReady | Onboarding</title>
 <meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png"><link rel="apple-touch-icon" href="icon-180.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#05070b;--bg2:#0a0e15;--panel:#0e131c;--panel2:#121927;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#e9eef6;--muted:#8a95a8;--dim:#5d677a;--a1:#4fd1ff;--a2:#8a7dff;--ok:#3ee6a8;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+:root{--bg:#05070b;--bg2:#0a0e15;--panel:#0e131c;--panel2:#121927;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#e9eef6;--muted:#8a95a8;--dim:#5d677a;--a1:#4fd1ff;--a2:#5271ff;--ok:#3ee6a8;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:radial-gradient(900px 500px at 80% -10%,rgba(138,125,255,.18),transparent 70%),radial-gradient(700px 500px at 0% 30%,rgba(79,209,255,.10),transparent 70%),var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+body{background:radial-gradient(900px 500px at 80% -10%,rgba(82,113,255,.18),transparent 70%),radial-gradient(700px 500px at 0% 30%,rgba(79,209,255,.10),transparent 70%),var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
 a{color:inherit}
 .wrap{max-width:880px;margin:0 auto;padding:0 24px}
 header{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
@@ -46,11 +47,10 @@ footer{color:var(--dim);font-size:13px;padding:0 0 40px}
 </head>
 <body>
 <div class="wrap">
-  <header><a class="logo" href="/"><span class="logo-mark">cR</span>clientReady</a><span style="color:var(--muted);font-size:14px">Onboarding</span></header>
+  <header><a class="logo" href="/" aria-label="clientReady home"><img src="logo.png" alt="clientReady" width="225" height="22" style="height:22px;width:auto;display:block"></a><span style="color:var(--muted);font-size:14px">Onboarding</span></header>
 
   <div class="paid" id="paid">✓ Payment received<span id="planTag"></span></div>
-  <span class="eyebrow" style="display:block;margin-top:26px">You're in</span>
-  <h1>Welcome to clientReady. <span class="grad">Let's build your system.</span></h1>
+    <h1>Welcome to clientReady. <span class="grad">Let's build your system.</span></h1>
   <p class="lead">This form takes about 10 minutes and tells us exactly who you want on your calendar and how you want to sound. The moment you send it, we get to work and reach out to schedule your kickoff call within 2 business days.</p>
 
   <div class="steps">

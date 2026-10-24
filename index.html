@@ -10,19 +10,23 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://clientready.agency/">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="icon-180.png">
 <link rel="canonical" href="https://clientready.agency/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"clientReady","url":"https://clientready.agency","email":"richard@clientready.agency","description":"Done-for-you AI-personalized outbound email for B2B companies. We write and send personalized emails at scale from our own sending system and book qualified meetings on your calendar."}
 </script>
+<script>document.documentElement.classList.add("js")</script>
 <style>
 :root{
   --bg:#05070b; --bg2:#0a0e15; --panel:#0e131c; --panel2:#121927;
   --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
   --text:#e9eef6; --muted:#8a95a8; --dim:#5d677a;
-  --a1:#4fd1ff; --a2:#8a7dff; --ok:#3ee6a8; --warn:#ffb547;
-  --r:18px; --max:1180px;
+  --a1:#4fd1ff; --a2:#5271ff; --ok:#3ee6a8; --warn:#ffb547;
+  --r:18px; --max:1180px; --ease:cubic-bezier(.16,1,.3,1);
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
@@ -43,16 +47,16 @@ h3{font-size:20px;letter-spacing:-.01em;line-height:1.25}
 section,header{position:relative;padding:120px 0;scroll-margin-top:72px}
 .btn{display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;font-weight:600;font-size:15.5px;transition:transform .25s ease,box-shadow .25s ease,background .25s}
 .btn-primary{background:linear-gradient(90deg,var(--a1),var(--a2));color:#04060a;box-shadow:0 8px 30px -8px rgba(79,209,255,.55)}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(138,125,255,.7)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 40px -10px rgba(82,113,255,.7)}
 .btn-ghost{border:1px solid var(--line2);color:var(--text);background:rgba(255,255,255,.02)}
 .btn-ghost:hover{background:rgba(255,255,255,.06)}
 .btn .arr{transition:transform .25s}
 .btn:hover .arr{transform:translateX(3px)}
 
 /* reveal */
-[data-reveal]{opacity:0;transform:translateY(26px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1)}
-[data-reveal].in{opacity:1;transform:none}
-[data-reveal][data-d="1"]{transition-delay:.08s}[data-reveal][data-d="2"]{transition-delay:.16s}[data-reveal][data-d="3"]{transition-delay:.24s}[data-reveal][data-d="4"]{transition-delay:.32s}[data-reveal][data-d="5"]{transition-delay:.4s}
+html.js [data-reveal]{opacity:0;transform:translateY(14px);filter:blur(6px);transition:opacity .7s var(--ease),transform .7s var(--ease),filter .7s var(--ease)}
+html.js [data-reveal].in{opacity:1;transform:none;filter:none}
+html.js [data-reveal][data-d="1"]{transition-delay:.06s}html.js [data-reveal][data-d="2"]{transition-delay:.12s}html.js [data-reveal][data-d="3"]{transition-delay:.18s}html.js [data-reveal][data-d="4"]{transition-delay:.24s}html.js [data-reveal][data-d="5"]{transition-delay:.3s}
 
 /* nav */
 nav{position:fixed;inset:0 0 auto 0;z-index:50;transition:background .3s,border-color .3s,backdrop-filter .3s;border-bottom:1px solid transparent}
@@ -69,7 +73,7 @@ nav.scrolled{background:rgba(5,7,11,.72);backdrop-filter:blur(14px);-webkit-back
 /* hero */
 .hero{padding:150px 0 90px;min-height:100vh;display:flex;align-items:center;overflow:hidden}
 #net{position:absolute;inset:0;width:100%;height:100%;opacity:.55}
-.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(800px 500px at 75% 40%,rgba(138,125,255,.16),transparent 70%),radial-gradient(700px 500px at 15% 70%,rgba(79,209,255,.10),transparent 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(800px 500px at 75% 40%,rgba(82,113,255,.16),transparent 70%),radial-gradient(700px 500px at 15% 70%,rgba(79,209,255,.10),transparent 70%);pointer-events:none}
 .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
 .pill{display:inline-flex;align-items:center;gap:10px;padding:7px 14px;border:1px solid var(--line2);border-radius:999px;font-size:13px;color:var(--muted);background:rgba(255,255,255,.02)}
 .pulse{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(62,230,168,.6);animation:pulse 2s infinite}
@@ -100,7 +104,7 @@ nav.scrolled{background:rgba(5,7,11,.72);backdrop-filter:blur(14px);-webkit-back
 .email .subj{font-size:13px;color:var(--muted);margin-bottom:8px}
 .email .subj b{color:var(--text)}
 .typed{font-size:14.5px;line-height:1.55;color:#dfe6f1}
-.typed .hl{background:linear-gradient(90deg,rgba(79,209,255,.18),rgba(138,125,255,.18));border-radius:4px;padding:0 2px}
+.typed .hl{background:linear-gradient(90deg,rgba(79,209,255,.18),rgba(82,113,255,.18));border-radius:4px;padding:0 2px}
 .caret{display:inline-block;width:8px;height:16px;background:var(--a1);vertical-align:-3px;margin-left:2px;animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{opacity:0}}
 .c-foot{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
@@ -202,12 +206,12 @@ nav.scrolled{background:rgba(5,7,11,.72);backdrop-filter:blur(14px);-webkit-back
 .f-row .lab{color:var(--muted);font-size:15px}
 .f-row .lab b{color:var(--text);display:block;font-size:16px}
 .f-bar{height:44px;border-radius:12px;background:var(--panel);border:1px solid var(--line);overflow:hidden}
-.f-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,rgba(79,209,255,.85),rgba(138,125,255,.85));border-radius:12px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.f-bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,rgba(79,209,255,.85),rgba(82,113,255,.85));border-radius:12px;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
 .f-row .val{font-family:var(--mono);font-size:20px;text-align:right}
 .f-row.last .f-bar i{background:linear-gradient(90deg,var(--ok),#2bc48e)}
 
-/* guarantee */
-.guar{border-radius:28px;padding:64px;background:radial-gradient(600px 300px at 80% 0%,rgba(138,125,255,.25),transparent 70%),radial-gradient(600px 300px at 0% 100%,rgba(79,209,255,.18),transparent 70%),var(--panel);border:1px solid var(--line2);display:grid;grid-template-columns:1.3fr 1fr;gap:50px;align-items:center}
+/* targets */
+.guar{border-radius:28px;padding:64px;background:radial-gradient(600px 300px at 80% 0%,rgba(82,113,255,.25),transparent 70%),radial-gradient(600px 300px at 0% 100%,rgba(79,209,255,.18),transparent 70%),var(--panel);border:1px solid var(--line2);display:grid;grid-template-columns:1.3fr 1fr;gap:50px;align-items:center}
 .guar h2{margin-top:12px}
 .glist{display:grid;gap:12px}
 .glist div{padding:16px 18px;border-radius:14px;background:rgba(5,7,11,.5);border:1px solid var(--line);font-size:15px;color:var(--muted)}
@@ -261,12 +265,12 @@ footer{border-top:1px solid var(--line);padding:50px 0;color:var(--muted);font-s
 /* buy / calculator */
 .calc{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line2);border-radius:24px;overflow:hidden;background:var(--panel)}
 .calc-l{padding:36px;border-right:1px solid var(--line)}
-.calc-r{padding:36px;background:radial-gradient(500px 260px at 100% 0%,rgba(138,125,255,.18),transparent 70%),var(--panel2)}
+.calc-r{padding:36px;background:radial-gradient(500px 260px at 100% 0%,rgba(82,113,255,.18),transparent 70%),var(--panel2)}
 .calc label{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .calc .vol-now{font-size:clamp(44px,5vw,64px);font-weight:800;letter-spacing:-.04em;margin:10px 0 4px}
 .calc .vol-now small{font-size:18px;color:var(--muted);font-weight:500;letter-spacing:0}
 input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:8px;border-radius:8px;background:linear-gradient(90deg,var(--a1),var(--a2));outline:none;margin:26px 0 12px;opacity:.9}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:4px solid var(--a2);cursor:pointer;box-shadow:0 0 0 6px rgba(138,125,255,.2)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:4px solid var(--a2);cursor:pointer;box-shadow:0 0 0 6px rgba(82,113,255,.2)}
 input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:4px solid var(--a2);cursor:pointer}
 .ticks{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--dim)}
 .ticks span{cursor:pointer}.ticks span.on{color:var(--a1)}
@@ -300,6 +304,85 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 @media (max-width:1020px){.calc,.why3{grid-template-columns:1fr}.calc-l{border-right:0;border-bottom:1px solid var(--line)}}
 @media (max-width:760px){.truth{grid-template-columns:1fr}.kv{grid-template-columns:1fr 1fr}}
 
+
+/* browser surfaces */
+::selection{background:rgba(79,209,255,.32);color:#fff}
+html{scrollbar-color:#2a3242 #05070b}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:#05070b}::-webkit-scrollbar-thumb{background:#232a38;border-radius:10px;border:2px solid #05070b}::-webkit-scrollbar-thumb:hover{background:#323b4e}
+input,select,textarea{caret-color:var(--a1)}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid var(--a1);outline-offset:3px;border-radius:8px}
+.btn:active{transform:translateY(0) scale(.98);transition-duration:.1s}
+input[type=range]:active::-webkit-slider-thumb{transform:scale(1.15)}
+input[type=range]::-webkit-slider-thumb{transition:transform .15s var(--ease)}
+.logo-img{height:22px;width:auto;display:block}
+
+/* hero engine: scan, send, book */
+.c-row{position:relative;overflow:hidden}
+.c-row::after{content:"";position:absolute;top:0;bottom:0;left:-40%;width:40%;background:linear-gradient(90deg,transparent,rgba(79,209,255,.16),transparent);opacity:0;pointer-events:none}
+.c-row.scan::after{animation:scan 1.3s var(--ease) forwards}
+@keyframes scan{0%{left:-40%;opacity:1}100%{left:110%;opacity:0}}
+.email{transition:transform .35s var(--ease),border-color .35s,box-shadow .35s}
+.email.sent{transform:scale(.985);border-color:rgba(79,209,255,.45);box-shadow:0 0 0 1px rgba(79,209,255,.15),0 18px 40px -24px rgba(79,209,255,.6)}
+.cal{margin-top:12px;padding:12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.02)}
+.cal-h{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);margin-bottom:10px}
+.cal-h b{color:var(--ok);font-weight:600;font-variant-numeric:tabular-nums}
+.cal-g{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.cal-d{display:grid;gap:5px}
+.cal-d span{font-size:10.5px;color:var(--dim);text-align:center;letter-spacing:.04em}
+.slot{height:14px;border-radius:5px;background:rgba(255,255,255,.04);border:1px solid var(--line);position:relative;overflow:hidden}
+.slot::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--ok),#2bc48e);clip-path:inset(0 100% 0 0);transition:clip-path .6s var(--ease)}
+.slot.fill::after{clip-path:inset(0 0 0 0)}
+.slot.fill{border-color:rgba(62,230,168,.5);box-shadow:0 0 14px -4px rgba(62,230,168,.7)}
+.fly{position:absolute;width:10px;height:10px;border-radius:50%;background:var(--a1);box-shadow:0 0 18px 4px rgba(79,209,255,.6);pointer-events:none;z-index:5;left:0;top:0}
+
+/* audit gate */
+.gate{margin-top:46px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line2);border-radius:24px;overflow:hidden;background:var(--panel)}
+.gate form{padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:14px;align-content:start}
+.gate label{display:block;font-size:13.5px;color:var(--muted)}
+.gate label span{display:block;color:var(--text);font-weight:500;margin-bottom:6px;font-size:14px}
+.gate .full{grid-column:1/-1}
+.gate input,.gate select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:#0a0f17;color:var(--text);font:inherit;font-size:15px;outline:none;transition:border-color .2s,box-shadow .2s}
+.gate input:focus,.gate select:focus{border-color:var(--a1);box-shadow:0 0 0 4px rgba(79,209,255,.12)}
+.gate .btn{width:100%;justify-content:center;border:0;cursor:pointer;font-family:inherit}
+.gate-side{padding:34px;background:radial-gradient(500px 260px at 100% 0%,rgba(82,113,255,.18),transparent 70%),var(--panel2);border-left:1px solid var(--line);display:flex;flex-direction:column;gap:14px}
+.gate-side h3{font-size:22px}
+.gate-side p{color:var(--muted);font-size:15px}
+.gate-list{list-style:none;display:grid;gap:12px;margin-top:6px}
+.gate-list li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:14.5px;color:var(--muted)}
+.gate-list li svg{color:var(--a1);margin-top:3px}
+.result{display:none}
+.gate.done .gate-intro{display:none}.gate.done .result{display:flex;flex-direction:column;gap:12px}
+.check{display:grid;grid-template-columns:22px 1fr;gap:10px;padding:12px 14px;border-radius:12px;border:1px solid var(--line);background:rgba(5,7,11,.45);font-size:14.5px;color:var(--muted);opacity:0;transform:translateY(8px);transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.check.on{opacity:1;transform:none}
+.check b{color:var(--text)}
+.check i{font-style:normal;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;margin-top:1px}
+.check i.g{background:rgba(62,230,168,.15);color:var(--ok)}.check i.w{background:rgba(255,181,71,.15);color:var(--warn)}.check i.r{background:rgba(255,94,94,.15);color:#ff7b7b}
+.verdict-big{font-size:28px;font-weight:800;letter-spacing:-.02em}
+.err{color:#ff8f8f;font-size:13.5px;min-height:18px}
+.priced[hidden]{display:none}
+.priced.reveal{animation:wipe .9s var(--ease) both}
+@keyframes wipe{from{clip-path:inset(0 0 100% 0);opacity:.2;filter:blur(8px)}to{clip-path:inset(0 0 0 0);opacity:1;filter:none}}
+.tier{transition:border-color .3s var(--ease),box-shadow .3s var(--ease),transform .3s var(--ease)}
+.tier.sel{border-color:rgba(79,209,255,.7);box-shadow:0 0 0 1px rgba(79,209,255,.25),0 30px 70px -40px rgba(79,209,255,.7);transform:translateY(-4px)}
+.welcome-back{font-size:14px;color:var(--muted);text-align:center;margin-top:18px}
+.welcome-back a{color:var(--a1);cursor:pointer}
+@media (max-width:1020px){.gate{grid-template-columns:1fr}.gate-side{border-left:0;border-top:1px solid var(--line)}}
+@media (max-width:600px){.gate form{grid-template-columns:1fr}}
+
+
+/* results */
+.results{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:48px}
+.res-card{padding:28px;border-radius:20px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel),var(--bg2));display:flex;flex-direction:column;gap:14px}
+.res-num{font-size:44px;font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--text);font-variant-numeric:tabular-nums}
+.res-what{color:var(--muted);font-size:15px}
+.res-quote{color:#cfd7e3;font-size:15.5px;line-height:1.6}
+.res-who{margin-top:auto;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+.res-who b{color:var(--text);display:block}
+.res-empty{grid-column:1/-1;padding:34px;border-radius:20px;border:1px dashed var(--line2);color:var(--muted);text-align:center}
+.res-empty b{color:var(--text)}
+@media (max-width:1020px){.results{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.results{grid-template-columns:1fr}}
+
 /* responsive */
 @media (max-width:1020px){
   .hero-grid,.vol,.guar{grid-template-columns:1fr}
@@ -324,8 +407,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
   .vstats{grid-template-columns:1fr 1fr}
 }
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none!important;transition:none!important}
-  [data-reveal]{opacity:1;transform:none}
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .check{opacity:1;transform:none}
+  html.js [data-reveal]{opacity:1;transform:none;filter:none}
 }
 </style>
 </head>
@@ -333,20 +417,20 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 
 <nav id="nav">
   <div class="wrap nav-in">
-    <a href="#top" class="logo"><span class="logo-mark">cR</span>clientReady</a>
+    <a href="#top" class="logo" aria-label="clientReady home"><img class="logo-img" src="logo.png" alt="clientReady" width="225" height="22"></a>
     <div class="nav-links">
       <a href="#how">How it works</a>
       <a href="#emails">The emails</a>
       <a href="#safe">Your domain</a>
-      <a href="#pricing">Pricing</a>
+      <a href="#pricing">Free audit</a>
       <a href="#faq">FAQ</a>
     </div>
-    <a href="#pricing" class="btn btn-primary nav-cta">Get started</a>
+    <a href="#pricing" class="btn btn-primary nav-cta">Get your free audit</a>
     <button class="burger" id="burger" aria-label="Open menu">☰</button>
   </div>
   <div class="mnav" id="mnav">
-    <a href="#how">How it works</a><a href="#emails">The emails</a><a href="#safe">Your domain</a><a href="#pricing">Pricing</a><a href="#faq">FAQ</a>
-    <a href="#pricing" class="btn btn-primary">Get started</a>
+    <a href="#how">How it works</a><a href="#emails">The emails</a><a href="#safe">Your domain</a><a href="#pricing">Free audit</a><a href="#faq">FAQ</a>
+    <a href="#pricing" class="btn btn-primary">Get your free audit</a>
   </div>
 </nav>
 
@@ -359,12 +443,12 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <h1 data-reveal data-d="1">We write the emails.<br>You take the <span class="grad">meetings.</span></h1>
       <p class="lead" data-reveal data-d="2">clientReady finds the decision makers you want to sell to, writes every one of them a personal email about their business, sends thousands of them a month from our own system, and puts qualified sales calls on your calendar. You never touch a single email.</p>
       <div class="hero-cta" data-reveal data-d="3">
-        <a href="#pricing" class="btn btn-primary">See plans and pricing <span class="arr">→</span></a>
+        <a href="#pricing" class="btn btn-primary">Get your free audit <span class="arr">→</span></a>
         <a href="#how" class="btn btn-ghost">See how it works</a>
       </div>
       <div class="hero-facts" data-reveal data-d="4">
         <div><b>5K to 40K</b>personal emails a month</div>
-        <div><b>From $997</b>a month, no setup fee</div>
+        <div><b>Free</b>outbound audit before you buy</div>
         <div><b>0</b>risk to your main domain</div>
       </div>
     </div>
@@ -388,6 +472,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
           <div class="typed" id="typed"></div>
         </div>
         <div class="c-foot"><span id="cnt">#00001</span><div class="bar"><i id="prog"></i></div><span>this month</span></div>
+        <div class="cal" aria-hidden="true"><div class="cal-h"><span>Your calendar this week</span><b id="calN">0 booked</b></div><div class="cal-g" id="calG"></div></div>
       </div>
       <div class="toast" id="toast"><span class="ck">✓</span><div><b>Meeting booked</b><small id="tWhen">Thursday 10:30am · added to your calendar</small></div></div>
     </div>
@@ -404,7 +489,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <!-- PROBLEM -->
 <section>
   <div class="wrap">
-    <span class="eyebrow" data-reveal>The problem</span>
     <h2 data-reveal data-d="1">Your best months shouldn't<br>depend on who refers you.</h2>
     <p class="lead" data-reveal data-d="2">Most B2B companies grow on referrals and hope. It works until it doesn't, and there is no dial to turn it up when you want to grow. The usual fixes cost more than they bring in.</p>
     <div class="grid3">
@@ -430,7 +514,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <!-- HOW -->
 <section id="how" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap center">
-    <span class="eyebrow" data-reveal>How it works</span>
     <h2 data-reveal data-d="1">One system. Six jobs.<br><span class="grad">All of them ours.</span></h2>
     <p class="lead" data-reveal data-d="2">You approve who we target and how we sound. Everything else runs inside the clientReady system, every day, without you.</p>
     <div class="engine" data-reveal data-d="3">
@@ -451,7 +534,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <section id="emails">
   <div class="wrap">
     <div class="center">
-      <span class="eyebrow" data-reveal>Not basic emails</span>
       <h2 data-reveal data-d="1">Every email is about <span class="grad">their</span> business.</h2>
       <p class="lead" data-reveal data-d="2">Your buyers can tell a mass email in one line. Ours read like you took ten minutes to look them up, because our system did, for every single person.</p>
     </div>
@@ -475,11 +557,19 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
   </div>
 </section>
 
+<!-- RESULTS -->
+<section id="results">
+  <div class="wrap">
+    <h2 data-reveal>Results from our clients.</h2>
+    <p class="lead" data-reveal data-d="1">Real companies, real numbers, shared with their permission.</p>
+    <div class="results" id="resultsGrid"></div>
+  </div>
+</section>
+
 <!-- VOLUME + SAFE -->
 <section id="safe" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap vol">
     <div>
-      <span class="eyebrow" data-reveal>Volume, safely</span>
       <div class="big grad" data-reveal data-d="1">Up to <span data-count="40000">0</span></div>
       <h2 data-reveal data-d="2" style="font-size:clamp(28px,3.4vw,40px)">personal emails a month.<br>None from your main domain.</h2>
       <p class="lead" data-reveal data-d="3">We send at a volume one person could never write by hand, from a separate sending network we build and look after for you. Your real email address, your website and your reputation stay completely out of it.</p>
@@ -532,7 +622,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <!-- WHY US vs DIY -->
 <section id="why">
   <div class="wrap">
-    <span class="eyebrow" data-reveal>Why you need us</span>
     <h2 data-reveal data-d="1">You could try this yourself.<br>Here's what that really takes.</h2>
     <p class="lead" data-reveal data-d="2">Sending a few emails is easy. Sending thousands of personal ones every month that land in the inbox, get replies and turn into meetings is a full-time system with a lot of moving parts. We already built it.</p>
     <div class="diy" data-reveal data-d="3">
@@ -551,13 +640,12 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <!-- TIMELINE -->
 <section id="timeline" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
-    <span class="eyebrow" data-reveal>What to expect</span>
     <h2 data-reveal data-d="1">Honest timing.<br>No overnight promises.</h2>
     <p class="lead" data-reveal data-d="2">Anyone promising a full calendar in your first week is about to burn a domain. We build it properly, then turn it up. This is the same on every plan.</p>
     <div class="tl">
       <div class="card" data-reveal data-d="1"><div class="when">Month 1</div><h3>Build and warm up</h3><p>We build your sending network, your buyer list and your emails, and you approve them. Sending starts in week 4.</p><div class="meter"><i data-w="15"></i></div><div class="meter-l"><span>Meetings</span><span>first handful</span></div></div>
       <div class="card" data-reveal data-d="2"><div class="when">Month 2</div><h3>Ramp up</h3><p>Volume climbs toward your plan's full amount and we sharpen the emails based on who's replying and why.</p><div class="meter"><i data-w="60"></i></div><div class="meter-l"><span>Meetings</span><span>about half your range</span></div></div>
-      <div class="card" data-reveal data-d="3"><div class="when">Month 3 on</div><h3>Full speed</h3><p>Your full email volume and your plan's full meeting range, every month. This is where your guarantee starts.</p><div class="meter"><i data-w="100"></i></div><div class="meter-l"><span>Meetings</span><span>your full range</span></div></div>
+      <div class="card" data-reveal data-d="3"><div class="when">Month 3 on</div><h3>Full speed</h3><p>Your full email volume and your plan's full meeting range, every month. This is where your monthly target starts.</p><div class="meter"><i data-w="100"></i></div><div class="meter-l"><span>Meetings</span><span>your full range</span></div></div>
     </div>
   </div>
 </section>
@@ -565,7 +653,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <!-- MATH -->
 <section id="math">
   <div class="wrap">
-    <span class="eyebrow" data-reveal>The math, honestly</span>
     <h2 data-reveal data-d="1">Here's exactly how 20,000 emails<br>turn into <span class="grad">20 to 50 meetings.</span></h2>
     <p class="lead" data-reveal data-d="2">This is the Scale plan at full speed. The low number is a slower month or a harder market. The high number is a strong offer landing well. Every other plan scales the same way.</p>
     <div class="funnel" id="funnel">
@@ -581,32 +668,30 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <!-- TRUTH -->
 <section id="truth" style="padding-top:20px">
   <div class="wrap">
-    <span class="eyebrow" data-reveal>The full truth</span>
     <h2 data-reveal data-d="1">What we can promise,<br>and what nobody can.</h2>
     <p class="lead" data-reveal data-d="2">You're about to spend real money, so here's the part most agencies leave out.</p>
     <div class="truth">
       <div class="card" data-reveal data-d="1"><h3><i>!</i>Month one is mostly building</h3><p>New sending inboxes need about three weeks of warm-up before cold email can go out safely. Expect a handful of meetings at most in your first month. That's normal, and it's why there's a 3-month minimum.</p></div>
       <div class="card" data-reveal data-d="2"><h3><i>!</i>Your offer matters</h3><p>We can put your message in front of the right people, personally, at volume. If the offer itself isn't something buyers want, more emails won't fix that. We'll tell you on day one if we think it needs work.</p></div>
-      <div class="card" data-reveal data-d="3"><h3><i>!</i>We book meetings, you close deals</h3><p>We guarantee meetings with people who match the profile you approve. We can't guarantee they buy. How you run the call and follow up is what turns a meeting into a client.</p></div>
+      <div class="card" data-reveal data-d="3"><h3><i>!</i>We book meetings, you close deals</h3><p>We aim every meeting at people who match the profile you approve. We can't promise they buy. How you run the call and follow up is what turns a meeting into a client.</p></div>
       <div class="card" data-reveal data-d="4"><h3><i>!</i>Not every meeting will be perfect</h3><p>Some people who say yes won't be ready to buy. Anyone who doesn't fit the profile you approved doesn't count toward your numbers, and you can flag them within 48 hours.</p></div>
     </div>
   </div>
 </section>
 
-<!-- GUARANTEE -->
+<!-- TARGETS -->
 <section style="padding-top:20px">
   <div class="wrap">
     <div class="guar" data-reveal>
       <div>
-        <span class="eyebrow">Our guarantee</span>
-        <h2>Hit your plan's minimum, or your next month is free.</h2>
-        <p class="lead">From month 3, every plan has a minimum number of meetings that show up. If we deliver fewer than that in any month, you don't pay for the next one. We only count meetings that actually happen, with people who match the profile you approved.</p>
+        <h2>Every plan has a clear monthly target.</h2>
+        <p class="lead">From month 3, each plan works toward a set number of meetings that actually show up. You see your progress against it every week. If a month comes in under target, we tell you why and what we're changing. We only count meetings with people who match the profile you approved.</p>
       </div>
       <div class="glist">
-        <div><b>Launch:</b> at least 5 shown meetings a month</div>
-        <div><b>Growth:</b> at least 10 shown meetings a month</div>
-        <div><b>Scale:</b> at least 20 shown meetings a month</div>
-        <div><b>Dominate:</b> at least 40 shown meetings a month</div>
+        <div><b>Launch:</b> 5 to 12 shown meetings a month</div>
+        <div><b>Growth:</b> 10 to 25 shown meetings a month</div>
+        <div><b>Scale:</b> 20 to 50 shown meetings a month</div>
+        <div><b>Dominate:</b> 40 to 100 shown meetings a month</div>
         <div><b>Your part:</b> approvals within 2 business days, open calendar slots, and someone on every call.</div>
       </div>
     </div>
@@ -616,7 +701,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <!-- FIT -->
 <section id="fit">
   <div class="wrap">
-    <span class="eyebrow" data-reveal>Who it's for</span>
     <h2 data-reveal data-d="1">Built for B2B. Only B2B.</h2>
     <p class="lead" data-reveal data-d="2">We email businesses, about business, on behalf of businesses. If that's you, here's how to tell if we're a fit.</p>
     <div class="fit">
@@ -647,12 +731,50 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <section id="pricing" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
     <div class="center">
-      <span class="eyebrow" data-reveal>Pricing</span>
-      <h2 data-reveal data-d="1">Pick how many emails.<br><span class="grad">That's your price.</span></h2>
-      <p class="lead" data-reveal data-d="2">Every plan is the full system: finding your buyers, writing a personal email to each one, sending from our own network, handling replies and booking meetings. You pay monthly. No setup fee. 3-month minimum, then month to month.</p>
+      <h2 data-reveal data-d="1" id="prHead">Get your free outbound audit first.</h2>
+      <p class="lead" data-reveal data-d="2" id="prLead">Six quick questions. We'll tell you whether outbound email will work for your business, what to realistically expect, and which plan fits. Your pricing opens right after.</p>
     </div>
 
-    <div class="calc" data-reveal data-d="2">
+    <div class="gate" id="gate" data-reveal data-d="2">
+      <form id="auditForm" novalidate>
+        <label class="full"><span>Work email</span><input type="email" name="email" autocomplete="email" required placeholder="you@company.com"></label>
+        <label class="full"><span>Company website</span><input type="text" name="website" autocomplete="url" required placeholder="yourcompany.com"></label>
+        <label><span>Who do you sell to?</span>
+          <select name="sell" required><option value="">Choose one</option><option value="services">Businesses: professional services</option><option value="agency">Businesses: agency or marketing</option><option value="saas">Businesses: SaaS or software</option><option value="it">Businesses: IT or tech services</option><option value="other">Businesses: something else</option><option value="consumer">Consumers or households</option></select></label>
+        <label><span>Average first deal size</span>
+          <select name="deal" required><option value="">Choose a range</option><option value="1">Under $2,000</option><option value="2">$2,000 to $5,000</option><option value="3">$5,000 to $15,000</option><option value="4">$15,000 to $50,000</option><option value="5">$50,000+</option></select></label>
+        <label><span>Sales meetings you take now</span>
+          <select name="now" required><option value="">Per month</option><option>0 to 5</option><option>5 to 15</option><option>15 to 30</option><option>30+</option></select></label>
+        <label><span>Meetings you want</span>
+          <select name="want" required><option value="">Per month</option><option value="0">5 to 10 more</option><option value="1">10 to 25 more</option><option value="2">25 to 50 more</option><option value="3">50+ more</option></select></label>
+        <label class="full"><span>Do you have 2 or more real client results you can share?</span>
+          <select name="proof" required><option value="">Choose one</option><option value="yes">Yes</option><option value="some">One, or results without numbers</option><option value="no">Not yet</option></select></label>
+        <div class="full err" id="auditErr" role="alert"></div>
+        <button type="submit" class="btn btn-primary full">Run my audit <span class="arr">→</span></button>
+      </form>
+      <div class="gate-side" aria-live="polite">
+        <div class="gate-intro">
+          <h3>What you'll get in 30 seconds</h3>
+          <ul class="gate-list">
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg><span>An honest yes or no on whether outbound fits your business</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg><span>The plan that matches the meetings you want</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg><span>Realistic numbers: people reached, meetings, cost per meeting</span></li>
+            <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6 9 17l-5-5"/></svg><span>Full pricing, with no sales call required</span></li>
+          </ul>
+          <p style="margin-top:auto">No spam. We use your answers to prepare your account if you buy.</p>
+        </div>
+        <div class="result" id="result">
+          <div class="verdict-big" id="vTitle">Good fit</div>
+          <div id="vChecks"></div>
+          <a href="#calcAnchor" class="btn btn-primary" id="vCta" style="justify-content:center">See your plan and price <span class="arr">→</span></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="priced" id="priced" hidden>
+    <div id="calcAnchor" style="scroll-margin-top:90px"></div>
+
+    <div class="calc">
       <div class="calc-l">
         <label for="vol">Emails we send for you each month</label>
         <div class="vol-now"><span id="cVol">20,000</span> <small>emails / month</small></div>
@@ -662,12 +784,12 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       </div>
       <div class="calc-r">
         <label>Your price</label>
-        <div class="price-big">$<span id="cPrice">2,997</span> <small>/ month</small></div>
+        <div class="price-big">$<span id="cPrice">3,297</span> <small>/ month</small></div>
         <div class="kv">
           <div><b id="cReach">6,700</b><span>decision makers reached a month</span></div>
           <div><b id="cRange">20 to 50</b><span>shown meetings a month, from month 3</span></div>
-          <div><b id="cMin">20</b><span>guaranteed minimum, or next month free</span></div>
-          <div><b id="cCpm">$60 to $150</b><span>per meeting that shows up</span></div>
+          <div><b>Week 4</b><span>first emails go out, after warm-up</span></div>
+          <div><b id="cCpm">$66 to $165</b><span>per meeting that shows up</span></div>
         </div>
         <a href="#" class="btn btn-primary buy" id="cBuy" data-plan="scale">Buy the Scale plan <span class="arr">→</span></a>
         <div class="secure">Secure checkout by Stripe · 3-month minimum, then cancel with 30 days' notice</div>
@@ -675,53 +797,51 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     </div>
 
     <div class="tiers">
-      <div class="tier" data-reveal data-d="1">
+      <div class="tier">
         <div class="badge">Start here</div><h3>Launch</h3>
         <div class="emails">5,000 emails / month</div>
-        <div class="price"><b>$997</b> / month</div>
-        <div class="res"><span><b>~1,650</b> decision makers reached</span><span><b>5 to 12</b> shown meetings a month</span><span>Guaranteed minimum: <b>5</b></span></div>
+        <div class="price"><b>$1,097</b> / month</div>
+        <div class="res"><span><b>~1,650</b> decision makers reached</span><span>Monthly target: <b>5 to 12</b> shown meetings</span><span>Live progress against your target</span></div>
         <ul><li>Personal AI-written emails</li><li>Our sending network, your domain untouched</li><li>Reply handling and booking</li><li>Weekly results report</li></ul>
         <a href="#" class="btn btn-ghost buy" data-plan="launch">Buy Launch</a>
       </div>
-      <div class="tier" data-reveal data-d="2">
+      <div class="tier">
         <div class="badge"></div><h3>Growth</h3>
         <div class="emails">10,000 emails / month</div>
-        <div class="price"><b>$1,797</b> / month</div>
-        <div class="res"><span><b>~3,300</b> decision makers reached</span><span><b>10 to 25</b> shown meetings a month</span><span>Guaranteed minimum: <b>10</b></span></div>
+        <div class="price"><b>$1,977</b> / month</div>
+        <div class="res"><span><b>~3,300</b> decision makers reached</span><span>Monthly target: <b>10 to 25</b> shown meetings</span><span>Live progress against your target</span></div>
         <ul><li>Everything in Launch</li><li>Show-up reminders before every call</li><li>Monthly strategy review</li><li>Copy testing to raise replies</li></ul>
         <a href="#" class="btn btn-ghost buy" data-plan="growth">Buy Growth</a>
       </div>
-      <div class="tier hot" data-reveal data-d="3">
+      <div class="tier hot">
         <div class="badge">Most popular</div><h3>Scale</h3>
         <div class="emails">20,000 emails / month</div>
-        <div class="price"><b>$2,997</b> / month</div>
-        <div class="res"><span><b>~6,700</b> decision makers reached</span><span><b>20 to 50</b> shown meetings a month</span><span>Guaranteed minimum: <b>20</b></span></div>
+        <div class="price"><b>$3,297</b> / month</div>
+        <div class="res"><span><b>~6,700</b> decision makers reached</span><span>Monthly target: <b>20 to 50</b> shown meetings</span><span>Live progress against your target</span></div>
         <ul><li>Everything in Growth</li><li>LinkedIn follow-up to engaged prospects</li><li>Your intro video sent before calls</li><li>Client intake when they say yes</li></ul>
         <a href="#" class="btn btn-primary buy" data-plan="scale">Buy Scale</a>
       </div>
-      <div class="tier" data-reveal data-d="4">
+      <div class="tier">
         <div class="badge">Most volume</div><h3>Dominate</h3>
         <div class="emails">40,000 emails / month</div>
-        <div class="price"><b>$4,997</b> / month</div>
-        <div class="res"><span><b>~13,300</b> decision makers reached</span><span><b>40 to 100</b> shown meetings a month</span><span>Guaranteed minimum: <b>40</b></span></div>
+        <div class="price"><b>$5,497</b> / month</div>
+        <div class="res"><span><b>~13,300</b> decision makers reached</span><span>Monthly target: <b>40 to 100</b> shown meetings</span><span>Live progress against your target</span></div>
         <ul><li>Everything in Scale</li><li>Two offers or two markets at once</li><li>Weekly strategy call with the founder</li><li>Priority build and support</li></ul>
         <a href="#" class="btn btn-ghost buy" data-plan="dominate">Buy Dominate</a>
       </div>
     </div>
 
     <div class="why3">
-      <div class="card" data-reveal data-d="1">
-        <span class="eyebrow">Why 3 months</span>
+      <div class="card">
         <h3 style="margin-top:12px;font-size:24px">Because month one is the foundation, not the result.</h3>
         <p>We could let you cancel after 30 days, but you'd be judging an engine that's still warming up. Sending inboxes need weeks to build trust before they can send cold email safely, and the emails get sharper every week from real replies. Three months is the shortest time where you actually see what the system does at full speed.</p>
         <div class="months">
           <div><b>Month 1</b><span>Build your list, your emails and your sending network. Warm it up. First sends in week 4.</span></div>
           <div><b>Month 2</b><span>Volume climbs to your plan's full amount. Meetings start landing on your calendar.</span></div>
-          <div><b>Month 3</b><span>Full speed. Your plan's full meeting range and your guarantee both start here.</span></div>
+          <div><b>Month 3</b><span>Full speed. Your plan's full monthly meeting target starts here.</span></div>
         </div>
       </div>
-      <div class="card" data-reveal data-d="2">
-        <span class="eyebrow">After you buy</span>
+      <div class="card">
         <h3 style="margin-top:12px;font-size:24px">Here's what happens next.</h3>
         <ol class="after">
           <li><span><b>Checkout.</b> Pay securely through Stripe. You get a receipt right away.</span></li>
@@ -732,7 +852,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
         </ol>
       </div>
     </div>
-    <p class="note" data-reveal>Not sure which plan fits? <a href="/strategy.html" style="color:var(--a1)">Book a free 30-minute strategy call</a> and we'll tell you straight.</p>
+    <p class="note">Not sure which plan fits? <a href="/strategy.html" style="color:var(--a1)">Book a free 30-minute strategy call</a> and we'll tell you straight.</p>
+    <p class="welcome-back" id="retake" hidden>Audit saved on this device. <a id="retakeLink">Retake the audit</a></p>
+    </div>
   </div>
 </section>
 
@@ -740,7 +862,6 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <section id="faq">
   <div class="wrap">
     <div class="center">
-      <span class="eyebrow" data-reveal>FAQ</span>
       <h2 data-reveal data-d="1">Questions we get every day.</h2>
     </div>
     <div class="faq">
@@ -749,8 +870,9 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
       <details data-reveal><summary>Who do the emails go to?<span class="pl">+</span></summary><p>Decision makers at companies that match the ideal client you approve: the right industry, size, location and job titles. Owners, partners, founders and department heads. Not random lists, and never consumers.</p></details>
       <details data-reveal><summary>Why is there a 3-month minimum?<span class="pl">+</span></summary><p>Month one is building and warming up your sending network, so it can't show you real results yet. Month two ramps up, and month three is the first month at full speed. Three months is the shortest honest test of what the system does. After that it's month to month with 30 days' notice.</p></details>
       <details data-reveal><summary>What happens right after I pay?<span class="pl">+</span></summary><p>You get a Stripe receipt and land on our onboarding page. Fill in the 10-minute form and we schedule your kickoff call within 2 business days. Building starts right after kickoff, and sending starts in week 4.</p></details>
+      <details data-reveal><summary>How will I know what's happening after I buy?<span class="pl">+</span></summary><p>You'll always know which stage you're in: onboarding, building, warming up, live, or full speed. Once emails are sending, you get a weekly report with emails sent, replies, interested replies, meetings booked and meetings that showed up, measured against your plan's target.</p></details>
       <details data-reveal><summary>How fast will I see meetings?<span class="pl">+</span></summary><p>Expect a handful at most in month one while everything warms up, around half of your plan's range in month two, and your full range from month three.</p></details>
-      <details data-reveal><summary>What if I don't get the meetings?<span class="pl">+</span></summary><p>From month 3, every plan has a guaranteed minimum of meetings that show up. If we come in under it in any month, your next month is free. We only count meetings with people who fit the profile you approved and who actually join the call.</p></details>
+      <details data-reveal><summary>What if a month comes in under target?<span class="pl">+</span></summary><p>Every plan has a monthly meeting target from month 3, and you can see your progress against it at any time. If a month comes in under target, we show you exactly why and what we're changing, whether that's the list, the emails or the volume. We only count meetings with people who fit the profile you approved and who actually join the call.</p></details>
       <details data-reveal><summary>Can I change plans later?<span class="pl">+</span></summary><p>Yes. Move up anytime and the new volume starts at your next billing date. Moving down is available once your first 3 months are done.</p></details>
       <details data-reveal><summary>What do I actually have to do?<span class="pl">+</span></summary><p>About an hour in week one to approve your ideal client and your emails. After that, keep calendar space open and show up to the meetings. We handle the rest.</p></details>
       <details data-reveal><summary>Is cold email legal?<span class="pl">+</span></summary><p>For business-to-business outreach, yes, when it follows the rules. Every email we send has accurate sender details, an honest subject line and a working opt-out, and we only email business addresses about business topics. If your industry has its own advertising rules, tell us at kickoff and we'll write within them.</p></details>
@@ -763,11 +885,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 <section class="final">
   <span class="ring"></span><span class="ring" style="animation-delay:2s"></span><span class="ring" style="animation-delay:4s"></span>
   <div class="wrap" style="position:relative">
-    <span class="eyebrow" data-reveal>Next step</span>
     <h2 data-reveal data-d="1">Pick your volume. <span class="grad">We'll fill your calendar.</span></h2>
-    <p class="lead" data-reveal data-d="2" style="margin:0 auto">Buy in two minutes, fill in a 10-minute onboarding form, and we start building the same week. Want to talk first? Book a free strategy call.</p>
+    <p class="lead" data-reveal data-d="2" style="margin:0 auto">Take the 2-minute audit, see your plan and price, buy, and we start building the same week. Want to talk first? Book a free strategy call.</p>
     <div class="hero-cta" data-reveal data-d="3">
-      <a href="#pricing" class="btn btn-primary">Choose your plan <span class="arr">→</span></a>
+      <a href="#pricing" class="btn btn-primary">Start with a free audit <span class="arr">→</span></a>
       <a href="/strategy.html" class="btn btn-ghost">Book a strategy call</a>
     </div>
   </div>
@@ -775,7 +896,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 
 <footer>
   <div class="wrap foot">
-    <a href="#top" class="logo"><span class="logo-mark">cR</span>clientReady</a>
+    <a href="#top" class="logo" aria-label="clientReady home"><img class="logo-img" src="logo.png" alt="clientReady" width="225" height="22"></a>
     <div>AI-personalized outbound for B2B companies · <a href="mailto:richard@clientready.agency">richard@clientready.agency</a></div>
     <nav><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></nav>
   </div>
@@ -808,6 +929,19 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
   else steps.forEach(function(s){s.classList.add('lit')});
 
 
+  // ===== CLIENT RESULTS =====
+  // Add real, client-approved results here. The section shows them automatically.
+  // Example shape: {num:"34", what:"shown meetings in month 3", quote:"Short quote in their words.", name:"Full Name", role:"Title, Company", industry:"IT services"}
+  var RESULTS = [];
+  var rg=document.getElementById('resultsGrid');
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  if(RESULTS.length){
+    rg.innerHTML=RESULTS.map(function(r,i){return '<div class="res-card" data-reveal data-d="'+(i%3+1)+'"><div class="res-num">'+esc(r.num)+'</div><div class="res-what">'+esc(r.what)+'</div>'+(r.quote?'<div class="res-quote">"'+esc(r.quote)+'"</div>':'')+'<div class="res-who"><b>'+esc(r.name)+'</b>'+esc(r.role)+(r.industry?' · '+esc(r.industry):'')+'</div></div>'}).join('');
+  } else {
+    rg.innerHTML='<div class="res-empty" data-reveal><b>Our first clients are being onboarded now.</b><br>Every result posted here will be real, with the client\'s name and numbers shared with their permission.</div>';
+  }
+  rg.querySelectorAll('[data-reveal]').forEach(function(el){io.observe(el)});
+
   // ===== PLANS + CHECKOUT =====
   // Paste each Stripe Payment Link here. Until a link is set, the button opens the strategy call page.
   var CHECKOUT = {
@@ -817,44 +951,103 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     dominate: ""
   };
   var PLANS=[
-    {key:"launch",  name:"Launch",  emails:5000,  price:997,  reach:1650,  lo:5,  hi:12},
-    {key:"growth",  name:"Growth",  emails:10000, price:1797, reach:3300,  lo:10, hi:25},
-    {key:"scale",   name:"Scale",   emails:20000, price:2997, reach:6700,  lo:20, hi:50},
-    {key:"dominate",name:"Dominate",emails:40000, price:4997, reach:13300, lo:40, hi:100}
+    {key:"launch",  name:"Launch",  emails:5000,  price:1097, reach:1650,  lo:5,  hi:12},
+    {key:"growth",  name:"Growth",  emails:10000, price:1977, reach:3300,  lo:10, hi:25},
+    {key:"scale",   name:"Scale",   emails:20000, price:3297, reach:6700,  lo:20, hi:50},
+    {key:"dominate",name:"Dominate",emails:40000, price:5497, reach:13300, lo:40, hi:100}
   ];
-  function fmt(n){return n.toLocaleString('en-US')}
+  function fmt(n){return Math.round(n).toLocaleString('en-US')}
   function go(key){var url=CHECKOUT[key];location.href=url?url:'/strategy.html?plan='+key}
   document.querySelectorAll('.buy').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();go(b.dataset.plan)})});
-  var vol=document.getElementById('vol'),ticks=document.querySelectorAll('#ticks span');
+  var tierEls={};document.querySelectorAll('.tier').forEach(function(t){var b=t.querySelector('.buy');if(b)tierEls[b.dataset.plan]=t});
+  var vol=document.getElementById('vol'),ticks=document.querySelectorAll('#ticks span'),cur=null;
+  function tween(el,from,to){if(reduce||from===to||from==null){el.textContent=fmt(to);return}
+    var st=performance.now(),d=380;(function f(t){var q=Math.min((t-st)/d,1),e=1-Math.pow(1-q,4);el.textContent=fmt(from+(to-from)*e);if(q<1)requestAnimationFrame(f)})(st)}
   function setPlan(i){var p=PLANS[i];vol.value=i;
-    document.getElementById('cVol').textContent=fmt(p.emails);
+    tween(document.getElementById('cPrice'),cur&&cur.price,p.price);
+    tween(document.getElementById('cReach'),cur&&cur.reach,p.reach);
+    tween(document.getElementById('cVol'),cur&&cur.emails,p.emails);
     document.getElementById('cName').textContent=p.name;
-    document.getElementById('cPrice').textContent=fmt(p.price);
-    document.getElementById('cReach').textContent=fmt(p.reach);
     document.getElementById('cRange').textContent=p.lo+' to '+p.hi;
-    document.getElementById('cMin').textContent=p.lo;
-    document.getElementById('cCpm').textContent='$'+Math.round(p.price/p.hi)+' to $'+Math.round(p.price/p.lo);
+    document.getElementById('cCpm').textContent='$'+fmt(p.price/p.hi)+' to $'+fmt(p.price/p.lo);
     var bb=document.getElementById('cBuy');bb.dataset.plan=p.key;bb.innerHTML='Buy the '+p.name+' plan <span class="arr">→</span>';
-    ticks.forEach(function(t,j){t.classList.toggle('on',j==i)})}
+    ticks.forEach(function(t,j){t.classList.toggle('on',j==i)});
+    Object.keys(tierEls).forEach(function(k){tierEls[k].classList.toggle('sel',k===p.key)});
+    cur=p}
   vol.addEventListener('input',function(){setPlan(+vol.value)});
   ticks.forEach(function(t){t.addEventListener('click',function(){setPlan(+t.dataset.i)})});
-  setPlan(2);
 
-  // hero network canvas
+  // ===== AUDIT GATE (pricing opens after the audit) =====
+  var form=document.getElementById('auditForm'),gate=document.getElementById('gate'),priced=document.getElementById('priced'),err=document.getElementById('auditErr'),
+      head=document.getElementById('prHead'),lead=document.getElementById('prLead'),retake=document.getElementById('retake'),vCta=document.getElementById('vCta');
+  var HEAD0=head.textContent,LEAD0=lead.textContent;
+  function store(k,v){try{v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
+  function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function unlock(idx,animate){priced.hidden=false;priced.classList.remove('reveal');if(animate&&!reduce){void priced.offsetWidth;priced.classList.add('reveal')}
+    head.textContent="Pick how many emails. That's your price.";
+    lead.textContent="Every plan is the full system: finding your buyers, writing a personal email to each one, sending from our own network, handling replies and booking meetings. You pay monthly. No setup fee. 3-month minimum, then month to month.";
+    cur=null;setPlan(idx);retake.hidden=false}
+  var DEAL=['','Under $2,000','$2,000 to $5,000','$5,000 to $15,000','$15,000 to $50,000','$50,000+'];
+  var WANT=['5 to 10 more','10 to 25 more','25 to 50 more','50+ more'];
+  var SELL={services:'Professional services',agency:'Agency or marketing',saas:'SaaS or software',it:'IT or tech services',other:'Other B2B',consumer:'Consumers'};
+  form.addEventListener('submit',function(e){e.preventDefault();err.textContent='';
+    var f={};new FormData(form).forEach(function(v,k){f[k]=String(v).trim()});
+    var bad=null;['email','website','sell','deal','now','want','proof'].some(function(k){if(!f[k]){bad=k;return true}});
+    if(!bad&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email))bad='email';
+    if(bad){err.textContent=bad==='email'&&f.email?'That email looks off. Check it and try again.':'Answer every question so your audit is accurate.';form.elements[bad].focus();return}
+    var deal=+f.deal,want=+f.want,checks=[],fit=true,title;
+    if(f.sell==='consumer'){fit=false;title='Not a fit right now';
+      checks.push(['r','<b>We only work with B2B companies.</b> Our system emails decision makers at businesses, so it isn\'t built for selling to consumers.'])}
+    else{
+      var idx=want; if(deal===1&&idx>1)idx=1; var p=PLANS[idx];
+      checks.push(deal>=3?['g','<b>Deal size: strong.</b> At '+DEAL[deal]+' per client, a couple of new clients a month pays for the whole system.']:
+        deal===2?['g','<b>Deal size: good fit.</b> At '+DEAL[deal]+' per client, a few new clients a month covers the system comfortably.']:
+        ['w','<b>Deal size: tight.</b> Under $2,000 per client, you need several wins a month for outbound to pay. Start with a smaller plan and grow from results.']);
+      checks.push(f.proof==='yes'?['g','<b>Proof: ready.</b> Real client results are what turn a cold email into a reply. We\'ll build your emails around them.']:
+        f.proof==='some'?['w','<b>Proof: thin.</b> We\'ll help you turn what you have into clear results we can mention before anything sends.']:
+        ['w','<b>Proof: missing.</b> Emails land better with real results. Expect the lower end of your target at first while you collect a few.']);
+      checks.push(['g','<b>Recommended plan: '+p.name+'.</b> '+fmt(p.emails)+' personal emails a month to about '+fmt(p.reach)+' decision makers, with a target of '+p.lo+' to '+p.hi+' shown meetings a month from month 3.']);
+      checks.push(['g','<b>Where you are now:</b> '+f.now+' sales meetings a month. You want '+WANT[want]+'. Sending starts in week 4, and you reach full speed in month 3.']);
+      title=(deal>=2&&f.proof==='yes')?'Strong fit':(deal===1&&f.proof==='no')?'Possible, with work':'Good fit';
+    }
+    document.getElementById('vTitle').textContent=title;
+    var vc=document.getElementById('vChecks');
+    vc.innerHTML=checks.map(function(c){return '<div class="check"><i class="'+c[0]+'">'+(c[0]==='r'?'✕':c[0]==='w'?'!':'✓')+'</i><span>'+c[1]+'</span></div>'}).join('');
+    gate.classList.add('done');vCta.style.display=fit?'':'none';
+    var rs=document.getElementById('result');setTimeout(function(){var r=rs.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight)rs.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})},60);
+    vc.querySelectorAll('.check').forEach(function(el,i){setTimeout(function(){el.classList.add('on')},reduce?0:120+i*160)});
+    // send the audit to you
+    var plan=fit?PLANS[idx].name:'none';
+    var payload={source:'audit',email:f.email,domain:f.website,industry:SELL[f.sell],acv:DEAL[deal],meetings:f.now,
+      notes:'Wants '+WANT[want]+' meetings/mo. Proof: '+f.proof+'. Recommended: '+plan,grade:title};
+    try{fetch('/api/lead-capture',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)}).catch(function(){})}catch(x){}
+    try{fetch('https://formsubmit.co/ajax/richard@clientready.agency',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({_subject:'New audit: '+f.website+' ('+title+')',_template:'table',Email:f.email,Website:f.website,'Sells to':SELL[f.sell],'Deal size':DEAL[deal],'Meetings now':f.now,'Meetings wanted':WANT[want],'Client results':f.proof,Verdict:title,'Recommended plan':plan})}).catch(function(){})}catch(x){}
+    if(fit){store('cr_audit',String(idx));unlock(idx,true)}
+  });
+  retake.querySelector('a').addEventListener('click',function(){store('cr_audit',null);priced.hidden=true;retake.hidden=true;gate.style.display='';gate.classList.remove('done');form.reset();
+    head.textContent=HEAD0;lead.textContent=LEAD0;gate.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})});
+  var saved=load('cr_audit');
+  if(saved!==null&&PLANS[+saved]){gate.style.display='none';unlock(+saved,false)}
+
+  // ===== HERO: network canvas (pauses offscreen) =====
+  var heroEl=document.querySelector('.hero'),heroVis=true,raf=0;
   var c=document.getElementById('net'),x=c.getContext('2d'),P=[],W,H,mx=0,my=0;
   function size(){W=c.width=c.offsetWidth*devicePixelRatio;H=c.height=c.offsetHeight*devicePixelRatio;
     P=[];var n=Math.min(70,Math.floor(c.offsetWidth/18));for(var i=0;i<n;i++)P.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25*devicePixelRatio,vy:(Math.random()-.5)*.25*devicePixelRatio})}
   size();addEventListener('resize',size);
   addEventListener('mousemove',function(e){mx=(e.clientX/innerWidth-.5)*20;my=(e.clientY/innerHeight-.5)*20},{passive:true});
-  function draw(){x.clearRect(0,0,W,H);var R=140*devicePixelRatio;
-    for(var i=0;i<P.length;i++){var p=P[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+  function draw(){raf=0;x.clearRect(0,0,W,H);var R=140*devicePixelRatio;
+    for(var i=0;i<P.length;i++){var p=P[i];if(!reduce){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1}
       for(var j=i+1;j<P.length;j++){var q=P[j],dx=p.x-q.x,dy=p.y-q.y,d=Math.sqrt(dx*dx+dy*dy);
         if(d<R){x.strokeStyle='rgba(79,209,255,'+(1-d/R)*.18+')';x.lineWidth=devicePixelRatio;x.beginPath();x.moveTo(p.x+mx,p.y+my);x.lineTo(q.x+mx,q.y+my);x.stroke()}}
-      x.fillStyle='rgba(138,125,255,.7)';x.beginPath();x.arc(p.x+mx,p.y+my,1.6*devicePixelRatio,0,7);x.fill()}
-    if(!reduce)requestAnimationFrame(draw)}
+      x.fillStyle='rgba(82,113,255,.75)';x.beginPath();x.arc(p.x+mx,p.y+my,1.6*devicePixelRatio,0,7);x.fill()}
+    if(!reduce&&heroVis&&!document.hidden)raf=requestAnimationFrame(draw)}
+  new IntersectionObserver(function(es){heroVis=es[0].isIntersecting;if(heroVis&&!raf&&!reduce)draw()}).observe(heroEl);
+  document.addEventListener('visibilitychange',function(){if(!document.hidden&&heroVis&&!raf&&!reduce)draw()});
   draw();
 
-  // hero typing demo (fictional prospects)
+  // ===== HERO: research -> write -> send -> booked (fictional prospects) =====
   var people=[
     {av:"HM",name:"Dana Whitfield",role:"Managing Partner, Halden & Marsh CPA",subj:"second office in Conshohocken",sig:["opened 2nd office","hiring 3 staff accountants","tax season in 9 weeks"],
      pre:"Hi Dana, saw ",hl:"Halden & Marsh just opened a second office in Conshohocken",post:". When a firm adds a location, the partners usually end up doing new-client intake themselves. We take that off your plate. Worth a short look?",when:"Thursday 10:30am"},
@@ -863,21 +1056,39 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
     {av:"BR",name:"Priya Natarajan",role:"CEO, Brightline Recruiting",subj:"your Series B clients",sig:["placed 40 roles in Q3","new tech practice","podcast guest"],
      pre:"Hi Priya, heard you on the ",hl:"podcast talking about Brightline's new tech practice",post:". Most recruiting firms struggle to get in front of heads of talent before a funding round hits. That's the gap we fill. Worth 15 minutes?",when:"Monday 11:00am"}
   ];
-  var typed=document.getElementById('typed'),sig=document.getElementById('pSig'),toast=document.getElementById('toast'),prog=document.getElementById('prog'),cnt=document.getElementById('cnt'),k=0,n=1;
-  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+  var typed=document.getElementById('typed'),sig=document.getElementById('pSig'),toast=document.getElementById('toast'),prog=document.getElementById('prog'),cnt=document.getElementById('cnt'),
+      consoleEl=document.querySelector('.console'),row=consoleEl.querySelector('.c-row'),mail=consoleEl.querySelector('.email'),stage=consoleEl.parentElement,
+      calG=document.getElementById('calG'),calN=document.getElementById('calN'),k=0,n=1,booked=0;
+  ['Mon','Tue','Wed','Thu','Fri'].forEach(function(d){calG.insertAdjacentHTML('beforeend','<div class="cal-d"><span>'+d+'</span><i class="slot"></i><i class="slot"></i><i class="slot"></i></div>')});
+  var slots=[].slice.call(calG.querySelectorAll('.slot'));
+  function nextSlot(){var free=slots.filter(function(s){return !s.classList.contains('fill')});
+    if(!free.length){slots.forEach(function(s){s.classList.remove('fill')});booked=0;free=slots.slice()}
+    return free[Math.floor(Math.random()*free.length)]}
+  function book(slot){slot.classList.add('fill');booked++;calN.textContent=booked+' booked';toast.classList.add('show')}
+  function fly(slot,done){var sr=stage.getBoundingClientRect(),a=mail.getBoundingClientRect(),b=slot.getBoundingClientRect();
+    var dot=document.createElement('span');dot.className='fly';stage.appendChild(dot);
+    var x0=a.left-sr.left+a.width/2-5,y0=a.top-sr.top+a.height/2-5,x1=b.left-sr.left+b.width/2-5,y1=b.top-sr.top+b.height/2-5;
+    var an=dot.animate([{transform:'translate('+x0+'px,'+y0+'px) scale(.6)',opacity:0},{transform:'translate('+x0+'px,'+y0+'px) scale(1)',opacity:1,offset:.15},{transform:'translate('+x1+'px,'+y1+'px) scale(.7)',opacity:1}],{duration:750,easing:'cubic-bezier(.16,1,.3,1)'});
+    an.onfinish=function(){dot.remove();done()}}
+  function whenVisible(fn){(function w(){if(heroVis&&!document.hidden)fn();else setTimeout(w,500)})()}
   function run(){var p=people[k%people.length];
     document.getElementById('pAv').textContent=p.av;document.getElementById('pName').textContent=p.name;document.getElementById('pRole').textContent=p.role;
     document.getElementById('pSubj').textContent=p.subj;document.getElementById('tWhen').textContent=p.when+' · added to your calendar';
     sig.innerHTML=p.sig.map(function(s){return '<span class="sig">'+esc(s)+'</span>'}).join('');
-    toast.classList.remove('show');typed.innerHTML='';prog.style.width='0';
+    toast.classList.remove('show');typed.innerHTML='';prog.style.width='0';mail.classList.remove('sent');
     cnt.textContent='#'+String(n).padStart(5,'0');n+=137;
-    var chips=sig.querySelectorAll('.sig');chips.forEach(function(ch,i){setTimeout(function(){ch.classList.add('on')},250+i*350)});
+    row.classList.remove('scan');void row.offsetWidth;row.classList.add('scan');
+    sig.querySelectorAll('.sig').forEach(function(ch,i){setTimeout(function(){ch.classList.add('on')},300+i*300)});
     var full=p.pre.length+p.hl.length+p.post.length,i=0;
     setTimeout(function tick(){i+=2;var a=Math.min(i,p.pre.length),b=Math.max(0,Math.min(i-p.pre.length,p.hl.length)),c2=Math.max(0,i-p.pre.length-p.hl.length);
       typed.innerHTML=esc(p.pre.slice(0,a))+(b?'<span class="hl">'+esc(p.hl.slice(0,b))+'</span>':'')+esc(p.post.slice(0,c2))+'<span class="caret"></span>';
       prog.style.width=Math.min(100,i/full*100)+'%';
-      if(i<full)setTimeout(tick,22);else{setTimeout(function(){toast.classList.add('show')},500);setTimeout(function(){k++;run()},4200)}},1400)}
-  if(reduce){var p=people[0];typed.innerHTML=esc(p.pre)+'<span class="hl">'+esc(p.hl)+'</span>'+esc(p.post);toast.classList.add('show')}
+      if(i<full){setTimeout(tick,22);return}
+      typed.innerHTML=esc(p.pre)+'<span class="hl">'+esc(p.hl)+'</span>'+esc(p.post);
+      setTimeout(function(){mail.classList.add('sent');var sl=nextSlot();
+        setTimeout(function(){fly(sl,function(){book(sl);setTimeout(function(){k++;whenVisible(run)},3200)})},300)},500)},1400)}
+  if(reduce){var p0=people[0];typed.innerHTML=esc(p0.pre)+'<span class="hl">'+esc(p0.hl)+'</span>'+esc(p0.post);[0,4,8].forEach(function(i){book(slots[i])});
+    sig.innerHTML=p0.sig.map(function(s){return '<span class="sig on">'+esc(s)+'</span>'}).join('')}
   else run();
 })();
 </script>
