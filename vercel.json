@@ -4,5 +4,19 @@
       "memory": 256,
       "maxDuration": 30
     }
-  }
+  },
+  "redirects": [
+    { "source": "/method.html", "destination": "/#how", "permanent": false },
+    { "source": "/method", "destination": "/#how", "permanent": false },
+    { "source": "/case-studies.html", "destination": "/#results", "permanent": false },
+    { "source": "/case-studies", "destination": "/#results", "permanent": false },
+    { "source": "/services.html", "destination": "/#pricing", "permanent": false },
+    { "source": "/services", "destination": "/#pricing", "permanent": false },
+    { "source": "/workshop.html", "destination": "/", "permanent": false },
+    { "source": "/workshop", "destination": "/", "permanent": false },
+    { "source": "/audit.html", "destination": "/#pricing", "permanent": false },
+    { "source": "/audit", "destination": "/#pricing", "permanent": false },
+    { "source": "/intake-audit.html", "destination": "/#pricing", "permanent": false },
+    { "source": "/intake-audit", "destination": "/#pricing", "permanent": false }
+  ]
 }

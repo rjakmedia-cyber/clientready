@@ -1,631 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Apply for a Strategy Call, clientReady</title>
-<meta name="description" content="Founding 5 cohort: 20 qualified meetings in 60 days or we keep working until your calendar is full. Tier-fit pricing revealed on the call. Apply for your strategy call.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book a strategy call | clientReady</title>
+<meta name="description" content="Book a free 30-minute strategy call with clientReady. We'll look at your offer and market and tell you straight which plan fits, or if outbound isn't right for you yet.">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png"><link rel="apple-touch-icon" href="icon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0A0A0F;--card:rgba(255,255,255,0.03);--card-border:rgba(255,255,255,0.08);--text:#F5F5F7;--text-mute:#8B8B98;--text-dim:#5C5C6E;--accent:#6366F1;--accent-2:#8B5CF6;--accent-3:#EC4899;--green:#10B981;--red:#EF4444}
+:root{--bg:#05070b;--panel:#0e131c;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#e9eef6;--muted:#8a95a8;--dim:#5d677a;--a1:#4fd1ff;--a2:#5271ff;--ok:#3ee6a8;--bad:#ff8a8a;--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh}
-.bg-grid{position:fixed;inset:0;background-image:radial-gradient(ellipse 80% 50% at 50% -20%,rgba(99,102,241,0.15),transparent),radial-gradient(ellipse 60% 50% at 80% 20%,rgba(236,72,153,0.08),transparent),radial-gradient(circle at 1px 1px,rgba(255,255,255,0.04) 1px,transparent 0);background-size:100% 100%,100% 100%,32px 32px;pointer-events:none;z-index:0}
-.container{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
-nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(16px);background:rgba(10,10,15,0.7);border-bottom:1px solid rgba(255,255,255,0.06);padding:18px 0}
-.nav-inner{display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:800;font-size:1.15rem;letter-spacing:-0.02em;display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none}
-.logo-mark{width:28px;height:28px;background:linear-gradient(135deg,var(--accent),var(--accent-3));border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem;color:#fff}
-.nav-links{display:flex;align-items:center;gap:32px}
-.nav-links a{color:var(--text-mute);text-decoration:none;font-size:.92rem;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--text)}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:10px;font-size:.92rem;font-weight:600;text-decoration:none;cursor:pointer;border:none;transition:all .2s;font-family:inherit}
-.btn-primary{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;box-shadow:0 8px 24px rgba(99,102,241,0.3)}
-.btn-primary:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
-
-.hero-funnel{padding:60px 0 30px;text-align:center}
-.tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(99,102,241,0.10);border:1px solid rgba(99,102,241,0.22);border-radius:99px;font-size:.78rem;font-weight:600;color:#A5A5F1;margin-bottom:20px;letter-spacing:.06em;text-transform:uppercase;font-family:'JetBrains Mono',monospace}
-.tag .dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 2s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-0.035em;line-height:1.05;margin-bottom:18px;background:linear-gradient(180deg,#FFF 0%,#A5A5C5 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;max-width:780px;margin-left:auto;margin-right:auto}
-.lede{font-size:clamp(1rem,1.6vw,1.15rem);color:var(--text-mute);max-width:640px;margin:0 auto 40px;line-height:1.55}
-
-.funnel{max-width:680px;margin:0 auto 80px;padding:8px;border-radius:24px;background:linear-gradient(135deg,rgba(99,102,241,0.10),rgba(236,72,153,0.05));border:1px solid rgba(99,102,241,0.18);position:relative}
-.funnel-inner{background:rgba(10,10,15,0.6);border-radius:20px;padding:40px;min-height:520px;display:flex;flex-direction:column}
-
-.progress{display:flex;gap:6px;margin-bottom:32px}
-.progress-step{flex:1;height:4px;border-radius:2px;background:rgba(255,255,255,0.08);transition:background .3s}
-.progress-step.done{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-.progress-step.active{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 16px rgba(99,102,241,0.4)}
-
-.step{display:none;flex:1;flex-direction:column;animation:fadeIn .4s ease}
-.step.active{display:flex}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-
-.step-label{font-size:.74rem;color:var(--accent);font-family:'JetBrains Mono',monospace;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px;font-weight:700}
-.step h2{font-size:1.5rem;font-weight:800;letter-spacing:-0.02em;line-height:1.2;margin-bottom:8px;color:var(--text)}
-.step .sub{font-size:.95rem;color:var(--text-mute);margin-bottom:24px;line-height:1.5}
-
-.field{margin-bottom:18px}
-.field label{display:block;font-size:.82rem;color:var(--text-mute);text-transform:uppercase;letter-spacing:.08em;font-family:'JetBrains Mono',monospace;font-weight:600;margin-bottom:8px}
-.field input,.field textarea,.field select{width:100%;padding:14px 16px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-size:.98rem;font-family:inherit;transition:border-color .2s}
-.field input:focus,.field textarea:focus,.field select:focus{outline:none;border-color:var(--accent);background:rgba(0,0,0,0.4)}
-.field textarea{min-height:80px;resize:vertical}
-.field input::placeholder,.field textarea::placeholder{color:var(--text-dim)}
-
-.options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.option{padding:12px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-size:.92rem;cursor:pointer;transition:all .15s;text-align:left}
-.option:hover{border-color:rgba(99,102,241,0.4);background:rgba(99,102,241,0.05)}
-.option.selected{border-color:var(--accent);background:linear-gradient(135deg,rgba(99,102,241,0.12),rgba(99,102,241,0.04));color:var(--text);font-weight:600;box-shadow:0 0 0 1px var(--accent) inset}
-.option.disqualify.selected{border-color:var(--red);background:rgba(239,68,68,0.06);box-shadow:0 0 0 1px var(--red) inset}
-
-.options-single{grid-template-columns:1fr}
-
-.step-actions{display:flex;justify-content:space-between;align-items:center;margin-top:auto;padding-top:28px}
-.back-btn{background:transparent;color:var(--text-mute);border:none;cursor:pointer;font-size:.92rem;padding:8px 0;font-family:inherit}
-.back-btn:hover{color:var(--text)}
-.next-btn{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:#fff;border:none;cursor:pointer;font-size:.98rem;font-weight:700;padding:14px 32px;border-radius:11px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(99,102,241,0.3);font-family:inherit;transition:all .2s}
-.next-btn:hover{transform:translateY(-1px);box-shadow:0 12px 32px rgba(99,102,241,0.4)}
-.next-btn:disabled{background:rgba(255,255,255,0.05);color:var(--text-dim);box-shadow:none;cursor:not-allowed;transform:none}
-.next-btn::after{content:"→"}
-
-/* RESULT screens */
-.result-fit{text-align:center}
-.result-fit .check{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(99,102,241,0.2));border:2px solid var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2.2rem;color:var(--green);font-weight:900}
-.result-fit h2{font-size:1.8rem;font-weight:800;margin-bottom:14px;background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-0.025em;line-height:1.15}
-.result-fit .sub{font-size:1.02rem;color:var(--text);margin-bottom:24px;line-height:1.55}
-.result-fit .audit-preview{background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.18);border-radius:14px;padding:24px;text-align:left;margin-bottom:24px}
-.result-fit .audit-preview h4{font-size:.78rem;color:#A5A5F1;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:12px;font-weight:600}
-.result-fit .audit-preview p{font-size:.92rem;color:var(--text);line-height:1.6}
-.result-fit .audit-preview strong{color:var(--accent-3)}
-
-.result-nofit{text-align:center}
-.result-nofit .x{width:80px;height:80px;border-radius:50%;background:rgba(239,68,68,0.1);border:2px solid var(--red);display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:2rem;color:var(--red);font-weight:700}
-.result-nofit h2{font-size:1.5rem;font-weight:800;margin-bottom:14px;color:var(--text);letter-spacing:-0.02em;line-height:1.2}
-.result-nofit .sub{font-size:.98rem;color:var(--text-mute);margin-bottom:24px;line-height:1.55}
-.result-nofit a{color:var(--accent);text-decoration:none;font-weight:600}
-.result-nofit a:hover{text-decoration:underline}
-
-.calendly-shell{background:rgba(0,0,0,0.2);border-radius:14px;padding:8px;margin-top:8px;min-height:580px}
-.calendly-shell iframe{width:100%;height:600px;border:none;border-radius:10px}
-.calendly-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 24px;text-align:center;min-height:560px;background:rgba(0,0,0,0.3);border-radius:10px}
-.calendly-placeholder h3{font-size:1.1rem;color:var(--text);margin-bottom:10px}
-.calendly-placeholder p{font-size:.88rem;color:var(--text-mute);line-height:1.5;max-width:380px;margin-bottom:14px}
-.calendly-placeholder code{background:rgba(99,102,241,0.1);padding:6px 10px;border-radius:6px;font-size:.82rem;color:#A5A5F1;font-family:'JetBrains Mono',monospace}
-
-footer{border-top:1px solid rgba(255,255,255,0.06);padding:32px 0;text-align:center;font-size:.85rem;color:var(--text-dim);margin-top:60px}
-footer a{color:var(--text-mute);text-decoration:none}
-
-@media(max-width:700px){
- .options{grid-template-columns:1fr}
- .funnel-inner{padding:28px}
- .nav-links a:not(.btn){display:none}
-}
+html{scrollbar-color:#253043 var(--bg)}
+::selection{background:rgba(79,209,255,.28);color:#fff}
+body{background:radial-gradient(900px 500px at 85% -10%,rgba(82,113,255,.16),transparent 70%),radial-gradient(700px 500px at 0% 30%,rgba(79,209,255,.08),transparent 70%),var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--a1);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1000px;margin:0 auto;padding:0 24px}
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+header nav a{color:var(--muted);font-size:14px;text-decoration:none}
+header nav a:hover{color:var(--text)}
+h1{font-size:clamp(32px,4.6vw,50px);letter-spacing:-.03em;line-height:1.08;margin:28px 0 12px;text-wrap:balance}
+.lead{color:var(--muted);font-size:18px;max-width:640px}
+.grid{display:grid;grid-template-columns:1fr 1.15fr;gap:20px;margin:36px 0 60px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:22px;padding:30px}
+.card h2{font-size:20px;margin-bottom:14px}
+.cover{list-style:none;display:grid;gap:12px;font-size:15px;color:var(--muted)}
+.cover li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.cover li::before{content:"";width:9px;height:5px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg);margin:8px 0 0 3px}
+.cover b{color:var(--text);font-weight:600}
+.side-note{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)}
+.side-note a{color:var(--a1)}
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:14px}
+label span{display:block;margin-bottom:6px;color:var(--text);font-weight:500}
+input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line2);background:#0a0f17;color:var(--text);font:inherit;font-size:15px;outline:none;caret-color:var(--a1);transition:border-color .2s,box-shadow .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--a1);box-shadow:0 0 0 4px rgba(79,209,255,.12)}
+input::placeholder,textarea::placeholder{color:#6f7a8e}
+textarea{min-height:90px;resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{width:100%;padding:17px;border:0;border-radius:999px;background:linear-gradient(90deg,var(--a1),var(--a2));color:#04060a;font-weight:700;font-size:16.5px;cursor:pointer;box-shadow:0 10px 30px -10px rgba(79,209,255,.6);transition:filter .15s}
+button:hover{filter:brightness(1.06)}
+button:disabled{opacity:.6;cursor:progress}
+.err{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,138,138,.35);background:rgba(255,138,138,.07);color:var(--bad);font-size:14px}
+.err a{color:var(--text)}
+.done{display:none;text-align:center;padding:30px 10px}
+.done .ck{width:58px;height:58px;border-radius:50%;background:var(--ok);color:#04060a;display:grid;place-items:center;margin:0 auto 16px}
+.done h2{font-size:24px;margin-bottom:8px}
+.done p{color:var(--muted);font-size:15px}
+.done .cal{display:none;margin-top:18px}
+.done .cal a{display:inline-block;padding:14px 22px;border-radius:999px;background:linear-gradient(90deg,var(--a1),var(--a2));color:#04060a;font-weight:700;text-decoration:none}
+footer{color:var(--dim);font-size:13px;padding:0 0 40px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+@media(max-width:480px){.row{grid-template-columns:1fr}.card{padding:22px}}
 </style>
 </head>
 <body>
-<div class="bg-grid"></div>
+<div class="wrap">
+  <header>
+    <a href="/" aria-label="clientReady home"><img src="logo.png" alt="clientReady" width="225" height="22" style="height:22px;width:auto;display:block"></a>
+    <nav><a href="/#pricing">See plans and pricing</a></nav>
+  </header>
 
-<nav>
- <div class="container nav-inner">
- <a href="/" class="logo">
- <span class="logo-mark">cR</span>
- <span>clientReady</span>
- </a>
- <div class="nav-links">
- <a href="/method.html">The Method</a>
- <a href="/case-studies.html">Case Studies</a>
- <a href="/services.html">Services</a>
- <a href="/workshop.html">Watch</a>
- <a href="/" class="btn btn-primary">Home</a>
- </div>
- </div>
-</nav>
+  <h1>Book a free 30-minute strategy call.</h1>
+  <p class="lead">Tell us a little about your business. We'll look at your offer and your market before the call, then tell you straight which plan fits, or if outbound isn't right for you yet.</p>
 
-<header class="hero-funnel">
- <div class="container">
- <div class="tag"><span class="dot"></span><span>Founding 5 &middot; 3 spots left</span></div>
- <h1>Apply for a 30-min strategy call.</h1>
- <p class="lede">5 quick questions so we both know if we're a fit before we get on the call. If yes, you book directly. If not, we'll tell you why and point you somewhere useful.</p>
- </div>
-</header>
+  <div class="grid">
+    <section class="card">
+      <h2>What we'll cover</h2>
+      <ul class="cover">
+        <li><span><b>Who to reach.</b> The industries, company sizes and job titles most likely to buy from you.</span></li>
+        <li><span><b>The right volume.</b> How many emails a month it takes to hit the meetings you want.</span></li>
+        <li><span><b>The honest math.</b> Your expected cost per shown meeting against your deal size.</span></li>
+        <li><span><b>Your first 90 days.</b> What happens in build, warm-up and full speed.</span></li>
+      </ul>
+      <div class="side-note">Already know what you want? <a href="/#pricing">Take the 2-minute audit</a> and buy your plan online.</div>
+    </section>
 
-<div class="container">
- <div class="funnel">
- <div class="funnel-inner">
- <div class="progress">
- <div class="progress-step active" id="p1"></div>
- <div class="progress-step" id="p2"></div>
- <div class="progress-step" id="p3"></div>
- <div class="progress-step" id="p4"></div>
- <div class="progress-step" id="p5"></div>
- </div>
+    <section class="card">
+      <form id="call" novalidate>
+        <div class="row">
+          <label><span>Your name</span><input name="name" autocomplete="name" required></label>
+          <label><span>Work email</span><input type="email" name="email" autocomplete="email" required></label>
+        </div>
+        <div class="row">
+          <label><span>Company</span><input name="company" autocomplete="organization" required></label>
+          <label><span>Website</span><input name="website" placeholder="yourcompany.com" required></label>
+        </div>
+        <div class="row">
+          <label><span>Who do you sell to?</span>
+            <select name="sells" required><option value="">Choose one</option><option>Other businesses (B2B)</option><option>Both businesses and consumers</option><option>Consumers only</option></select></label>
+          <label><span>Average first deal size</span>
+            <select name="deal" required><option value="">Choose a range</option><option>Under $2,000</option><option>$2,000 to $5,000</option><option>$5,000 to $15,000</option><option>$15,000 to $50,000</option><option>$50,000+</option></select></label>
+        </div>
+        <label><span>Best days and times to talk</span><input name="times" placeholder="Example: Tue or Thu afternoons, Eastern time" required></label>
+        <label><span>Anything we should know? <small style="color:var(--dim);font-weight:400">(optional)</small></span><textarea name="notes"></textarea></label>
+        <button type="submit" id="goBtn">Request my strategy call →</button>
+        <div class="err" id="err" role="alert"></div>
+      </form>
+      <div class="done" id="done" role="status">
+        <div class="ck"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2>Request received.</h2>
+        <p id="dMsg">We'll email you within 1 business day to confirm a time.</p>
+        <div class="cal" id="cal"><a id="calLink" href="#" target="_blank" rel="noopener">Pick a time now →</a></div>
+      </div>
+    </section>
+  </div>
 
- <!-- STEP 1: Who are you -->
- <div class="step active" data-step="1">
- <div class="step-label">Step 1 of 5</div>
- <h2>Who's running this?</h2>
- <p class="sub">We work with founders, CEOs, and revenue leaders. The strategy call is founder-to-founder.</p>
-
- <div class="field">
- <label>Your name</label>
- <input type="text" id="q-name" placeholder="Sarah Chen" autocomplete="name">
- </div>
- <div class="field">
- <label>Work email</label>
- <input type="email" id="q-email" placeholder="sarah@yourcompany.com" autocomplete="email">
- </div>
- <div class="field">
- <label>Your role</label>
- <div class="options">
- <div class="option" data-q="role" data-val="founder">Founder / CEO</div>
- <div class="option" data-q="role" data-val="vp-sales">VP Sales / Revenue</div>
- <div class="option" data-q="role" data-val="head-growth">Head of Growth</div>
- <div class="option" data-q="role" data-val="director">Director-level</div>
- <div class="option" data-q="role" data-val="operator">Operator / Manager</div>
- <div class="option" data-q="role" data-val="other">Other</div>
- </div>
- </div>
-
- <div class="step-actions">
- <span></span>
- <button class="next-btn" onclick="nextStep()" disabled id="btn-1">Continue</button>
- </div>
- </div>
-
- <!-- STEP 2: Company profile -->
- <div class="step" data-step="2">
- <div class="step-label">Step 2 of 5</div>
- <h2>About your company.</h2>
- <p class="sub">Helps us figure out if our system fits your sales motion.</p>
-
- <div class="field">
- <label>Company name</label>
- <input type="text" id="q-company" placeholder="Acme Inc">
- </div>
- <div class="field">
- <label>Website / domain</label>
- <input type="text" id="q-domain" placeholder="acme.com">
- </div>
- <div class="field">
- <label>What you sell</label>
- <div class="options">
- <div class="option" data-q="industry" data-val="b2b-saas">B2B SaaS</div>
- <div class="option" data-q="industry" data-val="agency">B2B Agency</div>
- <div class="option" data-q="industry" data-val="consulting">Professional Services / Consulting</div>
- <div class="option" data-q="industry" data-val="other-b2b">Other B2B</div>
- <div class="option disqualify" data-q="industry" data-val="b2c">B2C / Consumer</div>
- <div class="option disqualify" data-q="industry" data-val="freelance">Freelance / Solo</div>
- </div>
- </div>
-
- <div class="step-actions">
- <button class="back-btn" onclick="prevStep()">&larr; Back</button>
- <button class="next-btn" onclick="nextStep()" disabled id="btn-2">Continue</button>
- </div>
- </div>
-
- <!-- STEP 3: Revenue + ACV -->
- <div class="step" data-step="3">
- <div class="step-label">Step 3 of 5</div>
- <h2>Show me the money.</h2>
- <p class="sub">No exact numbers needed , just a range. We can't make the math work below certain thresholds and won't waste your time if so.</p>
-
- <div class="field">
- <label>Annual revenue (current)</label>
- <div class="options">
- <div class="option disqualify" data-q="arr" data-val="pre-revenue">Pre-revenue</div>
- <div class="option disqualify" data-q="arr" data-val="under-30k">Under $30k</div>
- <div class="option" data-q="arr" data-val="30k-250k">$30k to $250k</div>
- <div class="option" data-q="arr" data-val="250k-1m">$250k to $1M</div>
- <div class="option" data-q="arr" data-val="1m-5m">$1M to $5M</div>
- <div class="option" data-q="arr" data-val="5m+">$5M+</div>
- </div>
- </div>
- <div class="field">
- <label>Average customer LTV / ACV</label>
- <div class="options">
- <div class="option disqualify" data-q="acv" data-val="under-5k">Under $5k</div>
- <div class="option" data-q="acv" data-val="5k-15k">$5k to $15k</div>
- <div class="option" data-q="acv" data-val="15k-50k">$15k to $50k</div>
- <div class="option" data-q="acv" data-val="50k-150k">$50k to $150k</div>
- <div class="option" data-q="acv" data-val="150k+">$150k+</div>
- <div class="option" data-q="acv" data-val="unknown">Not sure</div>
- </div>
- </div>
-
- <div class="step-actions">
- <button class="back-btn" onclick="prevStep()">&larr; Back</button>
- <button class="next-btn" onclick="nextStep()" disabled id="btn-3">Continue</button>
- </div>
- </div>
-
- <!-- STEP 4: Pipeline reality -->
- <div class="step" data-step="4">
- <div class="step-label">Step 4 of 5</div>
- <h2>Your current pipeline.</h2>
- <p class="sub">Pick whichever feels most true. Honest answers help us prep your audit.</p>
-
- <div class="field">
- <label>How you get customers today</label>
- <div class="options options-single">
- <div class="option" data-q="channels" data-val="inbound-only">Inbound + content only</div>
- <div class="option" data-q="channels" data-val="referral-only">100% referrals / word of mouth</div>
- <div class="option" data-q="channels" data-val="paid-ads">Paid ads (Meta, Google, LinkedIn)</div>
- <div class="option" data-q="channels" data-val="sdrs">In-house SDRs doing outbound</div>
- <div class="option" data-q="channels" data-val="mix">A mix of channels, nothing dominant</div>
- <div class="option" data-q="channels" data-val="failed-outbound">Tried outbound, gave up on it</div>
- </div>
- </div>
- <div class="field">
- <label>Qualified meetings booked per month</label>
- <div class="options">
- <div class="option" data-q="meetings" data-val="0-5">0 to 5</div>
- <div class="option" data-q="meetings" data-val="5-15">5 to 15</div>
- <div class="option" data-q="meetings" data-val="15-30">15 to 30</div>
- <div class="option" data-q="meetings" data-val="30+">30+ (we're fine)</div>
- </div>
- </div>
-
- <div class="step-actions">
- <button class="back-btn" onclick="prevStep()">&larr; Back</button>
- <button class="next-btn" onclick="nextStep()" disabled id="btn-4">Continue</button>
- </div>
- </div>
-
- <!-- STEP 5: Compelling event -->
- <div class="step" data-step="5">
- <div class="step-label">Step 5 of 5</div>
- <h2>One last thing , why now?</h2>
- <p class="sub">The "why now" is the single biggest predictor of whether outbound will work for you. Pick the one closest to your truth.</p>
-
- <div class="field">
- <label>What's driving you to look at outbound now?</label>
- <div class="options options-single">
- <div class="option" data-q="why-now" data-val="growth-pressure">Need to grow faster , current channels plateaued</div>
- <div class="option" data-q="why-now" data-val="lost-client">Lost a big client / revenue concentration risk</div>
- <div class="option" data-q="why-now" data-val="hired-sales">Hired a sales team that needs leads to close</div>
- <div class="option" data-q="why-now" data-val="board-pressure">Board / investor pressure for predictable pipeline</div>
- <div class="option" data-q="why-now" data-val="new-market">Expanding into a new market / vertical</div>
- <div class="option" data-q="why-now" data-val="exploring">Just exploring , no specific event</div>
- </div>
- </div>
-
- <div class="field">
- <label>Anything we should know before the call? (optional)</label>
- <textarea id="q-notes" placeholder="Specific competitors, target ICP, past agency experiences&hellip;"></textarea>
- </div>
-
- <div class="step-actions">
- <button class="back-btn" onclick="prevStep()">&larr; Back</button>
- <button class="next-btn" onclick="submitFunnel()" disabled id="btn-5">See if I'm a fit</button>
- </div>
- </div>
-
- <!-- RESULT: FIT -->
- <div class="step" data-step="result-fit">
- <div class="result-fit">
- <div class="check">&check;</div>
- <h2 id="fit-headline">You're a fit. Let's book the call.</h2>
- <p class="sub" id="fit-subline">Based on your answers, you check every box for the founding-5 cohort. Below is the calendar.</p>
-
- <div class="audit-preview">
- <h4>Pre-call audit (auto-generated)</h4>
- <p id="audit-text">We'll mystery-shop <strong id="audit-domain">your domain</strong> live on the call. Expect us to dig into: response time on your demo flow, domain reputation and inbox placement, LinkedIn ICP reach, and the pipeline gap math against your <span id="audit-arr">current revenue</span>.</p>
- </div>
-
- <div class="calendly-shell" id="calendly-container">
- <div class="calendly-placeholder">
- <h3>Calendar loads here</h3>
- <p>Paste your Calendly URL into the script at the bottom of this file. We'll send you a personalized confirmation + pre-call audit the moment you book.</p>
- <code id="cal-url-display">CALENDLY_URL = ""</code>
- </div>
- </div>
- </div>
- </div>
-
- <!-- RESULT: NOT A FIT -->
- <div class="step" data-step="result-nofit">
- <div class="result-nofit">
- <div class="x">&times;</div>
- <h2 id="nofit-headline">We're not the right fit , and that's a good thing to know upfront.</h2>
- <p class="sub" id="nofit-subline">Based on your answers, our system isn't the right move for you right now. Here's why and where to go instead.</p>
-
- <div style="text-align:left;background:rgba(255,255,255,0.02);border:1px solid var(--card-border);border-radius:12px;padding:24px;margin-bottom:24px">
- <div style="font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">Why we're saying no</div>
- <p id="nofit-reason" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
- </div>
-
- <div style="text-align:left;background:rgba(99,102,241,0.04);border:1px solid rgba(99,102,241,0.18);border-radius:12px;padding:24px">
- <div style="font-size:.78rem;color:#A5A5F1;text-transform:uppercase;letter-spacing:.1em;font-family:'JetBrains Mono',monospace;margin-bottom:10px;font-weight:600">What we'd do in your shoes</div>
- <p id="nofit-suggestion" style="color:var(--text);font-size:.95rem;line-height:1.55"></p>
- </div>
-
- <p style="margin-top:32px;color:var(--text-mute);font-size:.9rem">
- Still want to chat? Email <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> directly.
- </p>
- </div>
- </div>
-
- </div>
- </div>
+  <footer>© 2026 clientReady · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a></footer>
 </div>
-
-<footer>
- <div class="container">
- <p>&copy; 2026 clientReady &middot; <a href="mailto:rich@clientready.agency">rich@clientready.agency</a> &middot; <a href="/">Home</a></p>
- </div>
-</footer>
-
 <script>
-// ============================================================
-// Calendly URL for Rich
-// ============================================================
-const CALENDLY_URL = "https://calendly.com/richard-clientready/30min";
+(function(){
+  // Optional: paste your booking link (Calendly, Cal.com, Google) to show a "Pick a time now" button after the form.
+  var CALENDAR_URL = "";
 
-// Read URL params for audit prefill
-const params = new URLSearchParams(location.search);
-const fromAudit = params.get('from') === 'audit';
-const prefillEmail = params.get('email') || '';
-const prefillDomain = params.get('domain') || '';
-const prefillFirm = params.get('firm') || '';
-const prefillArr = params.get('arr') || '';
-const prefillTier = params.get('tier') || '';
-const prefillScore = params.get('score') || '';
-const prefillLeak = params.get('leak') || '';
-
-const answers = {};
-let currentStep = 1;
-const totalSteps = 5;
-
-// Wire up option buttons
-document.querySelectorAll('.option').forEach(opt => {
- opt.addEventListener('click', () => {
- const q = opt.dataset.q;
- const v = opt.dataset.val;
- // Deselect siblings with same q
- document.querySelectorAll(`.option[data-q="${q}"]`).forEach(o => o.classList.remove('selected'));
- opt.classList.add('selected');
- answers[q] = v;
- checkStepComplete();
- });
-});
-
-// Wire up text inputs
-['q-name','q-email','q-company','q-domain','q-notes'].forEach(id => {
- const el = document.getElementById(id);
- if (el) el.addEventListener('input', () => {
- answers[id.replace('q-','')] = el.value.trim();
- checkStepComplete();
- });
-});
-
-function checkStepComplete() {
- const requiredByStep = {
- 1: () => answers.name && answers.email && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(answers.email) && answers.role,
- 2: () => answers.company && answers.domain && answers.industry,
- 3: () => answers.arr && answers.acv,
- 4: () => answers.channels && answers.meetings,
- 5: () => answers['why-now']
- };
- const btn = document.getElementById('btn-' + currentStep);
- if (btn) btn.disabled = !requiredByStep[currentStep]();
-}
-
-function nextStep() {
- if (currentStep < totalSteps) {
- document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
- document.getElementById('p' + currentStep).classList.remove('active');
- document.getElementById('p' + currentStep).classList.add('done');
- currentStep++;
- document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
- document.getElementById('p' + currentStep).classList.add('active');
- checkStepComplete();
- window.scrollTo({top: 0, behavior: 'smooth'});
- }
-}
-
-function prevStep() {
- if (currentStep > 1) {
- document.querySelector(`.step[data-step="${currentStep}"]`).classList.remove('active');
- document.getElementById('p' + currentStep).classList.remove('active');
- currentStep--;
- document.getElementById('p' + currentStep).classList.remove('done');
- document.getElementById('p' + currentStep).classList.add('active');
- document.querySelector(`.step[data-step="${currentStep}"]`).classList.add('active');
- window.scrollTo({top: 0, behavior: 'smooth'});
- }
-}
-
-function evaluateFit() {
- // Disqualifying criteria
- const disqualifiers = [];
-
- if (['b2c','freelance'].includes(answers.industry)) {
- disqualifiers.push({
- reason: "We build outbound infrastructure for B2B companies selling to other businesses. B2C and freelance/solo operators have fundamentally different growth dynamics, so our system would underperform for you.",
- suggestion: "For B2C: focus on paid social (Meta, TikTok) plus influencer partnerships. For freelance: a single niche LinkedIn presence and word-of-mouth scales better than cold outbound at your stage."
- });
- }
- if (['pre-revenue','under-30k'].includes(answers.arr)) {
- disqualifiers.push({
- reason: "Our system is engineered for companies with $30k+ in annual revenue. Below that, the engagement investment is a higher percentage of your revenue than makes sense, and you typically don't have the sales capacity yet to handle 10 qualified meetings per month.",
- suggestion: "Focus on getting to $30k ARR through founder-led sales and warm intros. Once you're there, come back. You'll have the foundation to make outbound 10x your revenue."
- });
- }
- if (answers.acv === 'under-5k') {
- disqualifiers.push({
- reason: "Our economic model needs an average customer LTV of $5k+. With sub-$5k ACV, the cost-per-meeting math doesn't work and you would need 4 to 5x the volume to make the unit economics stable.",
- suggestion: "Either raise prices (most companies are undercharging anyway) or focus on inbound and product-led growth instead of high-touch outbound. We can refer you to a PLG specialist if useful."
- });
- }
- if (answers.meetings === '30+') {
- disqualifiers.push({
- reason: "You're already booking 30+ qualified meetings per month. Honestly, you probably don't need us. The constraint isn't pipeline volume, it's something else (close rate, retention, expansion).",
- suggestion: "Look at the &ldquo;after the meeting&rdquo; layer: sales coaching, demo optimization, pricing experiments. If you still want more pipeline volume, email us anyway and we can scope a smaller engagement."
- });
- }
-
- return disqualifiers;
-}
-
-// Determine tier from ARR value
-function tierFromArr(arr) {
- if (arr === '30k-250k') return 'Builder';
- if (arr === '250k-1m') return 'Scaler';
- if (arr === '1m-5m') return 'Scaler';
- if (arr === '5m+') return 'Enterprise';
- return 'Scaler';
-}
-
-// Compose Calendly URL with full prefill so booking auto-populates + custom answers show on confirmation
-function composeCalendlyUrl(data) {
- const customA1 = 'Domain: ' + (data.domain || 'n/a') + ' | ARR: ' + (data.arr || 'n/a');
- const customA2 = data.score ? ('Audit score: ' + data.score + '/100 | Pipeline leak: $' + (data.leak ? Number(data.leak).toLocaleString() : '0') + '/yr') : 'No audit run';
- const customA3 = 'Source: ' + (data.source || 'strategy-funnel');
- return CALENDLY_URL +
- '?hide_gdpr_banner=1' +
- '&background_color=0a0a0f' +
- '&text_color=f5f5f7' +
- '&primary_color=6366f1' +
- '&name=' + encodeURIComponent(data.name || (data.email ? data.email.split('@')[0] : '')) +
- '&email=' + encodeURIComponent(data.email || '') +
- '&a1=' + encodeURIComponent(customA1) +
- '&a2=' + encodeURIComponent(customA2) +
- '&a3=' + encodeURIComponent(customA3) +
- '&utm_source=' + encodeURIComponent(data.source || 'strategy') +
- '&utm_medium=website' +
- '&utm_campaign=founding-5' +
- '&utm_content=' + encodeURIComponent(data.domain || '');
-}
-
-// Audit-referral shortcut: if from=audit, skip the funnel and go straight to Calendly with prefill
-async function handleAuditReferral() {
- if (!fromAudit || !prefillEmail) return false;
-
- const tier = prefillTier || tierFromArr(prefillArr);
-
- // Save the referral as a "booking intent" lead so Rich can match it back when Calendly confirms
- try {
- await fetch('/api/lead-capture', {
- method: 'POST',
- headers: {'Content-Type': 'application/json'},
- body: JSON.stringify({
- email: prefillEmail,
- firm: prefillFirm || prefillDomain,
- domain: prefillDomain,
- source: 'audit-booking-intent',
- arr: prefillArr,
- tier: tier,
- score: prefillScore,
- leak: prefillLeak,
- referrer: document.referrer || '',
- url: location.href,
- submitted_at: new Date().toISOString()
- })
- });
- } catch (e) { console.warn(e); }
-
- // Hide the funnel UI
- document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
- document.querySelectorAll('.progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
- const progressBar = document.querySelector('.progress'); if (progressBar) progressBar.style.display = 'none';
-
- // Show the FIT result with Calendly embed
- document.querySelector('.step[data-step="result-fit"]').classList.add('active');
- const fitHead = document.getElementById('fit-headline');
- if (fitHead) fitHead.textContent = 'You qualified via the audit. Book your call below.';
- const fitSub = document.getElementById('fit-subline');
- if (fitSub) fitSub.innerHTML = 'Based on your audit (' + (prefillScore || '?') + '/100 outbound health, ~$' + (prefillLeak ? Number(prefillLeak).toLocaleString() : '0') + '/yr leak), you qualify for the Founding-5 cohort. Pick a slot below. We have your audit findings on file already.';
- const domEl = document.getElementById('audit-domain'); if (domEl) domEl.textContent = prefillDomain || 'your domain';
- const arrEl = document.getElementById('audit-arr'); if (arrEl) arrEl.textContent = prefillArr;
-
- const url = composeCalendlyUrl({
- name: prefillFirm || (prefillEmail.split('@')[0]),
- email: prefillEmail,
- domain: prefillDomain,
- arr: prefillArr,
- tier: tier,
- score: prefillScore,
- leak: prefillLeak,
- source: 'audit-qualified'
- });
- document.getElementById('calendly-container').innerHTML =
- '<iframe src="' + url + '" allow="camera; microphone; fullscreen"></iframe>';
-
- return true;
-}
-
-async function submitFunnel() {
- const btn = document.getElementById('btn-5');
- btn.disabled = true;
- btn.textContent = 'Checking...';
-
- // POST to lead capture endpoint
- try {
- await fetch('/api/lead-capture', {
- method: 'POST',
- headers: {'Content-Type':'application/json'},
- body: JSON.stringify({
- ...answers,
- firm: answers.company,
- source: 'strategy-funnel',
- submitted_at: new Date().toISOString()
- })
- });
- } catch (e) {
- // Non-blocking, show result regardless
- console.warn('Lead capture failed:', e);
- }
-
- const disqualifiers = evaluateFit();
-
- // Hide all steps + progress bar
- document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
- document.querySelectorAll('.progress-step').forEach(p => { p.classList.remove('active'); p.classList.add('done'); });
-
- if (disqualifiers.length === 0) {
- // FIT, show calendar
- document.querySelector('.step[data-step="result-fit"]').classList.add('active');
- document.getElementById('audit-domain').textContent = answers.domain || 'your domain';
- const arrLabels = {
- '30k-250k':'$30k to $250k revenue',
- '250k-1m':'$250k to $1M revenue',
- '1m-5m':'$1M to $5M revenue',
- '5m+':'$5M+ revenue'
- };
- document.getElementById('audit-arr').innerHTML = arrLabels[answers.arr] || 'current revenue';
-
- const tier = tierFromArr(answers.arr);
- const url = composeCalendlyUrl({
- name: answers.name,
- email: answers.email,
- domain: answers.domain,
- arr: answers.arr,
- tier: tier,
- source: 'strategy-funnel'
- });
- document.getElementById('calendly-container').innerHTML =
- '<iframe src="' + url + '" allow="camera; microphone; fullscreen"></iframe>';
- } else {
- // NOT A FIT, show why
- document.querySelector('.step[data-step="result-nofit"]').classList.add('active');
- const primary = disqualifiers[0];
- document.getElementById('nofit-reason').innerHTML = primary.reason;
- document.getElementById('nofit-suggestion').innerHTML = primary.suggestion;
- }
-
- window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-// Trigger audit-referral shortcut on page load
-document.addEventListener('DOMContentLoaded', handleAuditReferral);
-if (document.readyState === 'interactive' || document.readyState === 'complete') {
- handleAuditReferral();
-}
+  var form=document.getElementById('call'),err=document.getElementById('err'),btn=document.getElementById('goBtn');
+  function fail(m){err.innerHTML=m;err.style.display='block'}
+  form.addEventListener('submit',function(e){e.preventDefault();err.style.display='none';
+    var f={};new FormData(form).forEach(function(v,k){f[k]=String(v).trim()});
+    if(!f.name||!f.company||!f.website||!f.times)return fail('Please fill in every field except the last one.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email||''))return fail('Please enter a valid work email.');
+    if(!f.sells||!f.deal)return fail('Please choose who you sell to and your deal size.');
+    btn.disabled=true;btn.textContent='Sending…';
+    try{fetch('/api/lead-capture',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+      body:JSON.stringify({source:'strategy-call',email:f.email,domain:f.website,acv:f.deal,notes:f.name+' at '+f.company+'. Sells to: '+f.sells+'. Times: '+f.times+'. '+(f.notes||'')})}).catch(function(){})}catch(x){}
+    fetch('https://formsubmit.co/ajax/richard@clientready.agency',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({_subject:'Strategy call request: '+f.company,_template:'table',Name:f.name,Email:f.email,Company:f.company,Website:f.website,'Sells to':f.sells,'Deal size':f.deal,'Best times':f.times,Notes:f.notes||''})})
+    .then(function(r){if(!r.ok)throw 0;
+      form.style.display='none';document.getElementById('done').style.display='block';
+      if(f.sells==='Consumers only')document.getElementById('dMsg').textContent="Thanks. clientReady works only with companies that sell to other businesses, so we'll reply by email with an honest take and where we'd point you instead.";
+      else if(/^https:\/\//.test(CALENDAR_URL)){document.getElementById('calLink').href=CALENDAR_URL;document.getElementById('cal').style.display='block';document.getElementById('dMsg').textContent='Grab a time below, or wait for our email within 1 business day.'}})
+    .catch(function(){btn.disabled=false;btn.textContent='Request my strategy call →';
+      fail('That didn\'t send. Please email <a href="mailto:richard@clientready.agency?subject=Strategy%20call">richard@clientready.agency</a> and we\'ll set up a time.')});
+  });
+})();
 </script>
 </body>
 </html>

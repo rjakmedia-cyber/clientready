@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Checkout | clientReady</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png"><link rel="apple-touch-icon" href="icon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070b;--panel:#0e131c;--panel2:#121927;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#e9eef6;--muted:#8a95a8;--dim:#5d677a;--a1:#4fd1ff;--a2:#5271ff;--ok:#3ee6a8;--bad:#ff8a8a;--ease:cubic-bezier(.16,1,.3,1);--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:#253043 var(--bg)}
+::selection{background:rgba(79,209,255,.28);color:#fff}
+::-webkit-scrollbar{width:10px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:#253043;border-radius:10px;border:2px solid var(--bg)}
+body{background:radial-gradient(900px 500px at 85% -10%,rgba(82,113,255,.16),transparent 70%),radial-gradient(700px 500px at 0% 30%,rgba(79,209,255,.08),transparent 70%),var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--a1);outline-offset:3px;border-radius:8px}
+.wrap{max-width:1060px;margin:0 auto;padding:0 24px}
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+.lock{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:14px}
+h1{font-size:clamp(32px,4.6vw,50px);letter-spacing:-.03em;line-height:1.08;margin:28px 0 12px;text-wrap:balance}
+.lead{color:var(--muted);font-size:18px;max-width:640px}
+.grid{display:grid;grid-template-columns:1.05fr 1fr;gap:20px;margin:36px 0 60px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:22px;padding:30px}
+.plans{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:5px;border-radius:14px;background:#0a0f17;border:1px solid var(--line);margin-bottom:26px}
+.plans button{border:0;background:transparent;color:var(--muted);font:inherit;font-size:14px;font-weight:600;padding:9px 4px;border-radius:10px;cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
+.plans button small{display:block;font-family:var(--mono);font-weight:400;font-size:11px;color:var(--dim)}
+.plans button:hover{color:var(--text)}
+.plans button[aria-checked=true]{background:var(--panel2);color:var(--text);box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 6px 18px -8px rgba(0,0,0,.6)}
+.plans button[aria-checked=true] small{color:var(--a1)}
+.top{display:flex;gap:18px;align-items:center}
+.ic{--icbg:#0d131d;flex:none;width:64px;height:64px;border-radius:16px;display:grid;place-items:center;color:var(--a1);background:var(--icbg);border:1px solid rgba(79,209,255,.4)}
+.pname{font-size:26px;font-weight:700;letter-spacing:-.02em;line-height:1.15}
+.pmail{font-family:var(--mono);font-size:13px;color:var(--a1)}
+.price{margin:22px 0 4px;font-size:15px;color:var(--muted)}
+.price b{font-size:44px;color:var(--text);letter-spacing:-.04em;font-weight:800}
+.billing{font-size:14px;color:var(--dim)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0}
+.facts div{padding:14px;border-radius:12px;background:rgba(5,7,11,.45);border:1px solid var(--line);font-size:13.5px;color:var(--muted)}
+.facts b{display:block;color:var(--text);font-size:18px;font-variant-numeric:tabular-nums}
+.inc-h{font-size:14px;font-weight:600;margin-bottom:10px}
+.inc{list-style:none;display:grid;gap:9px;font-size:14.5px;color:var(--muted)}
+.inc li{display:grid;grid-template-columns:18px 1fr;gap:6px}
+.inc li::before{content:"";width:9px;height:5px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg);margin:7px 0 0 3px}
+.terms-box{margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:13.5px;color:var(--muted);display:grid;gap:6px}
+.terms-box b{color:var(--text);font-weight:600}
+form h2{font-size:20px;margin-bottom:4px}
+form .sub{color:var(--muted);font-size:14.5px;margin-bottom:20px}
+label{display:block;font-size:14px;color:var(--muted);margin-bottom:14px}
+label span{display:block;margin-bottom:6px;color:var(--text);font-weight:500}
+input[type=text],input[type=email],input[type=tel],input[type=url]{width:100%;padding:13px 14px;border-radius:12px;border:1px solid var(--line2);background:#0a0f17;color:var(--text);font:inherit;font-size:15px;outline:none;caret-color:var(--a1);transition:border-color .2s,box-shadow .2s}
+input:focus{border-color:var(--a1);box-shadow:0 0 0 4px rgba(79,209,255,.12)}
+input::placeholder{color:#6f7a8e}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.agree{display:grid;grid-template-columns:20px 1fr;gap:10px;align-items:start;margin:6px 0 20px;font-size:14px}
+.agree input{width:18px;height:18px;margin-top:3px;accent-color:var(--a1)}
+.agree a{color:var(--a1)}
+button.go{width:100%;padding:17px;border:0;border-radius:999px;background:linear-gradient(90deg,var(--a1),var(--a2));color:#04060a;font-weight:700;font-size:16.5px;cursor:pointer;box-shadow:0 10px 30px -10px rgba(79,209,255,.6);transition:filter .15s,transform .15s var(--ease)}
+button.go:hover{filter:brightness(1.06)}
+button.go:active{transform:scale(.99)}
+button.go:disabled{opacity:.6;cursor:progress}
+.fine{font-size:13px;color:var(--dim);text-align:center;margin-top:12px}
+.err{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,138,138,.35);background:rgba(255,138,138,.07);color:var(--bad);font-size:14px}
+.err a{color:var(--text)}
+.done{display:none;text-align:center;padding:30px 10px}
+.done .ck{width:58px;height:58px;border-radius:50%;background:var(--ok);color:#04060a;display:grid;place-items:center;margin:0 auto 16px}
+.done h2{font-size:24px;margin-bottom:8px}
+.done p{color:var(--muted);font-size:15px}
+footer{color:var(--dim);font-size:13px;padding:0 0 40px}
+@media(max-width:880px){.grid{grid-template-columns:1fr}}
+@media(max-width:480px){.row,.facts{grid-template-columns:1fr}.card{padding:22px}.plans button{font-size:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a href="/" aria-label="clientReady home"><img src="logo.png" alt="clientReady" width="225" height="22" style="height:22px;width:auto;display:block"></a>
+    <span class="lock"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>Secure checkout</span>
+  </header>
+
+  <h1 id="h1">You picked <span id="hName">Scale</span>.</h1>
+  <p class="lead" id="lead">Check the details, add your contact info, then pay securely through Stripe. Onboarding starts the moment you're done.</p>
+
+  <div class="grid">
+    <section class="card" aria-label="Your plan">
+      <div class="plans" role="radiogroup" aria-label="Choose a plan" id="plans"></div>
+      <div class="top">
+        <span class="ic" id="ic" aria-hidden="true"></span>
+        <div><div class="pname" id="pName">Scale</div><div class="pmail" id="pMail">20,000 personal emails / month</div></div>
+      </div>
+      <div class="price"><b>$<span id="pPrice">3,297</span></b> / month</div>
+      <div class="billing">Billed monthly. 3-month minimum.</div>
+      <div class="facts">
+        <div><b id="pReach">~6,700</b>decision makers reached a month</div>
+        <div><b id="pTarget">20 to 50</b>shown meetings a month, target from month 3</div>
+      </div>
+      <div class="inc-h">What we do for you every month</div>
+      <ul class="inc" id="pIncl"></ul>
+      <div class="terms-box">
+        <div><b>3-month minimum.</b> Month 1 is building and warm-up, month 2 ramps, month 3 is full speed. After that it's month to month with 30 days' notice.</div>
+        <div><b>Targets, not guarantees.</b> We report every week against your plan's target and show you what we change when a month comes in under it.</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <form id="buy" novalidate>
+        <h2 id="fTitle">Your details</h2>
+        <p class="sub" id="fSub">So we can match your payment to your onboarding.</p>
+        <div class="row">
+          <label><span>Your name</span><input type="text" name="name" autocomplete="name" required></label>
+          <label><span>Work email</span><input type="email" name="email" autocomplete="email" required></label>
+        </div>
+        <div class="row">
+          <label><span>Company</span><input type="text" name="company" autocomplete="organization" required></label>
+          <label><span>Website</span><input type="text" name="website" placeholder="yourcompany.com" autocomplete="url" required></label>
+        </div>
+        <label><span>Phone <small style="color:var(--dim);font-weight:400">(optional)</small></span><input type="tel" name="phone" autocomplete="tel"></label>
+        <label class="agree"><input type="checkbox" name="agree" required><span style="margin:0;color:var(--muted);font-weight:400">I agree to the <a href="/terms.html" target="_blank" rel="noopener">Terms</a>, including the 3-month minimum and 30 days' notice to cancel after that.</span></label>
+        <button type="submit" class="go" id="goBtn">Continue to secure payment →</button>
+        <p class="fine" id="fine">You'll pay on Stripe's secure page. We never see your card details.</p>
+        <div class="err" id="err" role="alert"></div>
+      </form>
+      <div class="done" id="done" role="status">
+        <div class="ck"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <h2>Your spot is reserved.</h2>
+        <p>We'll email your secure Stripe payment link to <b id="dEmail" style="color:var(--text)"></b> within 1 business day. Questions? <a href="mailto:richard@clientready.agency" style="color:var(--a1)">richard@clientready.agency</a></p>
+      </div>
+    </section>
+  </div>
+
+  <footer>© 2026 clientReady · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a></footer>
+</div>
+<script>
+(function(){
+  // ===== STRIPE PAYMENT LINKS =====
+  // Paste each LIVE Stripe Payment Link here (https://buy.stripe.com/...).
+  // While a link is empty, the button reserves the spot and emails you the details instead of taking payment.
+  var CHECKOUT = {
+    launch:   "",
+    growth:   "",
+    scale:    "",
+    dominate: ""
+  };
+
+  var P={
+    launch:  {name:"Launch",  emails:"5,000",  short:"5K",  price:"1,097", reach:"~1,650",  target:"5 to 12",
+      incl:["Find ~1,650 verified decision makers who match your ideal client","Research every one and write each a personal email","Send 5,000 emails from your own network of 10 warmed inboxes, never your main domain","Answer interested replies and book meetings on your calendar","Weekly report on sent, replies, booked and shown meetings"]},
+    growth:  {name:"Growth",  emails:"10,000", short:"10K", price:"1,977", reach:"~3,300",  target:"10 to 25",
+      incl:["Find ~3,300 verified decision makers who match your ideal client","Research every one and write each a personal email","Send 10,000 emails from 20 warmed inboxes, with A/B testing","Book meetings and send show-up reminders before each call","Weekly report plus a monthly strategy review"]},
+    scale:   {name:"Scale",   emails:"20,000", short:"20K", price:"3,297", reach:"~6,700",  target:"20 to 50",
+      incl:["Find ~6,700 verified decision makers who match your ideal client","Research every one and write each a personal email","Send 20,000 emails from 40 warmed inboxes, plus LinkedIn follow-up","Book meetings, send reminders and your intro video","Client intake when they say yes, and a strategy call every 2 weeks"]},
+    dominate:{name:"Dominate",emails:"40,000", short:"40K", price:"5,497", reach:"~13,300", target:"40 to 100",
+      incl:["Find ~13,300 verified decision makers across two offers or markets","Research every one and write each a personal email","Send 40,000 emails from 80 warmed inboxes, plus LinkedIn follow-up","Book meetings, send reminders, your intro video and client intake","Weekly strategy call with the founder and priority support"]}
+  };
+  var ORDER=["launch","growth","scale","dominate"];
+  var G={launch:[[7,9.5]],growth:[[8.5,8],[5.5,11]],scale:[[10,6.5],[7,9.5],[4,12.5]],dominate:[[11.5,5],[8.5,8],[5.5,11],[2.5,14]]};
+  function icon(k){var pts=G[k],n=pts.length,op=[.35,.55,.75].slice(-(n-1)),b='';
+    pts.forEach(function(p,i){var x=p[0],y=p[1];
+      if(i<n-1)b+='<rect x="'+x+'" y="'+y+'" width="18" height="13" rx="2.5" stroke-opacity="'+op[i]+'"/>';
+      else b+='<rect x="'+x+'" y="'+y+'" width="18" height="13" rx="2.5"/><path d="M'+(x+2)+' '+(y+2.5)+' L'+(x+9)+' '+(y+7.5)+' L'+(x+16)+' '+(y+2.5)+'"/>'});
+    return '<svg viewBox="0 0 32 32" width="44" height="44" fill="var(--icbg)" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">'+b+'</svg>'}
+  function $(id){return document.getElementById(id)}
+  var live=function(k){return /^https:\/\/buy\.stripe\.com\//.test(CHECKOUT[k]||'')};
+
+  var q=new URLSearchParams(location.search), key=P[q.get('plan')]?q.get('plan'):'scale';
+  var plans=$('plans');
+  plans.innerHTML=ORDER.map(function(k){return '<button type="button" role="radio" data-k="'+k+'">'+P[k].name+'<small>'+P[k].short+' / mo</small></button>'}).join('');
+  plans.addEventListener('click',function(e){var b=e.target.closest('button');if(b)set(b.dataset.k,true)});
+  plans.addEventListener('keydown',function(e){var i=ORDER.indexOf(key);
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();set(ORDER[(i+1)%4],true,true)}
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();set(ORDER[(i+3)%4],true,true)}});
+
+  function set(k,push,focus){key=k;var p=P[k];
+    plans.querySelectorAll('button').forEach(function(b){var on=b.dataset.k===k;b.setAttribute('aria-checked',on);b.tabIndex=on?0:-1;if(on&&focus)b.focus()});
+    $('hName').textContent=p.name;$('pName').textContent=p.name;$('pMail').textContent=p.emails+' personal emails / month';
+    $('pPrice').textContent=p.price;$('pReach').textContent=p.reach;$('pTarget').textContent=p.target;
+    $('ic').innerHTML=icon(k);
+    $('pIncl').innerHTML=p.incl.map(function(t){return '<li>'+t+'</li>'}).join('');
+    var L=live(k);
+    $('goBtn').textContent=L?'Continue to secure payment →':'Reserve my spot →';
+    $('fine').textContent=L?"You'll pay on Stripe's secure page. We never see your card details.":"We'll confirm your details and email your secure Stripe payment link within 1 business day.";
+    $('lead').textContent=L?"Check the details, add your contact info, then pay securely through Stripe. Onboarding starts the moment you're done.":"Check the details and add your contact info. We'll email your secure payment link and start onboarding right after.";
+    document.title=p.name+' plan | Checkout | clientReady';
+    if(push)history.replaceState(null,'','?plan='+k)}
+  set(key,false);
+
+  var form=$('buy'),err=$('err'),btn=$('goBtn');
+  function fail(msg){err.innerHTML=msg;err.style.display='block'}
+  form.addEventListener('submit',function(e){e.preventDefault();err.style.display='none';
+    var f={};new FormData(form).forEach(function(v,k){f[k]=String(v).trim()});
+    if(!f.name||!f.company||!f.website)return fail('Please fill in your name, company and website.');
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email||''))return fail('Please enter a valid work email.');
+    if(!form.elements.agree.checked)return fail('Please agree to the Terms to continue.');
+    var p=P[key],L=live(key);
+    btn.disabled=true;btn.textContent=L?'Opening secure payment…':'Sending…';
+    var note=p.name+' ($'+p.price+'/mo, '+p.emails+' emails). '+(L?'Sent to Stripe checkout.':'No live payment link yet: send them a Stripe payment link.');
+    try{fetch('/api/lead-capture',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+      body:JSON.stringify({source:'checkout',email:f.email,domain:f.website,notes:f.name+' at '+f.company+(f.phone?' ('+f.phone+')':'')+'. '+note})}).catch(function(){})}catch(x){}
+    var mail=fetch('https://formsubmit.co/ajax/richard@clientready.agency',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({_subject:(L?'Checkout started: ':'Spot reserved: ')+f.company+' / '+p.name,_template:'table',Name:f.name,Email:f.email,Company:f.company,Website:f.website,Phone:f.phone||'',Plan:p.name+' ('+p.emails+' emails/mo)',Price:'$'+p.price+'/month','Agreed to terms':'Yes, incl. 3-month minimum','Next step':L?'They were sent to Stripe. Watch for the payment email.':'Send them the Stripe payment link for this plan.'})})
+      .then(function(r){return r.ok});
+    if(L){
+      var url=CHECKOUT[key]+(CHECKOUT[key].indexOf('?')<0?'?':'&')+'prefilled_email='+encodeURIComponent(f.email);
+      var went=false;function out(){if(!went){went=true;location.href=url}}
+      mail.then(out,out);setTimeout(out,2500);
+    } else {
+      mail.then(function(ok){if(!ok)throw 0;form.style.display='none';$('dEmail').textContent=f.email;$('done').style.display='block'})
+        .catch(function(){btn.disabled=false;btn.textContent='Reserve my spot →';
+          fail('That didn\'t send. Please email <a href="mailto:richard@clientready.agency?subject='+encodeURIComponent('Reserve '+p.name+' plan')+'">richard@clientready.agency</a> and we\'ll set you up today.')});
+    }
+  });
+})();
+</script>
+</body>
+</html>
