@@ -197,6 +197,8 @@ footer{color:var(--dim);font-size:13px;padding:0 0 40px}
     var note=p.name+' ($'+p.price+'/mo, '+p.emails+' emails). '+(L?'Sent to Stripe checkout.':'No live payment link yet: send them a Stripe payment link.');
     try{fetch('/api/lead-capture',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
       body:JSON.stringify({source:'checkout',email:f.email,domain:f.website,notes:f.name+' at '+f.company+(f.phone?' ('+f.phone+')':'')+'. '+note})}).catch(function(){})}catch(x){}
+    try{fetch('/api/crm?action=intake',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+      body:JSON.stringify({type:'checkout',email:f.email,name:f.name,company:f.company,website:f.website,phone:f.phone,plan:key,live:L,data:{Plan:p.name+' ('+p.emails+' emails/mo)',Price:'$'+p.price+'/month','Agreed to terms':'Yes, incl. 3-month minimum',Payment:L?'Sent to Stripe checkout':'Reserved. Send them a Stripe payment link.'}})}).catch(function(){})}catch(x){}
     var mail=fetch('https://formsubmit.co/ajax/richard@clientready.agency',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json','Accept':'application/json'},
       body:JSON.stringify({_subject:(L?'Checkout started: ':'Spot reserved: ')+f.company+' / '+p.name,_template:'table',Name:f.name,Email:f.email,Company:f.company,Website:f.website,Phone:f.phone||'',Plan:p.name+' ('+p.emails+' emails/mo)',Price:'$'+p.price+'/month','Agreed to terms':'Yes, incl. 3-month minimum','Next step':L?'They were sent to Stripe. Watch for the payment email.':'Send them the Stripe payment link for this plan.'})})
       .then(function(r){return r.ok});

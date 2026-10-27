@@ -51,11 +51,11 @@ footer{color:var(--dim);font-size:13px;padding:0 0 40px}
 
   <div class="paid" id="paid">✓ Payment received<span id="planTag"></span></div>
     <h1>Welcome to clientReady. <span class="grad">Let's build your system.</span></h1>
-  <p class="lead">This form takes about 10 minutes and tells us exactly who you want on your calendar and how you want to sound. The moment you send it, we get to work and reach out to schedule your kickoff call within 2 business days.</p>
+  <p class="lead">This form takes about 10 minutes and tells us exactly who you want on your calendar and how you want to sound. The moment you send it, we get to work. Within 2 business days you get a private client portal with your target list and sample emails to approve.</p>
 
   <div class="steps">
     <div class="st on"><span class="n">01 · NOW</span><b>Onboarding form</b>About 10 minutes</div>
-    <div class="st"><span class="n">02 · 2 DAYS</span><b>Kickoff call</b>Lock your targets</div>
+    <div class="st"><span class="n">02 · 2 DAYS</span><b>Approve your targets</b>In your client portal</div>
     <div class="st"><span class="n">03 · WEEKS 1 TO 3</span><b>We build</b>List, emails, sending network</div>
     <div class="st"><span class="n">04 · WEEK 4</span><b>Sending starts</b>Meetings get booked</div>
   </div>
@@ -136,7 +136,7 @@ footer{color:var(--dim);font-size:13px;padding:0 0 40px}
   <div class="done" id="done">
     <div class="ck">✓</div>
     <h1 style="font-size:36px">Got it. We're on it.</h1>
-    <p class="lead" style="margin:0 auto">Your onboarding details are with us. Expect an email within 2 business days to schedule your kickoff call. Building starts right after.</p>
+    <p class="lead" style="margin:0 auto">Your onboarding details are with us. Within 2 business days you'll get an email with your private client portal, where you approve your target list and sample emails. Building starts right after.</p>
   </div>
 
   <footer>© 2026 clientReady · <a href="/terms.html">Terms</a> · <a href="/privacy.html">Privacy</a></footer>
@@ -151,9 +151,18 @@ footer{color:var(--dim);font-size:13px;padding:0 0 40px}
   if(!plan)document.getElementById('paid').style.display='none';
   if(q.get('session_id'))document.getElementById('sess').value=q.get('session_id');
   if(q.get('done')){document.getElementById('onb').style.display='none';document.getElementById('done').style.display='block';document.querySelector('.steps').style.display='none'}
-  document.getElementById('onb').addEventListener('submit',function(){
+  var sent=false;
+  document.getElementById('onb').addEventListener('submit',function(e){
+    var form=this;if(sent)return;e.preventDefault();sent=true;
     var co=document.querySelector('[name=Company]').value;var pl=document.getElementById('plan').value;
-    document.getElementById('subj').value='New clientReady client: '+co+' bought '+pl});
+    document.getElementById('subj').value='New clientReady client: '+co+' bought '+pl;
+    var data={};new FormData(form).forEach(function(v,k){if(k.charAt(0)!=='_')data[k]=String(v)});
+    var key=(pl.split(' ')[0]||'').toLowerCase();
+    var gone=false,go=function(){if(gone)return;gone=true;form.submit()};
+    try{fetch('/api/crm?action=intake',{method:'POST',headers:{'Content-Type':'application/json'},keepalive:true,
+      body:JSON.stringify({type:'onboarding',email:data.Email,name:data.Name,company:data.Company,website:data.Website,phone:data.Phone,plan:key,session:q.get('session_id')||'',data:data})})
+      .then(go,go)}catch(x){go()}
+    setTimeout(go,2500)});
 })();
 </script>
 </body>

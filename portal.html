@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your client portal | clientReady</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png"><link rel="apple-touch-icon" href="icon-180.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070b;--panel:#0e131c;--panel2:#121927;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#e9eef6;--muted:#8a95a8;--dim:#5d677a;--a1:#4fd1ff;--a2:#5271ff;--ok:#3ee6a8;--warn:#ffc46b;--bad:#ff8a8a;--ease:cubic-bezier(.16,1,.3,1);--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:#253043 var(--bg)}
+::selection{background:rgba(79,209,255,.28);color:#fff}
+body{background:radial-gradient(900px 500px at 85% -10%,rgba(82,113,255,.14),transparent 70%),var(--bg);color:var(--text);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--a1);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--a1);outline-offset:3px;border-radius:8px}
+.wrap{max-width:960px;margin:0 auto;padding:0 24px}
+header{display:flex;align-items:center;justify-content:space-between;padding:24px 0}
+header span{color:var(--muted);font-size:14px}
+h1{font-size:clamp(28px,4vw,42px);letter-spacing:-.03em;line-height:1.1;margin:22px 0 8px;text-wrap:balance}
+.lead{color:var(--muted);font-size:17px}
+.card{background:var(--panel);border:1px solid var(--line2);border-radius:20px;padding:26px;margin-top:18px}
+.card h2{font-size:18px;margin-bottom:14px}
+.card h2 small{font-weight:400;color:var(--dim);font-size:14px;margin-left:6px}
+.track{list-style:none;display:grid;grid-template-columns:repeat(5,1fr);gap:8px;counter-reset:s}
+.track li{position:relative;padding-top:18px;font-size:13.5px;color:var(--dim)}
+.track li::before{content:"";position:absolute;top:0;left:0;right:0;height:5px;border-radius:5px;background:rgba(255,255,255,.07)}
+.track li.done{color:var(--muted)}
+.track li.done::before{background:linear-gradient(90deg,var(--a1),var(--a2))}
+.track li.now{color:var(--text);font-weight:600}
+.track li.now::before{background:linear-gradient(90deg,var(--a1),rgba(79,209,255,.25))}
+.track b{display:block;font-family:var(--mono);font-size:11px;font-weight:400;color:inherit;opacity:.8}
+.nowbox{margin-top:20px;padding:16px;border-radius:14px;background:rgba(5,7,11,.45);border:1px solid var(--line);font-size:15px;color:var(--muted)}
+.nowbox b{color:var(--text)}
+.banner{margin-top:18px;padding:14px 16px;border-radius:14px;border:1px solid rgba(255,196,107,.35);background:rgba(255,196,107,.07);color:var(--warn);font-size:15px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.big{font-size:44px;font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.big small{font-size:16px;color:var(--muted);font-weight:500;letter-spacing:0}
+.bar{height:8px;border-radius:8px;background:rgba(255,255,255,.07);margin:14px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,var(--a1),var(--a2));transition:width .9s var(--ease)}
+.fine{font-size:13.5px;color:var(--dim)}
+.tot{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tot div{padding:12px;border-radius:12px;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.tot b{display:block;font-size:20px;color:var(--text);font-variant-numeric:tabular-nums}
+table{width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--dim);font-weight:500;font-size:12.5px}
+.empty{color:var(--muted);font-size:15px}
+.up{border-left:2px solid var(--a2);padding:2px 0 2px 14px;margin:12px 0;white-space:pre-wrap}
+.up time{display:block;font-size:12.5px;color:var(--dim)}
+form{display:grid;gap:12px}
+label{display:grid;gap:6px;font-size:14px;font-weight:500}
+select,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:#0a0f17;color:var(--text);font:inherit;font-size:15px;outline:none;caret-color:var(--a1);transition:border-color .2s,box-shadow .2s}
+select:focus,textarea:focus{border-color:var(--a1);box-shadow:0 0 0 4px rgba(79,209,255,.12)}
+textarea{min-height:110px;resize:vertical}
+button{justify-self:start;padding:13px 22px;border:0;border-radius:999px;background:linear-gradient(90deg,var(--a1),var(--a2));color:#04060a;font:inherit;font-weight:700;cursor:pointer}
+button:disabled{opacity:.6;cursor:progress}
+.msg{font-size:14px;min-height:20px}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.rq{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:12px}
+.rq .h{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--dim);margin-bottom:4px}
+.rq .h b{color:var(--text)}
+.rq .st{font-weight:600}.rq .st.open{color:var(--warn)}.rq .st.done{color:var(--ok)}
+.rq p{white-space:pre-wrap;font-size:15px}
+.rq .re{margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--panel2);font-size:14.5px;color:var(--muted);white-space:pre-wrap}
+.rq .re b{color:var(--text)}
+#state{padding:80px 0;text-align:center;color:var(--muted)}
+footer{color:var(--dim);font-size:13px;padding:30px 0 40px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}.track{grid-template-columns:1fr}.track li{padding:0 0 0 18px}.track li::before{top:4px;bottom:4px;right:auto;width:5px;height:auto}.tot{grid-template-columns:1fr 1fr 1fr}}
+@media(prefers-reduced-motion:reduce){.bar i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header><a href="/" aria-label="clientReady home"><img src="logo.png" alt="clientReady" width="225" height="22" style="height:22px;width:auto;display:block"></a><span>Client portal</span></header>
+  <div id="state">Loading your portal…</div>
+  <main id="main" hidden>
+    <h1 id="hi"></h1>
+    <p class="lead" id="sub"></p>
+    <div id="banner"></div>
+
+    <section class="card" aria-labelledby="t1">
+      <h2 id="t1">Where you are</h2>
+      <ol class="track" id="track"></ol>
+      <div class="nowbox" id="now"></div>
+    </section>
+
+    <section class="card" aria-labelledby="t2" id="upCard">
+      <h2 id="t2">Updates from clientReady</h2>
+      <div id="updates"></div>
+    </section>
+
+    <div class="grid2">
+      <section class="card" aria-labelledby="t3">
+        <h2 id="t3">This month</h2>
+        <div class="big" id="mShown">0 <small>shown meetings</small></div>
+        <div class="bar" aria-hidden="true"><i id="mBar"></i></div>
+        <div class="fine" id="mTarget"></div>
+      </section>
+      <section class="card" aria-labelledby="t4">
+        <h2 id="t4">Since you started</h2>
+        <div class="tot"><div><b id="tSent">0</b>emails sent</div><div><b id="tInt">0</b>interested replies</div><div><b id="tShow">0</b>meetings that showed</div></div>
+      </section>
+    </div>
+
+    <section class="card" aria-labelledby="t5">
+      <h2 id="t5">Weekly numbers</h2>
+      <div id="weeks"></div>
+    </section>
+
+    <section class="card" aria-labelledby="t6">
+      <h2 id="t6">Approve something or ask for a change <small>it comes straight to us</small></h2>
+      <form id="reqForm">
+        <label>What is this about?<select name="type" id="rType"></select></label>
+        <label>Your message<textarea name="message" id="rMsg" required placeholder="Example: Approved. Or: please add dental groups in New Jersey to the target list."></textarea></label>
+        <button id="rBtn">Send to clientReady</button>
+        <div class="msg" id="rStatus" role="status"></div>
+      </form>
+      <div id="reqs"></div>
+    </section>
+  </main>
+  <footer>Questions anytime: <a href="mailto:richard@clientready.agency">richard@clientready.agency</a> · Keep this link private. Anyone with it can see this page.</footer>
+</div>
+<script>
+(function(){
+  var t=new URLSearchParams(location.search).get('t')||'';
+  function $(id){return document.getElementById(id)}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function day(iso){return iso?new Date(iso).toLocaleDateString([], {month:'short',day:'numeric',year:'numeric'}):''}
+  function n(x){return (x||0).toLocaleString('en-US')}
+  var STEPS=[['onboarding','Onboarding','Your details'],['building','Building','List and emails'],['warmup','Warming up','Sending network'],['live','Live','Emails sending'],['fullspeed','Full speed','Your full target']];
+  var POS={lead:0,reserved:0,checkout:0,paid:0,onboarding:0,building:1,warmup:2,live:3,fullspeed:4};
+  var NOW={
+    lead:'<b>Next:</b> pick your plan to get started.',
+    reserved:'<b>Next:</b> we email you a secure payment link. Once it is paid, you fill in the onboarding form.',
+    checkout:'<b>Next:</b> finish your payment, then fill in the onboarding form.',
+    paid:'<b>Next:</b> fill in your <a href="/welcome.html">onboarding form</a>. It takes about 10 minutes.',
+    onboarding:'<b>We have your details.</b> Within 2 business days we post your target list and sample emails here for you to approve.',
+    building:'<b>We are building your system:</b> your verified decision-maker list, your personal emails and your separate sending network. Anything that needs your approval shows up in Updates above.',
+    warmup:'<b>Your sending network is warming up.</b> This protects deliverability so your emails land in inboxes. Sending starts in week 4.',
+    live:'<b>Emails are going out.</b> Interested replies are answered and booked onto your calendar. Your numbers update here every week.',
+    fullspeed:'<b>You are at full speed.</b> Your plan\'s full monthly volume is sending and your monthly meeting target applies.',
+    paused:'Your campaign is paused. Send us a message below when you want to restart.',
+    cancelled:'Your plan has ended. Thanks for working with us. Send a message below if you want to come back.'
+  };
+  var data=null;
+  function load(){fetch('/api/crm?action=portal&t='+encodeURIComponent(t)).then(function(r){return r.json().then(function(j){if(!r.ok)throw j;return j})})
+    .then(function(j){data=j;draw()}).catch(function(){$('state').innerHTML='We couldn\'t find this portal. Check the link in your email, or write to <a href="mailto:richard@clientready.agency">richard@clientready.agency</a>.'})}
+  function draw(){var d=data,p=d.plan;
+    $('state').hidden=true;$('main').hidden=false;
+    var first=(d.name||'').split(' ')[0];
+    $('hi').textContent=(first?'Hi '+first+'. ':'')+'Here\'s where '+(d.company||'your campaign')+' stands.';
+    $('sub').textContent=(p?p.name+' plan · '+n(p.emails)+' personal emails a month':'')+(d.startedAt?(p?' · ':'')+'Started '+day(d.startedAt):'');
+    $('banner').innerHTML=(d.stage==='paused'||d.stage==='cancelled')?'<div class="banner">'+NOW[d.stage]+'</div>':'';
+    var pos=POS[d.stage];
+    $('track').innerHTML=STEPS.map(function(s,i){var cls=pos==null?'':(i<pos?'done':(i===pos?'now':''));if(i===pos&&d.stage==='fullspeed')cls='done now';
+      return '<li class="'+cls+'"'+(i===pos?' aria-current="step"':'')+'><b>'+(i+1)+'</b>'+esc(s[1])+'<br><span style="font-weight:400">'+esc(s[2])+'</span></li>'}).join('');
+    $('now').innerHTML=NOW[d.stage]||'';
+    var ups=d.updates||[];
+    $('upCard').hidden=false;
+    $('updates').innerHTML=ups.length?ups.map(function(u){return '<div class="up"><time>'+esc(day(u.at))+'</time>'+esc(u.text)+'</div>'}).join(''):'<p class="empty">Nothing new yet. When we have something for you to see or approve, it shows up here and we email you.</p>';
+    var weeks=d.weeks||[],m=new Date().toISOString().slice(0,7);
+    var mShown=weeks.filter(function(w){return w.week.slice(0,7)===m}).reduce(function(a,w){return a+w.showed},0);
+    $('mShown').innerHTML=n(mShown)+' <small>shown meetings</small>';
+    if(p){$('mTarget').textContent='Your plan\'s monthly target is '+p.lo+' to '+p.hi+' shown meetings, from month 3. Months 1 and 2 are build, warm-up and ramp.';
+      requestAnimationFrame(function(){$('mBar').style.width=Math.min(100,Math.round(mShown/p.lo*100))+'%'})}
+    else $('mTarget').textContent='';
+    var tot=weeks.reduce(function(a,w){a.s+=w.sent;a.i+=w.interested;a.h+=w.showed;return a},{s:0,i:0,h:0});
+    $('tSent').textContent=n(tot.s);$('tInt').textContent=n(tot.i);$('tShow').textContent=n(tot.h);
+    $('weeks').innerHTML=weeks.length?'<table><thead><tr><th>Week of</th><th>Emails sent</th><th>Replies</th><th>Interested</th><th>Booked</th><th>Showed</th></tr></thead><tbody>'+
+      weeks.map(function(w){return '<tr><td>'+esc(w.week)+'</td><td>'+n(w.sent)+'</td><td>'+n(w.replies)+'</td><td>'+n(w.interested)+'</td><td>'+n(w.booked)+'</td><td>'+n(w.showed)+'</td></tr>'}).join('')+'</tbody></table>'
+      :'<p class="empty">Your first weekly numbers show up here once sending starts in week 4.</p>';
+    if(!$('rType').options.length)$('rType').innerHTML=(d.requestTypes||['Other']).map(function(x){return '<option>'+esc(x)+'</option>'}).join('');
+    var rq=d.requests||[];
+    $('reqs').innerHTML=rq.length?'<h2 style="font-size:15px;margin-top:22px">Your messages</h2>'+rq.map(function(q){return '<div class="rq"><div class="h"><span><b>'+esc(q.type)+'</b> · '+esc(day(q.at))+'</span><span class="st '+esc(q.status)+'">'+(q.status==='open'?'With us':'Done')+'</span></div><p>'+esc(q.message)+'</p>'+(q.reply?'<div class="re"><b>clientReady:</b> '+esc(q.reply)+'</div>':'')+'</div>'}).join(''):'';
+  }
+  $('reqForm').addEventListener('submit',function(e){e.preventDefault();var msg=$('rMsg').value.trim(),type=$('rType').value;
+    if(!msg){$('rStatus').className='msg bad';$('rStatus').textContent='Please write a message first.';return}
+    $('rBtn').disabled=true;$('rStatus').className='msg';$('rStatus').textContent='Sending…';
+    fetch('/api/crm?action=request&t='+encodeURIComponent(t),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:type,message:msg})})
+      .then(function(r){return r.json().then(function(j){if(!r.ok)throw j;return j})})
+      .then(function(j){data=j;draw();$('rMsg').value='';$('rStatus').className='msg ok';$('rStatus').textContent='Sent. We\'ll reply here and by email, usually within 1 business day.';
+        try{fetch('https://formsubmit.co/ajax/richard@clientready.agency',{method:'POST',headers:{'Content-Type':'application/json','Accept':'application/json'},
+          body:JSON.stringify({_subject:'Client request: '+(j.company||j.email)+' / '+type,_template:'table',Client:j.company||'',Email:j.email,Type:type,Message:msg,'Open your CRM':location.origin+'/crm.html'})}).catch(function(){})}catch(x){}})
+      .catch(function(err){$('rStatus').className='msg bad';$('rStatus').innerHTML='That didn\'t send. Please email <a href="mailto:richard@clientready.agency">richard@clientready.agency</a>.'})
+      .then(function(){$('rBtn').disabled=false})});
+  if(!t){$('state').innerHTML='This page needs your private portal link. Check your email from clientReady.'}else load();
+})();
+</script>
+</body>
+</html>

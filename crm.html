@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CRM | clientReady</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#05070b;--panel:#0e131c;--panel2:#121927;--line:rgba(255,255,255,.07);--line2:rgba(255,255,255,.12);--text:#e9eef6;--muted:#8a95a8;--dim:#5d677a;--a1:#4fd1ff;--a2:#5271ff;--ok:#3ee6a8;--warn:#ffc46b;--bad:#ff8a8a;--ease:cubic-bezier(.16,1,.3,1);--sans:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;--mono:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scrollbar-color:#253043 var(--bg)}
+::selection{background:rgba(79,209,255,.28);color:#fff}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:var(--a1);text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--a1);outline-offset:2px;border-radius:6px}
+button{font:inherit;cursor:pointer}
+input,select,textarea{font:inherit;font-size:14px;color:var(--text);background:#0a0f17;border:1px solid var(--line2);border-radius:10px;padding:9px 11px;outline:none;caret-color:var(--a1);transition:border-color .15s,box-shadow .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--a1);box-shadow:0 0 0 3px rgba(79,209,255,.12)}
+textarea{width:100%;min-height:80px;resize:vertical}
+.btn{border:1px solid var(--line2);background:var(--panel2);color:var(--text);border-radius:10px;padding:8px 13px;font-size:14px;font-weight:600;transition:border-color .15s,background .15s}
+.btn:hover{border-color:rgba(79,209,255,.5)}
+.btn.pri{background:linear-gradient(90deg,var(--a1),var(--a2));color:#04060a;border:0}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:progress}
+.top{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:14px;padding:14px 22px;background:rgba(5,7,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.top .t{font-weight:700;color:var(--muted);font-size:14px;border-left:1px solid var(--line2);padding-left:14px}
+.top .sp{flex:1}
+.top input{width:240px}
+#login{max-width:420px;margin:12vh auto;padding:30px;background:var(--panel);border:1px solid var(--line2);border-radius:18px}
+#login h1{font-size:22px;margin-bottom:6px}
+#login p{color:var(--muted);font-size:14px;margin-bottom:16px}
+#login input{width:100%;margin-bottom:12px}
+#login .err{color:var(--bad);font-size:14px;margin-top:10px;min-height:20px}
+#app{display:none}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:14px 22px 0}
+.chip{border:1px solid var(--line2);background:transparent;color:var(--muted);border-radius:999px;padding:5px 11px;font-size:13px}
+.chip b{color:var(--text);font-variant-numeric:tabular-nums;margin-left:4px}
+.chip[aria-pressed=true]{background:var(--panel2);color:var(--text);border-color:rgba(79,209,255,.5)}
+.panes{display:grid;grid-template-columns:minmax(320px,420px) 1fr;gap:16px;padding:14px 22px 40px;align-items:start}
+.list{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.row{display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:12px 14px;border-bottom:1px solid var(--line);cursor:pointer;transition:background .12s}
+.row:last-child{border-bottom:0}
+.row:hover{background:rgba(255,255,255,.02)}
+.row[aria-current=true]{background:var(--panel2);box-shadow:inset 2px 0 0 var(--a1)}
+.row .n{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .e{color:var(--muted);font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .m{text-align:right;font-size:12px;color:var(--dim);white-space:nowrap}
+.empty{padding:30px 18px;color:var(--muted);text-align:center;font-size:14px}
+.pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:600;background:rgba(255,255,255,.06);color:var(--muted)}
+.pill.s-lead{color:#b9c2d2}.pill.s-reserved,.pill.s-checkout{color:var(--warn);background:rgba(255,196,107,.1)}
+.pill.s-paid,.pill.s-onboarding{color:var(--a1);background:rgba(79,209,255,.1)}
+.pill.s-building,.pill.s-warmup{color:#a9b6ff;background:rgba(82,113,255,.14)}
+.pill.s-live,.pill.s-fullspeed{color:var(--ok);background:rgba(62,230,168,.1)}
+.pill.s-paused,.pill.s-cancelled{color:var(--dim)}
+.req{display:inline-block;margin-left:6px;background:var(--bad);color:#1a0505;border-radius:999px;font-size:11px;font-weight:700;padding:0 7px}
+.detail{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;min-height:300px}
+.detail .ph{color:var(--muted);text-align:center;padding:80px 20px}
+.dh{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-bottom:16px}
+.dh h2{font-size:22px;letter-spacing:-.01em}
+.dh .sub{color:var(--muted);font-size:14px}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:18px}
+.ctl label{font-size:12px;color:var(--dim);display:grid;gap:3px}
+.sec{border-top:1px solid var(--line);padding:16px 0}
+.sec h3{font-size:14px;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec h3 small{color:var(--dim);font-weight:400}
+.kv{display:grid;grid-template-columns:minmax(120px,200px) 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--dim)}
+.kv dd{white-space:pre-wrap;word-break:break-word}
+table{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--line)}
+th{color:var(--dim);font-weight:500;font-size:12px}
+.wk{display:grid;grid-template-columns:repeat(6,1fr) auto;gap:6px;margin-bottom:10px}
+.wk input{width:100%;padding:7px 8px}
+.wk label{font-size:11px;color:var(--dim);display:grid;gap:2px}
+.rq{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px}
+.rq.open{border-color:rgba(255,138,138,.35)}
+.rq .h{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);margin-bottom:6px}
+.rq .msg{white-space:pre-wrap;margin-bottom:8px}
+.rq .act{display:flex;gap:8px;align-items:flex-start}
+.rq .act textarea{min-height:40px}
+.up{border-left:2px solid var(--line2);padding:2px 0 2px 12px;margin:8px 0;font-size:14px;white-space:pre-wrap}
+.up .when{display:block;color:var(--dim);font-size:12px}
+.log{list-style:none;font-size:13px;color:var(--muted);display:grid;gap:4px;max-height:220px;overflow:auto}
+.log time{color:var(--dim);font-family:var(--mono);font-size:11.5px;margin-right:8px}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;background:var(--panel2);border:1px solid var(--line2);padding:10px 16px;border-radius:12px;font-size:14px;transition:opacity .25s var(--ease),transform .25s var(--ease);pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+.mtd{font-size:13px;color:var(--muted);margin:-2px 0 10px}
+.mtd b{color:var(--text)}
+dialog{margin:auto;background:var(--panel);color:var(--text);border:1px solid var(--line2);border-radius:16px;padding:22px;width:min(420px,92vw)}
+dialog::backdrop{background:rgba(0,0,0,.6)}
+dialog h3{margin-bottom:12px}
+dialog label{display:grid;gap:4px;font-size:13px;color:var(--muted);margin-bottom:10px}
+@media(max-width:900px){.panes{grid-template-columns:1fr}.top input{width:150px}.wk{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div id="login">
+  <img src="logo.png" alt="clientReady" style="height:20px;width:auto;margin-bottom:18px">
+  <h1>Client CRM</h1>
+  <p>Use the same admin key as your leads dashboard. It stays saved on this device only.</p>
+  <form id="loginForm"><input type="password" id="key" placeholder="Admin key" autocomplete="current-password" required><button class="btn pri" style="width:100%">Open CRM</button></form>
+  <div class="err" id="loginErr" role="alert"></div>
+</div>
+
+<div id="app">
+  <div class="top">
+    <img src="logo.png" alt="clientReady" style="height:18px;width:auto">
+    <span class="t">CRM</span>
+    <span class="sp"></span>
+    <input type="search" id="q" placeholder="Search name, company, email" aria-label="Search clients">
+    <button class="btn" id="addBtn">Add client</button>
+    <button class="btn" id="refresh" title="Reload">Reload</button>
+    <button class="btn" id="logout">Log out</button>
+  </div>
+  <div class="chips" id="chips" role="toolbar" aria-label="Filter by stage"></div>
+  <div class="panes">
+    <div class="list" id="list"></div>
+    <div class="detail" id="detail"><div class="ph">Pick a client to see everything about them.</div></div>
+  </div>
+</div>
+
+<dialog id="addDlg">
+  <form id="addForm" method="dialog">
+    <h3>Add a client by hand</h3>
+    <label>Email<input type="email" name="email" required></label>
+    <label>Name<input name="name"></label>
+    <label>Company<input name="company"></label>
+    <label>Plan<select name="plan"><option value="">None yet</option><option value="launch">Launch</option><option value="growth">Growth</option><option value="scale">Scale</option><option value="dominate">Dominate</option></select></label>
+    <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px"><button class="btn" value="cancel" formnovalidate>Cancel</button><button class="btn pri" value="ok">Add</button></div>
+  </form>
+</dialog>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+  var STAGE_LABEL={lead:'Lead (audit)',reserved:'Reserved',checkout:'At checkout',paid:'Paid',onboarding:'Onboarding received',building:'Building',warmup:'Warming up',live:'Live',fullspeed:'Full speed',paused:'Paused',cancelled:'Cancelled'};
+  var STAGES=Object.keys(STAGE_LABEL);
+  var PLANS={launch:{name:'Launch',lo:5,hi:12},growth:{name:'Growth',lo:10,hi:25},scale:{name:'Scale',lo:20,hi:50},dominate:{name:'Dominate',lo:40,hi:100}};
+  var KEY=null,clients=[],filter='active',sel=null,cur=null;
+  function $(id){return document.getElementById(id)}
+  function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+  function store(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
+  function read(k){try{return localStorage.getItem(k)}catch(e){return null}}
+  function toast(t){var el=$('toast');el.textContent=t;el.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove('on')},2200)}
+  function ago(iso){if(!iso)return '';var s=(Date.now()-new Date(iso))/1000;if(s<60)return 'just now';if(s<3600)return Math.floor(s/60)+'m ago';if(s<86400)return Math.floor(s/3600)+'h ago';if(s<86400*30)return Math.floor(s/86400)+'d ago';return new Date(iso).toLocaleDateString()}
+  function when(iso){return iso?new Date(iso).toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}):''}
+  function api(action,opts){opts=opts||{};var url='/api/crm?action='+action+(opts.q||'');
+    return fetch(url,{method:opts.body?'POST':'GET',headers:{'Content-Type':'application/json','x-admin-key':KEY},body:opts.body?JSON.stringify(opts.body):undefined})
+      .then(function(r){return r.json().then(function(j){if(!r.ok){var e=new Error(j.error||('Error '+r.status));e.code=r.status;e.data=j;throw e}return j})})}
+  function portalUrl(c){return location.origin+'/portal.html?t='+encodeURIComponent(c.token)}
+  function first(c){return (c.name||'').split(' ')[0]||'there'}
+
+  // ---------- login ----------
+  function start(k){KEY=k;$('loginErr').textContent='';
+    return api('list').then(function(j){store('cr_admin',k);$('login').style.display='none';$('app').style.display='block';clients=j.clients;render()})
+      .catch(function(e){KEY=null;store('cr_admin',null);$('login').style.display='block';$('app').style.display='none';
+        $('loginErr').textContent=e.code===403?'That key is not right.':e.message})}
+  $('loginForm').addEventListener('submit',function(e){e.preventDefault();start($('key').value.trim())});
+  $('logout').onclick=function(){store('cr_admin',null);location.reload()};
+  $('refresh').onclick=function(){load()};
+  var saved=read('cr_admin');if(saved)start(saved);
+
+  function load(){return api('list').then(function(j){clients=j.clients;render();if(sel)open(sel,true)}).catch(function(e){toast(e.message)})}
+
+  // ---------- list ----------
+  var ACTIVE=['paid','onboarding','building','warmup','live','fullspeed'];
+  function inFilter(c){if(filter==='all')return true;if(filter==='active')return ACTIVE.indexOf(c.stage)>=0;if(filter==='requests')return c.openRequests>0;return c.stage===filter}
+  function render(){
+    var counts={all:clients.length,active:0,requests:0};STAGES.forEach(function(s){counts[s]=0});
+    clients.forEach(function(c){counts[c.stage]=(counts[c.stage]||0)+1;if(ACTIVE.indexOf(c.stage)>=0)counts.active++;if(c.openRequests)counts.requests++});
+    var chips=[['active','Active clients'],['requests','Open requests'],['all','Everyone']].concat(STAGES.map(function(s){return [s,STAGE_LABEL[s]]}));
+    $('chips').innerHTML=chips.map(function(c){return '<button class="chip" data-f="'+c[0]+'" aria-pressed="'+(filter===c[0])+'">'+esc(c[1])+'<b>'+(counts[c[0]]||0)+'</b></button>'}).join('');
+    var q=$('q').value.trim().toLowerCase();
+    var rows=clients.filter(inFilter).filter(function(c){return !q||[c.name,c.company,c.email,c.website].join(' ').toLowerCase().indexOf(q)>=0});
+    $('list').innerHTML=rows.length?rows.map(function(c){return '<div class="row" tabindex="0" data-id="'+esc(c.id)+'" aria-current="'+(c.id===sel)+'">'+
+      '<div class="n">'+esc(c.company||c.name||c.email)+(c.openRequests?'<span class="req" title="Open requests">'+c.openRequests+'</span>':'')+'</div>'+
+      '<div class="m"><span class="pill s-'+esc(c.stage)+'">'+esc(STAGE_LABEL[c.stage]||c.stage)+'</span></div>'+
+      '<div class="e">'+esc([c.name,c.email].filter(Boolean).join(' · '))+'</div>'+
+      '<div class="m">'+esc((PLANS[c.plan]||{}).name||'')+' '+esc(ago(c.updatedAt))+'</div></div>'}).join('')
+      :'<div class="empty">'+(clients.length?'Nobody in this view.':'No one yet. Audits, checkouts and onboarding forms from the website land here automatically.')+'</div>';
+  }
+  $('chips').addEventListener('click',function(e){var b=e.target.closest('.chip');if(b){filter=b.dataset.f;render()}});
+  $('q').addEventListener('input',render);
+  $('list').addEventListener('click',function(e){var r=e.target.closest('.row');if(r)open(r.dataset.id)});
+  $('list').addEventListener('keydown',function(e){if(e.key==='Enter'){var r=e.target.closest('.row');if(r)open(r.dataset.id)}});
+
+  // ---------- detail ----------
+  function open(id,quiet){sel=id;render();if(!quiet)$('detail').innerHTML='<div class="ph">Loading…</div>';
+    api('get',{q:'&id='+encodeURIComponent(id)}).then(function(j){cur=j.client;draw()}).catch(function(e){toast(e.message)})}
+  function save(body,msg){body.id=cur.id;return api('update',{body:body}).then(function(j){cur=j.client;draw();
+    var i=clients.findIndex(function(c){return c.id===cur.id});if(i>=0){clients[i]=Object.assign(clients[i],{stage:cur.stage,plan:cur.plan,name:cur.name,company:cur.company,updatedAt:cur.updatedAt,openRequests:(cur.requests||[]).filter(function(q){return q.status==='open'}).length})}
+    render();if(msg)toast(msg)}).catch(function(e){toast(e.message)})}
+  function kv(o){if(!o)return '<p style="color:var(--dim);font-size:14px">Nothing yet.</p>';
+    return '<dl class="kv">'+Object.keys(o).map(function(k){var v=o[k];if(k==='at')return '<dt>Sent</dt><dd>'+esc(when(v))+'</dd>';return '<dt>'+esc(k)+'</dt><dd>'+esc(v||'')+'</dd>'}).join('')+'</dl>'}
+  function monthShown(c){var m=new Date().toISOString().slice(0,7);return (c.weeks||[]).filter(function(w){return w.week.slice(0,7)===m}).reduce(function(a,w){return a+(w.showed||0)},0)}
+  function draw(){var c=cur,p=PLANS[c.plan],open=(c.requests||[]).filter(function(q){return q.status==='open'});
+    var h='';
+    h+='<div class="dh"><div><h2>'+esc(c.company||c.name||c.email)+'</h2><div class="sub">'+esc(c.name)+(c.name?' · ':'')+'<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a>'+
+      (c.website?' · <a href="'+esc(/^https?:/.test(c.website)?c.website:'https://'+c.website)+'" target="_blank" rel="noopener">'+esc(c.website)+'</a>':'')+(c.phone?' · '+esc(c.phone):'')+'</div>'+
+      '<div class="sub" style="margin-top:4px">In the CRM since '+esc(when(c.createdAt))+' · stage since '+esc(when(c.stageAt))+'</div></div></div>';
+    h+='<div class="ctl"><label>Stage<select id="dStage">'+STAGES.map(function(s){return '<option value="'+s+'"'+(s===c.stage?' selected':'')+'>'+esc(STAGE_LABEL[s])+'</option>'}).join('')+'</select></label>'+
+      '<label>Plan<select id="dPlan"><option value="">None</option>'+Object.keys(PLANS).map(function(k){return '<option value="'+k+'"'+(k===c.plan?' selected':'')+'>'+PLANS[k].name+'</option>'}).join('')+'</select></label>'+
+      '<span style="flex:1"></span><button class="btn sm" id="copyPortal">Copy portal link</button><button class="btn sm" id="mailPortal">Email portal link</button><button class="btn sm" id="mailWeek"'+((c.weeks||[]).length?'':' disabled title="Add weekly numbers first"')+'>Email weekly update</button></div>';
+    if(c.payment)h+='<div class="sec"><h3>Payment</h3><p style="font-size:14px;color:var(--muted)">'+esc(c.payment.note||'')+' Stripe session: <span style="font-family:var(--mono);font-size:12.5px;color:var(--text)">'+esc(c.payment.session||'')+'</span></p></div>';
+    h+='<div class="sec"><h3>Requests from the client <small>'+(open.length?open.length+' open':'none open')+'</small></h3>'+
+      ((c.requests||[]).length?(c.requests||[]).map(function(q){return '<div class="rq '+(q.status==='open'?'open':'')+'" data-r="'+esc(q.id)+'"><div class="h"><b style="color:var(--text)">'+esc(q.type)+'</b><span>'+esc(when(q.at))+' · '+(q.status==='open'?'Open':'Done')+'</span></div><div class="msg">'+esc(q.message)+'</div>'+
+        '<div class="act"><textarea placeholder="Your reply (the client sees this in their portal)">'+esc(q.reply||'')+'</textarea><div style="display:grid;gap:6px"><button class="btn sm" data-act="reply">Save reply</button><button class="btn sm '+(q.status==='open'?'pri':'')+'" data-act="toggle">'+(q.status==='open'?'Mark done':'Reopen')+'</button></div></div></div>'}).join('')
+        :'<p style="color:var(--dim);font-size:14px">Nothing yet. Clients send approvals and change requests from their portal.</p>')+'</div>';
+    h+='<div class="sec"><h3>Updates in their portal <small>what the client sees from you</small></h3><textarea id="upText" placeholder="Example: Your target list and 3 sample emails are ready. Reply in this portal with Approve or any changes."></textarea><div style="margin-top:8px;display:flex;justify-content:flex-end"><button class="btn sm pri" id="upPost">Post update</button></div>'+
+      (c.updates||[]).map(function(u){return '<div class="up"><span class="when">'+esc(when(u.at))+' · <a href="#" data-del-up="'+esc(u.at)+'">remove</a></span>'+esc(u.text)+'</div>'}).join('')+'</div>';
+    var today=new Date();today.setDate(today.getDate()-((today.getDay()+6)%7));var wk=today.toISOString().slice(0,10);
+    h+='<div class="sec"><h3>Weekly numbers <small>shown in their portal</small></h3>'+(p?'<div class="mtd">This month: <b>'+monthShown(c)+'</b> shown meetings. Plan target from month 3: '+p.lo+' to '+p.hi+'.</div>':'')+
+      '<form class="wk" id="wkForm"><label>Week of<input type="date" name="week" value="'+wk+'" required></label><label>Emails sent<input type="number" min="0" name="sent" required></label><label>Replies<input type="number" min="0" name="replies"></label><label>Interested<input type="number" min="0" name="interested"></label><label>Booked<input type="number" min="0" name="booked"></label><label>Showed<input type="number" min="0" name="showed"></label><label>&nbsp;<button class="btn sm pri">Add</button></label></form>'+
+      ((c.weeks||[]).length?'<table><thead><tr><th>Week of</th><th>Sent</th><th>Replies</th><th>Interested</th><th>Booked</th><th>Showed</th><th></th></tr></thead><tbody>'+c.weeks.map(function(w){return '<tr><td>'+esc(w.week)+'</td><td>'+w.sent.toLocaleString()+'</td><td>'+w.replies+'</td><td>'+w.interested+'</td><td>'+w.booked+'</td><td>'+w.showed+'</td><td><a href="#" data-del-wk="'+esc(w.week)+'">remove</a></td></tr>'}).join('')+'</tbody></table>':'')+'</div>';
+    h+='<div class="sec"><h3>Private notes <small>only you see these</small></h3><textarea id="notes">'+esc(c.notes||'')+'</textarea><div style="margin-top:8px;display:flex;justify-content:flex-end"><button class="btn sm" id="saveNotes">Save notes</button></div></div>';
+    h+='<div class="sec"><h3>Onboarding answers</h3>'+kv(c.onboarding)+'</div>';
+    h+='<div class="sec"><h3>Checkout</h3>'+kv(c.checkout)+'</div>';
+    h+='<div class="sec"><h3>Audit answers</h3>'+kv(c.audit)+'</div>';
+    h+='<div class="sec"><h3>Activity</h3><ul class="log">'+(c.log||[]).map(function(l){return '<li><time>'+esc(when(l.at))+'</time>'+esc(l.text)+'</li>'}).join('')+'</ul></div>';
+    $('detail').innerHTML=h;
+
+    $('dStage').onchange=function(){save({set:{stage:this.value}},'Stage saved')};
+    $('dPlan').onchange=function(){save({set:{plan:this.value}},'Plan saved')};
+    $('saveNotes').onclick=function(){save({set:{notes:$('notes').value}},'Notes saved')};
+    $('upPost').onclick=function(){var t=$('upText').value.trim();if(!t)return toast('Write the update first');save({addUpdate:t},'Posted to their portal')};
+    $('wkForm').onsubmit=function(e){e.preventDefault();var f=new FormData(this),w={};f.forEach(function(v,k){w[k]=v});save({addWeek:w},'Weekly numbers saved')};
+    $('copyPortal').onclick=function(){var u=portalUrl(c);(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(function(){toast('Portal link copied')},function(){prompt('Copy the portal link:',u)})};
+    $('mailPortal').onclick=function(){var body='Hi '+first(c)+',\n\nHere is your private clientReady portal:\n'+portalUrl(c)+'\n\nIt shows where your build is, your weekly numbers once sending starts, and a box to approve things or ask for any change. Bookmark it. Anything you send there comes straight to me.\n\nRichard\nclientReady';
+      location.href='mailto:'+encodeURIComponent(c.email)+'?subject='+encodeURIComponent('Your clientReady portal')+'&body='+encodeURIComponent(body)};
+    $('mailWeek').onclick=function(){var w=(c.weeks||[])[0];if(!w)return;var body='Hi '+first(c)+',\n\nHere are your numbers for the week of '+w.week+':\n\nEmails sent: '+w.sent.toLocaleString()+'\nReplies: '+w.replies+'\nInterested replies: '+w.interested+'\nMeetings booked: '+w.booked+'\nMeetings that showed: '+w.showed+'\n'+
+      (p?'\nThis month so far: '+monthShown(c)+' shown meetings. Your plan target from month 3 is '+p.lo+' to '+p.hi+' a month.\n':'')+'\nEverything is in your portal anytime:\n'+portalUrl(c)+'\n\nRichard\nclientReady';
+      location.href='mailto:'+encodeURIComponent(c.email)+'?subject='+encodeURIComponent('Your clientReady numbers, week of '+w.week)+'&body='+encodeURIComponent(body)};
+    $('detail').querySelectorAll('[data-del-wk]').forEach(function(a){a.onclick=function(e){e.preventDefault();if(confirm('Remove the numbers for '+a.dataset.delWk+'?'))save({removeWeek:a.dataset.delWk},'Removed')}});
+    $('detail').querySelectorAll('[data-del-up]').forEach(function(a){a.onclick=function(e){e.preventDefault();if(confirm('Remove this update from their portal?'))save({removeUpdate:a.dataset.delUp},'Removed')}});
+    $('detail').querySelectorAll('.rq').forEach(function(box){var id=box.dataset.r,q=(c.requests||[]).find(function(x){return x.id===id});
+      box.querySelector('[data-act=reply]').onclick=function(){save({request:{id:id,reply:box.querySelector('textarea').value}},'Reply saved')};
+      box.querySelector('[data-act=toggle]').onclick=function(){save({request:{id:id,reply:box.querySelector('textarea').value,status:q.status==='open'?'done':'open'}},q.status==='open'?'Marked done':'Reopened')}});
+  }
+
+  // ---------- add client ----------
+  $('addBtn').onclick=function(){$('addForm').reset();$('addDlg').showModal()};
+  $('addForm').addEventListener('submit',function(e){if(e.submitter&&e.submitter.value==='cancel')return;e.preventDefault();
+    var f={};new FormData(this).forEach(function(v,k){f[k]=String(v).trim()});
+    api('create',{body:f}).then(function(j){$('addDlg').close();clients.unshift({id:j.client.id,email:j.client.email,name:j.client.name,company:j.client.company,plan:j.client.plan,stage:j.client.stage,updatedAt:j.client.updatedAt,openRequests:0});filter='all';open(j.client.id);toast('Client added')})
+      .catch(function(err){if(err.code===409){$('addDlg').close();filter='all';if(err.data&&err.data.id)open(err.data.id);toast('Already in the CRM, opened it');}else toast(err.message)})});
+})();
+</script>
+</body>
+</html>
