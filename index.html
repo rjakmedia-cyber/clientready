@@ -289,6 +289,12 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .tier .emails{font-family:var(--mono);font-size:13px;color:var(--a1);margin-top:4px}
 .tier .res{margin:14px 0 18px;padding:14px;border-radius:12px;background:rgba(5,7,11,.45);border:1px solid var(--line);font-size:13.5px;color:var(--muted);display:grid;gap:6px}
 .tier .res b{color:var(--text)}
+.tier-img{display:block;width:calc(100% + 56px);max-width:none;height:auto;aspect-ratio:640/358;object-fit:cover;margin:-28px -28px 16px;border-radius:19px 19px 0 0;background:#070b12;-webkit-mask-image:linear-gradient(180deg,#000 62%,transparent);mask-image:linear-gradient(180deg,#000 62%,transparent);filter:saturate(.8) brightness(.8);transition:filter .45s var(--ease)}
+.tier:hover .tier-img,.tier.sel .tier-img{filter:none}
+.cviz{position:relative;margin-top:24px;aspect-ratio:640/358;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#070b12}
+.cviz img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);filter:blur(6px);transition:opacity .6s var(--ease),transform .7s var(--ease),filter .6s var(--ease)}
+.cviz img.on{opacity:1;transform:none;filter:none}
+@media (prefers-reduced-motion:reduce){.cviz img{transform:none;filter:none;transition:opacity .3s linear}.tier-img{transition:none}}
 .why3{margin-top:56px;display:grid;grid-template-columns:1.1fr 1fr;gap:22px}
 .why3 .card p{margin-top:12px}
 .months{display:grid;gap:12px;margin-top:20px}
@@ -301,7 +307,7 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 .truth{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:56px}
 .truth .card h3{display:flex;gap:10px;align-items:center}
 .truth .card h3 i{font-style:normal;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:13px;background:rgba(255,181,71,.1);color:var(--warn);border:1px solid rgba(255,181,71,.3)}
-@media (max-width:1020px){.calc,.why3{grid-template-columns:1fr}.calc-l{border-right:0;border-bottom:1px solid var(--line)}}
+@media (max-width:1020px){.calc,.why3{grid-template-columns:1fr}.calc-l{border-right:0;border-bottom:1px solid var(--line)}.cviz{aspect-ratio:auto;height:170px}}
 @media (max-width:760px){.truth{grid-template-columns:1fr}.kv{grid-template-columns:1fr 1fr}}
 
 
@@ -806,6 +812,7 @@ table.incl{width:100%;border-collapse:collapse;min-width:760px;font-size:14.5px}
         <input type="range" id="vol" min="0" max="3" step="1" value="2" aria-label="Emails per month">
         <div class="ticks" id="ticks"><span data-i="0">5K</span><span data-i="1">10K</span><span data-i="2">20K</span><span data-i="3">40K</span></div>
         <div class="calc-plan">Plan: <b id="cName">Scale</b>. Every email is written for one person, about their business, and sent to a verified decision maker. Not a list blast.</div>
+        <div class="cviz" id="cViz" aria-hidden="true"><img src="img/plan-launch.jpg" alt="" width="640" height="358" decoding="async" data-k="launch"><img src="img/plan-growth.jpg" alt="" width="640" height="358" decoding="async" data-k="growth"><img src="img/plan-scale.jpg" alt="" width="640" height="358" decoding="async" data-k="scale" class="on"><img src="img/plan-dominate.jpg" alt="" width="640" height="358" decoding="async" data-k="dominate"></div>
       </div>
       <div class="calc-r">
         <label>Your price</label>
@@ -824,6 +831,7 @@ table.incl{width:100%;border-collapse:collapse;min-width:760px;font-size:14.5px}
 
     <div class="tiers">
       <div class="tier">
+        <img class="tier-img" src="img/plan-launch.jpg" alt="A small network of email envelopes linked to a calendar" width="640" height="358" loading="lazy" decoding="async">
         <div class="badge">Start here</div><h3>Launch</h3>
         <div class="emails">5,000 personal emails / month</div>
         <div class="price"><b>$1,097</b> / month</div>
@@ -832,6 +840,7 @@ table.incl{width:100%;border-collapse:collapse;min-width:760px;font-size:14.5px}
         <a href="#" class="btn btn-ghost buy" data-plan="launch">Buy Launch</a>
       </div>
       <div class="tier">
+        <img class="tier-img" src="img/plan-growth.jpg" alt="A ring of email envelopes feeding a calendar" width="640" height="358" loading="lazy" decoding="async">
         <div class="badge"></div><h3>Growth</h3>
         <div class="emails">10,000 personal emails / month</div>
         <div class="price"><b>$1,977</b> / month</div>
@@ -840,6 +849,7 @@ table.incl{width:100%;border-collapse:collapse;min-width:760px;font-size:14.5px}
         <a href="#" class="btn btn-ghost buy" data-plan="growth">Buy Growth</a>
       </div>
       <div class="tier hot">
+        <img class="tier-img" src="img/plan-scale.jpg" alt="A spiral of email envelopes feeding a calendar" width="640" height="358" loading="lazy" decoding="async">
         <div class="badge">Most popular</div><h3>Scale</h3>
         <div class="emails">20,000 personal emails / month</div>
         <div class="price"><b>$3,297</b> / month</div>
@@ -848,6 +858,7 @@ table.incl{width:100%;border-collapse:collapse;min-width:760px;font-size:14.5px}
         <a href="#" class="btn btn-primary buy" data-plan="scale">Buy Scale</a>
       </div>
       <div class="tier">
+        <img class="tier-img" src="img/plan-dominate.jpg" alt="Two large sending networks of email envelopes feeding a calendar" width="640" height="358" loading="lazy" decoding="async">
         <div class="badge">Most volume</div><h3>Dominate</h3>
         <div class="emails">40,000 personal emails / month</div>
         <div class="price"><b>$5,497</b> / month</div>
@@ -1008,6 +1019,7 @@ table.incl{width:100%;border-collapse:collapse;min-width:760px;font-size:14.5px}
     tween(document.getElementById('cReach'),cur&&cur.reach,p.reach);
     tween(document.getElementById('cVol'),cur&&cur.emails,p.emails);
     document.getElementById('cName').textContent=p.name;
+    document.querySelectorAll('#cViz img').forEach(function(im){im.classList.toggle('on',im.dataset.k===p.key)});
     document.getElementById('cRange').textContent=p.lo+' to '+p.hi;
     document.getElementById('cCpm').textContent='$'+fmt(p.price/p.hi)+' to $'+fmt(p.price/p.lo);
     var bb=document.getElementById('cBuy');bb.dataset.plan=p.key;bb.innerHTML='Buy the '+p.name+' plan <span class="arr">→</span>';
