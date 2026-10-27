@@ -1,5 +1,5 @@
 // /api/crm.js
-// clientReady CRM. One record per client (keyed by email), stored in the existing Redis (REDIS_URL).
+// clientReady CRM. One record per client (keyed by email), stored privately in Vercel Blob (store: clientready-crm).
 //
 // Public:  POST ?action=intake            website forms (audit, checkout, onboarding) save here
 //          GET  ?action=portal&t=TOKEN    a client's own portal view
@@ -8,15 +8,22 @@
 //          GET  ?action=list | ?action=get&id=
 //          POST ?action=update | ?action=create
 
-const Redis = require('ioredis');
+const { put, get, list } = require('@vercel/blob');
 const crypto = require('crypto');
 
-let redis = null;
-function db() {
-  if (!redis && process.env.REDIS_URL) {
-    redis = new Redis(process.env.REDIS_URL, { maxRetriesPerRequest: 3, enableReadyCheck: false });
+const configured = () => !!(process.env.BLOB_READ_WRITE_TOKEN || process.env.BLOB_STORE_ID);
+async function readJSON(path) {
+  try {
+    const r = await get(path, { access: 'private', useCache: false });
+    if (!r || r.statusCode !== 200 || !r.stream) return null;
+    return JSON.parse(await new Response(r.stream).text());
+  } catch (e) {
+    if (e && /not\s*found/i.test(e.name + ' ' + e.message)) return null;
+    throw e;
   }
-  return redis;
+}
+function writeJSON(path, obj) {
+  return put(path, JSON.stringify(obj), { access: 'private', allowOverwrite: true, addRandomSuffix: false, contentType: 'application/json', cacheControlMaxAge: 60 });
 }
 
 const STAGES = ['lead', 'reserved', 'checkout', 'paid', 'onboarding', 'building', 'warmup', 'live', 'fullspeed', 'paused', 'cancelled'];
@@ -29,7 +36,7 @@ const PLANS = {
 const REQUEST_TYPES = ['Approve', 'Change who we target', 'Change the emails', 'Change my calendar or meeting taker', 'Upgrade or change plan', 'Pause', 'Question', 'Other'];
 
 const now = () => new Date().toISOString();
-const newId = () => 'c_' + Date.now().toString(36) + crypto.randomBytes(4).toString('hex');
+const idFor = email => 'c_' + crypto.createHash('sha256').update(email).digest('hex').slice(0, 24);
 const newToken = () => crypto.randomBytes(18).toString('base64url');
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -58,29 +65,44 @@ function isAdmin(req) {
   return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
-async function limited(r, req, max) {
+// Light per-instance rate limit (Blob has no counters).
+const hits = new Map();
+function limited(req, max) {
   const ip = String(req.headers['x-forwarded-for'] || req.headers['x-real-ip'] || 'x').split(',')[0].trim();
-  const key = 'crm:rl:' + ip;
-  const n = await r.incr(key);
-  if (n === 1) await r.expire(key, 3600);
-  return n > max;
+  const t = Date.now(), h = hits.get(ip) || { n: 0, t };
+  if (t - h.t > 3600000) { h.n = 0; h.t = t; }
+  h.n++; hits.set(ip, h);
+  if (hits.size > 5000) hits.clear();
+  return h.n > max;
 }
 
-async function load(r, id) {
-  if (!id) return null;
-  const s = await r.get('crm:c:' + id);
-  return s ? JSON.parse(s) : null;
+function load(id) {
+  if (!id || !/^c_[a-f0-9]{24}$/.test(id)) return Promise.resolve(null);
+  return readJSON('crm/c/' + id + '.json');
 }
-async function save(r, c) {
+async function save(c) {
   c.updatedAt = now();
-  await r.set('crm:c:' + c.id, JSON.stringify(c));
-  await r.zadd('crm:idx', Date.now(), c.id);
-  await r.set('crm:e:' + c.email, c.id);
-  await r.set('crm:t:' + c.token, c.id);
+  const fresh = c._new; delete c._new;
+  await writeJSON('crm/c/' + c.id + '.json', c);
+  if (fresh) await writeJSON('crm/t/' + c.token + '.json', { id: c.id });
+}
+async function loadAll() {
+  const paths = []; let cursor;
+  do {
+    const page = await list({ prefix: 'crm/c/', limit: 1000, cursor });
+    page.blobs.forEach(b => paths.push(b.pathname));
+    cursor = page.hasMore ? page.cursor : null;
+  } while (cursor);
+  const out = [];
+  for (let i = 0; i < paths.length; i += 15) {
+    const chunk = await Promise.all(paths.slice(i, i + 15).map(p => readJSON(p).catch(() => null)));
+    chunk.forEach(c => { if (c) out.push(c); });
+  }
+  return out.sort((a, b) => (a.updatedAt < b.updatedAt ? 1 : -1));
 }
 function blank(email) {
   const t = now();
-  return { id: newId(), token: newToken(), email, name: '', company: '', website: '', phone: '', plan: '',
+  return { _new: true, id: idFor(email), token: newToken(), email, name: '', company: '', website: '', phone: '', plan: '',
     stage: 'lead', stageAt: t, createdAt: t, updatedAt: t, audit: null, checkout: null, onboarding: null,
     payment: null, notes: '', weeks: [], requests: [], updates: [], log: [] };
 }
@@ -124,24 +146,32 @@ module.exports = async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (req.method === 'OPTIONS') return res.status(204).end();
   const action = String((req.query && req.query.action) || '');
-  const r = db();
-  if (!r) return res.status(503).json({ error: 'Database not connected (REDIS_URL missing)' });
+  if (!configured()) return res.status(503).json({ error: 'CRM storage not connected' });
 
   let b = req.body;
   if (typeof b === 'string') { try { b = JSON.parse(b); } catch (e) { b = {}; } }
   b = b || {};
 
   try {
+    // ---------- health check: proves storage can write and read ----------
+    if (action === 'health') {
+      if (limited(req, 10)) return res.status(429).json({ error: 'Too many requests' });
+      const at = now();
+      await writeJSON('crm/health.json', { at });
+      const back = await readJSON('crm/health.json');
+      return res.status(200).json({ ok: !!back && back.at === at });
+    }
+
     // ---------- public: website forms ----------
     if (action === 'intake') {
       if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
-      if (await limited(r, req, 40)) return res.status(429).json({ error: 'Too many requests' });
+      if (limited(req, 40)) return res.status(429).json({ error: 'Too many requests' });
       const email = clean(b.email, 200).toLowerCase();
       if (!EMAIL_RE.test(email)) return res.status(400).json({ error: 'Valid email required' });
       const type = clean(b.type, 20);
       if (['audit', 'checkout', 'onboarding'].indexOf(type) < 0) return res.status(400).json({ error: 'Unknown form type' });
 
-      let c = await load(r, await r.get('crm:e:' + email));
+      let c = await load(idFor(email));
       const isNew = !c;
       if (!c) c = blank(email);
       const data = Object.assign({ at: now() }, cleanObj(b.data));
@@ -167,7 +197,7 @@ module.exports = async function handler(req, res) {
         log(c, 'Sent the onboarding form');
       }
       if (isNew) log(c, 'New contact from the website');
-      await save(r, c);
+      await save(c);
       return res.status(200).json({ ok: true });
     }
 
@@ -175,12 +205,13 @@ module.exports = async function handler(req, res) {
     if (action === 'portal' || action === 'request') {
       const t = clean(req.query.t, 60);
       if (!/^[A-Za-z0-9_-]{20,40}$/.test(t)) return res.status(404).json({ error: 'Portal not found' });
-      const c = await load(r, await r.get('crm:t:' + t));
+      const link = await readJSON('crm/t/' + t + '.json');
+      const c = link && await load(link.id);
       if (!c) return res.status(404).json({ error: 'Portal not found' });
       if (action === 'portal') return res.status(200).json(portalView(c));
 
       if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
-      if (await limited(r, req, 30)) return res.status(429).json({ error: 'Too many requests' });
+      if (limited(req, 30)) return res.status(429).json({ error: 'Too many requests' });
       const type = REQUEST_TYPES.indexOf(b.type) >= 0 ? b.type : 'Other';
       const message = clean(b.message, 2000);
       if (!message) return res.status(400).json({ error: 'Please write a message' });
@@ -188,7 +219,7 @@ module.exports = async function handler(req, res) {
       c.requests.unshift({ id: 'r_' + Date.now().toString(36), at: now(), type, message, status: 'open', reply: '' });
       c.requests = c.requests.slice(0, 200);
       log(c, 'Client request: ' + type);
-      await save(r, c);
+      await save(c);
       return res.status(200).json(portalView(c));
     }
 
@@ -196,15 +227,12 @@ module.exports = async function handler(req, res) {
     if (!isAdmin(req)) return res.status(403).json({ error: 'Wrong admin key' });
 
     if (action === 'list') {
-      const ids = await r.zrevrange('crm:idx', 0, 999);
-      if (!ids.length) return res.status(200).json({ clients: [], stages: STAGES, plans: PLANS });
-      const rows = await r.mget(ids.map(i => 'crm:c:' + i));
-      const clients = rows.filter(Boolean).map(s => summary(JSON.parse(s)));
+      const clients = (await loadAll()).map(summary);
       return res.status(200).json({ clients, stages: STAGES, plans: PLANS });
     }
 
     if (action === 'get') {
-      const c = await load(r, clean(req.query.id, 60));
+      const c = await load(clean(req.query.id, 60));
       if (!c) return res.status(404).json({ error: 'Not found' });
       return res.status(200).json({ client: c, stages: STAGES, plans: PLANS, requestTypes: REQUEST_TYPES });
     }
@@ -213,19 +241,19 @@ module.exports = async function handler(req, res) {
       if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
       const email = clean(b.email, 200).toLowerCase();
       if (!EMAIL_RE.test(email)) return res.status(400).json({ error: 'Valid email required' });
-      const existing = await r.get('crm:e:' + email);
-      if (existing) return res.status(409).json({ error: 'Already in the CRM', id: existing });
+      const existing = await load(idFor(email));
+      if (existing) return res.status(409).json({ error: 'Already in the CRM', id: existing.id });
       const c = blank(email);
       fill(c, b, true);
       if (STAGES.indexOf(b.stage) >= 0) c.stage = b.stage;
       log(c, 'Added by hand');
-      await save(r, c);
+      await save(c);
       return res.status(200).json({ client: c });
     }
 
     if (action === 'update') {
       if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
-      const c = await load(r, clean(b.id, 60));
+      const c = await load(clean(b.id, 60));
       if (!c) return res.status(404).json({ error: 'Not found' });
       const set = b.set || {};
       if (set.stage !== undefined) {
@@ -258,7 +286,7 @@ module.exports = async function handler(req, res) {
           log(c, 'Request ' + (q.status === 'done' ? 'closed' : 'updated') + ': ' + q.type);
         }
       }
-      await save(r, c);
+      await save(c);
       return res.status(200).json({ client: c });
     }
 
