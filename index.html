@@ -238,7 +238,7 @@ nav.scrolled{background:rgba(5,7,11,.72);backdrop-filter:blur(14px);-webkit-back
 .tier .target b{color:var(--text);font-size:30px;display:block;letter-spacing:-.02em}
 .tier .price{margin:18px 0;padding:12px 14px;border-radius:12px;border:1px dashed var(--line2);font-size:14px;color:var(--muted)}
 .tier ul{list-style:none;display:grid;gap:10px;font-size:14.5px;color:var(--muted);margin-bottom:24px;flex:1}
-.tier li::before{content:"✓";color:var(--ok);margin-right:8px;font-weight:700}
+
 .tier .btn{justify-content:center}
 
 /* faq */
@@ -382,6 +382,31 @@ input[type=range]::-webkit-slider-thumb{transition:transform .15s var(--ease)}
 .res-empty b{color:var(--text)}
 @media (max-width:1020px){.results{grid-template-columns:1fr 1fr}}
 @media (max-width:760px){.results{grid-template-columns:1fr}}
+
+
+/* included */
+.cincl{margin:6px 0 22px;padding:16px 18px;border-radius:14px;border:1px solid var(--line);background:rgba(5,7,11,.4)}
+.cincl-h{display:block;font-size:13px;color:var(--text);font-weight:600;margin-bottom:10px}
+.cincl ul{list-style:none;display:grid;gap:8px;font-size:14px;color:var(--muted)}
+.cincl li{display:grid;grid-template-columns:18px 1fr;gap:8px}
+.cincl li::before,.tier li::before{content:"";width:9px;height:5px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg);margin:6px 0 0 3px}
+.tier li{display:grid;grid-template-columns:18px 1fr;gap:6px}
+.cincl-more{display:inline-block;margin-top:12px;font-size:13.5px;color:var(--a1);text-decoration:underline;text-underline-offset:3px}
+.incl-wrap{margin-top:56px}
+.incl-title{font-size:24px;margin-bottom:18px}
+.incl-scroll{overflow-x:auto;border:1px solid var(--line2);border-radius:20px;background:var(--panel)}
+table.incl{width:100%;border-collapse:collapse;min-width:760px;font-size:14.5px}
+.incl thead th{position:sticky;top:0;background:var(--panel2);text-align:center;padding:16px 12px;font-size:15px;color:var(--text);border-bottom:1px solid var(--line2)}
+.incl thead th small{display:block;font-weight:500;color:var(--muted);font-size:12.5px;margin-top:2px;font-variant-numeric:tabular-nums}
+.incl thead th.hotc{color:var(--a1)}
+.incl th[scope=row]{text-align:left;font-weight:500;color:#cfd7e3;padding:13px 18px;width:38%}
+.incl td{text-align:center;color:var(--text);padding:13px 10px;font-variant-numeric:tabular-nums;border-left:1px solid var(--line)}
+.incl tbody tr{border-top:1px solid var(--line)}
+.incl tr.grp th{text-align:left;padding:18px 18px 8px;font-size:12.5px;font-weight:700;color:var(--a1);background:rgba(79,209,255,.03)}
+.incl td:nth-child(4){background:rgba(79,209,255,.04)}
+.incl .yes{display:inline-block;width:11px;height:6px;border-left:2px solid var(--ok);border-bottom:2px solid var(--ok);transform:rotate(-45deg) translateY(-2px)}
+.incl .no{display:inline-block;width:12px;height:2px;background:var(--dim);font-size:0;vertical-align:middle}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 
 /* responsive */
 @media (max-width:1020px){
@@ -791,6 +816,7 @@ input[type=range]::-webkit-slider-thumb{transition:transform .15s var(--ease)}
           <div><b>Week 4</b><span>first emails go out, after warm-up</span></div>
           <div><b id="cCpm">$66 to $165</b><span>per meeting that shows up</span></div>
         </div>
+        <div class="cincl"><span class="cincl-h">What we do for you every month</span><ul id="cIncl"></ul><a href="#included" class="cincl-more">See everything included, by plan</a></div>
         <a href="#" class="btn btn-primary buy" id="cBuy" data-plan="scale">Buy the Scale plan <span class="arr">→</span></a>
         <div class="secure">Secure checkout by Stripe · 3-month minimum, then cancel with 30 days' notice</div>
       </div>
@@ -799,36 +825,44 @@ input[type=range]::-webkit-slider-thumb{transition:transform .15s var(--ease)}
     <div class="tiers">
       <div class="tier">
         <div class="badge">Start here</div><h3>Launch</h3>
-        <div class="emails">5,000 emails / month</div>
+        <div class="emails">5,000 personal emails / month</div>
         <div class="price"><b>$1,097</b> / month</div>
-        <div class="res"><span><b>~1,650</b> decision makers reached</span><span>Monthly target: <b>5 to 12</b> shown meetings</span><span>Live progress against your target</span></div>
-        <ul><li>Personal AI-written emails</li><li>Our sending network, your domain untouched</li><li>Reply handling and booking</li><li>Weekly results report</li></ul>
+        <div class="res"><span><b>~1,650</b> decision makers reached a month</span><span>Monthly target: <b>5 to 12</b> shown meetings</span><span><b>$91 to $219</b> per shown meeting at target</span></div>
+        <ul><li>Verified decision-maker list, refreshed monthly</li><li>AI research and a personal email for every prospect</li><li>Your own sending network: 10 warmed inboxes</li><li>Replies handled and meetings booked for you</li><li>Weekly results report</li></ul>
         <a href="#" class="btn btn-ghost buy" data-plan="launch">Buy Launch</a>
       </div>
       <div class="tier">
         <div class="badge"></div><h3>Growth</h3>
-        <div class="emails">10,000 emails / month</div>
+        <div class="emails">10,000 personal emails / month</div>
         <div class="price"><b>$1,977</b> / month</div>
-        <div class="res"><span><b>~3,300</b> decision makers reached</span><span>Monthly target: <b>10 to 25</b> shown meetings</span><span>Live progress against your target</span></div>
-        <ul><li>Everything in Launch</li><li>Show-up reminders before every call</li><li>Monthly strategy review</li><li>Copy testing to raise replies</li></ul>
+        <div class="res"><span><b>~3,300</b> decision makers reached a month</span><span>Monthly target: <b>10 to 25</b> shown meetings</span><span><b>$79 to $198</b> per shown meeting at target</span></div>
+        <ul><li>Everything in Launch</li><li>Bigger sending network: 20 warmed inboxes</li><li>Show-up reminders before every call</li><li>A/B testing to raise your reply rate</li><li>Monthly strategy review</li></ul>
         <a href="#" class="btn btn-ghost buy" data-plan="growth">Buy Growth</a>
       </div>
       <div class="tier hot">
         <div class="badge">Most popular</div><h3>Scale</h3>
-        <div class="emails">20,000 emails / month</div>
+        <div class="emails">20,000 personal emails / month</div>
         <div class="price"><b>$3,297</b> / month</div>
-        <div class="res"><span><b>~6,700</b> decision makers reached</span><span>Monthly target: <b>20 to 50</b> shown meetings</span><span>Live progress against your target</span></div>
-        <ul><li>Everything in Growth</li><li>LinkedIn follow-up to engaged prospects</li><li>Your intro video sent before calls</li><li>Client intake when they say yes</li></ul>
+        <div class="res"><span><b>~6,700</b> decision makers reached a month</span><span>Monthly target: <b>20 to 50</b> shown meetings</span><span><b>$66 to $165</b> per shown meeting at target</span></div>
+        <ul><li>Everything in Growth</li><li>Sending network: 40 warmed inboxes</li><li>LinkedIn follow-up to engaged prospects</li><li>Your intro video sent before calls</li><li>Client intake when they say yes</li><li>Strategy call every 2 weeks</li></ul>
         <a href="#" class="btn btn-primary buy" data-plan="scale">Buy Scale</a>
       </div>
       <div class="tier">
         <div class="badge">Most volume</div><h3>Dominate</h3>
-        <div class="emails">40,000 emails / month</div>
+        <div class="emails">40,000 personal emails / month</div>
         <div class="price"><b>$5,497</b> / month</div>
-        <div class="res"><span><b>~13,300</b> decision makers reached</span><span>Monthly target: <b>40 to 100</b> shown meetings</span><span>Live progress against your target</span></div>
-        <ul><li>Everything in Scale</li><li>Two offers or two markets at once</li><li>Weekly strategy call with the founder</li><li>Priority build and support</li></ul>
+        <div class="res"><span><b>~13,300</b> decision makers reached a month</span><span>Monthly target: <b>40 to 100</b> shown meetings</span><span><b>$55 to $137</b> per shown meeting at target</span></div>
+        <ul><li>Everything in Scale</li><li>Sending network: 80 warmed inboxes</li><li>Two offers or two markets at once</li><li>Weekly strategy call with the founder</li><li>Priority support with a direct line</li></ul>
         <a href="#" class="btn btn-ghost buy" data-plan="dominate">Buy Dominate</a>
       </div>
+    </div>
+
+    <div class="incl-wrap" id="included">
+      <h3 class="incl-title">Everything you get, by plan</h3>
+      <div class="incl-scroll"><table class="incl">
+        <thead><tr><th scope="col"><span class="sr">Feature</span></th><th scope="col">Launch<small>$1,097/mo</small></th><th scope="col">Growth<small>$1,977/mo</small></th><th scope="col" class="hotc">Scale<small>$3,297/mo</small></th><th scope="col">Dominate<small>$5,497/mo</small></th></tr></thead>
+        <tbody><tr class="grp"><th colspan="5" scope="colgroup">Finding your buyers</th></tr><tr><th scope="row">Ideal client profile built with you on a kickoff call</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Verified decision makers found for you each month</th><td>~1,650</td><td>~3,300</td><td>~6,700</td><td>~13,300</td></tr><tr><th scope="row">List refreshed monthly, your do-not-contact list respected</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr class="grp"><th colspan="5" scope="colgroup">Writing the emails</th></tr><tr><th scope="row">AI research on every prospect: news, hires, website, posts</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">A personal email written for each person, 3-email sequence</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">You approve the messaging before anything sends</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Ongoing A/B testing of subject lines and openers</th><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr class="grp"><th colspan="5" scope="colgroup">Sending safely</th></tr><tr><th scope="row">Personal emails sent each month</th><td>5,000</td><td>10,000</td><td>20,000</td><td>40,000</td></tr><tr><th scope="row">Your own sending network, separate from your main domain</th><td>10 inboxes</td><td>20 inboxes</td><td>40 inboxes</td><td>80 inboxes</td></tr><tr><th scope="row">3-week warm-up and daily inbox health checks</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Clear opt-out in every email, CAN-SPAM compliant</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr class="grp"><th colspan="5" scope="colgroup">Booking the meetings</th></tr><tr><th scope="row">Interested replies answered within 1 business hour</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Meetings booked straight onto your calendar</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Show-up reminders 24 hours and 1 hour before</th><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">LinkedIn follow-up to prospects who engage</th><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Your pre-call intro video, scripted by us</th><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Client intake when a prospect says yes</th><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Two offers or two markets running at once</th><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="no" aria-label="Not included">Not included</span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr class="grp"><th colspan="5" scope="colgroup">Reporting and support</th></tr><tr><th scope="row">Weekly report: sent, replies, booked and shown meetings</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Progress against your monthly meeting target</th><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td><td><span class="yes" aria-label="Included"></span></td></tr><tr><th scope="row">Strategy reviews with us</th><td>Kickoff call</td><td>Monthly</td><td>Every 2 weeks</td><td>Weekly, with the founder</td></tr><tr><th scope="row">Support</th><td>Email</td><td>Email</td><td>Priority</td><td>Priority, direct line</td></tr></tbody>
+      </table></div>
     </div>
 
     <div class="why3">
@@ -956,6 +990,12 @@ input[type=range]::-webkit-slider-thumb{transition:transform .15s var(--ease)}
     {key:"scale",   name:"Scale",   emails:20000, price:3297, reach:6700,  lo:20, hi:50},
     {key:"dominate",name:"Dominate",emails:40000, price:5497, reach:13300, lo:40, hi:100}
   ];
+  var INCL={
+    launch:["Find ~1,650 verified decision makers who match your ideal client","Research every one and write each a personal email","Send 5,000 emails from your own network of 10 warmed inboxes","Answer interested replies and book meetings on your calendar","Weekly report on sent, replies, booked and shown meetings"],
+    growth:["Find ~3,300 verified decision makers who match your ideal client","Research every one and write each a personal email","Send 10,000 emails from 20 warmed inboxes, with A/B testing","Book meetings and send show-up reminders before each call","Weekly report plus a monthly strategy review"],
+    scale:["Find ~6,700 verified decision makers who match your ideal client","Research every one and write each a personal email","Send 20,000 emails from 40 warmed inboxes, plus LinkedIn follow-up","Book meetings, send reminders and your intro video","Client intake when they say yes, and a strategy call every 2 weeks"],
+    dominate:["Find ~13,300 verified decision makers across two offers or markets","Research every one and write each a personal email","Send 40,000 emails from 80 warmed inboxes, plus LinkedIn follow-up","Book meetings, send reminders, your intro video and client intake","Weekly strategy call with the founder and priority support"]
+  };
   function fmt(n){return Math.round(n).toLocaleString('en-US')}
   function go(key){var url=CHECKOUT[key];location.href=url?url:'/strategy.html?plan='+key}
   document.querySelectorAll('.buy').forEach(function(b){b.addEventListener('click',function(e){e.preventDefault();go(b.dataset.plan)})});
@@ -973,6 +1013,7 @@ input[type=range]::-webkit-slider-thumb{transition:transform .15s var(--ease)}
     var bb=document.getElementById('cBuy');bb.dataset.plan=p.key;bb.innerHTML='Buy the '+p.name+' plan <span class="arr">→</span>';
     ticks.forEach(function(t,j){t.classList.toggle('on',j==i)});
     Object.keys(tierEls).forEach(function(k){tierEls[k].classList.toggle('sel',k===p.key)});
+    document.getElementById('cIncl').innerHTML=INCL[p.key].map(function(t){return '<li>'+t+'</li>'}).join('');
     cur=p}
   vol.addEventListener('input',function(){setPlan(+vol.value)});
   ticks.forEach(function(t){t.addEventListener('click',function(){setPlan(+t.dataset.i)})});
@@ -1014,6 +1055,7 @@ input[type=range]::-webkit-slider-thumb{transition:transform .15s var(--ease)}
     var vc=document.getElementById('vChecks');
     vc.innerHTML=checks.map(function(c){return '<div class="check"><i class="'+c[0]+'">'+(c[0]==='r'?'✕':c[0]==='w'?'!':'✓')+'</i><span>'+c[1]+'</span></div>'}).join('');
     gate.classList.add('done');vCta.style.display=fit?'':'none';
+    var rs=document.getElementById('result');setTimeout(function(){var r=rs.getBoundingClientRect();if(r.top<70||r.bottom>innerHeight)rs.scrollIntoView({behavior:reduce?'auto':'smooth',block:'center'})},60);
     vc.querySelectorAll('.check').forEach(function(el,i){setTimeout(function(){el.classList.add('on')},reduce?0:120+i*160)});
     // send the audit to you
     var plan=fit?PLANS[idx].name:'none';
